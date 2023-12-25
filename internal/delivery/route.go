@@ -11,7 +11,10 @@ func StartRoute(handler handler.Handler) *gin.Engine {
 	r := gin.New()
 	r.Use(logger.LogMiddleware())
 
-	handler.AuthHandler.RegisterRoutes(r)
+	v1 := r.Group("/api/v1")
+	{
+		handler.AuthHandler.RegisterRoutes(v1)
+	}
 
 	return r
 }
