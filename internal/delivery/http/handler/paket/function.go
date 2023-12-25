@@ -41,11 +41,17 @@ func (ph *PaketHandler) ListSubPaket(c *gin.Context) {
 			Code:    http.StatusInternalServerError,
 			Message: err.Error(),
 		})
-
-		c.JSON(http.StatusOK, dto.Success[interface{}]{
-			Code:    http.StatusOK,
-			Message: "List Subpaket Success",
-			Data:    response,
+	}
+	if response == nil {
+		c.JSON(http.StatusNotFound, dto.Fail{
+			Code:    http.StatusNotFound,
+			Message: "Subpaket not found",
 		})
 	}
+
+	c.JSON(http.StatusOK, dto.Success[interface{}]{
+		Code:    http.StatusOK,
+		Message: "List Subpaket Success",
+		Data:    response,
+	})
 }
