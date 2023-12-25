@@ -15,8 +15,13 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 		return errors.New("Email already exists")
 	}
 
+	var role datastruct.Role
+	if err := ar.db.Where("name = Admin").First(&role).Error; err != nil {
+		return err
+	}
+
 	newUser := datastruct.User{
-		RoleId:     1,
+		RoleId:     role.ID,
 		Email:      user.Email,
 		Username:   user.Username,
 		Password:   user.Password,
@@ -43,7 +48,7 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 		return dto.AuthResponse{}, errors.New("Record Not Found")
 	}
 
-	token, err := md.CreateToken(int(existingUser.ID), existingUser.Email)
+	token, err := md.CreateToken(existingUser.ID, existingUser.Email)
 	if err != nil {
 		return dto.AuthResponse{}, err
 	}

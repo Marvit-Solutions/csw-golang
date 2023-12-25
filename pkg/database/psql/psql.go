@@ -42,6 +42,11 @@ func InitDB() {
 }
 
 func InitialMigration() {
+	DB.Migrator().DropTable(
+		&ds.UserDetail{},
+		&ds.User{},
+		&ds.Role{},
+	)
 	DB.AutoMigrate(
 		ds.Role{},
 		ds.User{},
