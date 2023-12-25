@@ -1,8 +1,11 @@
-package database
+package psql
 
 import (
 	"fmt"
 	"os"
+
+	ds "csw-golang/internal/domain/entity/datastruct"
+	"csw-golang/pkg/database/seed"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -12,6 +15,8 @@ var DB *gorm.DB
 
 func Init() {
 	InitDB()
+	InitialMigration()
+	seed.DBSeed(DB)
 }
 
 func InitDB() {
@@ -34,4 +39,14 @@ func InitDB() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func InitialMigration() {
+	DB.AutoMigrate(
+		ds.Role{},
+		ds.User{},
+		ds.UserDetail{},
+	)
+	DB.Migrator().HasConstraint(&ds.User{}, "UserDetail")
+	DB.Migrator().HasConstraint(&ds.Role{}, "Users")
 }
