@@ -29,7 +29,7 @@ func (ac *authUsecase) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 		return dto.AuthResponse{}, errors.New("Email atau password salah")
 	}
 
-	err = pw.VerifyPassword(user.Password, response.Password)
+	err = pw.VerifyPassword(response.Password, user.Password)
 	if err != nil {
 		//lint:ignore ST1005 Reason for ignoring this linter
 		return dto.AuthResponse{}, errors.New("Email atau password salah")

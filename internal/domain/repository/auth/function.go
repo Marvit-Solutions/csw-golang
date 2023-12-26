@@ -55,6 +55,7 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 
 	response := &dto.AuthResponse{
 		ID:         existingUser.ID,
+		Password:   existingUser.Password,
 		GoogleId:   existingUser.GoogleId,
 		FacebookId: existingUser.FacebookId,
 		Email:      existingUser.Email,

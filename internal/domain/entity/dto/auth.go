@@ -5,7 +5,7 @@ type AuthResponse struct {
 	GoogleId   string `json:"GoogleId" form:"GoogleId"`
 	FacebookId string `json:"FacebookId" form:"FacebookId"`
 	Email      string `json:"Email" form:"Email" validate:"required,email"`
-	Password   string `-`
+	Password   string `json:"-"`
 	Username   string `json:"Username" form:"Username" validate:"required"`
 	Name       string `json:"Name" form:"Name"`
 	Phone      string `json:"Phone" form:"Phone" validate:"required,min=10,max=13"`
