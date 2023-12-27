@@ -3,6 +3,7 @@ package auth
 import (
 	"csw-golang/internal/domain/entity/datastruct"
 	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/helper/time"
 	"errors"
 
 	md "csw-golang/internal/delivery/http/middleware"
@@ -49,21 +50,39 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 		return dto.AuthResponse{}, errors.New("Record Not Found")
 	}
 
+	existingUserAddress := &datastruct.Address{}
+	err = ar.db.Where("user_detail_id = ?", existingUser.UserDetail.ID).First(&existingUserAddress).Error
+	if err != nil {
+		//lint:ignore ST1005 Reason for ignoring this linter
+		return dto.AuthResponse{}, errors.New("Record Not Found")
+	}
+
 	token, err := md.CreateToken(existingUser.ID, existingUser.Email)
 	if err != nil {
 		return dto.AuthResponse{}, err
 	}
 
 	response := &dto.AuthResponse{
-		ID:         existingUser.ID,
-		Password:   existingUser.Password,
-		GoogleId:   existingUser.GoogleId,
-		FacebookId: existingUser.FacebookId,
-		Email:      existingUser.Email,
-		Username:   existingUser.Username,
-		Nama:       existingUser.UserDetail.Nama,
-		Telepon:    existingUser.UserDetail.Telepon,
-		Token:      token,
+		ID:           existingUser.ID,
+		Password:     existingUser.Password,
+		GoogleId:     existingUser.GoogleId,
+		FacebookId:   existingUser.FacebookId,
+		Email:        existingUser.Email,
+		Username:     existingUser.Username,
+		Nama:         existingUser.UserDetail.Nama,
+		Telepon:      existingUser.UserDetail.Telepon,
+		FotoProfil:   existingUser.UserDetail.FotoProfil,
+		TanggalLahir: time.ConvertTimeFormat(existingUser.UserDetail.TanggalLahir),
+		Alamat: struct {
+			Provinsi  string "json:\"Provinsi\" form:\"Provinsi\""
+			Kabupaten string "json:\"Kabupaten\" form:\"Kabupaten\""
+			Kecamatan string "json:\"Kecamatan\" form:\"Kecamatan\""
+		}{
+			Provinsi:  existingUserAddress.Provinsi,
+			Kabupaten: existingUserAddress.Kabupaten,
+			Kecamatan: existingUserAddress.Kecamatan,
+		},
+		Token: token,
 	}
 
 	return *response, nil

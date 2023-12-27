@@ -1,7 +1,5 @@
 package dto
 
-import "time"
-
 type AuthResponse struct {
 	ID         string `json:"Id" form:"Id"`
 	GoogleId   string `json:"GoogleId" form:"GoogleId"`
@@ -17,8 +15,8 @@ type AuthResponse struct {
 		Kabupaten string `json:"Kabupaten" form:"Kabupaten"`
 		Kecamatan string `json:"Kecamatan" form:"Kecamatan"`
 	}
-	TanggalLahir time.Time `json:"TanggalLahir" form:"TanggalLahir" validate:"required"`
-	FotoProfil   string    `json:"FotoProfil" form:"FotoProfil" default:"assets/img/account.png"`
+	TanggalLahir string `json:"TanggalLahir" form:"TanggalLahir" validate:"required"`
+	FotoProfil   string `json:"FotoProfil" form:"FotoProfil" default:"assets/img/account.png"`
 }
 
 type RegisterRequest struct {

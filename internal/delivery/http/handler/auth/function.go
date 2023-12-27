@@ -11,6 +11,7 @@ func (ah *AuthHandler) Register(c *gin.Context) {
 	var request dto.RegisterRequest
 	if err := c.Bind(&request); err != nil {
 		c.JSON(http.StatusBadRequest, dto.Fail{
+			Status:  http.StatusText(http.StatusBadRequest),
 			Code:    http.StatusBadRequest,
 			Message: err.Error(),
 		})
@@ -20,6 +21,7 @@ func (ah *AuthHandler) Register(c *gin.Context) {
 	err := ah.authUsecase.Register(request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
+			Status:  http.StatusText(http.StatusInternalServerError),
 			Code:    http.StatusInternalServerError,
 			Message: err.Error(),
 		})
@@ -27,8 +29,9 @@ func (ah *AuthHandler) Register(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, dto.Success[interface{}]{
+		Status:  http.StatusText(http.StatusOK),
 		Code:    http.StatusOK,
-		Message: "Register Success",
+		Message: "Register sukses!",
 	})
 }
 
@@ -36,6 +39,7 @@ func (ah *AuthHandler) Login(c *gin.Context) {
 	var request dto.LoginRequest
 	if err := c.Bind(&request); err != nil {
 		c.JSON(http.StatusBadRequest, dto.Fail{
+			Status:  http.StatusText(http.StatusBadRequest),
 			Code:    http.StatusBadRequest,
 			Message: err.Error(),
 		})
@@ -45,6 +49,7 @@ func (ah *AuthHandler) Login(c *gin.Context) {
 	response, err := ah.authUsecase.Login(request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
+			Status:  http.StatusText(http.StatusInternalServerError),
 			Code:    http.StatusInternalServerError,
 			Message: err.Error(),
 		})
@@ -52,8 +57,9 @@ func (ah *AuthHandler) Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, dto.Success[interface{}]{
+		Status:  http.StatusText(http.StatusOK),
 		Code:    http.StatusOK,
-		Message: "Login Success",
+		Message: "Login sukses!",
 		Data:    response,
 	})
 }
