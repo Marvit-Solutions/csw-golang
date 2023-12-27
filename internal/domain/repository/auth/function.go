@@ -28,8 +28,9 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 		GoogleId:   user.GoogleId,
 		FacebookId: user.FacebookId,
 		UserDetail: datastruct.UserDetail{
-			Name:  user.Name,
-			Phone: user.Phone,
+			Nama:    user.Nama,
+			Telepon: user.Telepon,
+			Alamat:  datastruct.Address{},
 		},
 	}
 
@@ -60,8 +61,8 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 		FacebookId: existingUser.FacebookId,
 		Email:      existingUser.Email,
 		Username:   existingUser.Username,
-		Name:       existingUser.UserDetail.Name,
-		Phone:      existingUser.UserDetail.Phone,
+		Nama:       existingUser.UserDetail.Nama,
+		Telepon:    existingUser.UserDetail.Telepon,
 		Token:      token,
 	}
 

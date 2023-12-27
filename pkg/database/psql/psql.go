@@ -46,12 +46,15 @@ func InitialMigration() {
 		&ds.UserDetail{},
 		&ds.User{},
 		&ds.Role{},
+		&ds.Address{},
 	)
 	DB.AutoMigrate(
 		ds.Role{},
 		ds.User{},
 		ds.UserDetail{},
+		ds.Address{},
 	)
 	DB.Migrator().HasConstraint(&ds.User{}, "UserDetail")
 	DB.Migrator().HasConstraint(&ds.Role{}, "Users")
+	DB.Migrator().HasConstraint(&ds.UserDetail{}, "Alamat")
 }
