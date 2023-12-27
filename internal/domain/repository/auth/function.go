@@ -50,8 +50,15 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 		return dto.AuthResponse{}, errors.New("Record Not Found")
 	}
 
-	existingUserAddress := &datastruct.Address{}
-	err = ar.db.Where("user_detail_id = ?", existingUser.UserDetail.ID).First(&existingUserAddress).Error
+	userAddress := &datastruct.Address{}
+	err = ar.db.Where("user_detail_id = ?", existingUser.UserDetail.ID).First(&userAddress).Error
+	if err != nil {
+		//lint:ignore ST1005 Reason for ignoring this linter
+		return dto.AuthResponse{}, errors.New("Record Not Found")
+	}
+
+	userRole := &datastruct.Role{}
+	err = ar.db.Where("id = ?", existingUser.RoleId).First(&userRole).Error
 	if err != nil {
 		//lint:ignore ST1005 Reason for ignoring this linter
 		return dto.AuthResponse{}, errors.New("Record Not Found")
@@ -70,6 +77,7 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 		Email:        existingUser.Email,
 		Username:     existingUser.Username,
 		Nama:         existingUser.UserDetail.Nama,
+		Role:         userRole.Role,
 		Telepon:      existingUser.UserDetail.Telepon,
 		FotoProfil:   existingUser.UserDetail.FotoProfil,
 		TanggalLahir: time.ConvertTimeFormat(existingUser.UserDetail.TanggalLahir),
@@ -78,9 +86,9 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 			Kabupaten string "json:\"Kabupaten\" form:\"Kabupaten\""
 			Kecamatan string "json:\"Kecamatan\" form:\"Kecamatan\""
 		}{
-			Provinsi:  existingUserAddress.Provinsi,
-			Kabupaten: existingUserAddress.Kabupaten,
-			Kecamatan: existingUserAddress.Kecamatan,
+			Provinsi:  userAddress.Provinsi,
+			Kabupaten: userAddress.Kabupaten,
+			Kecamatan: userAddress.Kecamatan,
 		},
 		Token: token,
 	}

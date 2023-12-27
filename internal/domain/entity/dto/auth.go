@@ -8,6 +8,7 @@ type AuthResponse struct {
 	Password   string `json:"-"`
 	Username   string `json:"Username" form:"Username" validate:"required"`
 	Nama       string `json:"Nama" form:"Nama"`
+	Role       string `json:"Role" form:"Role" validate:"required"`
 	Telepon    string `json:"Telepon" form:"Telepon" validate:"required,min=10,max=13"`
 	Token      string `json:"Token" form:"Token"`
 	Alamat     struct {
