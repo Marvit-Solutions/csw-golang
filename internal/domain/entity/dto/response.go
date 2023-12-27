@@ -8,7 +8,7 @@ type Success[Data interface{}] struct {
 }
 
 type Fail struct {
-	Code    uint   `json:"Code"`
 	Status  string `json:"Status"`
+	Code    uint   `json:"Code"`
 	Message string `json:"Message"`
 }

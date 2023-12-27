@@ -46,22 +46,19 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 	existingUser := &datastruct.User{}
 	err := ar.db.Preload("UserDetail").Where("email = ?", user.Email).First(&existingUser).Error
 	if err != nil {
-		//lint:ignore ST1005 Reason for ignoring this linter
-		return dto.AuthResponse{}, errors.New("Record Not Found")
+		return dto.AuthResponse{}, err
 	}
 
 	userAddress := &datastruct.Address{}
 	err = ar.db.Where("user_detail_id = ?", existingUser.UserDetail.ID).First(&userAddress).Error
 	if err != nil {
-		//lint:ignore ST1005 Reason for ignoring this linter
-		return dto.AuthResponse{}, errors.New("Record Not Found")
+		return dto.AuthResponse{}, err
 	}
 
 	userRole := &datastruct.Role{}
 	err = ar.db.Where("id = ?", existingUser.RoleId).First(&userRole).Error
 	if err != nil {
-		//lint:ignore ST1005 Reason for ignoring this linter
-		return dto.AuthResponse{}, errors.New("Record Not Found")
+		return dto.AuthResponse{}, err
 	}
 
 	token, err := md.CreateToken(existingUser.ID, existingUser.Email)
