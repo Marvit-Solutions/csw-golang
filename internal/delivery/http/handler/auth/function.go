@@ -51,8 +51,8 @@ func (ah *AuthHandler) Login(c *gin.Context) {
 	response, err := ah.authUsecase.Login(request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Status:  http.StatusText(http.StatusInternalServerError),
-			Code:    http.StatusInternalServerError,
+			Status:  http.StatusText(http.StatusBadRequest),
+			Code:    http.StatusBadRequest,
 			Message: err.Error(),
 		})
 		return
