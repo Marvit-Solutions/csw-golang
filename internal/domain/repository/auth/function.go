@@ -18,7 +18,7 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 	}
 
 	var role datastruct.Role
-	if err := ar.db.Where("role = ?", "Admin").First(&role).Error; err != nil {
+	if err := ar.db.Where("role = ?", "User").First(&role).Error; err != nil {
 		return err
 	}
 
