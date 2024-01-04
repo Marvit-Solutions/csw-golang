@@ -13,9 +13,9 @@ func (ah *AuthHandler) Register(c *gin.Context) {
 
 	if err := validator.Validation(c, &request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Status":  http.StatusText(http.StatusBadRequest),
-			"Code":    http.StatusBadRequest,
 			"Message": err.Error(),
+			"Code":    http.StatusBadRequest,
+			"Status":  http.StatusText(http.StatusBadRequest),
 		})
 		return
 	}
@@ -23,17 +23,17 @@ func (ah *AuthHandler) Register(c *gin.Context) {
 	err := ah.authUsecase.Register(request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Status:  http.StatusText(http.StatusInternalServerError),
-			Code:    http.StatusInternalServerError,
 			Message: err.Error(),
+			Code:    http.StatusInternalServerError,
+			Status:  http.StatusText(http.StatusInternalServerError),
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Status:  http.StatusText(http.StatusOK),
-		Code:    http.StatusOK,
 		Message: "Register sukses!",
+		Code:    http.StatusOK,
+		Status:  http.StatusText(http.StatusOK),
 	})
 }
 
@@ -42,9 +42,9 @@ func (ah *AuthHandler) Login(c *gin.Context) {
 
 	if err := validator.Validation(c, &request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Status":  http.StatusText(http.StatusBadRequest),
-			"Code":    http.StatusBadRequest,
 			"Message": err.Error(),
+			"Code":    http.StatusBadRequest,
+			"Status":  http.StatusText(http.StatusBadRequest),
 		})
 		return
 	}
@@ -52,17 +52,17 @@ func (ah *AuthHandler) Login(c *gin.Context) {
 	response, err := ah.authUsecase.Login(request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Status:  http.StatusText(http.StatusBadRequest),
-			Code:    http.StatusBadRequest,
 			Message: err.Error(),
+			Code:    http.StatusBadRequest,
+			Status:  http.StatusText(http.StatusBadRequest),
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Status:  http.StatusText(http.StatusOK),
-		Code:    http.StatusOK,
 		Message: "Login sukses!",
+		Code:    http.StatusOK,
+		Status:  http.StatusText(http.StatusOK),
 		Data:    response,
 	})
 }
