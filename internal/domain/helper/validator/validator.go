@@ -22,12 +22,12 @@ func Validation(c *gin.Context, request interface{}) error {
 					message = fmt.Sprintf("Masukkan %s", e.Field())
 				} else if e.Tag() == "email" {
 					message = "Email yang anda masukkan tidak valid"
-				} else if e.Tag() == "max" && e.Field() == "Title" {
-					message = "Mohon maaf, entri anda melebihi batas maksimum 65 karakter"
-				} else if e.Tag() == "max" && e.Field() == "Phone" {
+				} else if e.Tag() == "max" && e.Field() == "Telepon" {
 					message = "Nomor telepon tidak boleh lebih dari 13 digit"
-				} else if e.Field() == "Phone" || e.Tag() == "min" || e.Tag() == "numeric" {
+				} else if e.Field() == "Telepon" || e.Tag() == "min" || e.Tag() == "numeric" {
 					message = fmt.Sprintf("%s tidak valid", e.Field())
+				} else if e.Field() == "ConfirmPassword" && e.Tag() == "eqfield" {
+					message = fmt.Sprintf("%s tidak sama dengan password", e.Field())
 				}
 			}
 			return errors.New(message)

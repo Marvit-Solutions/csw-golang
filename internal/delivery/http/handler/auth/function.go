@@ -10,11 +10,12 @@ import (
 
 func (ah *AuthHandler) Register(c *gin.Context) {
 	var request dto.RegisterRequest
-	if err := c.Bind(&request); err != nil {
-		c.JSON(http.StatusBadRequest, dto.Fail{
-			Status:  http.StatusText(http.StatusBadRequest),
-			Code:    http.StatusBadRequest,
-			Message: err.Error(),
+
+	if err := validator.Validation(c, &request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Status":  http.StatusText(http.StatusBadRequest),
+			"Code":    http.StatusBadRequest,
+			"Message": err.Error(),
 		})
 		return
 	}
