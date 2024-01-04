@@ -2,8 +2,8 @@ package dto
 
 type AuthResponse struct {
 	ID         string `json:"Id" form:"Id"`
-	GoogleId   string `json:"GoogleId" form:"GoogleId"`
-	FacebookId string `json:"FacebookId" form:"FacebookId"`
+	GoogleId   string `json:"GoogleId,omitempty" form:"GoogleId"`
+	FacebookId string `json:"FacebookId,omitempty" form:"FacebookId"`
 	Email      string `json:"Email" form:"Email" validate:"required,email"`
 	Password   string `json:"-"`
 	Username   string `json:"Username" form:"Username" validate:"required"`

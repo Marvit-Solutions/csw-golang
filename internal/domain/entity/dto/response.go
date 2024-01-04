@@ -1,14 +1,21 @@
 package dto
 
 type Success[Data interface{}] struct {
-	Status  string `json:"Status"`
-	Code    uint   `json:"Code"`
-	Message string `json:"Message"`
-	Data    Data   `json:"Data"`
+	Message string      `json:"Message"`
+	Code    uint        `json:"Code"`
+	Status  string      `json:"Status"`
+	Data    Data        `json:"Data"`
+	Meta    interface{} `json:"meta,omitempty"`
+	// "Meta": {
+	// 	"Page": "4"
+	// 	"PerPage": "10",
+	// 	"LastPage": "25",
+	// 	"TotalPage": "50",
+	//}
 }
 
 type Fail struct {
-	Status  string `json:"Status"`
-	Code    uint   `json:"Code"`
 	Message string `json:"Message"`
+	Code    uint   `json:"Code"`
+	Status  string `json:"Status"`
 }
