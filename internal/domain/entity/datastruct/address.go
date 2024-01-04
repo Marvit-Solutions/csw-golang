@@ -14,5 +14,5 @@ type Address struct {
 	Provinsi     string         `json:"Provinsi" form:"Provinsi"`
 	Kabupaten    string         `json:"Kabupaten" form:"Kabupaten"`
 	Kecamatan    string         `json:"Kecamatan" form:"Kecamatan"`
-	UserDetailId string         `json:"UserDetailId" form:"UserDetailId"`
+	UserDetailID string         `json:"UserDetailID" form:"UserDetailID"`
 }

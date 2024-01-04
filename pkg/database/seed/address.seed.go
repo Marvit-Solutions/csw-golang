@@ -14,7 +14,7 @@ func CreateAddresses() []*ds.Address {
 			Provinsi:     "Jawa Timur",
 			Kabupaten:    "Surabaya",
 			Kecamatan:    "Gubeng",
-			UserDetailId: "e36814fe-d479-4c5e-af49-4dede000f332",
+			UserDetailID: "e36814fe-d479-4c5e-af49-4dede000f332",
 		},
 		{
 			ID:           "414354cc-45a5-47f6-879e-bfb4476eb0d6",
@@ -23,7 +23,7 @@ func CreateAddresses() []*ds.Address {
 			Provinsi:     "Jawa Tengah",
 			Kabupaten:    "Solo",
 			Kecamatan:    "Ngagel",
-			UserDetailId: "ecf50842-f521-4291-a31f-9f10c48fd889",
+			UserDetailID: "ecf50842-f521-4291-a31f-9f10c48fd889",
 		},
 		{
 			ID:           "c8b974da-ccca-475f-8d2f-c8c505e152fa",
@@ -32,7 +32,7 @@ func CreateAddresses() []*ds.Address {
 			Provinsi:     "Jawa Timur",
 			Kabupaten:    "Mojokerto",
 			Kecamatan:    "Tawang",
-			UserDetailId: "a9131226-069a-43f9-b52d-d1c5bfc1b878",
+			UserDetailID: "a9131226-069a-43f9-b52d-d1c5bfc1b878",
 		},
 	}
 	return addresses
