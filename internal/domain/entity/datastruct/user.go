@@ -1,14 +1,20 @@
 package datastruct
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type User struct {
-	*gorm.Model `json:"-"`
-	RoleId      uint
-	Email       string     `json:"Email" form:"Email" validate:"required,email"`
-	GoogleId    string     `json:"GoogleId" form:"GoogleId"`
-	FacebookId  string     `json:"FacebookId" form:"FacebookId"`
-	Username    string     `json:"Username" form:"Username" validate:"required"`
-	Password    string     `json:"Password" form:"Password" validate:"required,min=8"`
-	UserDetail  UserDetail `gorm:"foreignKey:UserId"`
+	ID         string         `gorm:"type:text;primaryKey"`
+	CreatedAt  time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
+	UpdatedAt  time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
+	DeletedAt  gorm.DeletedAt `gorm:"index"`
+	RoleID     string
+	Email      string     `json:"Email" form:"Email" validate:"required,email"`
+	GoogleID   string     `json:"GoogleID" form:"GoogleID"`
+	FacebookID string     `json:"FacebookID" form:"FacebookID"`
+	Password   string     `json:"Password" form:"Password" validate:"required,min=8"`
+	UserDetail UserDetail `gorm:"foreignKey:UserID"`
 }

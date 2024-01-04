@@ -1,7 +1,7 @@
 package app
 
 import (
-	"csw-golang/pkg/database"
+	db "csw-golang/pkg/database/psql"
 
 	"csw-golang/internal/delivery"
 	"csw-golang/internal/delivery/http/handler"
@@ -13,8 +13,8 @@ import (
 )
 
 func StartApp() *gin.Engine {
-	database.Init()
-	authRepo := authRepo.New(database.DB)
+	db.Init()
+	authRepo := authRepo.New(db.DB)
 	authUsecase := authUsecase.New(authRepo)
 	authHandler := authHandler.New(authUsecase)
 
