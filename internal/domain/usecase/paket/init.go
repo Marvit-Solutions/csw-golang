@@ -15,6 +15,7 @@ type PaketUsecase interface {
 	CreateSubPaket(request dto.SubPaketRequest) (dto.SubPaketResponse, error)
 	UpdateSubPaket(request dto.SubPaketRequest, id string) (dto.SubPaketResponse, error)
 	DeleteSubPaket(id string) (dto.SubPaketResponse, error)
+	GetTopSubPaket() ([]dto.TopSubPaketResponse, error)
 }
 
 type paketUsecase struct {

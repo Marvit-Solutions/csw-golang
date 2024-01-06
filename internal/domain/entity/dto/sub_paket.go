@@ -1,7 +1,7 @@
 package dto
 
 type SubPaketResponse struct {
-	Id                uint   `json:"IdSubPaket" form:"IdSubPaket"`
+	ID                string `json:"IdSubPaket" form:"IdSubPaket"`
 	NamaPaket         string `json:"NamaPaket" form:"NamaPaket"`
 	NamaSubPaket      string `json:"NamaSubPaket" form:"NamaSubPaket"`
 	DeskripsiSubPaket string `json:"DeskripsiSubPaket" form:"DeskripsiSubPaket"`
@@ -9,8 +9,14 @@ type SubPaketResponse struct {
 }
 
 type SubPaketRequest struct {
-	IdPaket           uint   `json:"IdPaket" form:"IdPaket"`
+	IDPaket           string `json:"IDPaket" form:"IDPaket"`
 	NamaSubPaket      string `json:"NamaSubPaket" form:"NamaSubPaket"`
 	DeskripsiSubPaket string `json:"DeskripsiSubPaket" form:"DeskripsiSubPaket"`
 	Harga             int    `json:"Harga" form:"Harga"`
+}
+
+type TopSubPaketResponse struct {
+	SubPaketID   string `json:"IdSubPaket" form:"IdSubPaket"`
+	NamaSubPaket string `json:"NamaSubPaket" form:"NamaSubPaket"`
+	Total        int    `json:"Total" form:"Total"`
 }

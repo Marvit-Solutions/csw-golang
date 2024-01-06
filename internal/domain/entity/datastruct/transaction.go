@@ -12,7 +12,7 @@ type Transaction struct {
 	UpdatedAt         time.Time
 	DeletedAt         gorm.DeletedAt `gorm:"index"`
 	TransactionID     string         `json:"TransactionID" form:"TransactionID"`
-	UserID            uint           `json:"UserID" form:"UserID"`
+	UserID            string         `json:"UserID" form:"UserID"`
 	OrderID           string         `json:"OrderID" form:"OrderID"`
 	ReceiptNumber     string         `json:"ReceiptNumber" form:"ReceiptNumber"`
 	StatusTransaction string         `json:"StatusTransaction" form:"StatusTransaction"`

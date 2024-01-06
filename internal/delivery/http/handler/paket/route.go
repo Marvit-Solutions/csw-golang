@@ -16,5 +16,6 @@ func (paketHandler *PaketHandler) RegisterRoutes(r *gin.RouterGroup) {
 	subpaketGroup.POST("/", paketHandler.CreateSubPaket)
 	subpaketGroup.PUT("/:id_subpaket", paketHandler.UpdateSubPaket)
 	subpaketGroup.DELETE("/:id_subpaket", paketHandler.DeleteSubPaket)
+	subpaketGroup.GET("/top", paketHandler.GetTopSubPaket)
 
 }

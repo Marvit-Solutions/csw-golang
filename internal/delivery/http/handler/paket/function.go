@@ -80,6 +80,7 @@ func (ph *PaketHandler) UpdatePaket(c *gin.Context) {
 			Code:    http.StatusInternalServerError,
 			Message: err.Error(),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, dto.Success[interface{}]{
@@ -106,6 +107,7 @@ func (ph *PaketHandler) DeletePaket(c *gin.Context) {
 			Code:    http.StatusInternalServerError,
 			Message: err.Error(),
 		})
+		return
 	}
 
 	if response == (dto.PaketResponse{}) {
@@ -113,6 +115,7 @@ func (ph *PaketHandler) DeletePaket(c *gin.Context) {
 			Code:    http.StatusNotFound,
 			Message: "Paket not found",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, dto.Success[interface{}]{
@@ -138,12 +141,14 @@ func (ph *PaketHandler) ListSubPaket(c *gin.Context) {
 			Code:    http.StatusInternalServerError,
 			Message: err.Error(),
 		})
+		return
 	}
 	if response == nil {
 		c.JSON(http.StatusNotFound, dto.Fail{
 			Code:    http.StatusNotFound,
 			Message: "Subpaket not found",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, dto.Success[interface{}]{
@@ -207,6 +212,7 @@ func (ph *PaketHandler) UpdateSubPaket(c *gin.Context) {
 			Code:    http.StatusInternalServerError,
 			Message: err.Error(),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, dto.Success[interface{}]{
@@ -232,6 +238,7 @@ func (ph *PaketHandler) DeleteSubPaket(c *gin.Context) {
 			Code:    http.StatusInternalServerError,
 			Message: err.Error(),
 		})
+		return
 	}
 
 	if response == (dto.SubPaketResponse{}) {
@@ -239,11 +246,37 @@ func (ph *PaketHandler) DeleteSubPaket(c *gin.Context) {
 			Code:    http.StatusNotFound,
 			Message: "Subpaket not found",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, dto.Success[interface{}]{
 		Code:    http.StatusOK,
 		Message: "Delete Subpaket Success",
+		Data:    response,
+	})
+}
+
+func (ph *PaketHandler) GetTopSubPaket(c *gin.Context) {
+	response, err := ph.paketUsecase.GetTopSubPaket()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Fail{
+			Code:    http.StatusInternalServerError,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	if response == nil {
+		c.JSON(http.StatusNotFound, dto.Fail{
+			Code:    http.StatusNotFound,
+			Message: "Subpaket not found",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Success[interface{}]{
+		Code:    http.StatusOK,
+		Message: "Get Top Subpaket Success",
 		Data:    response,
 	})
 }

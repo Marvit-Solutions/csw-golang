@@ -68,7 +68,7 @@ func (pr *paketRepo) ListSubPaket(idPaket string) ([]dto.SubPaketResponse, error
 func (pr *paketRepo) CreateSubPaket(request dto.SubPaketRequest) (dto.SubPaketResponse, error) {
 	var subPaket dto.SubPaketResponse
 
-	err := pr.db.Raw("INSERT INTO sub_pakets (id_paket, nama_sub_paket, deskripsi_sub_paket, harga) VALUES (?, ?, ?, ?) RETURNING id, nama_sub_paket, deskripsi_sub_paket, harga", request.IdPaket, request.NamaSubPaket, request.DeskripsiSubPaket, request.Harga).Scan(&subPaket).Error
+	err := pr.db.Raw("INSERT INTO sub_pakets (id_paket, nama_sub_paket, deskripsi_sub_paket, harga) VALUES (?, ?, ?, ?) RETURNING id, nama_sub_paket, deskripsi_sub_paket, harga", request.IDPaket, request.NamaSubPaket, request.DeskripsiSubPaket, request.Harga).Scan(&subPaket).Error
 
 	if err != nil {
 		return subPaket, err
@@ -99,4 +99,16 @@ func (pr *paketRepo) DeleteSubPaket(id string) (dto.SubPaketResponse, error) {
 	}
 
 	return subPaket, nil
+}
+
+func (pr *paketRepo) GetTopSubPaket() ([]dto.TopSubPaketResponse, error) {
+	var ListTopSubPaket []dto.TopSubPaketResponse
+
+	err := pr.db.Raw("SELECT s.sub_paket_id, sp.nama_sub_paket , COUNT(s.id) AS Total FROM subscriptions s, sub_pakets sp WHERE s.sub_paket_id = sp.id GROUP BY s.sub_paket_id, sp.nama_sub_paket ORDER BY Total DESC LIMIT 3").Scan(&ListTopSubPaket).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return ListTopSubPaket, nil
 }

@@ -74,3 +74,12 @@ func (pc *paketUsecase) DeleteSubPaket(id string) (dto.SubPaketResponse, error) 
 
 	return deleteSubPaket, err
 }
+
+func (pc *paketUsecase) GetTopSubPaket() ([]dto.TopSubPaketResponse, error) {
+	getTopSubPaket, err := pc.paketRepo.GetTopSubPaket()
+	if err != nil {
+		return nil, err
+	}
+
+	return getTopSubPaket, err
+}
