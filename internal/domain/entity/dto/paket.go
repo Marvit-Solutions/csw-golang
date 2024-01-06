@@ -5,3 +5,8 @@ type PaketResponse struct {
 	NamaPaket      string `json:"NamaPaket" form:"NamaPaket"`
 	DeskripsiPaket string `json:"DeskripsiPaket" form:"DeskripsiPaket"`
 }
+
+type PaketRequest struct {
+	NamaPaket      string `json:"NamaPaket" form:"NamaPaket"`
+	DeskripsiPaket string `json:"DeskripsiPaket" form:"DeskripsiPaket"`
+}

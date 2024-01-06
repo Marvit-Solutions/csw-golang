@@ -16,6 +16,43 @@ func (pr *paketRepo) ListPaket() ([]dto.PaketResponse, error) {
 	return listPaket, nil
 }
 
+func (pr *paketRepo) CreatePaket(request dto.PaketRequest) (dto.PaketResponse, error) {
+	var paket dto.PaketResponse
+
+	err := pr.db.Raw("INSERT INTO pakets (nama_paket, deskripsi_paket) VALUES (?, ?) RETURNING id,nama_paket,deskripsi_paket", request.NamaPaket, request.DeskripsiPaket).Scan(&paket).Error
+
+	if err != nil {
+		return paket, err
+	}
+
+	return paket, nil
+
+}
+
+func (pr *paketRepo) UpdatePaket(request dto.PaketRequest, id string) (dto.PaketResponse, error) {
+	var paket dto.PaketResponse
+
+	err := pr.db.Raw("UPDATE pakets SET nama_paket = ?, deskripsi_paket = ? WHERE id = ? RETURNING id,nama_paket,deskripsi_paket", request.NamaPaket, request.DeskripsiPaket, id).Scan(&paket).Error
+
+	if err != nil {
+		return paket, err
+	}
+
+	return paket, nil
+
+}
+
+func (pr *paketRepo) DeletePaket(id string) (dto.PaketResponse, error) {
+	var paket dto.PaketResponse
+
+	err := pr.db.Raw("DELETE FROM pakets WHERE id = ? RETURNING id,nama_paket,deskripsi_paket", id).Scan(&paket).Error
+	if err != nil {
+		return paket, err
+	}
+
+	return paket, nil
+}
+
 func (pr *paketRepo) ListSubPaket(idPaket string) ([]dto.SubPaketResponse, error) {
 	var listSubPaket []dto.SubPaketResponse
 
@@ -26,4 +63,40 @@ func (pr *paketRepo) ListSubPaket(idPaket string) ([]dto.SubPaketResponse, error
 	}
 
 	return listSubPaket, nil
+}
+
+func (pr *paketRepo) CreateSubPaket(request dto.SubPaketRequest) (dto.SubPaketResponse, error) {
+	var subPaket dto.SubPaketResponse
+
+	err := pr.db.Raw("INSERT INTO sub_pakets (id_paket, nama_sub_paket, deskripsi_sub_paket, harga) VALUES (?, ?, ?, ?) RETURNING id, nama_sub_paket, deskripsi_sub_paket, harga", request.IdPaket, request.NamaSubPaket, request.DeskripsiSubPaket, request.Harga).Scan(&subPaket).Error
+
+	if err != nil {
+		return subPaket, err
+	}
+
+	return subPaket, nil
+}
+
+func (pr *paketRepo) UpdateSubPaket(request dto.SubPaketRequest, id string) (dto.SubPaketResponse, error) {
+	var subPaket dto.SubPaketResponse
+
+	err := pr.db.Raw("UPDATE sub_pakets SET nama_sub_paket = ?, deskripsi_sub_paket = ?, harga = ? WHERE id = ? RETURNING id, nama_sub_paket, deskripsi_sub_paket, harga", request.NamaSubPaket, request.DeskripsiSubPaket, request.Harga, id).Scan(&subPaket).Error
+
+	if err != nil {
+		return subPaket, err
+	}
+
+	return subPaket, nil
+}
+
+func (pr *paketRepo) DeleteSubPaket(id string) (dto.SubPaketResponse, error) {
+	var subPaket dto.SubPaketResponse
+
+	err := pr.db.Raw("DELETE FROM sub_pakets WHERE id = ? RETURNING id, nama_sub_paket, deskripsi_sub_paket, harga", id).Scan(&subPaket).Error
+
+	if err != nil {
+		return subPaket, err
+	}
+
+	return subPaket, nil
 }

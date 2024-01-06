@@ -7,3 +7,10 @@ type SubPaketResponse struct {
 	DeskripsiSubPaket string `json:"DeskripsiSubPaket" form:"DeskripsiSubPaket"`
 	Harga             int    `json:"Harga" form:"Harga"`
 }
+
+type SubPaketRequest struct {
+	IdPaket           uint   `json:"IdPaket" form:"IdPaket"`
+	NamaSubPaket      string `json:"NamaSubPaket" form:"NamaSubPaket"`
+	DeskripsiSubPaket string `json:"DeskripsiSubPaket" form:"DeskripsiSubPaket"`
+	Harga             int    `json:"Harga" form:"Harga"`
+}

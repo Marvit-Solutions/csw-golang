@@ -61,8 +61,8 @@ func InitialMigration() {
 	DB.Migrator().HasConstraint(&ds.Role{}, "Users")
 	DB.Migrator().HasConstraint(&ds.Paket{}, "Paket")
 	DB.Migrator().HasConstraint(&ds.SubPaket{}, "SubPaket")
-		ds.Address{},
-	)
+		// ds.Address{},
+	// )
 	DB.Migrator().HasConstraint(&ds.User{}, "UserDetail")
 	DB.Migrator().HasConstraint(&ds.Role{}, "Users")
 	DB.Migrator().HasConstraint(&ds.UserDetail{}, "Alamat")
