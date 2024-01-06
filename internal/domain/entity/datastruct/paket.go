@@ -1,9 +1,16 @@
 package datastruct
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Paket struct {
-	*gorm.Model
-	NamaPaket      string `json:"NamaPaket" form:"NamaPaket"`
-	DeskripsiPaket string `json:"DeskripsiPaket" form:"DeskripsiPaket"`
+	ID             string `gorm:"type:text;primaryKey"`
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
+	DeletedAt      gorm.DeletedAt `gorm:"index"`
+	NamaPaket      string         `json:"NamaPaket" form:"NamaPaket"`
+	DeskripsiPaket string         `json:"DeskripsiPaket" form:"DeskripsiPaket"`
 }
