@@ -13,7 +13,10 @@ func RegisterSeed(db *gorm.DB) []Seed {
 		{Seed: CreateRoles()},
 		{Seed: CreateUsers()},
 		{Seed: CreateUserDetails()},
+		{Seed: CreatePaket()},
+		{Seed: CreateSubPaket()},
 		{Seed: CreateAddresses()},
+		{Seed: CreateSubscription()},
 	}
 }
 
