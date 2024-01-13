@@ -7,6 +7,7 @@ import (
 
 type MentorRepo interface {
 	GetListTopThreeMentors() (error, dto.ListMentor)
+	GetAllMentors() (error, dto.ListMentor)
 }
 
 type mentorRepo struct {

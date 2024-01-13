@@ -7,6 +7,7 @@ import (
 
 type MentorUsecase interface {
 	GetListTopThreeMentors() (error, dto.ListMentor)
+	GetAllMentors() (error, dto.ListMentor)
 }
 
 type mentorUsecase struct {

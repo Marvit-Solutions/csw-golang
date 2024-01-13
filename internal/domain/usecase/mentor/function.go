@@ -11,3 +11,11 @@ func (mr *mentorUsecase) GetListTopThreeMentors() (error, dto.ListMentor) {
 	}
 	return nil, mentor
 }
+
+func (mr *mentorUsecase) GetAllMentors() (error, dto.ListMentor) {
+	err, mentor := mr.mentorRepo.GetAllMentors()
+	if err != nil {
+		return err, dto.ListMentor{}
+	}
+	return nil, mentor
+}
