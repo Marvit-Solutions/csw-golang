@@ -51,6 +51,7 @@ func InitialMigration() {
 		&ds.Address{},
 		&ds.Transaction{},
 		&ds.Subscription{},
+		&ds.Mentor{},
 	)
 	DB.AutoMigrate(
 		ds.Role{},
@@ -61,6 +62,7 @@ func InitialMigration() {
 		ds.Address{},
 		ds.Transaction{},
 		ds.Subscription{},
+		ds.Mentor{},
 	)
 	DB.Migrator().HasConstraint(&ds.User{}, "UserDetail")
 	DB.Migrator().HasConstraint(&ds.Role{}, "Users")
@@ -71,4 +73,5 @@ func InitialMigration() {
 	DB.Migrator().HasConstraint(&ds.UserDetail{}, "Alamat")
 	DB.Migrator().HasConstraint(&ds.Transaction{}, "Transaksi")
 	DB.Migrator().HasConstraint(&ds.Subscription{}, "Subskripsi")
+	DB.Migrator().HasConstraint(&ds.Mentor{}, "mentor")
 }
