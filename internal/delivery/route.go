@@ -23,6 +23,7 @@ func StartRoute(handler handler.Handler) *gin.Engine {
 		handler.AuthHandler.RegisterRoutes(v1)
 		handler.PaketHandler.RegisterRoutes(v1)
 		handler.MentorHandler.RegisterRoutes(v1)
+		handler.TestimonialHandler.RegisterRoutes(v1)
 	}
 
 	return r
