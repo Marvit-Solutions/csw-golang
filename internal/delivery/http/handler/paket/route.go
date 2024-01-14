@@ -11,11 +11,11 @@ func (paketHandler *PaketHandler) RegisterRoutes(r *gin.RouterGroup) {
 	// paketGroup.PUT("/:id_paket", paketHandler.UpdatePaket)
 	// paketGroup.DELETE("/:id_paket", paketHandler.DeletePaket)
 
-	subpaketGroup := r.Group("/subpaket")
-	subpaketGroup.GET("/:id_paket", paketHandler.ListSubPaket)
-	subpaketGroup.POST("/", paketHandler.CreateSubPaket)
-	subpaketGroup.PUT("/:id_subpaket", paketHandler.UpdateSubPaket)
-	subpaketGroup.DELETE("/:id_subpaket", paketHandler.DeleteSubPaket)
-	subpaketGroup.GET("/top", paketHandler.GetTopSubPaket)
+	// subpaketGroup := r.Group("/subpaket")
+	// subpaketGroup.GET("/:id_paket", paketHandler.ListSubPaket)
+	// subpaketGroup.POST("/", paketHandler.CreateSubPaket)
+	// subpaketGroup.PUT("/:id_subpaket", paketHandler.UpdateSubPaket)
+	// subpaketGroup.DELETE("/:id_subpaket", paketHandler.DeleteSubPaket)
+	// subpaketGroup.GET("/top", paketHandler.GetTopSubPaket)
 
 }

@@ -13,7 +13,7 @@ func CreateSubPaket() []*ds.SubPaket {
 			PaketID:   "2710cf91-3113-4f4b-a499-cfb4625f3960",
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			Nama:      "PAKET A",
+			Nama:      "SKD PAKET A",
 			Harga:     50000,
 		},
 		{
@@ -21,7 +21,7 @@ func CreateSubPaket() []*ds.SubPaket {
 			PaketID:   "2710cf91-3113-4f4b-a499-cfb4625f3960",
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			Nama:      "PAKET B",
+			Nama:      "SKD PAKET B",
 			Harga:     150000,
 		},
 		{
@@ -29,7 +29,7 @@ func CreateSubPaket() []*ds.SubPaket {
 			PaketID:   "2710cf91-3113-4f4b-a499-cfb4625f3960",
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			Nama:      "PAKET C",
+			Nama:      "SKD PAKET C",
 			Harga:     250000,
 		},
 		{
@@ -37,7 +37,7 @@ func CreateSubPaket() []*ds.SubPaket {
 			PaketID:   "2710cf91-3113-4f4b-a499-cfb4625f3960",
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			Nama:      "PAKET D",
+			Nama:      "SKD PAKET D",
 			Harga:     300000,
 		},
 		// MTK
@@ -46,7 +46,7 @@ func CreateSubPaket() []*ds.SubPaket {
 			PaketID:   "4d08b495-67bc-459d-8dcd-5ad88b8c6e2b",
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			Nama:      "PAKET A",
+			Nama:      "MATEMATIKA PAKET A",
 			Harga:     50000,
 		},
 		{
@@ -54,7 +54,7 @@ func CreateSubPaket() []*ds.SubPaket {
 			PaketID:   "4d08b495-67bc-459d-8dcd-5ad88b8c6e2b",
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			Nama:      "PAKET B",
+			Nama:      "MATEMATIKA PAKET B",
 			Harga:     150000,
 		},
 		{
@@ -62,7 +62,7 @@ func CreateSubPaket() []*ds.SubPaket {
 			PaketID:   "4d08b495-67bc-459d-8dcd-5ad88b8c6e2b",
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			Nama:      "PAKET C",
+			Nama:      "MATEMATIKA PAKET C",
 			Harga:     200000,
 		},
 		{
@@ -70,7 +70,7 @@ func CreateSubPaket() []*ds.SubPaket {
 			PaketID:   "4d08b495-67bc-459d-8dcd-5ad88b8c6e2b",
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			Nama:      "PAKET D",
+			Nama:      "MATEMATIKA PAKET D",
 			Harga:     250000,
 		},
 	}
