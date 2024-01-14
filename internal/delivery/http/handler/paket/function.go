@@ -19,6 +19,15 @@ func (ph *PaketHandler) ListPaket(c *gin.Context) {
 		return
 	}
 
+	if len(response) == 0 {
+		c.JSON(http.StatusNotFound, dto.Success[interface{}]{
+			Message: "Paket tidak ditemukan!",
+			Code:    http.StatusNotFound,
+			Status:  http.StatusText(http.StatusNotFound),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, dto.Success[interface{}]{
 		Message: "Berhasil mendapatkan paket!",
 		Code:    http.StatusOK,
