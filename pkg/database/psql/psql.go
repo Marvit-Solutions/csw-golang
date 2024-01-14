@@ -46,35 +46,35 @@ func InitialMigration() {
 		&ds.UserDetail{},
 		&ds.User{},
 		&ds.Role{},
+		&ds.Address{},
 		&ds.Paket{},
 		&ds.SubPaket{},
-		&ds.Address{},
-		&ds.Transaction{},
-		&ds.Subscription{},
-		&ds.Mentor{},
-		&ds.Testimonials{},
+		&ds.SubPaketDetail{},
+	// 	// &ds.Transaction{},
+	// 	// &ds.Subscription{},
+	// 	// &ds.Mentor{},
+	// 	// &ds.Testimonials{},
 	)
 	DB.AutoMigrate(
 		ds.Role{},
 		ds.User{},
 		ds.UserDetail{},
+		ds.Address{},
 		ds.Paket{},
 		ds.SubPaket{},
-		ds.Address{},
-		ds.Transaction{},
-		ds.Subscription{},
-		ds.Mentor{},
-		ds.Testimonials{},
+		ds.SubPaketDetail{},
+		// ds.Transaction{},
+		// ds.Subscription{},
+		// ds.Mentor{},
+		// ds.Testimonials{},
 	)
 	DB.Migrator().HasConstraint(&ds.User{}, "UserDetail")
 	DB.Migrator().HasConstraint(&ds.Role{}, "Users")
-	DB.Migrator().HasConstraint(&ds.Paket{}, "Paket")
-	DB.Migrator().HasConstraint(&ds.SubPaket{}, "SubPaket")
-	DB.Migrator().HasConstraint(&ds.User{}, "UserDetail")
-	DB.Migrator().HasConstraint(&ds.Role{}, "Users")
 	DB.Migrator().HasConstraint(&ds.UserDetail{}, "Alamat")
-	DB.Migrator().HasConstraint(&ds.Transaction{}, "Transaksi")
-	DB.Migrator().HasConstraint(&ds.Subscription{}, "Subskripsi")
-	DB.Migrator().HasConstraint(&ds.Mentor{}, "mentor")
-	DB.Migrator().HasConstraint(&ds.Mentor{}, "testimonials")
+	DB.Migrator().HasConstraint(&ds.Paket{}, "SubPaket")
+	DB.Migrator().HasConstraint(&ds.SubPaket{}, "SubPaketDetail")
+	// DB.Migrator().HasConstraint(&ds.Transaction{}, "Transaksi")
+	// DB.Migrator().HasConstraint(&ds.Subscription{}, "Subskripsi")
+	// DB.Migrator().HasConstraint(&ds.Mentor{}, "mentor")
+	// DB.Migrator().HasConstraint(&ds.Mentor{}, "testimonials")
 }

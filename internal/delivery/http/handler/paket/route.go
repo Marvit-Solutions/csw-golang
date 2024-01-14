@@ -7,9 +7,9 @@ import (
 func (paketHandler *PaketHandler) RegisterRoutes(r *gin.RouterGroup) {
 	paketGroup := r.Group("/paket")
 	paketGroup.GET("/", paketHandler.ListPaket)
-	paketGroup.POST("/", paketHandler.CreatePaket)
-	paketGroup.PUT("/:id_paket", paketHandler.UpdatePaket)
-	paketGroup.DELETE("/:id_paket", paketHandler.DeletePaket)
+	// paketGroup.POST("/", paketHandler.CreatePaket)
+	// paketGroup.PUT("/:id_paket", paketHandler.UpdatePaket)
+	// paketGroup.DELETE("/:id_paket", paketHandler.DeletePaket)
 
 	subpaketGroup := r.Group("/subpaket")
 	subpaketGroup.GET("/:id_paket", paketHandler.ListSubPaket)

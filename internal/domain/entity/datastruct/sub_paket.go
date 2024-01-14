@@ -7,12 +7,12 @@ import (
 )
 
 type SubPaket struct {
-	ID                string `gorm:"type:text;primaryKey"`
-	CreatedAt         time.Time
-	UpdatedAt         time.Time
-	DeletedAt         gorm.DeletedAt `gorm:"index"`
-	PaketID           uint           `json:"IdPaket" form:"IdPaket"`
-	NamaSubPaket      string         `json:"NamaPaket" form:"NamaPaket"`
-	DeskripsiSubPaket string         `json:"DeskripsiPaket" form:"DeskripsiPaket"`
-	Harga             int            `json:"Harga" form:"Harga"`
+	ID             string         `gorm:"type:text;primaryKey"`
+	CreatedAt      time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
+	UpdatedAt      time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
+	DeletedAt      gorm.DeletedAt `gorm:"index"`
+	PaketID        string         `json:"PaketID" form:"PaketID"`
+	Nama           string         `json:"Nama" form:"Nama"`
+	SubPaketDetail SubPaketDetail `gorm:"foreignKey:SubPaketID"`
+	Harga          float64        `json:"Harga" form:"Harga"`
 }
