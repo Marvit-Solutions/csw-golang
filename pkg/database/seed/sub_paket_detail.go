@@ -66,7 +66,7 @@ func CreateSubPaketDetail() []*ds.SubPaketDetail {
 			ID:          "3d6053e5-31d3-4347-ae12-a3ddaa065872",
 			CreatedAt:   time.Now(),
 			UpdatedAt:   time.Now(),
-			SubPaketID:  "f127fe59-058e-44f5-a581-c3f903ffdb87",
+			SubPaketID:  "12219bc1-813e-471c-b912-2dbdfd6b5356",
 			GrupPejuang: true,
 			SoalLatihan: 660,
 			Akses:       2,

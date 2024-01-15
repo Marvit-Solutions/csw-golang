@@ -36,6 +36,33 @@ func (ph *PaketHandler) ListPaket(c *gin.Context) {
 	})
 }
 
+func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
+	response, err := ph.paketUsecase.GetTop3Paket()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Fail{
+			Code:    http.StatusInternalServerError,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	if len(response) == 0 {
+		c.JSON(http.StatusNotFound, dto.Success[interface{}]{
+			Message: "Paket tidak ditemukan!",
+			Code:    http.StatusNotFound,
+			Status:  http.StatusText(http.StatusNotFound),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Success[interface{}]{
+		Message: "Berhasil mendapatkan paket!",
+		Code:    http.StatusOK,
+		Status:  http.StatusText(http.StatusOK),
+		Data:    response,
+	})
+}
+
 // func (ph *PaketHandler) CreatePaket(c *gin.Context) {
 // 	var request dto.PaketRequest
 

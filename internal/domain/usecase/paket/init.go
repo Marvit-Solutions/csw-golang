@@ -7,6 +7,7 @@ import (
 
 type PaketUsecase interface {
 	ListPaket() ([]dto.PaketResponse, error)
+	GetTop3Paket() ([]dto.SubPaketTop3Response, error)
 	// CreatePaket(request dto.PaketRequest) (dto.PaketResponse, error)
 	// UpdatePaket(request dto.PaketRequest, id string) (dto.PaketResponse, error)
 	// DeletePaket(id string) (dto.PaketResponse, error)
@@ -15,7 +16,6 @@ type PaketUsecase interface {
 	// CreateSubPaket(request dto.SubPaketRequest) (dto.SubPaketResponse, error)
 	// UpdateSubPaket(request dto.SubPaketRequest, id string) (dto.SubPaketResponse, error)
 	// DeleteSubPaket(id string) (dto.SubPaketResponse, error)
-	// GetTopSubPaket() ([]dto.TopSubPaketResponse, error)
 }
 
 type paketUsecase struct {

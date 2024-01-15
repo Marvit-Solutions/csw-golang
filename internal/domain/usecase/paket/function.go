@@ -13,6 +13,15 @@ func (pc *paketUsecase) ListPaket() ([]dto.PaketResponse, error) {
 	return listPaket, err
 }
 
+func (pc *paketUsecase) GetTop3Paket() ([]dto.SubPaketTop3Response, error) {
+	GetTop3Paket, err := pc.paketRepo.GetTop3Paket()
+	if err != nil {
+		return nil, err
+	}
+
+	return GetTop3Paket, err
+}
+
 // func (pc *paketUsecase) CreatePaket(request dto.PaketRequest) (dto.PaketResponse, error) {
 // 	createPaket, err := pc.paketRepo.CreatePaket(request)
 // 	if err != nil {

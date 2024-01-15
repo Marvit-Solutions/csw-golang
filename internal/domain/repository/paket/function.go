@@ -3,6 +3,7 @@ package auth
 import (
 	"csw-golang/internal/domain/entity/datastruct"
 	"csw-golang/internal/domain/entity/dto"
+	"sort"
 )
 
 func (pr *paketRepo) ListPaket() ([]dto.PaketResponse, error) {
@@ -40,6 +41,47 @@ func (pr *paketRepo) ListPaket() ([]dto.PaketResponse, error) {
 		}
 
 		paketResponses = append(paketResponses, paketResponse)
+	}
+
+	return paketResponses, nil
+}
+
+func (pr *paketRepo) GetTop3Paket() ([]dto.SubPaketTop3Response, error) {
+	var paketList []datastruct.Paket
+
+	err := pr.db.Preload("SubPaket").Preload("SubPaket.SubPaketDetail").Find(&paketList).Error
+	if err != nil {
+		return nil, err
+	}
+
+	var paketResponses []dto.SubPaketTop3Response
+	for _, paket := range paketList {
+		for _, subPaket := range paket.SubPaket {
+			response := dto.SubPaketTop3Response{
+				ID:           paket.ID,
+				NamaPaket:    paket.Nama,
+				NamaSubPaket: subPaket.Nama,
+				Harga:        subPaket.Harga,
+				GrupPejuang:  subPaket.SubPaketDetail.GrupPejuang,
+				SoalLatihan:  subPaket.SubPaketDetail.SoalLatihan,
+				Akses:        subPaket.SubPaketDetail.Akses,
+				Modul:        subPaket.SubPaketDetail.Modul,
+				TryOut:       subPaket.SubPaketDetail.TryOut,
+				Zoom:         subPaket.SubPaketDetail.Zoom,
+			}
+
+			paketResponses = append(paketResponses, response)
+		}
+	}
+
+	// Sorting descending berdasarkan harga (Belum berdasarkan rating pembeli)
+	// digabung, antara skd dan mtk
+	sort.Slice(paketResponses, func(i, j int) bool {
+		return paketResponses[i].Harga > paketResponses[j].Harga
+	})
+
+	if len(paketResponses) > 3 {
+		paketResponses = paketResponses[:3]
 	}
 
 	return paketResponses, nil
