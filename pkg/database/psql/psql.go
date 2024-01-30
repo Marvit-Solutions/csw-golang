@@ -50,6 +50,12 @@ func InitialMigration() {
 		&ds.Paket{},
 		&ds.SubPaket{},
 		&ds.SubPaketDetail{},
+		&ds.Modul{},
+		&ds.Materi{},
+		&ds.SubMateri{},
+		&ds.LatihanSoal{},
+		&ds.Soal{},
+		&ds.Answer{},
 	// 	// &ds.Transaction{},
 	// 	// &ds.Subscription{},
 	// 	// &ds.Mentor{},
@@ -63,6 +69,12 @@ func InitialMigration() {
 		ds.Paket{},
 		ds.SubPaket{},
 		ds.SubPaketDetail{},
+		ds.Modul{},
+		ds.Materi{},
+		ds.SubMateri{},
+		ds.LatihanSoal{},
+		ds.Soal{},
+		ds.Answer{},
 		// ds.Transaction{},
 		// ds.Subscription{},
 		// ds.Mentor{},
@@ -73,6 +85,12 @@ func InitialMigration() {
 	DB.Migrator().HasConstraint(&ds.UserDetail{}, "Alamat")
 	DB.Migrator().HasConstraint(&ds.Paket{}, "SubPaket")
 	DB.Migrator().HasConstraint(&ds.SubPaket{}, "SubPaketDetail")
+	DB.Migrator().HasConstraint(&ds.Modul{}, "Modul")
+	DB.Migrator().HasConstraint(&ds.Materi{}, "Materi")
+	DB.Migrator().HasConstraint(&ds.SubMateri{}, "SubMateri")
+	DB.Migrator().HasConstraint(&ds.LatihanSoal{}, "LatihanSoal")
+	DB.Migrator().HasConstraint(&ds.Soal{}, "Soal")
+	DB.Migrator().HasConstraint(&ds.Answer{}, "Answer")
 	// DB.Migrator().HasConstraint(&ds.Transaction{}, "Transaksi")
 	// DB.Migrator().HasConstraint(&ds.Subscription{}, "Subskripsi")
 	// DB.Migrator().HasConstraint(&ds.Mentor{}, "mentor")

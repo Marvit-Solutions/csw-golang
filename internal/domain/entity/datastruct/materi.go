@@ -13,5 +13,5 @@ type Materi struct {
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 	ModulID   string         `json:"ModullID" form:"ModulID"`
 	Nama      string         `json:"Nama" form:"Nama"`
-	SubMateri []SubMateri    `gorm:"foreignKey:SubMateriID"`
+	SubMateri []SubMateri    `gorm:"foreignKey:MateriID"`
 }
