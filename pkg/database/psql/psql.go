@@ -56,6 +56,7 @@ func InitialMigration() {
 		&ds.LatihanSoal{},
 		&ds.Soal{},
 		&ds.Answer{},
+		&ds.StoredAnswer{},
 	// 	// &ds.Transaction{},
 	// 	// &ds.Subscription{},
 	// 	// &ds.Mentor{},
@@ -75,6 +76,7 @@ func InitialMigration() {
 		ds.LatihanSoal{},
 		ds.Soal{},
 		ds.Answer{},
+		ds.StoredAnswer{},
 		// ds.Transaction{},
 		// ds.Subscription{},
 		// ds.Mentor{},
@@ -91,6 +93,7 @@ func InitialMigration() {
 	DB.Migrator().HasConstraint(&ds.LatihanSoal{}, "LatihanSoal")
 	DB.Migrator().HasConstraint(&ds.Soal{}, "Soal")
 	DB.Migrator().HasConstraint(&ds.Answer{}, "Answer")
+	DB.Migrator().HasConstraint(&ds.StoredAnswer{}, "StoredAnswer")
 	// DB.Migrator().HasConstraint(&ds.Transaction{}, "Transaksi")
 	// DB.Migrator().HasConstraint(&ds.Subscription{}, "Subskripsi")
 	// DB.Migrator().HasConstraint(&ds.Mentor{}, "mentor")
