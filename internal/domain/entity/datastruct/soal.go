@@ -18,4 +18,5 @@ type Soal struct {
 	Tanda         bool           `json:"Tanda" form:"Tanda"`
 	Question      string         `json:"Question" form:"Question"`
 	Answers       []Answer       `gorm:"foreignKey:SoalID"`
+	StoredAnswers []StoredAnswer `gorm:"foreignKey:SoalID"`
 }

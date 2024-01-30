@@ -17,5 +17,6 @@ type LatihanSoal struct {
 	Keterangan string         `json:"Keterangan" form:"Keterangan"`
 	Status     string         `json:"Status" form:"Status"`
 	Waktu      int            `json:"Waktu" form:"Waktu"`
+	JumlahSoal int            `json:"JumlahSoal" form:"JumlahSoal"`
 	Soal       []Soal         `gorm:"foreignKey:LatihanSoalID"`
 }

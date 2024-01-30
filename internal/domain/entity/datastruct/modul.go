@@ -14,5 +14,5 @@ type Modul struct {
 	Nama        string         `json:"Nama" form:"Nama"`
 	Deskripsi   string         `json:"Deskripsi" form:"Deskripsi"`
 	Materi      []Materi       `gorm:"foreignKey:ModulID"`
-	LatihanSoal []LatihanSoal  `gorm:"foreignKey:ModulID"`
+	// LatihanSoal []LatihanSoal  `gorm:"foreignKey:MateriID"`
 }
