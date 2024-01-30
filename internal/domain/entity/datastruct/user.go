@@ -18,4 +18,5 @@ type User struct {
 	Password     string         `json:"Password" form:"Password" validate:"required,min=8"`
 	UserDetail   UserDetail     `gorm:"foreignKey:UserID"`
 	StoredAnswer []StoredAnswer `gorm:"foreignKey:UserID"`
+	Hasil        []Hasil        `gorm:"foreignKey:UserID"`
 }

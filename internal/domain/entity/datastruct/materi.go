@@ -15,4 +15,5 @@ type Materi struct {
 	Nama        string         `json:"Nama" form:"Nama"`
 	SubMateri   []SubMateri    `gorm:"foreignKey:MateriID"`
 	LatihanSoal []LatihanSoal  `gorm:"foreignKey:MateriID"`
+	Hasil       []Hasil        `gorm:"foreignKey:MateriID"`
 }
