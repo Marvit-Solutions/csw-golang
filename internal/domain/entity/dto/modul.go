@@ -54,3 +54,29 @@ type Answer struct {
 	Dipilih bool    `json:"Dipilih" form:"Dipilih"`
 	Nilai   float64 `json:"Nilai" form:"Nilai"`
 }
+
+type HasilReviewLatihanSoalResponse struct {
+	ID         string `json:"ID" form:"ID"`
+	Nama       string `json:"Nama" form:"Nama"`
+	Status     string `json:"Status" form:"Status"`
+	Mulai      string `json:"Mulai" form:"Mulai"`
+	Selesai    string `json:"Selesai" form:"Selesai"`
+	Waktu      string `json:"Waktu" form:"Waktu"`
+	Mark       string `json:"Mark" form:"Mark"`
+	Nilai      string `json:"Nilai" form:"Nilai"`
+	Pengerjaan int    `json:"Pengerjaan" form:"Pengerjaan"`
+	Soal       []Soal `json:"Soal" form:"Soal"`
+}
+
+type HistoryTop3NilaiReviewResponse struct {
+	ModulID string `json:"ModulID" form:"ModulID"`
+	Materi  []struct {
+		MateriID string `json:"MateriID" form:"MateriID"`
+		Nama     string `json:"Nama" form:"Nama"`
+		Nilai    []struct {
+			HasilID string `json:"HasilID" form:"HasilID"`
+			Mark    string `json:"Mark" form:"Mark"`
+			Nilai   string `json:"Nilai" form:"Nilai"`
+		}
+	}
+}
