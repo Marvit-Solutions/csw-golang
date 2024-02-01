@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Address struct {
+type Addresses struct {
 	ID           string `gorm:"type:text;primaryKey"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time

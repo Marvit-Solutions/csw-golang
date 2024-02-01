@@ -4,8 +4,8 @@ import (
 	ds "csw-golang/internal/domain/entity/datastruct"
 )
 
-func CreateMentors() []*ds.Mentor {
-	mentors := []*ds.Mentor{
+func CreateMentors() []*ds.Mentors {
+	mentors := []*ds.Mentors{
 		{
 			ID:             "2daa6bd9-f39f-4ca8-5e8e-e692f687e123",
 			Name:           "Ayu Lestari",

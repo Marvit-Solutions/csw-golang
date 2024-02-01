@@ -6,11 +6,11 @@ import (
 	"time"
 )
 
-func CreateUsers() []*ds.User {
+func CreateUsers() []*ds.Users {
 	hashPasswordUser1, _ := password.HashPassword("user1")
 	hashPasswordUser2, _ := password.HashPassword("user2")
 	hashPasswordAdmin, _ := password.HashPassword("admin123")
-	users := []*ds.User{
+	users := []*ds.Users{
 		{
 			ID:        "6c8bcb83-a825-4df0-8c29-264402205b9b",
 			CreatedAt: time.Now(),

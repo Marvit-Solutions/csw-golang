@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-func CreateAddresses() []*ds.Address {
-	addresses := []*ds.Address{
+func CreateAddresses() []*ds.Addresses {
+	addresses := []*ds.Addresses{
 		{
 			ID:           "47750cc7-9868-46e5-8545-7ed87550920c",
 			CreatedAt:    time.Now(),

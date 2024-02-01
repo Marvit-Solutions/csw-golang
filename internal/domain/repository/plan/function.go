@@ -7,7 +7,7 @@ import (
 )
 
 func (pr *planRepo) ListPlan() ([]dto.PlanResponse, error) {
-	var PlanList []datastruct.Module
+	var PlanList []datastruct.Modules
 
 	err := pr.db.Preload("SubPlan").Preload("SubPlan.SubPlanDetail").Find(&PlanList).Error
 	if err != nil {
@@ -21,19 +21,19 @@ func (pr *planRepo) ListPlan() ([]dto.PlanResponse, error) {
 			PlanName: Plan.Name,
 		}
 
-		for _, SubPlan := range Plan.SubPlan {
+		for _, SubPlan := range Plan.SubPlans {
 			SubPlanResponse := dto.SubPlan{
 				ID:          SubPlan.ID,
 				SubPlanName: SubPlan.Name,
 				Price:       SubPlan.Price,
 				SubPlanDetail: dto.SubPlanDetail{
-					ID:          SubPlan.SubPlanDetail.ID,
-					GrupPejuang: SubPlan.SubPlanDetail.GrupPejuang,
-					Exercise:    SubPlan.SubPlanDetail.Exercise,
-					Access:      SubPlan.SubPlanDetail.Access,
-					Module:      SubPlan.SubPlanDetail.Module,
-					TryOut:      SubPlan.SubPlanDetail.TryOut,
-					Zoom:        SubPlan.SubPlanDetail.Zoom,
+					ID:          SubPlan.SubPlanDetails.ID,
+					GrupPejuang: SubPlan.SubPlanDetails.GrupPejuang,
+					Exercise:    SubPlan.SubPlanDetails.Exercise,
+					Access:      SubPlan.SubPlanDetails.Access,
+					Module:      SubPlan.SubPlanDetails.Module,
+					TryOut:      SubPlan.SubPlanDetails.TryOut,
+					Zoom:        SubPlan.SubPlanDetails.Zoom,
 				},
 			}
 
@@ -47,7 +47,7 @@ func (pr *planRepo) ListPlan() ([]dto.PlanResponse, error) {
 }
 
 func (pr *planRepo) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
-	var PlanList []datastruct.Module
+	var PlanList []datastruct.Modules
 
 	err := pr.db.Preload("SubPlan").Preload("SubPlan.SubPlanDetail").Find(&PlanList).Error
 	if err != nil {
@@ -56,18 +56,18 @@ func (pr *planRepo) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
 
 	var PlanResponses []dto.SubPlanTop3Response
 	for _, Plan := range PlanList {
-		for _, SubPlan := range Plan.SubPlan {
+		for _, SubPlan := range Plan.SubPlans {
 			response := dto.SubPlanTop3Response{
 				ID:          Plan.ID,
 				PlanName:    Plan.Name,
 				SubPlanName: SubPlan.Name,
 				Price:       SubPlan.Price,
-				GrupPejuang: SubPlan.SubPlanDetail.GrupPejuang,
-				Exercise:    SubPlan.SubPlanDetail.Exercise,
-				Access:      SubPlan.SubPlanDetail.Access,
-				Module:      SubPlan.SubPlanDetail.Module,
-				TryOut:      SubPlan.SubPlanDetail.TryOut,
-				Zoom:        SubPlan.SubPlanDetail.Zoom,
+				GrupPejuang: SubPlan.SubPlanDetails.GrupPejuang,
+				Exercise:    SubPlan.SubPlanDetails.Exercise,
+				Access:      SubPlan.SubPlanDetails.Access,
+				Module:      SubPlan.SubPlanDetails.Module,
+				TryOut:      SubPlan.SubPlanDetails.TryOut,
+				Zoom:        SubPlan.SubPlanDetails.Zoom,
 			}
 
 			PlanResponses = append(PlanResponses, response)

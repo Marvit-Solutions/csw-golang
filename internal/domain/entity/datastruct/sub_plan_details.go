@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type SubPlanDetail struct {
+type SubPlanDetails struct {
 	ID          string         `gorm:"type:text;primaryKey"`
 	CreatedAt   time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
 	UpdatedAt   time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
