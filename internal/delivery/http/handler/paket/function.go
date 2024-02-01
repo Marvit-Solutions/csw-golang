@@ -7,9 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (ph *PaketHandler) ListPaket(c *gin.Context) {
+func (ph *PlanHandler) ListPlan(c *gin.Context) {
 
-	response, err := ph.paketUsecase.ListPaket()
+	response, err := ph.paketUsecase.ListPlan()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Code:    http.StatusInternalServerError,
@@ -21,7 +21,7 @@ func (ph *PaketHandler) ListPaket(c *gin.Context) {
 
 	if len(response) == 0 {
 		c.JSON(http.StatusNotFound, dto.Success[interface{}]{
-			Message: "Paket tidak ditemukan!",
+			Message: "Plans not found!",
 			Code:    http.StatusNotFound,
 			Status:  http.StatusText(http.StatusNotFound),
 		})
@@ -29,15 +29,15 @@ func (ph *PaketHandler) ListPaket(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Berhasil mendapatkan paket!",
+		Message: "Success get plans!",
 		Code:    http.StatusOK,
 		Status:  http.StatusText(http.StatusOK),
 		Data:    response,
 	})
 }
 
-func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
-	response, err := ph.paketUsecase.GetTop3Paket()
+func (ph *PlanHandler) GetTop3Plan(c *gin.Context) {
+	response, err := ph.paketUsecase.GetTop3Plan()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Code:    http.StatusInternalServerError,
@@ -48,7 +48,7 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 
 	if len(response) == 0 {
 		c.JSON(http.StatusNotFound, dto.Success[interface{}]{
-			Message: "Paket tidak ditemukan!",
+			Message: "Plans not found!",
 			Code:    http.StatusNotFound,
 			Status:  http.StatusText(http.StatusNotFound),
 		})
@@ -56,14 +56,14 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Berhasil mendapatkan paket!",
+		Message: "Success get top 3 plans!",
 		Code:    http.StatusOK,
 		Status:  http.StatusText(http.StatusOK),
 		Data:    response,
 	})
 }
 
-// func (ph *PaketHandler) CreatePaket(c *gin.Context) {
+// func (ph *PlanHandler) CreatePaket(c *gin.Context) {
 // 	var request dto.PaketRequest
 
 // 	err := c.ShouldBindJSON(&request)
@@ -92,7 +92,7 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 
 // }
 
-// func (ph *PaketHandler) UpdatePaket(c *gin.Context) {
+// func (ph *PlanHandler) UpdatePaket(c *gin.Context) {
 // 	var request dto.PaketRequest
 // 	idPaket := c.Param("id_paket")
 // 	if idPaket == "" {
@@ -129,7 +129,7 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 
 // }
 
-// // func (ph *PaketHandler) DeletePaket(c *gin.Context) {
+// // func (ph *PlanHandler) DeletePaket(c *gin.Context) {
 // // 	idPaket := c.Param("id_paket")
 // // 	if idPaket == "" {
 // // 		c.JSON(http.StatusBadRequest, dto.Fail{
@@ -148,7 +148,7 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 // // 		return
 // // 	}
 
-// // 	if response == (dto.PaketResponse{}) {
+// // 	if response == (dto.PlanResponse{}) {
 // // 		c.JSON(http.StatusNotFound, dto.Fail{
 // // 			Code:    http.StatusNotFound,
 // // 			Message: "Paket not found",
@@ -163,7 +163,7 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 // // 	})
 // // }
 
-// func (ph *PaketHandler) ListSubPaket(c *gin.Context) {
+// func (ph *PlanHandler) ListSubPlan(c *gin.Context) {
 // 	idPaket := c.Param("id_paket")
 // 	if idPaket == "" {
 // 		c.JSON(http.StatusBadRequest, dto.Fail{
@@ -173,7 +173,7 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 // 		return
 // 	}
 
-// 	response, err := ph.paketUsecase.ListSubPaket(idPaket)
+// 	response, err := ph.paketUsecase.ListSubPlan(idPaket)
 // 	if err != nil {
 // 		c.JSON(http.StatusInternalServerError, dto.Fail{
 // 			Code:    http.StatusInternalServerError,
@@ -184,20 +184,20 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 // 	if response == nil {
 // 		c.JSON(http.StatusNotFound, dto.Fail{
 // 			Code:    http.StatusNotFound,
-// 			Message: "Subpaket not found",
+// 			Message: "SubPlan not found",
 // 		})
 // 		return
 // 	}
 
 // 	c.JSON(http.StatusOK, dto.Success[interface{}]{
 // 		Code:    http.StatusOK,
-// 		Message: "List Subpaket Success",
+// 		Message: "List SubPlan Success",
 // 		Data:    response,
 // 	})
 // }
 
-// func (ph *PaketHandler) CreateSubPaket(c *gin.Context) {
-// 	var request dto.SubPaketRequest
+// func (ph *PlanHandler) CreateSubPlan(c *gin.Context) {
+// 	var request dto.SubPlanRequest
 
 // 	err := c.ShouldBindJSON(&request)
 // 	if err != nil {
@@ -208,7 +208,7 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 // 		return
 // 	}
 
-// 	response, err := ph.paketUsecase.CreateSubPaket(request)
+// 	response, err := ph.paketUsecase.CreateSubPlan(request)
 // 	if err != nil {
 // 		c.JSON(http.StatusBadRequest, dto.Fail{
 // 			Code:    http.StatusBadRequest,
@@ -219,18 +219,18 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 
 // 	c.JSON(http.StatusOK, dto.Success[interface{}]{
 // 		Code:    http.StatusOK,
-// 		Message: "Create Subpaket Success",
+// 		Message: "Create SubPlan Success",
 // 		Data:    response,
 // 	})
 // }
 
-// func (ph *PaketHandler) UpdateSubPaket(c *gin.Context) {
-// 	var request dto.SubPaketRequest
-// 	idSubPaket := c.Param("id_sub_paket")
-// 	if idSubPaket == "" {
+// func (ph *PlanHandler) UpdateSubPlan(c *gin.Context) {
+// 	var request dto.SubPlanRequest
+// 	idSubPlan := c.Param("id_sub_paket")
+// 	if idSubPlan == "" {
 // 		c.JSON(http.StatusBadRequest, dto.Fail{
 // 			Code:    http.StatusBadRequest,
-// 			Message: "ID Subpaket is empty",
+// 			Message: "ID SubPlan is empty",
 // 		})
 // 		return
 // 	}
@@ -244,7 +244,7 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 // 		return
 // 	}
 
-// 	response, err := ph.paketUsecase.UpdateSubPaket(request, idSubPaket)
+// 	response, err := ph.paketUsecase.UpdateSubPlan(request, idSubPlan)
 // 	if err != nil {
 // 		c.JSON(http.StatusInternalServerError, dto.Fail{
 // 			Code:    http.StatusInternalServerError,
@@ -255,22 +255,22 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 
 // 	c.JSON(http.StatusOK, dto.Success[interface{}]{
 // 		Code:    http.StatusOK,
-// 		Message: "Update Subpaket Success",
+// 		Message: "Update SubPlan Success",
 // 		Data:    response,
 // 	})
 // }
 
-// func (ph *PaketHandler) DeleteSubPaket(c *gin.Context) {
-// 	idSubPaket := c.Param("id_sub_paket")
-// 	if idSubPaket == "" {
+// func (ph *PlanHandler) DeleteSubPlan(c *gin.Context) {
+// 	idSubPlan := c.Param("id_sub_paket")
+// 	if idSubPlan == "" {
 // 		c.JSON(http.StatusBadRequest, dto.Fail{
 // 			Code:    http.StatusBadRequest,
-// 			Message: "ID Subpaket is empty",
+// 			Message: "ID SubPlan is empty",
 // 		})
 // 		return
 // 	}
 
-// 	response, err := ph.paketUsecase.DeleteSubPaket(idSubPaket)
+// 	response, err := ph.paketUsecase.DeleteSubPlan(idSubPlan)
 // 	if err != nil {
 // 		c.JSON(http.StatusInternalServerError, dto.Fail{
 // 			Code:    http.StatusInternalServerError,
@@ -279,23 +279,23 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 // 		return
 // 	}
 
-// 	if response == (dto.SubPaketResponse{}) {
+// 	if response == (dto.SubPlanResponse{}) {
 // 		c.JSON(http.StatusNotFound, dto.Fail{
 // 			Code:    http.StatusNotFound,
-// 			Message: "Subpaket not found",
+// 			Message: "SubPlan not found",
 // 		})
 // 		return
 // 	}
 
 // 	c.JSON(http.StatusOK, dto.Success[interface{}]{
 // 		Code:    http.StatusOK,
-// 		Message: "Delete Subpaket Success",
+// 		Message: "Delete SubPlan Success",
 // 		Data:    response,
 // 	})
 // }
 
-// func (ph *PaketHandler) GetTopSubPaket(c *gin.Context) {
-// 	response, err := ph.paketUsecase.GetTopSubPaket()
+// func (ph *PlanHandler) GetTopSubPlan(c *gin.Context) {
+// 	response, err := ph.paketUsecase.GetTopSubPlan()
 // 	if err != nil {
 // 		c.JSON(http.StatusInternalServerError, dto.Fail{
 // 			Code:    http.StatusInternalServerError,
@@ -307,14 +307,14 @@ func (ph *PaketHandler) GetTop3Paket(c *gin.Context) {
 // 	if response == nil {
 // 		c.JSON(http.StatusNotFound, dto.Fail{
 // 			Code:    http.StatusNotFound,
-// 			Message: "Subpaket not found",
+// 			Message: "SubPlan not found",
 // 		})
 // 		return
 // 	}
 
 // 	c.JSON(http.StatusOK, dto.Success[interface{}]{
 // 		Code:    http.StatusOK,
-// 		Message: "Get Top Subpaket Success",
+// 		Message: "Get Top SubPlan Success",
 // 		Data:    response,
 // 	})
 // }

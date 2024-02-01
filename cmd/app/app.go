@@ -7,17 +7,17 @@ import (
 	"csw-golang/internal/delivery/http/handler"
 	authHandler "csw-golang/internal/delivery/http/handler/auth"
 	mentorHandler "csw-golang/internal/delivery/http/handler/mentor"
-	paketHandler "csw-golang/internal/delivery/http/handler/paket"
+	planHandler "csw-golang/internal/delivery/http/handler/paket"
 	testimonialsHandler "csw-golang/internal/delivery/http/handler/testimonial"
 
 	authRepo "csw-golang/internal/domain/repository/auth"
 	mentorRepo "csw-golang/internal/domain/repository/mentor"
-	paketRepo "csw-golang/internal/domain/repository/paket"
+	planRepo "csw-golang/internal/domain/repository/plan"
 	testimonialsRepo "csw-golang/internal/domain/repository/testimonial"
 
 	authUsecase "csw-golang/internal/domain/usecase/auth"
 	mentorUsecase "csw-golang/internal/domain/usecase/mentor"
-	paketUsecase "csw-golang/internal/domain/usecase/paket"
+	planUsecase "csw-golang/internal/domain/usecase/paket"
 	testimonialUsecase "csw-golang/internal/domain/usecase/testimonial"
 
 	"github.com/gin-gonic/gin"
@@ -29,9 +29,9 @@ func StartApp() *gin.Engine {
 	authUsecase := authUsecase.New(authRepo)
 	authHandler := authHandler.New(authUsecase)
 
-	paketRepo := paketRepo.New(db.DB)
-	paketUsecase := paketUsecase.New(paketRepo)
-	paketHandler := paketHandler.New(paketUsecase)
+	planRepo := planRepo.New(db.DB)
+	planUsecase := planUsecase.New(planRepo)
+	planHandler := planHandler.New(planUsecase)
 
 	mentorRepo := mentorRepo.New(db.DB)
 	mentorUsecase := mentorUsecase.New(mentorRepo)
@@ -43,7 +43,7 @@ func StartApp() *gin.Engine {
 
 	handler := handler.Handler{
 		AuthHandler:        authHandler,
-		PaketHandler:       paketHandler,
+		PlanHandler:        planHandler,
 		MentorHandler:      mentorHandler,
 		TestimonialHandler: testimonialHandler,
 	}

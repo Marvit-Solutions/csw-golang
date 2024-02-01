@@ -1,29 +1,29 @@
-package auth
+package plan
 
 import (
 	"csw-golang/internal/domain/entity/dto"
-
-	"gorm.io/gorm"
+	pr "csw-golang/internal/domain/repository/plan"
 )
 
-type PaketRepo interface {
-	ListPaket() ([]dto.PaketResponse, error)
-	GetTop3Paket() ([]dto.SubPaketTop3Response, error)
+type PlanUsecase interface {
+	ListPlan() ([]dto.PlanResponse, error)
+	GetTop3Plan() ([]dto.SubPlanTop3Response, error)
 	// CreatePaket(request dto.PaketRequest) (dto.PaketResponse, error)
 	// UpdatePaket(request dto.PaketRequest, id string) (dto.PaketResponse, error)
 	// DeletePaket(id string) (dto.PaketResponse, error)
-	// Sub Paket
+
+	// ListSubPaket(idPaket string) ([]dto.SubPaketResponse, error)
 	// CreateSubPaket(request dto.SubPaketRequest) (dto.SubPaketResponse, error)
 	// UpdateSubPaket(request dto.SubPaketRequest, id string) (dto.SubPaketResponse, error)
 	// DeleteSubPaket(id string) (dto.SubPaketResponse, error)
 }
 
-type paketRepo struct {
-	db *gorm.DB
+type planUsecase struct {
+	paketRepo pr.PlanRepo
 }
 
-func New(db *gorm.DB) PaketRepo {
-	return &paketRepo{
-		db,
+func New(paketRepo pr.PlanRepo) *planUsecase {
+	return &planUsecase{
+		paketRepo,
 	}
 }

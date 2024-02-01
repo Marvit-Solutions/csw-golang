@@ -1,22 +1,22 @@
 package dto
 
-type SubPaketResponse struct {
-	ID                string `json:"IdSubPaket" form:"IdSubPaket"`
-	NamaPaket         string `json:"NamaPaket" form:"NamaPaket"`
-	NamaSubPaket      string `json:"NamaSubPaket" form:"NamaSubPaket"`
-	DeskripsiSubPaket string `json:"DeskripsiSubPaket" form:"DeskripsiSubPaket"`
-	Harga             int    `json:"Harga" form:"Harga"`
+type SubPlanResponse struct {
+	ID                 string `json:"IdSubPlan" form:"IdSubPlan"`
+	PlanName           string `json:"PlanName" form:"PlanName"`
+	SubPlanName        string `json:"SubPlanName" form:"SubPlanName"`
+	SubPlanDescription string `json:"SubPlanDescription" form:"SubPlanDescription"`
+	Price              int    `json:"Price" form:"Price"`
 }
 
-type SubPaketRequest struct {
-	IDPaket           string `json:"IDPaket" form:"IDPaket"`
-	NamaSubPaket      string `json:"NamaSubPaket" form:"NamaSubPaket"`
-	DeskripsiSubPaket string `json:"DeskripsiSubPaket" form:"DeskripsiSubPaket"`
-	Harga             int    `json:"Harga" form:"Harga"`
+type SubPlanRequest struct {
+	IDPaket            string `json:"IDPaket" form:"IDPaket"`
+	SubPlanName        string `json:"SubPlanName" form:"SubPlanName"`
+	SubPlanDescription string `json:"SubPlanDescription" form:"SubPlanDescription"`
+	Price              int    `json:"Price" form:"Price"`
 }
 
-type TopSubPaketResponse struct {
-	SubPaketID   string `json:"IdSubPaket" form:"IdSubPaket"`
-	NamaSubPaket string `json:"NamaSubPaket" form:"NamaSubPaket"`
-	Total        int    `json:"Total" form:"Total"`
+type TopSubPlanResponse struct {
+	SubPlanID   string `json:"IdSubPlan" form:"IdSubPlan"`
+	SubPlanName string `json:"SubPlanName" form:"SubPlanName"`
+	Total       int    `json:"Total" form:"Total"`
 }

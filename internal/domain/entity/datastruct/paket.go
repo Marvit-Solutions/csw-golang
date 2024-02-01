@@ -6,11 +6,11 @@ import (
 	"gorm.io/gorm"
 )
 
-type Paket struct {
+type Plan struct {
 	ID        string         `gorm:"type:text;primaryKey"`
 	CreatedAt time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
 	UpdatedAt time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
 	DeletedAt gorm.DeletedAt `gorm:"index"`
-	Nama      string         `json:"NamaPaket" form:"NamaPaket"`
-	SubPaket  []SubPaket     `gorm:"foreignKey:PaketID"`
+	Name      string         `json:"PlanName" form:"PlanName"`
+	SubPlan   []SubPlan      `gorm:"foreignKey:PlanID"`
 }

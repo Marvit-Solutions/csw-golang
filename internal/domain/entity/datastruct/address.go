@@ -11,8 +11,8 @@ type Address struct {
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	DeletedAt    gorm.DeletedAt `gorm:"index"`
-	Provinsi     string         `json:"Provinsi" form:"Provinsi"`
-	Kabupaten    string         `json:"Kabupaten" form:"Kabupaten"`
-	Kecamatan    string         `json:"Kecamatan" form:"Kecamatan"`
+	Province     string         `json:"Province" form:"Province"`       //Province
+	RegencyCity  string         `json:"RegencyCity" form:"RegencyCity"` //RegencyCity/Kota
+	Subdistrict  string         `json:"Subdistrict" form:"Subdistrict"` //Subdistrict
 	UserDetailID string         `json:"UserDetailID" form:"UserDetailID"`
 }

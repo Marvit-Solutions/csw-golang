@@ -13,7 +13,7 @@ type Subscription struct {
 	DeletedAt     gorm.DeletedAt `gorm:"index"`
 	TransactionID string         `json:"TransactionID" form:"TransactionID"`
 	UserID        string         `json:"UserID" form:"UserID"`
-	SubPaketID    string         `json:"SubPaketID" form:"SubPaketID"`
+	SubPlanID     string         `json:"SubPlanID" form:"SubPlanID"`
 	Description   string         `json:"Description" form:"Description"`
 	DueDate       time.Time      `json:"DueDate" form:"DueDate"`
 }

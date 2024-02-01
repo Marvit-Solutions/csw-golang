@@ -16,19 +16,19 @@ func (t testimonialRepo) GetListTopSixTestimonials() (error, dto.ListTestimonial
 	}
 	for _, testimonial := range testimonials {
 		dtoTestimonial := struct {
-			Id           string  `json:"id"`
-			Name         string  `json:"name"`
-			Status       string  `json:"status"`
-			ProfilePhoto string  `json:"profile_photo"`
-			Comment      string  `json:"comment"`
-			Rating       float32 `json:"rating"`
+			ID             string  `json:"ID"`
+			Name           string  `json:"name"`
+			Status         string  `json:"status"`
+			ProfilePicture string  `json:"profile_photo"`
+			Comment        string  `json:"comment"`
+			Rating         float32 `json:"rating"`
 		}{
-			Id:           testimonial.Id,
-			Name:         testimonial.Name,
-			Status:       testimonial.Status,
-			ProfilePhoto: testimonial.ProfilePhoto,
-			Comment:      testimonial.Comment,
-			Rating:       testimonial.Rating,
+			ID:             testimonial.ID,
+			Name:           testimonial.Name,
+			Status:         testimonial.Status,
+			ProfilePicture: testimonial.ProfilePicture,
+			Comment:        testimonial.Comment,
+			Rating:         testimonial.Rating,
 			// Add other fields as needed
 		}
 		topTestimonials = append(topTestimonials, dtoTestimonial)
@@ -50,19 +50,19 @@ func (t testimonialRepo) GetAllTestimonials() (error, dto.ListTestimonials) {
 
 	for _, testimonial := range testimonials {
 		dtoTestimonial := struct {
-			Id           string  `json:"id"`
-			Name         string  `json:"name"`
-			Status       string  `json:"status"`
-			ProfilePhoto string  `json:"profile_photo"`
-			Comment      string  `json:"comment"`
-			Rating       float32 `json:"rating"`
+			ID             string  `json:"ID"`
+			Name           string  `json:"name"`
+			Status         string  `json:"status"`
+			ProfilePicture string  `json:"profile_photo"`
+			Comment        string  `json:"comment"`
+			Rating         float32 `json:"rating"`
 		}{
-			Id:           testimonial.Id,
-			Name:         testimonial.Name,
-			Status:       testimonial.Status,
-			ProfilePhoto: testimonial.ProfilePhoto,
-			Comment:      testimonial.Comment,
-			Rating:       testimonial.Rating,
+			ID:             testimonial.ID,
+			Name:           testimonial.Name,
+			Status:         testimonial.Status,
+			ProfilePicture: testimonial.ProfilePicture,
+			Comment:        testimonial.Comment,
+			Rating:         testimonial.Rating,
 			// Add other fields as needed
 		}
 		allTestimonials = append(allTestimonials, dtoTestimonial)

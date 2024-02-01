@@ -1,13 +1,13 @@
-package auth
+package plan
 
 import (
 	"csw-golang/internal/domain/entity/dto"
-	pr "csw-golang/internal/domain/repository/paket"
+	pr "csw-golang/internal/domain/repository/plan"
 )
 
-type PaketUsecase interface {
-	ListPaket() ([]dto.PaketResponse, error)
-	GetTop3Paket() ([]dto.SubPaketTop3Response, error)
+type PlanUsecase interface {
+	ListPlan() ([]dto.PlanResponse, error)
+	GetTop3Plan() ([]dto.SubPlanTop3Response, error)
 	// CreatePaket(request dto.PaketRequest) (dto.PaketResponse, error)
 	// UpdatePaket(request dto.PaketRequest, id string) (dto.PaketResponse, error)
 	// DeletePaket(id string) (dto.PaketResponse, error)
@@ -18,12 +18,12 @@ type PaketUsecase interface {
 	// DeleteSubPaket(id string) (dto.SubPaketResponse, error)
 }
 
-type paketUsecase struct {
-	paketRepo pr.PaketRepo
+type planUsecase struct {
+	paketRepo pr.PlanRepo
 }
 
-func New(paketRepo pr.PaketRepo) *paketUsecase {
-	return &paketUsecase{
+func New(paketRepo pr.PlanRepo) *planUsecase {
+	return &planUsecase{
 		paketRepo,
 	}
 }

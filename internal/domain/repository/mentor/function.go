@@ -13,17 +13,17 @@ func (m mentorRepo) GetListTopThreeMentors() (error, dto.ListMentor) {
 	// Convert the database mentors to DTO mentors
 	for _, mentor := range mentors {
 		dtoMentor := struct {
-			Id           string  `json:"id"`
-			Name         string  `json:"name"`
-			Description  string  `json:"description"`
-			ProfilePhoto string  `json:"profile_photo"`
-			Rating       float32 `json:"rating"`
+			ID             string  `json:"ID"`
+			Name           string  `json:"name"`
+			Description    string  `json:"description"`
+			ProfilePicture string  `json:"profile_photo"`
+			Rating         float32 `json:"rating"`
 		}{
-			Id:           mentor.Id,
-			Name:         mentor.Name,
-			Description:  mentor.Description,
-			ProfilePhoto: mentor.ProfilePhoto,
-			Rating:       mentor.Rating,
+			ID:             mentor.ID,
+			Name:           mentor.Name,
+			Description:    mentor.Description,
+			ProfilePicture: mentor.ProfilePicture,
+			Rating:         mentor.Rating,
 			// Add other fields as needed
 		}
 		topMentors = append(topMentors, dtoMentor)
@@ -43,17 +43,17 @@ func (m mentorRepo) GetAllMentors() (error, dto.ListMentor) {
 
 	for _, mentor := range mentors {
 		dtoMentor := struct {
-			Id           string  `json:"id"`
-			Name         string  `json:"name"`
-			Description  string  `json:"description"`
-			ProfilePhoto string  `json:"profile_photo"`
-			Rating       float32 `json:"rating"`
+			ID             string  `json:"ID"`
+			Name           string  `json:"name"`
+			Description    string  `json:"description"`
+			ProfilePicture string  `json:"profile_photo"`
+			Rating         float32 `json:"rating"`
 		}{
-			Id:           mentor.Id,
-			Name:         mentor.Name,
-			Description:  mentor.Description,
-			ProfilePhoto: mentor.ProfilePhoto,
-			Rating:       mentor.Rating,
+			ID:             mentor.ID,
+			Name:           mentor.Name,
+			Description:    mentor.Description,
+			ProfilePicture: mentor.ProfilePicture,
+			Rating:         mentor.Rating,
 			// Add other fields as needed
 		}
 		allMentors = append(allMentors, dtoMentor)

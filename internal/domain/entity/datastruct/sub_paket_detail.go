@@ -6,16 +6,16 @@ import (
 	"gorm.io/gorm"
 )
 
-type SubPaketDetail struct {
+type SubPlanDetail struct {
 	ID          string         `gorm:"type:text;primaryKey"`
 	CreatedAt   time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
 	UpdatedAt   time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
-	SubPaketID  string         `json:"SubPaketID" form:"SubPaketID"`
+	SubPlanID   string         `json:"SubPlanID" form:"SubPlanID"`
 	GrupPejuang bool           `json:"GrupPejuang" form:"GrupPejuang"`
-	SoalLatihan uint           `json:"SoalLatihan" form:"SoalLatihan"`
-	Akses       uint           `json:"Akses" form:"Akses"`
-	Modul       bool           `json:"Modul" form:"Modul"`
+	Exercise    uint           `json:"Exercise" form:"Exercise"`
+	Access      uint           `json:"Access" form:"Access"`
+	Module      bool           `json:"Module" form:"Module"`
 	TryOut      uint           `json:"TryOut" form:"TryOut"`
 	Zoom        bool           `json:"Zoom" form:"Zoom"`
 }

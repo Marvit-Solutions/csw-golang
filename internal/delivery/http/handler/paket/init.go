@@ -4,12 +4,12 @@ import (
 	pc "csw-golang/internal/domain/usecase/paket"
 )
 
-type PaketHandler struct {
-	paketUsecase pc.PaketUsecase
+type PlanHandler struct {
+	paketUsecase pc.PlanUsecase
 }
 
-func New(paketUsecase pc.PaketUsecase) *PaketHandler {
-	return &PaketHandler{
-		paketUsecase,
+func New(planUsecase pc.PlanUsecase) *PlanHandler {
+	return &PlanHandler{
+		planUsecase,
 	}
 }

@@ -1,28 +1,28 @@
-package auth
+package plan
 
 import (
 	"csw-golang/internal/domain/entity/dto"
 )
 
-func (pc *paketUsecase) ListPaket() ([]dto.PaketResponse, error) {
-	listPaket, err := pc.paketRepo.ListPaket()
+func (pc *planUsecase) ListPlan() ([]dto.PlanResponse, error) {
+	ListPlan, err := pc.paketRepo.ListPlan()
 	if err != nil {
-		return listPaket, err
+		return ListPlan, err
 	}
 
-	return listPaket, err
+	return ListPlan, err
 }
 
-func (pc *paketUsecase) GetTop3Paket() ([]dto.SubPaketTop3Response, error) {
-	GetTop3Paket, err := pc.paketRepo.GetTop3Paket()
+func (pc *planUsecase) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
+	GetTop3Plan, err := pc.paketRepo.GetTop3Plan()
 	if err != nil {
 		return nil, err
 	}
 
-	return GetTop3Paket, err
+	return GetTop3Plan, err
 }
 
-// func (pc *paketUsecase) CreatePaket(request dto.PaketRequest) (dto.PaketResponse, error) {
+// func (pc *planUsecase) CreatePaket(request dto.PaketRequest) (dto.PlanResponse, error) {
 // 	createPaket, err := pc.paketRepo.CreatePaket(request)
 // 	if err != nil {
 // 		return createPaket, err
@@ -31,7 +31,7 @@ func (pc *paketUsecase) GetTop3Paket() ([]dto.SubPaketTop3Response, error) {
 // 	return createPaket, err
 // }
 
-// func (pc *paketUsecase) UpdatePaket(request dto.PaketRequest, id string) (dto.PaketResponse, error) {
+// func (pc *planUsecase) UpdatePaket(request dto.PaketRequest, id string) (dto.PlanResponse, error) {
 // 	updatePaket, err := pc.paketRepo.UpdatePaket(request, id)
 // 	if err != nil {
 // 		return updatePaket, err
@@ -39,7 +39,7 @@ func (pc *paketUsecase) GetTop3Paket() ([]dto.SubPaketTop3Response, error) {
 // 	return updatePaket, err
 // }
 
-// func (pc *paketUsecase) DeletePaket(id string) (dto.PaketResponse, error) {
+// func (pc *planUsecase) DeletePaket(id string) (dto.PlanResponse, error) {
 // 	deletePaket, err := pc.paketRepo.DeletePaket(id)
 // 	if err != nil {
 // 		return deletePaket, err
@@ -48,47 +48,47 @@ func (pc *paketUsecase) GetTop3Paket() ([]dto.SubPaketTop3Response, error) {
 // 	return deletePaket, err
 // }
 
-// func (pc *paketUsecase) ListSubPaket(idPaket string) ([]dto.SubPaketResponse, error) {
-// 	listSubPaket, err := pc.paketRepo.ListSubPaket(idPaket)
+// func (pc *planUsecase) ListSubPlan(idPaket string) ([]dto.SubPlanResponse, error) {
+// 	listSubPlan, err := pc.paketRepo.ListSubPlan(idPaket)
 // 	if err != nil {
-// 		return listSubPaket, err
+// 		return listSubPlan, err
 // 	}
 
-// 	return listSubPaket, err
+// 	return listSubPlan, err
 // }
 
-// func (pc *paketUsecase) CreateSubPaket(request dto.SubPaketRequest) (dto.SubPaketResponse, error) {
-// 	createSubPaket, err := pc.paketRepo.CreateSubPaket(request)
+// func (pc *planUsecase) CreateSubPlan(request dto.SubPlanRequest) (dto.SubPlanResponse, error) {
+// 	createSubPlan, err := pc.paketRepo.CreateSubPlan(request)
 // 	if err != nil {
-// 		return createSubPaket, err
+// 		return createSubPlan, err
 // 	}
 
-// 	return createSubPaket, err
+// 	return createSubPlan, err
 // }
 
-// func (pc *paketUsecase) UpdateSubPaket(request dto.SubPaketRequest, id string) (dto.SubPaketResponse, error) {
-// 	updateSubPaket, err := pc.paketRepo.UpdateSubPaket(request, id)
+// func (pc *planUsecase) UpdateSubPlan(request dto.SubPlanRequest, id string) (dto.SubPlanResponse, error) {
+// 	updateSubPlan, err := pc.paketRepo.UpdateSubPlan(request, id)
 // 	if err != nil {
-// 		return updateSubPaket, err
+// 		return updateSubPlan, err
 // 	}
 
-// 	return updateSubPaket, err
+// 	return updateSubPlan, err
 // }
 
-// func (pc *paketUsecase) DeleteSubPaket(id string) (dto.SubPaketResponse, error) {
-// 	deleteSubPaket, err := pc.paketRepo.DeleteSubPaket(id)
+// func (pc *planUsecase) DeleteSubPlan(id string) (dto.SubPlanResponse, error) {
+// 	deleteSubPlan, err := pc.paketRepo.DeleteSubPlan(id)
 // 	if err != nil {
-// 		return deleteSubPaket, err
+// 		return deleteSubPlan, err
 // 	}
 
-// 	return deleteSubPaket, err
+// 	return deleteSubPlan, err
 // }
 
-// func (pc *paketUsecase) GetTopSubPaket() ([]dto.TopSubPaketResponse, error) {
-// 	getTopSubPaket, err := pc.paketRepo.GetTopSubPaket()
+// func (pc *planUsecase) GetTopSubPlan() ([]dto.TopSubPlanResponse, error) {
+// 	getTopSubPlan, err := pc.paketRepo.GetTopSubPlan()
 // 	if err != nil {
 // 		return nil, err
 // 	}
 
-// 	return getTopSubPaket, err
+// 	return getTopSubPlan, err
 // }

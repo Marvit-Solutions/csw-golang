@@ -10,7 +10,7 @@ func CreateSubscription() []*ds.Subscription {
 		{
 			ID:            "1",
 			TransactionID: "1",
-			SubPaketID:    "1",
+			SubPlanID:     "1",
 			UserID:        "6c8bcb83-a825-4df0-8c29-264402205b9b",
 			Description:   "Paket ini berisi soal-soal SKD",
 			DueDate:       time.Now(),
@@ -18,7 +18,7 @@ func CreateSubscription() []*ds.Subscription {
 		{
 			ID:            "2",
 			TransactionID: "2",
-			SubPaketID:    "1",
+			SubPlanID:     "1",
 			UserID:        "6c8bcb83-a825-4df0-8c29-264402205b9b",
 			Description:   "Paket ini berisi soal-soal SKD",
 			DueDate:       time.Now(),
@@ -26,7 +26,7 @@ func CreateSubscription() []*ds.Subscription {
 		{
 			ID:            "10",
 			TransactionID: "10",
-			SubPaketID:    "1",
+			SubPlanID:     "1",
 			UserID:        "6c8bcb83-a825-4df0-8c29-264402205b9b",
 			Description:   "Paket ini berisi soal-soal SKD",
 			DueDate:       time.Now(),
@@ -34,7 +34,7 @@ func CreateSubscription() []*ds.Subscription {
 		{
 			ID:            "3",
 			TransactionID: "3",
-			SubPaketID:    "2",
+			SubPlanID:     "2",
 			UserID:        "6c8bcb83-a825-4df0-8c29-264402205b9b",
 			Description:   "Paket ini berisi soal-soal SKD",
 			DueDate:       time.Now(),
@@ -42,7 +42,7 @@ func CreateSubscription() []*ds.Subscription {
 		{
 			ID:            "4",
 			TransactionID: "4",
-			SubPaketID:    "2",
+			SubPlanID:     "2",
 			UserID:        "6c8bcb83-a825-4df0-8c29-264402205b9b",
 			Description:   "Paket ini berisi soal-soal SKD",
 			DueDate:       time.Now(),
@@ -50,7 +50,7 @@ func CreateSubscription() []*ds.Subscription {
 		{
 			ID:            "5",
 			TransactionID: "5",
-			SubPaketID:    "2",
+			SubPlanID:     "2",
 			UserID:        "6c8bcb83-a825-4df0-8c29-264402205b9b",
 			Description:   "Paket ini berisi soal-soal SKD",
 			DueDate:       time.Now(),
@@ -58,7 +58,7 @@ func CreateSubscription() []*ds.Subscription {
 		{
 			ID:            "9",
 			TransactionID: "9",
-			SubPaketID:    "2",
+			SubPlanID:     "2",
 			UserID:        "6c8bcb83-a825-4df0-8c29-264402205b9b",
 			Description:   "Paket ini berisi soal-soal SKD",
 			DueDate:       time.Now(),
@@ -66,7 +66,7 @@ func CreateSubscription() []*ds.Subscription {
 		{
 			ID:            "6",
 			TransactionID: "6",
-			SubPaketID:    "3",
+			SubPlanID:     "3",
 			UserID:        "6c8bcb83-a825-4df0-8c29-264402205b9b",
 			Description:   "Paket ini berisi soal-soal SKD",
 			DueDate:       time.Now(),
@@ -74,7 +74,7 @@ func CreateSubscription() []*ds.Subscription {
 		{
 			ID:            "7",
 			TransactionID: "8",
-			SubPaketID:    "3",
+			SubPlanID:     "3",
 			UserID:        "6c8bcb83-a825-4df0-8c29-264402205b9b",
 			Description:   "Paket ini berisi soal-soal SKD",
 			DueDate:       time.Now(),
@@ -82,7 +82,7 @@ func CreateSubscription() []*ds.Subscription {
 		{
 			ID:            "8",
 			TransactionID: "7",
-			SubPaketID:    "4",
+			SubPlanID:     "4",
 			UserID:        "6c8bcb83-a825-4df0-8c29-264402205b9b",
 			Description:   "Paket ini berisi soal-soal SKD",
 			DueDate:       time.Now(),

@@ -27,16 +27,16 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 		RoleID:     role.ID,
 		Email:      user.Email,
 		Password:   user.Password,
-		GoogleID:   user.GoogleId,
-		FacebookID: user.FacebookId,
+		GoogleID:   user.GoogleID,
+		FacebookID: user.FacebookID,
 		UserDetail: datastruct.UserDetail{
-			ID:      uuid.NewString(),
-			Nama:    user.Nama,
-			Telepon: user.Telepon,
-			Alamat: datastruct.Address{
-				Provinsi:  user.Provinsi,
-				Kabupaten: user.Kabupaten,
-				Kecamatan: user.Kecamatan,
+			ID:          uuid.NewString(),
+			Name:        user.Name,
+			PhoneNumber: user.PhoneNumber,
+			Address: datastruct.Address{
+				Province:    user.Province,
+				RegencyCity: user.RegencyCity,
+				Subdistrict: user.Subdistrict,
 			},
 		},
 	}
@@ -44,9 +44,9 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 	newAddress := datastruct.Address{
 		ID:           uuid.NewString(),
 		UserDetailID: newUser.UserDetail.ID,
-		Provinsi:     newUser.UserDetail.Alamat.Provinsi,
-		Kabupaten:    newUser.UserDetail.Alamat.Kabupaten,
-		Kecamatan:    newUser.UserDetail.Alamat.Kecamatan,
+		Province:     newUser.UserDetail.Address.Province,
+		RegencyCity:  newUser.UserDetail.Address.RegencyCity,
+		Subdistrict:  newUser.UserDetail.Address.Subdistrict,
 	}
 
 	tx := ar.db.Begin()
@@ -97,23 +97,23 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 	}
 
 	response := &dto.AuthResponse{
-		ID:         existingUser.ID,
-		Password:   existingUser.Password,
-		GoogleId:   existingUser.GoogleID,
-		FacebookId: existingUser.FacebookID,
-		Email:      existingUser.Email,
-		Nama:       existingUser.UserDetail.Nama,
-		Role:       userRole.Role,
-		Telepon:    existingUser.UserDetail.Telepon,
-		FotoProfil: existingUser.UserDetail.FotoProfil,
-		Alamat: struct {
-			Provinsi  string "json:\"Provinsi\" form:\"Provinsi\""
-			Kabupaten string "json:\"Kabupaten\" form:\"Kabupaten\""
-			Kecamatan string "json:\"Kecamatan\" form:\"Kecamatan\""
+		ID:             existingUser.ID,
+		Password:       existingUser.Password,
+		GoogleID:       existingUser.GoogleID,
+		FacebookID:     existingUser.FacebookID,
+		Email:          existingUser.Email,
+		Name:           existingUser.UserDetail.Name,
+		Role:           userRole.Role,
+		PhoneNumber:    existingUser.UserDetail.PhoneNumber,
+		ProfilePicture: existingUser.UserDetail.ProfilePicture,
+		Address: struct {
+			Province    string "json:\"Province\" form:\"Province\""
+			RegencyCity string "json:\"RegencyCity\" form:\"RegencyCity\""
+			Subdistrict string "json:\"Subdistrict\" form:\"Subdistrict\""
 		}{
-			Provinsi:  userAddress.Provinsi,
-			Kabupaten: userAddress.Kabupaten,
-			Kecamatan: userAddress.Kecamatan,
+			Province:    userAddress.Province,
+			RegencyCity: userAddress.RegencyCity,
+			Subdistrict: userAddress.Subdistrict,
 		},
 		Token: token,
 	}
