@@ -14,20 +14,6 @@ func RegisterSeed(db *gorm.DB) []Seed {
 		{Seed: CreateUsers()},
 		{Seed: CreateUserDetails()},
 		{Seed: CreateAddresses()},
-		// {Seed: CreatePaket()},
-		// {Seed: CreateSubPlan()},
-		{Seed: CreateSubPlanDetail()},
-		// {Seed: CreateModul()},
-		// {Seed: CreateMateri()},
-		// {Seed: CreateSubMateri()},
-		// {Seed: CreateLatihanSoal()},
-		// {Seed: CreateSoal()},
-		// {Seed: CreateAnswer()},
-		// {Seed: CreateStoredAnswer()},
-
-		// {Seed: CreateSubscription()},
-		// {Seed: CreateMentors()},
-		// {Seed: CreateTestimonials()},
 	}
 }
 
