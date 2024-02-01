@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-func CreateSubscription() []*ds.Subscription {
-	subscription := []*ds.Subscription{
+func CreateSubscription() []*ds.Subscriptions {
+	subscription := []*ds.Subscriptions{
 		{
 			ID:            "1",
 			TransactionID: "1",

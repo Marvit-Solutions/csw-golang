@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-func CreateRoles() []*ds.Role {
-	roles := []*ds.Role{
+func CreateRoles() []*ds.Roles {
+	roles := []*ds.Roles{
 		{
 			ID:        "419a8a2d-0abe-4413-ac49-39d33cf9838d",
 			CreatedAt: time.Now(),

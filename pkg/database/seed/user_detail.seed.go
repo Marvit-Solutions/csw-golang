@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-func CreateUserDetails() []*ds.UserDetail {
-	userDetail := []*ds.UserDetail{
+func CreateUserDetails() []*ds.UserDetails {
+	userDetail := []*ds.UserDetails{
 		{
 			ID:        "e36814fe-d479-4c5e-af49-4dede000f332",
 			CreatedAt: time.Now(),

@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-func CreateSubPlanDetail() []*ds.SubPlanDetail {
-	SubPlanDetail := []*ds.SubPlanDetail{
+func CreateSubPlanDetail() []*ds.SubPlanDetails {
+	SubPlanDetail := []*ds.SubPlanDetails{
 		// SKD Paket ABCD
 		// Paket A
 		{

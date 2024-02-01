@@ -11,29 +11,29 @@ import (
 )
 
 func (ar *authRepo) Register(user dto.RegisterRequest) error {
-	existingUser := datastruct.User{}
+	existingUser := datastruct.Users{}
 	if err := ar.db.Where("email = ?", user.Email).First(&existingUser).Error; err == nil {
 		//lint:ignore ST1005 Reason for ignoring this linter
 		return errors.New("Email already exists")
 	}
 
-	var role datastruct.Role
+	var role datastruct.Roles
 	if err := ar.db.Where("role = ?", "User").First(&role).Error; err != nil {
 		return err
 	}
 
-	newUser := datastruct.User{
+	newUser := datastruct.Users{
 		ID:         uuid.NewString(),
 		RoleID:     role.ID,
 		Email:      user.Email,
 		Password:   user.Password,
 		GoogleID:   user.GoogleID,
 		FacebookID: user.FacebookID,
-		UserDetail: datastruct.UserDetail{
+		UserDetail: datastruct.UserDetails{
 			ID:          uuid.NewString(),
 			Name:        user.Name,
 			PhoneNumber: user.PhoneNumber,
-			Address: datastruct.Address{
+			Address: datastruct.Addresses{
 				Province:    user.Province,
 				RegencyCity: user.RegencyCity,
 				Subdistrict: user.Subdistrict,
@@ -41,7 +41,7 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 		},
 	}
 
-	newAddress := datastruct.Address{
+	newAddress := datastruct.Addresses{
 		ID:           uuid.NewString(),
 		UserDetailID: newUser.UserDetail.ID,
 		Province:     newUser.UserDetail.Address.Province,
@@ -73,19 +73,19 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 }
 
 func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
-	existingUser := &datastruct.User{}
+	existingUser := &datastruct.Users{}
 	err := ar.db.Preload("UserDetail").Where("email = ?", user.Email).First(&existingUser).Error
 	if err != nil {
 		return dto.AuthResponse{}, err
 	}
 
-	userAddress := &datastruct.Address{}
+	userAddress := &datastruct.Addresses{}
 	err = ar.db.Where("user_detail_id = ?", existingUser.UserDetail.ID).First(&userAddress).Error
 	if err != nil {
 		return dto.AuthResponse{}, err
 	}
 
-	userRole := &datastruct.Role{}
+	userRole := &datastruct.Roles{}
 	err = ar.db.Where("id = ?", existingUser.RoleID).First(&userRole).Error
 	if err != nil {
 		return dto.AuthResponse{}, err

@@ -7,7 +7,7 @@ import (
 
 func (m mentorRepo) GetListTopThreeMentors() (error, dto.ListMentor) {
 	var topMentors dto.ListMentor
-	var mentors []datastruct.Mentor
+	var mentors []datastruct.Mentors
 	_ = m.db.Order("rating desc, name").Limit(3).Find(&mentors)
 
 	// Convert the database mentors to DTO mentors
@@ -33,7 +33,7 @@ func (m mentorRepo) GetListTopThreeMentors() (error, dto.ListMentor) {
 
 func (m mentorRepo) GetAllMentors() (error, dto.ListMentor) {
 	var allMentors dto.ListMentor
-	var mentors []datastruct.Mentor
+	var mentors []datastruct.Mentors
 
 	// Fetch all mentors from the database
 	tx := m.db.Find(&mentors)

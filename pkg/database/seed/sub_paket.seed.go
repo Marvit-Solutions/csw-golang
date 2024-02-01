@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-func CreateSubPlan() []*ds.SubPlan {
-	SubPlan := []*ds.SubPlan{
+func CreateSubPlan() []*ds.SubPlans {
+	SubPlan := []*ds.SubPlans{
 		// SKD
 		{
 			ID:        "3bd1126e-9bc5-4b56-bb5e-4fcd098da64b",

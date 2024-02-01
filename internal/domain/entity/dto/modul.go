@@ -4,11 +4,11 @@ type ModuleResponse struct {
 	ID          string `json:"ID" form:"ID"`
 	Name        string `json:"Name" form:"Name"`
 	Description string `json:"Description" form:"Description"`
-	Subject     struct {
+	Subject     []struct {
 		ID   string `json:"ID" form:"ID"`
 		Name string `json:"Name" form:"Name"`
 	}
-	Exercise struct {
+	Exercise []struct {
 		ID   string `json:"ID" form:"ID"`
 		Name string `json:"Name" form:"Name"`
 	}

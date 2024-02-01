@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-func CreatePaket() []*ds.Plan {
-	paket := []*ds.Plan{
+func CreatePaket() []*ds.Plans {
+	paket := []*ds.Plans{
 		{
 			ID:        "2710cf91-3113-4f4b-a499-cfb4625f3960",
 			CreatedAt: time.Now(),
