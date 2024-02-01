@@ -7,7 +7,7 @@ import (
 )
 
 func (pr *planRepo) ListPlan() ([]dto.PlanResponse, error) {
-	var PlanList []datastruct.Plan
+	var PlanList []datastruct.Module
 
 	err := pr.db.Preload("SubPlan").Preload("SubPlan.SubPlanDetail").Find(&PlanList).Error
 	if err != nil {
@@ -47,7 +47,7 @@ func (pr *planRepo) ListPlan() ([]dto.PlanResponse, error) {
 }
 
 func (pr *planRepo) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
-	var PlanList []datastruct.Plan
+	var PlanList []datastruct.Module
 
 	err := pr.db.Preload("SubPlan").Preload("SubPlan.SubPlanDetail").Find(&PlanList).Error
 	if err != nil {

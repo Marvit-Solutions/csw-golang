@@ -13,4 +13,5 @@ type Module struct {
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 	Name      string         `json:"Name" form:"Name"`
 	SubModule []SubModule    `gorm:"foreignKey:ModuleID"`
+	SubPlan   []SubPlan      `gorm:"foreignKey:ModuleID"`
 }

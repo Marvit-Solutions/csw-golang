@@ -47,7 +47,6 @@ func InitialMigration() {
 		&ds.User{},
 		&ds.Role{},
 		&ds.Address{},
-		&ds.Plan{},
 		&ds.SubPlan{},
 		&ds.SubPlanDetail{},
 		&ds.Module{},
@@ -70,7 +69,6 @@ func InitialMigration() {
 		ds.User{},
 		ds.UserDetail{},
 		ds.Address{},
-		ds.Plan{},
 		ds.SubPlan{},
 		ds.SubPlanDetail{},
 		ds.Module{},
@@ -91,9 +89,9 @@ func InitialMigration() {
 	DB.Migrator().HasConstraint(&ds.User{}, "UserDetail")
 	DB.Migrator().HasConstraint(&ds.Role{}, "Users")
 	DB.Migrator().HasConstraint(&ds.UserDetail{}, "Alamat")
-	DB.Migrator().HasConstraint(&ds.Plan{}, "SubPlan")
 	DB.Migrator().HasConstraint(&ds.SubPlan{}, "SubPlanDetail")
 	DB.Migrator().HasConstraint(&ds.Module{}, "Module")
+	DB.Migrator().HasConstraint(&ds.Module{}, "SubPlan")
 	DB.Migrator().HasConstraint(&ds.SubModule{}, "SubModule")
 	DB.Migrator().HasConstraint(&ds.Subject{}, "Subject")
 	DB.Migrator().HasConstraint(&ds.SubSubject{}, "SubSubject")
