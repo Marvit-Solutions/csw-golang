@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Choice struct {
+type Choices struct {
 	ID                  string                `gorm:"type:text;primaryKey"`
 	CreatedAt           time.Time             `gorm:"default:CURRENT_TIMESTAMP"`
 	UpdatedAt           time.Time             `gorm:"default:CURRENT_TIMESTAMP"`
@@ -16,5 +16,5 @@ type Choice struct {
 	Content             string                `json:"Content" form:"Content"`
 	Is_correct          bool                  `json:"Is_correct" form:"Is_correct"`
 	Weight              int                   `json:"Weight" form:"Weight"`
-	UserSubmittedAnswer []UserSubmittedAnswer `gorm:"foreignKey:ChoiceID"`
+	UserSubmittedAnswer []UserSubmittedAnswers `gorm:"foreignKey:ChoiceID"`
 }

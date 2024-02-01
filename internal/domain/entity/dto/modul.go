@@ -1,6 +1,6 @@
 package dto
 
-type ModulResponse struct {
+type ModuleResponse struct {
 	ID          string `json:"ID" form:"ID"`
 	Name        string `json:"Name" form:"Name"`
 	Description string `json:"Description" form:"Description"`

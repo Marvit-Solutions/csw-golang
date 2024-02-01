@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Transaction struct {
+type Transactions struct {
 	ID                string `gorm:"type:text;primaryKey"`
 	CreatedAt         time.Time
 	UpdatedAt         time.Time

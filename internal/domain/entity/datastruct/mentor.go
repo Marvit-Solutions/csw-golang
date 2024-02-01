@@ -1,6 +1,6 @@
 package datastruct
 
-type Mentor struct {
+type Mentors struct {
 	ID             string  `json:"ID"`
 	Name           string  `json:"name"`
 	Description    string  `json:"description"`
