@@ -36,7 +36,7 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 			Address: datastruct.Address{
 				Province:    user.Province,
 				RegencyCity: user.RegencyCity,
-				Subdistrict: user.Subdistrict,
+				SubDistrict: user.SubDistrict,
 			},
 		},
 	}
@@ -46,7 +46,7 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 		UserDetailID: newUser.UserDetail.ID,
 		Province:     newUser.UserDetail.Address.Province,
 		RegencyCity:  newUser.UserDetail.Address.RegencyCity,
-		Subdistrict:  newUser.UserDetail.Address.Subdistrict,
+		SubDistrict:  newUser.UserDetail.Address.SubDistrict,
 	}
 
 	tx := ar.db.Begin()
@@ -109,11 +109,11 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 		Address: struct {
 			Province    string "json:\"Province\" form:\"Province\""
 			RegencyCity string "json:\"RegencyCity\" form:\"RegencyCity\""
-			Subdistrict string "json:\"Subdistrict\" form:\"Subdistrict\""
+			SubDistrict string "json:\"SubDistrict\" form:\"SubDistrict\""
 		}{
 			Province:    userAddress.Province,
 			RegencyCity: userAddress.RegencyCity,
-			Subdistrict: userAddress.Subdistrict,
+			SubDistrict: userAddress.SubDistrict,
 		},
 		Token: token,
 	}

@@ -13,7 +13,7 @@ func CreateAddresses() []*ds.Address {
 			UpdatedAt:    time.Now(),
 			Province:     "Jawa Timur",
 			RegencyCity:  "Surabaya",
-			Subdistrict:  "Gubeng",
+			SubDistrict:  "Gubeng",
 			UserDetailID: "e36814fe-d479-4c5e-af49-4dede000f332",
 		},
 		{
@@ -22,7 +22,7 @@ func CreateAddresses() []*ds.Address {
 			UpdatedAt:    time.Now(),
 			Province:     "Jawa Tengah",
 			RegencyCity:  "Solo",
-			Subdistrict:  "Ngagel",
+			SubDistrict:  "Ngagel",
 			UserDetailID: "ecf50842-f521-4291-a31f-9f10c48fd889",
 		},
 		{
@@ -31,7 +31,7 @@ func CreateAddresses() []*ds.Address {
 			UpdatedAt:    time.Now(),
 			Province:     "Jawa Timur",
 			RegencyCity:  "Mojokerto",
-			Subdistrict:  "Tawang",
+			SubDistrict:  "Tawang",
 			UserDetailID: "a9131226-069a-43f9-b52d-d1c5bfc1b878",
 		},
 	}
