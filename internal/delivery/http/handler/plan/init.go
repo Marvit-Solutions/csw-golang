@@ -1,11 +1,11 @@
-package paket
+package plan
 
 import (
-	pc "csw-golang/internal/domain/usecase/paket"
+	pc "csw-golang/internal/domain/usecase/plan"
 )
 
 type PlanHandler struct {
-	paketUsecase pc.PlanUsecase
+	planUsecase pc.PlanUsecase
 }
 
 func New(planUsecase pc.PlanUsecase) *PlanHandler {

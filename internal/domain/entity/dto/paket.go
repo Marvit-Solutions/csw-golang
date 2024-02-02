@@ -30,7 +30,7 @@ type SubPlanTop3Response struct {
 	Zoom        bool    `json:"Zoom" form:"Zoom"`
 }
 
-type PaketRequest struct {
+type PlanRequest struct {
 	PlanName        string `json:"PlanName" form:"PlanName"`
 	PlanDescription string `json:"PlanDescription" form:"PlanDescription"`
 }

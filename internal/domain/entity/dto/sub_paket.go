@@ -9,7 +9,7 @@ type SubPlanResponse struct {
 }
 
 type SubPlanRequest struct {
-	IDPaket            string `json:"IDPaket" form:"IDPaket"`
+	IDPlan             string `json:"IDPlan" form:"IDPlan"`
 	SubPlanName        string `json:"SubPlanName" form:"SubPlanName"`
 	SubPlanDescription string `json:"SubPlanDescription" form:"SubPlanDescription"`
 	Price              int    `json:"Price" form:"Price"`

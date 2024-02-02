@@ -7,7 +7,7 @@ import (
 	"csw-golang/internal/delivery/http/handler"
 	authHandler "csw-golang/internal/delivery/http/handler/auth"
 	mentorHandler "csw-golang/internal/delivery/http/handler/mentor"
-	planHandler "csw-golang/internal/delivery/http/handler/paket"
+	planHandler "csw-golang/internal/delivery/http/handler/plan"
 	testimonialsHandler "csw-golang/internal/delivery/http/handler/testimonial"
 
 	authRepo "csw-golang/internal/domain/repository/auth"
@@ -17,7 +17,7 @@ import (
 
 	authUsecase "csw-golang/internal/domain/usecase/auth"
 	mentorUsecase "csw-golang/internal/domain/usecase/mentor"
-	planUsecase "csw-golang/internal/domain/usecase/paket"
+	planUsecase "csw-golang/internal/domain/usecase/plan"
 	testimonialUsecase "csw-golang/internal/domain/usecase/testimonial"
 
 	"github.com/gin-gonic/gin"
