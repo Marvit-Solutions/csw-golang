@@ -15,7 +15,7 @@ type AuthResponse struct {
 		RegencyCity string `json:"RegencyCity" form:"RegencyCity"`
 		SubDistrict string `json:"SubDistrict" form:"SubDistrict"`
 	}
-	ProfilePicture string `json:"FotoProfil" form:"FotoProfil" default:"assets/img/account.png"`
+	ProfilePicture string `json:"FotoProfil" form:"FotoProfil" default:"assets/img/users/profile/account.png"`
 }
 
 type RegisterRequest struct {

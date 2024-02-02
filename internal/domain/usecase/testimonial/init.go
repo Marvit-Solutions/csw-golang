@@ -6,8 +6,8 @@ import (
 )
 
 type TestimonialUsecase interface {
-	GetListTopSixTestimonials() (error, dto.ListTestimonials)
-	GetAllTestimonials() (error, dto.ListTestimonials)
+	GetListTopSixTestimonials() (error, dto.Testimonials)
+	GetAllTestimonials() (error, dto.Testimonials)
 }
 
 type testimonialUsecase struct {

@@ -14,7 +14,7 @@ type Choices struct {
 	QuestionID          string                 `json:"QuestionID" form:"QuestionID"`
 	Type                string                 `json:"Type" form:"Type"`
 	Content             string                 `json:"Content" form:"Content"`
-	Is_correct          bool                   `json:"Is_correct" form:"Is_correct"`
+	IsCorrect           bool                   `json:"IsCorrect" form:"IsCorrect"`
 	Weight              int                    `json:"Weight" form:"Weight"`
 	UserSubmittedAnswer []UserSubmittedAnswers `gorm:"foreignKey:ChoiceID"`
 }

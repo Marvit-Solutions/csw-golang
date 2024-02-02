@@ -58,10 +58,10 @@ func InitialMigration() {
 		ds.UserTestSubmissions{},
 		ds.UserSubmittedAnswers{},
 		ds.Grades{},
-	// 	// &ds.Transaction{},
-	// 	// &ds.Subscription{},
-	// 	// &ds.Mentor{},
-	// 	// &ds.Testimonials{},
+		ds.Testimonials{},
+		ds.Mentors{},
+		// &ds.Transaction{},
+		// &ds.Subscription{},
 	)
 	DB.AutoMigrate(
 		ds.Roles{},
@@ -79,10 +79,10 @@ func InitialMigration() {
 		ds.UserTestSubmissions{},
 		ds.UserSubmittedAnswers{},
 		ds.Grades{},
+		ds.Testimonials{},
+		ds.Mentors{},
 		// ds.Transaction{},
 		// ds.Subscription{},
-		// ds.Mentor{},
-		// ds.Testimonials{},
 	)
 	DB.Migrator().HasConstraint(&ds.Users{}, "UserDetail")
 	DB.Migrator().HasConstraint(&ds.Roles{}, "Users")
@@ -90,6 +90,7 @@ func InitialMigration() {
 	DB.Migrator().HasConstraint(&ds.Modules{}, "Module")
 	DB.Migrator().HasConstraint(&ds.Modules{}, "SubPlan")
 	DB.Migrator().HasConstraint(&ds.SubModules{}, "SubModule")
+	DB.Migrator().HasConstraint(&ds.SubModules{}, "Mentors")
 	DB.Migrator().HasConstraint(&ds.Subjects{}, "Subject")
 	DB.Migrator().HasConstraint(&ds.SubSubject{}, "SubSubject")
 	DB.Migrator().HasConstraint(&ds.SubjectTestType{}, "SubjectTestType")
@@ -97,10 +98,8 @@ func InitialMigration() {
 	DB.Migrator().HasConstraint(&ds.Choices{}, "Choice")
 	DB.Migrator().HasConstraint(&ds.UserTestSubmissions{}, "UserTestSubmission")
 	DB.Migrator().HasConstraint(&ds.UserSubmittedAnswers{}, "UserSubmittedAnswer")
-	DB.Migrator().HasConstraint(&ds.Grades{}, "Grade")
+	DB.Migrator().HasConstraint(&ds.Testimonials{}, "User")
 
 	// DB.Migrator().HasConstraint(&ds.Transaction{}, "Transaksi")
 	// DB.Migrator().HasConstraint(&ds.Subscription{}, "Subskripsi")
-	// DB.Migrator().HasConstraint(&ds.Mentor{}, "mentor")
-	// DB.Migrator().HasConstraint(&ds.Mentor{}, "testimonials")
 }

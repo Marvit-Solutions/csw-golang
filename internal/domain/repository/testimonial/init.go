@@ -2,12 +2,13 @@ package testimonial
 
 import (
 	"csw-golang/internal/domain/entity/dto"
+
 	"gorm.io/gorm"
 )
 
 type TestimonialRepo interface {
-	GetListTopSixTestimonials() (error, dto.ListTestimonials)
-	GetAllTestimonials() (error, dto.ListTestimonials)
+	GetListTopSixTestimonials() (error, dto.Testimonials)
+	GetAllTestimonials() (error, dto.Testimonials)
 }
 
 type testimonialRepo struct {

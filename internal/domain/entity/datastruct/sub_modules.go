@@ -15,4 +15,5 @@ type SubModules struct {
 	Name        string         `json:"Name" form:"Name"`
 	Description string         `json:"Description" form:"Description"`
 	Subjects    []Subjects     `gorm:"foreignKey:SubModuleID"`
+	Mentors     []Mentors      `gorm:"foreignKey:SubModuleID"`
 }

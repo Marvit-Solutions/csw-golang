@@ -5,8 +5,8 @@ import (
 	"csw-golang/internal/domain/entity/dto"
 )
 
-func (t testimonialRepo) GetListTopSixTestimonials() (error, dto.ListTestimonials) {
-	var topTestimonials dto.ListTestimonials
+func (t testimonialRepo) GetListTopSixTestimonials() (error, dto.Testimonials) {
+	var topTestimonials dto.Testimonials
 	var testimonials []datastruct.Testimonials
 
 	// Fetch top six testimonials from the database
@@ -16,20 +16,26 @@ func (t testimonialRepo) GetListTopSixTestimonials() (error, dto.ListTestimonial
 	}
 	for _, testimonial := range testimonials {
 		dtoTestimonial := struct {
-			ID             string  `json:"ID"`
-			Name           string  `json:"name"`
-			Status         string  `json:"status"`
-			ProfilePicture string  `json:"profile_photo"`
-			Comment        string  `json:"comment"`
-			Rating         float32 `json:"rating"`
+			ID      string  `json:"ID"`
+			Comment string  `json:"comment"`
+			Rating  float32 `json:"rating"`
+			User    struct {
+				Name           string `json:"Name" form:"Name"`
+				ProfilePicture string `json:"ProfilePicture" form:"ProfilePicture"`
+				Status         string `json:"Status" form:"Status"`
+			}
 		}{
-			ID:             testimonial.ID,
-			Name:           testimonial.Name,
-			Status:         testimonial.Status,
-			ProfilePicture: testimonial.ProfilePicture,
-			Comment:        testimonial.Comment,
-			Rating:         testimonial.Rating,
-			// Add other fields as needed
+			ID:     testimonial.ID,
+			Rating: testimonial.Rating,
+			User: struct {
+				Name           string `json:"Name" form:"Name"`
+				ProfilePicture string `json:"ProfilePicture" form:"ProfilePicture"`
+				Status         string `json:"Status" form:"Status"`
+			}{
+				Name:           testimonial.UserDetail.Name,
+				ProfilePicture: testimonial.UserDetail.ProfilePicture,
+				Status:         testimonial.UserDetail.Status,
+			},
 		}
 		topTestimonials = append(topTestimonials, dtoTestimonial)
 	}
@@ -37,12 +43,11 @@ func (t testimonialRepo) GetListTopSixTestimonials() (error, dto.ListTestimonial
 	return nil, topTestimonials
 }
 
-func (t testimonialRepo) GetAllTestimonials() (error, dto.ListTestimonials) {
+func (t testimonialRepo) GetAllTestimonials() (error, dto.Testimonials) {
 
-	var allTestimonials dto.ListTestimonials
+	var allTestimonials dto.Testimonials
 	var testimonials []datastruct.Testimonials
 
-	// Fetch all testimonials from the database
 	tx := t.db.Find(&testimonials)
 	if tx.Error != nil {
 		return tx.Error, allTestimonials
@@ -50,20 +55,26 @@ func (t testimonialRepo) GetAllTestimonials() (error, dto.ListTestimonials) {
 
 	for _, testimonial := range testimonials {
 		dtoTestimonial := struct {
-			ID             string  `json:"ID"`
-			Name           string  `json:"name"`
-			Status         string  `json:"status"`
-			ProfilePicture string  `json:"profile_photo"`
-			Comment        string  `json:"comment"`
-			Rating         float32 `json:"rating"`
+			ID      string  `json:"ID"`
+			Comment string  `json:"comment"`
+			Rating  float32 `json:"rating"`
+			User    struct {
+				Name           string `json:"Name" form:"Name"`
+				ProfilePicture string `json:"ProfilePicture" form:"ProfilePicture"`
+				Status         string `json:"Status" form:"Status"`
+			}
 		}{
-			ID:             testimonial.ID,
-			Name:           testimonial.Name,
-			Status:         testimonial.Status,
-			ProfilePicture: testimonial.ProfilePicture,
-			Comment:        testimonial.Comment,
-			Rating:         testimonial.Rating,
-			// Add other fields as needed
+			ID:     testimonial.ID,
+			Rating: testimonial.Rating,
+			User: struct {
+				Name           string `json:"Name" form:"Name"`
+				ProfilePicture string `json:"ProfilePicture" form:"ProfilePicture"`
+				Status         string `json:"Status" form:"Status"`
+			}{
+				Name:           testimonial.UserDetail.Name,
+				ProfilePicture: testimonial.UserDetail.ProfilePicture,
+				Status:         testimonial.UserDetail.Status,
+			},
 		}
 		allTestimonials = append(allTestimonials, dtoTestimonial)
 	}

@@ -1,10 +1,8 @@
 package datastruct
 
 type Testimonials struct {
-	ID             string  `json:"ID"`
-	Name           string  `json:"name"`
-	Status         string  `json:"status"`
-	ProfilePicture string  `json:"profile_photo"`
-	Comment        string  `json:"comment"`
-	Rating         float32 `json:"rating"`
+	ID         string      `json:"ID"`
+	Comment    string      `json:"comment"`
+	Rating     float32     `json:"rating"`
+	UserDetail UserDetails `gorm:"foreignKey:TestimonialID"`
 }
