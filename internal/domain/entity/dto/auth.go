@@ -13,9 +13,9 @@ type AuthResponse struct {
 	Address     struct {
 		Province    string `json:"Province" form:"Province"`
 		RegencyCity string `json:"RegencyCity" form:"RegencyCity"`
-		Subdistrict string `json:"Subdistrict" form:"Subdistrict"`
+		SubDistrict string `json:"SubDistrict" form:"SubDistrict"`
 	}
-	ProfilePicture string `json:"FotoProfil" form:"FotoProfil" default:"assets/img/account.png"`
+	ProfilePicture string `json:"FotoProfil" form:"FotoProfil" default:"assets/img/users/profile/account.png"`
 }
 
 type RegisterRequest struct {
@@ -23,7 +23,7 @@ type RegisterRequest struct {
 	GoogleID        string `json:"GoogleID" form:"GoogleID"`
 	FacebookID      string `json:"FacebookID" form:"FacebookID"`
 	Class           string `json:"Class" form:"Class" validate:"required"`
-	Subdistrict     string `json:"Subdistrict" form:"Subdistrict" validate:"required"`
+	SubDistrict     string `json:"SubDistrict" form:"SubDistrict" validate:"required"`
 	RegencyCity     string `json:"RegencyCity" form:"RegencyCity" validate:"required"`
 	Province        string `json:"Province" form:"Province" validate:"required"`
 	PhoneNumber     string `json:"PhoneNumber" form:"PhoneNumber" validate:"required,min=10,max=15,numeric"`

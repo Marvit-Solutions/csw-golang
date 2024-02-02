@@ -3,7 +3,7 @@ package handler
 import (
 	authHandler "csw-golang/internal/delivery/http/handler/auth"
 	mentorHandler "csw-golang/internal/delivery/http/handler/mentor"
-	planHandler "csw-golang/internal/delivery/http/handler/paket"
+	planHandler "csw-golang/internal/delivery/http/handler/plan"
 	testimonialHandler "csw-golang/internal/delivery/http/handler/testimonial"
 )
 

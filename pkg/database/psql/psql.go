@@ -43,69 +43,57 @@ func InitDB() {
 
 func InitialMigration() {
 	DB.Migrator().DropTable(
-		&ds.UserDetails{},
-		&ds.Users{},
-		&ds.Roles{},
-		&ds.Addresses{},
-		&ds.Plans{},
-		&ds.SubPlans{},
-		&ds.SubPlanDetails{},
-		&ds.Modules{},
-		&ds.SubModules{},
-		&ds.Subjects{},
-		&ds.SubSubjects{},
-		&ds.SubjectTestTypes{},
-		&ds.Questions{},
-		&ds.Choices{},
-		&ds.UserTestSubmissions{},
-		&ds.UserSubmittedAnswers{},
-		&ds.Grades{},
-	// 	// &ds.Transaction{},
-	// 	// &ds.Subscription{},
-	// 	// &ds.Mentor{},
-	// 	// &ds.Testimonials{},
+		ds.Roles{},
+		ds.Users{},
+		ds.UserDetails{},
+		ds.Addresses{},
+		ds.SubPlans{},
+		ds.Modules{},
+		ds.SubModules{},
+		ds.Subjects{},
+		ds.SubSubject{},
+		ds.SubjectTestTypeQuizzes{},
+		ds.SubjectTestTypeExercises{},
+		ds.QuestionQuizzes{},
+		ds.QuestionExercises{},
+		ds.ChoiceQuizzes{},
+		ds.ChoiceExercises{},
+		ds.UserTestSubmissionQuizzes{},
+		ds.UserTestSubmissionExercises{},
+		ds.UserSubmittedAnswerQuizzes{},
+		ds.UserSubmittedAnswerExercises{},
+		ds.GradeExercises{},
+		ds.GradeQuizzes{},
+		ds.Testimonials{},
+		ds.Mentors{},
+		// &ds.Transaction{},
+		// &ds.Subscription{},
 	)
 	DB.AutoMigrate(
 		ds.Roles{},
 		ds.Users{},
 		ds.UserDetails{},
 		ds.Addresses{},
-		ds.Plans{},
 		ds.SubPlans{},
-		ds.SubPlanDetails{},
 		ds.Modules{},
 		ds.SubModules{},
 		ds.Subjects{},
-		ds.SubSubjects{},
-		ds.SubjectTestTypes{},
-		ds.Questions{},
-		ds.Choices{},
-		ds.UserTestSubmissions{},
-		ds.UserSubmittedAnswers{},
-		ds.Grades{},
+		ds.SubSubject{},
+		ds.SubjectTestTypeQuizzes{},
+		ds.SubjectTestTypeExercises{},
+		ds.QuestionQuizzes{},
+		ds.QuestionExercises{},
+		ds.ChoiceQuizzes{},
+		ds.ChoiceExercises{},
+		ds.UserTestSubmissionQuizzes{},
+		ds.UserTestSubmissionExercises{},
+		ds.UserSubmittedAnswerQuizzes{},
+		ds.UserSubmittedAnswerExercises{},
+		ds.GradeExercises{},
+		ds.GradeQuizzes{},
+		ds.Testimonials{},
+		ds.Mentors{},
 		// ds.Transaction{},
 		// ds.Subscription{},
-		// ds.Mentor{},
-		// ds.Testimonials{},
 	)
-	DB.Migrator().HasConstraint(&ds.Users{}, "UserDetail")
-	DB.Migrator().HasConstraint(&ds.Roles{}, "Users")
-	DB.Migrator().HasConstraint(&ds.UserDetails{}, "Alamat")
-	DB.Migrator().HasConstraint(&ds.Plans{}, "SubPlan")
-	DB.Migrator().HasConstraint(&ds.SubPlans{}, "SubPlanDetail")
-	DB.Migrator().HasConstraint(&ds.Modules{}, "Module")
-	DB.Migrator().HasConstraint(&ds.SubModules{}, "SubModule")
-	DB.Migrator().HasConstraint(&ds.Subjects{}, "Subject")
-	DB.Migrator().HasConstraint(&ds.SubSubjects{}, "SubSubject")
-	DB.Migrator().HasConstraint(&ds.SubjectTestTypes{}, "SubjectTestType")
-	DB.Migrator().HasConstraint(&ds.Questions{}, "Question")
-	DB.Migrator().HasConstraint(&ds.Choices{}, "Choice")
-	DB.Migrator().HasConstraint(&ds.UserTestSubmissions{}, "UserTestSubmission")
-	DB.Migrator().HasConstraint(&ds.UserSubmittedAnswers{}, "UserSubmittedAnswer")
-	DB.Migrator().HasConstraint(&ds.Grades{}, "Grade")
-
-	// DB.Migrator().HasConstraint(&ds.Transaction{}, "Transaksi")
-	// DB.Migrator().HasConstraint(&ds.Subscription{}, "Subskripsi")
-	// DB.Migrator().HasConstraint(&ds.Mentor{}, "mentor")
-	// DB.Migrator().HasConstraint(&ds.Mentor{}, "testimonials")
 }

@@ -29,24 +29,24 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 		Password:   user.Password,
 		GoogleID:   user.GoogleID,
 		FacebookID: user.FacebookID,
-		UserDetail: datastruct.UserDetails{
+		UserDetails: datastruct.UserDetails{
 			ID:          uuid.NewString(),
 			Name:        user.Name,
 			PhoneNumber: user.PhoneNumber,
-			Address: datastruct.Addresses{
+			Addresses: datastruct.Addresses{
 				Province:    user.Province,
 				RegencyCity: user.RegencyCity,
-				Subdistrict: user.Subdistrict,
+				SubDistrict: user.SubDistrict,
 			},
 		},
 	}
 
 	newAddress := datastruct.Addresses{
 		ID:           uuid.NewString(),
-		UserDetailID: newUser.UserDetail.ID,
-		Province:     newUser.UserDetail.Address.Province,
-		RegencyCity:  newUser.UserDetail.Address.RegencyCity,
-		Subdistrict:  newUser.UserDetail.Address.Subdistrict,
+		UserDetailID: newUser.UserDetails.ID,
+		Province:     newUser.UserDetails.Addresses.Province,
+		RegencyCity:  newUser.UserDetails.Addresses.RegencyCity,
+		SubDistrict:  newUser.UserDetails.Addresses.SubDistrict,
 	}
 
 	tx := ar.db.Begin()
@@ -80,7 +80,7 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 	}
 
 	userAddress := &datastruct.Addresses{}
-	err = ar.db.Where("user_detail_id = ?", existingUser.UserDetail.ID).First(&userAddress).Error
+	err = ar.db.Where("user_detail_id = ?", existingUser.UserDetails.ID).First(&userAddress).Error
 	if err != nil {
 		return dto.AuthResponse{}, err
 	}
@@ -102,18 +102,18 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 		GoogleID:       existingUser.GoogleID,
 		FacebookID:     existingUser.FacebookID,
 		Email:          existingUser.Email,
-		Name:           existingUser.UserDetail.Name,
+		Name:           existingUser.UserDetails.Name,
 		Role:           userRole.Role,
-		PhoneNumber:    existingUser.UserDetail.PhoneNumber,
-		ProfilePicture: existingUser.UserDetail.ProfilePicture,
+		PhoneNumber:    existingUser.UserDetails.PhoneNumber,
+		ProfilePicture: existingUser.UserDetails.ProfilePicture,
 		Address: struct {
 			Province    string "json:\"Province\" form:\"Province\""
 			RegencyCity string "json:\"RegencyCity\" form:\"RegencyCity\""
-			Subdistrict string "json:\"Subdistrict\" form:\"Subdistrict\""
+			SubDistrict string "json:\"SubDistrict\" form:\"SubDistrict\""
 		}{
 			Province:    userAddress.Province,
 			RegencyCity: userAddress.RegencyCity,
-			Subdistrict: userAddress.Subdistrict,
+			SubDistrict: userAddress.SubDistrict,
 		},
 		Token: token,
 	}
