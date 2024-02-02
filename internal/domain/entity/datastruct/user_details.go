@@ -17,5 +17,5 @@ type UserDetails struct {
 	ProfilePicture string         `json:"ProfilePicture" form:"ProfilePicture" gorm:"default: 'assets/img/users/profile/account.png'"`
 	Addresses      Addresses      `gorm:"foreignKey:UserDetailID"`
 	Status         string         `json:"Status" form:"Status" validate:"required"`
-	TestimonialID  string         `json:"TestimonialID" form:"TestimonialID"`
+	TestimonialID  *string        `json:"TestimonialID" form:"TestimonialID"`
 }
