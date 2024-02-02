@@ -9,7 +9,7 @@ import (
 func (pr *planRepo) ListPlan() ([]dto.PlanResponse, error) {
 	var PlanList []datastruct.Modules
 
-	err := pr.db.Preload("SubPlan").Preload("SubPlan.SubPlanDetail").Find(&PlanList).Error
+	err := pr.db.Preload("SubPlans").Find(&PlanList).Error
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (pr *planRepo) ListPlan() ([]dto.PlanResponse, error) {
 func (pr *planRepo) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
 	var PlanList []datastruct.Modules
 
-	err := pr.db.Preload("SubPlan").Preload("SubPlan.SubPlanDetail").Find(&PlanList).Error
+	err := pr.db.Preload("SubPlans").Find(&PlanList).Error
 	if err != nil {
 		return nil, err
 	}
