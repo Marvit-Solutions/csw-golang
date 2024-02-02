@@ -43,22 +43,21 @@ func InitDB() {
 
 func InitialMigration() {
 	DB.Migrator().DropTable(
-		&ds.UserDetails{},
-		&ds.Users{},
-		&ds.Roles{},
-		&ds.Addresses{},
-		&ds.SubPlans{},
-		&ds.SubPlanDetails{},
-		&ds.Modules{},
-		&ds.SubModules{},
-		&ds.Subjects{},
-		&ds.SubSubject{},
-		&ds.SubjectTestType{},
-		&ds.Questions{},
-		&ds.Choices{},
-		&ds.UserTestSubmissions{},
-		&ds.UserSubmittedAnswers{},
-		&ds.Grades{},
+		ds.Roles{},
+		ds.Users{},
+		ds.UserDetails{},
+		ds.Addresses{},
+		ds.SubPlans{},
+		ds.Modules{},
+		ds.SubModules{},
+		ds.Subjects{},
+		ds.SubSubject{},
+		ds.SubjectTestType{},
+		ds.Questions{},
+		ds.Choices{},
+		ds.UserTestSubmissions{},
+		ds.UserSubmittedAnswers{},
+		ds.Grades{},
 	// 	// &ds.Transaction{},
 	// 	// &ds.Subscription{},
 	// 	// &ds.Mentor{},
@@ -70,7 +69,6 @@ func InitialMigration() {
 		ds.UserDetails{},
 		ds.Addresses{},
 		ds.SubPlans{},
-		ds.SubPlanDetails{},
 		ds.Modules{},
 		ds.SubModules{},
 		ds.Subjects{},
@@ -89,7 +87,6 @@ func InitialMigration() {
 	DB.Migrator().HasConstraint(&ds.Users{}, "UserDetail")
 	DB.Migrator().HasConstraint(&ds.Roles{}, "Users")
 	DB.Migrator().HasConstraint(&ds.UserDetails{}, "Alamat")
-	DB.Migrator().HasConstraint(&ds.SubPlans{}, "SubPlanDetail")
 	DB.Migrator().HasConstraint(&ds.Modules{}, "Module")
 	DB.Migrator().HasConstraint(&ds.Modules{}, "SubPlan")
 	DB.Migrator().HasConstraint(&ds.SubModules{}, "SubModule")

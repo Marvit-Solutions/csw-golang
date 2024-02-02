@@ -26,15 +26,12 @@ func (pr *planRepo) ListPlan() ([]dto.PlanResponse, error) {
 				ID:          SubPlan.ID,
 				SubPlanName: SubPlan.Name,
 				Price:       SubPlan.Price,
-				SubPlanDetail: dto.SubPlanDetail{
-					ID:          SubPlan.SubPlanDetails.ID,
-					GrupPejuang: SubPlan.SubPlanDetails.GrupPejuang,
-					Exercise:    SubPlan.SubPlanDetails.Exercise,
-					Access:      SubPlan.SubPlanDetails.Access,
-					Module:      SubPlan.SubPlanDetails.Module,
-					TryOut:      SubPlan.SubPlanDetails.TryOut,
-					Zoom:        SubPlan.SubPlanDetails.Zoom,
-				},
+				GrupPejuang: SubPlan.GrupPejuang,
+				Exercise:    SubPlan.Exercise,
+				Access:      SubPlan.Access,
+				Module:      SubPlan.Module,
+				TryOut:      SubPlan.TryOut,
+				Zoom:        SubPlan.Zoom,
 			}
 
 			PlanResponse.SubPlan = append(PlanResponse.SubPlan, SubPlanResponse)
@@ -62,12 +59,12 @@ func (pr *planRepo) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
 				PlanName:    Plan.Name,
 				SubPlanName: SubPlan.Name,
 				Price:       SubPlan.Price,
-				GrupPejuang: SubPlan.SubPlanDetails.GrupPejuang,
-				Exercise:    SubPlan.SubPlanDetails.Exercise,
-				Access:      SubPlan.SubPlanDetails.Access,
-				Module:      SubPlan.SubPlanDetails.Module,
-				TryOut:      SubPlan.SubPlanDetails.TryOut,
-				Zoom:        SubPlan.SubPlanDetails.Zoom,
+				GrupPejuang: SubPlan.GrupPejuang,
+				Exercise:    SubPlan.Exercise,
+				Access:      SubPlan.Access,
+				Module:      SubPlan.Module,
+				TryOut:      SubPlan.TryOut,
+				Zoom:        SubPlan.Zoom,
 			}
 
 			PlanResponses = append(PlanResponses, response)

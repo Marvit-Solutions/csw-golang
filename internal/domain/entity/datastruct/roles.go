@@ -12,5 +12,5 @@ type Roles struct {
 	UpdatedAt time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 	Role      string         `json:"Role" form:"Role"`
-	Users     []Users
+	Users     []Users        `gorm:"foreignKey:RoleID"`
 }
