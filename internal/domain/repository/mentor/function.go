@@ -14,10 +14,10 @@ func (m mentorRepo) GetListTopThreeMentors() (error, dto.ListMentor) {
 	for _, mentor := range mentors {
 		dtoMentor := struct {
 			ID             string  `json:"ID"`
-			Name           string  `json:"name"`
-			Description    string  `json:"description"`
-			ProfilePicture string  `json:"profile_photo"`
-			Rating         float32 `json:"rating"`
+			Name           string  `json:"Name"`
+			Description    string  `json:"Description"`
+			ProfilePicture string  `json:"ProfilePicture"`
+			Rating         float32 `json:"Rating"`
 		}{
 			ID:             mentor.ID,
 			Name:           mentor.Name,
@@ -44,10 +44,10 @@ func (m mentorRepo) GetAllMentors() (error, dto.ListMentor) {
 	for _, mentor := range mentors {
 		dtoMentor := struct {
 			ID             string  `json:"ID"`
-			Name           string  `json:"name"`
-			Description    string  `json:"description"`
-			ProfilePicture string  `json:"profile_photo"`
-			Rating         float32 `json:"rating"`
+			Name           string  `json:"Name"`
+			Description    string  `json:"Description"`
+			ProfilePicture string  `json:"ProfilePicture"`
+			Rating         float32 `json:"Rating"`
 		}{
 			ID:             mentor.ID,
 			Name:           mentor.Name,
