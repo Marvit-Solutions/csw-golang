@@ -52,12 +52,12 @@ func InitialMigration() {
 		ds.SubModules{},
 		ds.Subjects{},
 		ds.SubSubject{},
-		ds.SubjectTestType{},
-		ds.Questions{},
-		ds.Choices{},
-		ds.UserTestSubmissions{},
-		ds.UserSubmittedAnswers{},
-		ds.Grades{},
+		ds.SubjectTestTypeQuizzes{},
+		ds.QuestionQuizzes{},
+		ds.ChoiceQuizzes{},
+		ds.UserTestSubmissionQuizzes{},
+		ds.UserSubmittedAnswerQuizzes{},
+		ds.GradeQuizzes{},
 		ds.Testimonials{},
 		ds.Mentors{},
 		// &ds.Transaction{},
@@ -73,33 +73,15 @@ func InitialMigration() {
 		ds.SubModules{},
 		ds.Subjects{},
 		ds.SubSubject{},
-		ds.SubjectTestType{},
-		ds.Questions{},
-		ds.Choices{},
-		ds.UserTestSubmissions{},
-		ds.UserSubmittedAnswers{},
-		ds.Grades{},
+		ds.SubjectTestTypeQuizzes{},
+		ds.QuestionQuizzes{},
+		ds.ChoiceQuizzes{},
+		ds.UserTestSubmissionQuizzes{},
+		ds.UserSubmittedAnswerQuizzes{},
+		ds.GradeQuizzes{},
 		ds.Testimonials{},
 		ds.Mentors{},
 		// ds.Transaction{},
 		// ds.Subscription{},
 	)
-	DB.Migrator().HasConstraint(&ds.Users{}, "UserDetail")
-	DB.Migrator().HasConstraint(&ds.Roles{}, "Users")
-	DB.Migrator().HasConstraint(&ds.UserDetails{}, "Alamat")
-	DB.Migrator().HasConstraint(&ds.Modules{}, "Module")
-	DB.Migrator().HasConstraint(&ds.Modules{}, "SubPlan")
-	DB.Migrator().HasConstraint(&ds.SubModules{}, "SubModule")
-	DB.Migrator().HasConstraint(&ds.SubModules{}, "Mentors")
-	DB.Migrator().HasConstraint(&ds.Subjects{}, "Subject")
-	DB.Migrator().HasConstraint(&ds.SubSubject{}, "SubSubject")
-	DB.Migrator().HasConstraint(&ds.SubjectTestType{}, "SubjectTestType")
-	DB.Migrator().HasConstraint(&ds.Questions{}, "Question")
-	DB.Migrator().HasConstraint(&ds.Choices{}, "Choice")
-	DB.Migrator().HasConstraint(&ds.UserTestSubmissions{}, "UserTestSubmission")
-	DB.Migrator().HasConstraint(&ds.UserSubmittedAnswers{}, "UserSubmittedAnswer")
-	DB.Migrator().HasConstraint(&ds.Testimonials{}, "User")
-
-	// DB.Migrator().HasConstraint(&ds.Transaction{}, "Transaksi")
-	// DB.Migrator().HasConstraint(&ds.Subscription{}, "Subskripsi")
 }
