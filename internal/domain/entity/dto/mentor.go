@@ -1,9 +1,9 @@
 package dto
 
 type ListMentor []struct {
-	Id           string  `json:"id"`
-	Name         string  `json:"name"`
-	Description  string  `json:"description"`
-	ProfilePhoto string  `json:"profile_photo"`
-	Rating       float32 `json:"rating"`
+	ID             string  `json:"ID"`
+	Name           string  `json:"Name"`
+	Description    string  `json:"Description"`
+	ProfilePicture string  `json:"ProfilePicture"`
+	Rating         float32 `json:"Rating"`
 }

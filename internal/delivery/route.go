@@ -21,7 +21,7 @@ func StartRoute(handler handler.Handler) *gin.Engine {
 	v1 := r.Group("/api/v1")
 	{
 		handler.AuthHandler.RegisterRoutes(v1)
-		handler.PaketHandler.RegisterRoutes(v1)
+		handler.PlanHandler.RegisterRoutes(v1)
 		handler.MentorHandler.RegisterRoutes(v1)
 		handler.TestimonialHandler.RegisterRoutes(v1)
 	}

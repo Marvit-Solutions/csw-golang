@@ -1,32 +1,32 @@
 package dto
 
 type AuthResponse struct {
-	ID         string `json:"ID" form:"ID"`
-	GoogleId   string `json:"GoogleID,omitempty" form:"GoogleID"`
-	FacebookId string `json:"FacebookId,omitempty" form:"FacebookId"`
-	Email      string `json:"Email" form:"Email" validate:"required,email"`
-	Password   string `json:"-"`
-	Nama       string `json:"Nama" form:"Nama"`
-	Role       string `json:"Role" form:"Role" validate:"required"`
-	Telepon    string `json:"Telepon" form:"Telepon" validate:"required,min=10,max=13"`
-	Token      string `json:"Token" form:"Token"`
-	Alamat     struct {
-		Provinsi  string `json:"Provinsi" form:"Provinsi"`
-		Kabupaten string `json:"Kabupaten" form:"Kabupaten"`
-		Kecamatan string `json:"Kecamatan" form:"Kecamatan"`
+	ID          string `json:"ID" form:"ID"`
+	GoogleID    string `json:"GoogleID,omitempty" form:"GoogleID"`
+	FacebookID  string `json:"FacebookId,omitempty" form:"FacebookId"`
+	Email       string `json:"Email" form:"Email" validate:"required,email"`
+	Password    string `json:"-"`
+	Name        string `json:"Name" form:"Name"`
+	Role        string `json:"Role" form:"Role" validate:"required"`
+	PhoneNumber string `json:"PhoneNumber" form:"PhoneNumber" validate:"required,min=10,max=13"`
+	Token       string `json:"Token" form:"Token"`
+	Address     struct {
+		Province    string `json:"Province" form:"Province"`
+		RegencyCity string `json:"RegencyCity" form:"RegencyCity"`
+		SubDistrict string `json:"SubDistrict" form:"SubDistrict"`
 	}
-	FotoProfil string `json:"FotoProfil" form:"FotoProfil" default:"assets/img/account.png"`
+	ProfilePicture string `json:"FotoProfil" form:"FotoProfil" default:"assets/img/users/profile/account.png"`
 }
 
 type RegisterRequest struct {
-	Nama            string `json:"Nama" form:"Nama" validate:"required"`
-	GoogleId        string `json:"GoogleID" form:"GoogleID"`
-	FacebookId      string `json:"FacebookID" form:"FacebookID"`
-	Kelas           string `json:"Kelas" form:"Kelas" validate:"required"`
-	Kecamatan       string `json:"Kecamatan" form:"Kecamatan" validate:"required"`
-	Kabupaten       string `json:"Kabupaten" form:"Kabupaten" validate:"required"`
-	Provinsi        string `json:"Provinsi" form:"Provinsi" validate:"required"`
-	Telepon         string `json:"Telepon" form:"Telepon" validate:"required,min=10,max=15,numeric"`
+	Name            string `json:"Name" form:"Name" validate:"required"`
+	GoogleID        string `json:"GoogleID" form:"GoogleID"`
+	FacebookID      string `json:"FacebookID" form:"FacebookID"`
+	Class           string `json:"Class" form:"Class" validate:"required"`
+	SubDistrict     string `json:"SubDistrict" form:"SubDistrict" validate:"required"`
+	RegencyCity     string `json:"RegencyCity" form:"RegencyCity" validate:"required"`
+	Province        string `json:"Province" form:"Province" validate:"required"`
+	PhoneNumber     string `json:"PhoneNumber" form:"PhoneNumber" validate:"required,min=10,max=15,numeric"`
 	Email           string `json:"Email" form:"Email" validate:"required,email"`
 	Password        string `json:"Password" form:"Password" validate:"required,min=8"`
 	ConfirmPassword string `json:"ConfirmPassword" form:"ConfirmPassword" validate:"required,eqfield=Password"`

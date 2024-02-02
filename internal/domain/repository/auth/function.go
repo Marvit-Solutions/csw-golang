@@ -11,42 +11,42 @@ import (
 )
 
 func (ar *authRepo) Register(user dto.RegisterRequest) error {
-	existingUser := datastruct.User{}
+	existingUser := datastruct.Users{}
 	if err := ar.db.Where("email = ?", user.Email).First(&existingUser).Error; err == nil {
 		//lint:ignore ST1005 Reason for ignoring this linter
 		return errors.New("Email already exists")
 	}
 
-	var role datastruct.Role
+	var role datastruct.Roles
 	if err := ar.db.Where("role = ?", "User").First(&role).Error; err != nil {
 		return err
 	}
 
-	newUser := datastruct.User{
+	newUser := datastruct.Users{
 		ID:         uuid.NewString(),
 		RoleID:     role.ID,
 		Email:      user.Email,
 		Password:   user.Password,
-		GoogleID:   user.GoogleId,
-		FacebookID: user.FacebookId,
-		UserDetail: datastruct.UserDetail{
-			ID:      uuid.NewString(),
-			Nama:    user.Nama,
-			Telepon: user.Telepon,
-			Alamat: datastruct.Address{
-				Provinsi:  user.Provinsi,
-				Kabupaten: user.Kabupaten,
-				Kecamatan: user.Kecamatan,
+		GoogleID:   user.GoogleID,
+		FacebookID: user.FacebookID,
+		UserDetails: datastruct.UserDetails{
+			ID:          uuid.NewString(),
+			Name:        user.Name,
+			PhoneNumber: user.PhoneNumber,
+			Addresses: datastruct.Addresses{
+				Province:    user.Province,
+				RegencyCity: user.RegencyCity,
+				SubDistrict: user.SubDistrict,
 			},
 		},
 	}
 
-	newAddress := datastruct.Address{
+	newAddress := datastruct.Addresses{
 		ID:           uuid.NewString(),
-		UserDetailID: newUser.UserDetail.ID,
-		Provinsi:     newUser.UserDetail.Alamat.Provinsi,
-		Kabupaten:    newUser.UserDetail.Alamat.Kabupaten,
-		Kecamatan:    newUser.UserDetail.Alamat.Kecamatan,
+		UserDetailID: newUser.UserDetails.ID,
+		Province:     newUser.UserDetails.Addresses.Province,
+		RegencyCity:  newUser.UserDetails.Addresses.RegencyCity,
+		SubDistrict:  newUser.UserDetails.Addresses.SubDistrict,
 	}
 
 	tx := ar.db.Begin()
@@ -73,19 +73,19 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 }
 
 func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
-	existingUser := &datastruct.User{}
+	existingUser := &datastruct.Users{}
 	err := ar.db.Preload("UserDetail").Where("email = ?", user.Email).First(&existingUser).Error
 	if err != nil {
 		return dto.AuthResponse{}, err
 	}
 
-	userAddress := &datastruct.Address{}
-	err = ar.db.Where("user_detail_id = ?", existingUser.UserDetail.ID).First(&userAddress).Error
+	userAddress := &datastruct.Addresses{}
+	err = ar.db.Where("user_detail_id = ?", existingUser.UserDetails.ID).First(&userAddress).Error
 	if err != nil {
 		return dto.AuthResponse{}, err
 	}
 
-	userRole := &datastruct.Role{}
+	userRole := &datastruct.Roles{}
 	err = ar.db.Where("id = ?", existingUser.RoleID).First(&userRole).Error
 	if err != nil {
 		return dto.AuthResponse{}, err
@@ -97,23 +97,23 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 	}
 
 	response := &dto.AuthResponse{
-		ID:         existingUser.ID,
-		Password:   existingUser.Password,
-		GoogleId:   existingUser.GoogleID,
-		FacebookId: existingUser.FacebookID,
-		Email:      existingUser.Email,
-		Nama:       existingUser.UserDetail.Nama,
-		Role:       userRole.Role,
-		Telepon:    existingUser.UserDetail.Telepon,
-		FotoProfil: existingUser.UserDetail.FotoProfil,
-		Alamat: struct {
-			Provinsi  string "json:\"Provinsi\" form:\"Provinsi\""
-			Kabupaten string "json:\"Kabupaten\" form:\"Kabupaten\""
-			Kecamatan string "json:\"Kecamatan\" form:\"Kecamatan\""
+		ID:             existingUser.ID,
+		Password:       existingUser.Password,
+		GoogleID:       existingUser.GoogleID,
+		FacebookID:     existingUser.FacebookID,
+		Email:          existingUser.Email,
+		Name:           existingUser.UserDetails.Name,
+		Role:           userRole.Role,
+		PhoneNumber:    existingUser.UserDetails.PhoneNumber,
+		ProfilePicture: existingUser.UserDetails.ProfilePicture,
+		Address: struct {
+			Province    string "json:\"Province\" form:\"Province\""
+			RegencyCity string "json:\"RegencyCity\" form:\"RegencyCity\""
+			SubDistrict string "json:\"SubDistrict\" form:\"SubDistrict\""
 		}{
-			Provinsi:  userAddress.Provinsi,
-			Kabupaten: userAddress.Kabupaten,
-			Kecamatan: userAddress.Kecamatan,
+			Province:    userAddress.Province,
+			RegencyCity: userAddress.RegencyCity,
+			SubDistrict: userAddress.SubDistrict,
 		},
 		Token: token,
 	}

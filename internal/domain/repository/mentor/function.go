@@ -7,23 +7,23 @@ import (
 
 func (m mentorRepo) GetListTopThreeMentors() (error, dto.ListMentor) {
 	var topMentors dto.ListMentor
-	var mentors []datastruct.Mentor
+	var mentors []datastruct.Mentors
 	_ = m.db.Order("rating desc, name").Limit(3).Find(&mentors)
 
 	// Convert the database mentors to DTO mentors
 	for _, mentor := range mentors {
 		dtoMentor := struct {
-			Id           string  `json:"id"`
-			Name         string  `json:"name"`
-			Description  string  `json:"description"`
-			ProfilePhoto string  `json:"profile_photo"`
-			Rating       float32 `json:"rating"`
+			ID             string  `json:"ID"`
+			Name           string  `json:"Name"`
+			Description    string  `json:"Description"`
+			ProfilePicture string  `json:"ProfilePicture"`
+			Rating         float32 `json:"Rating"`
 		}{
-			Id:           mentor.Id,
-			Name:         mentor.Name,
-			Description:  mentor.Description,
-			ProfilePhoto: mentor.ProfilePhoto,
-			Rating:       mentor.Rating,
+			ID:             mentor.ID,
+			Name:           mentor.Name,
+			Description:    mentor.Description,
+			ProfilePicture: mentor.ProfilePicture,
+			Rating:         mentor.Rating,
 			// Add other fields as needed
 		}
 		topMentors = append(topMentors, dtoMentor)
@@ -33,7 +33,7 @@ func (m mentorRepo) GetListTopThreeMentors() (error, dto.ListMentor) {
 
 func (m mentorRepo) GetAllMentors() (error, dto.ListMentor) {
 	var allMentors dto.ListMentor
-	var mentors []datastruct.Mentor
+	var mentors []datastruct.Mentors
 
 	// Fetch all mentors from the database
 	tx := m.db.Find(&mentors)
@@ -43,17 +43,17 @@ func (m mentorRepo) GetAllMentors() (error, dto.ListMentor) {
 
 	for _, mentor := range mentors {
 		dtoMentor := struct {
-			Id           string  `json:"id"`
-			Name         string  `json:"name"`
-			Description  string  `json:"description"`
-			ProfilePhoto string  `json:"profile_photo"`
-			Rating       float32 `json:"rating"`
+			ID             string  `json:"ID"`
+			Name           string  `json:"Name"`
+			Description    string  `json:"Description"`
+			ProfilePicture string  `json:"ProfilePicture"`
+			Rating         float32 `json:"Rating"`
 		}{
-			Id:           mentor.Id,
-			Name:         mentor.Name,
-			Description:  mentor.Description,
-			ProfilePhoto: mentor.ProfilePhoto,
-			Rating:       mentor.Rating,
+			ID:             mentor.ID,
+			Name:           mentor.Name,
+			Description:    mentor.Description,
+			ProfilePicture: mentor.ProfilePicture,
+			Rating:         mentor.Rating,
 			// Add other fields as needed
 		}
 		allMentors = append(allMentors, dtoMentor)

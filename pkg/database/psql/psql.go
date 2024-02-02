@@ -43,38 +43,57 @@ func InitDB() {
 
 func InitialMigration() {
 	DB.Migrator().DropTable(
-		&ds.UserDetail{},
-		&ds.User{},
-		&ds.Role{},
-		&ds.Address{},
-		&ds.Paket{},
-		&ds.SubPaket{},
-		&ds.SubPaketDetail{},
-	// 	// &ds.Transaction{},
-	// 	// &ds.Subscription{},
-	// 	// &ds.Mentor{},
-	// 	// &ds.Testimonials{},
+		ds.Roles{},
+		ds.Users{},
+		ds.UserDetails{},
+		ds.Addresses{},
+		ds.SubPlans{},
+		ds.Modules{},
+		ds.SubModules{},
+		ds.Subjects{},
+		ds.SubSubject{},
+		ds.SubjectTestTypeQuizzes{},
+		ds.SubjectTestTypeExercises{},
+		ds.QuestionQuizzes{},
+		ds.QuestionExercises{},
+		ds.ChoiceQuizzes{},
+		ds.ChoiceExercises{},
+		ds.UserTestSubmissionQuizzes{},
+		ds.UserTestSubmissionExercises{},
+		ds.UserSubmittedAnswerQuizzes{},
+		ds.UserSubmittedAnswerExercises{},
+		ds.GradeExercises{},
+		ds.GradeQuizzes{},
+		ds.Testimonials{},
+		ds.Mentors{},
+		// &ds.Transaction{},
+		// &ds.Subscription{},
 	)
 	DB.AutoMigrate(
-		ds.Role{},
-		ds.User{},
-		ds.UserDetail{},
-		ds.Address{},
-		ds.Paket{},
-		ds.SubPaket{},
-		ds.SubPaketDetail{},
+		ds.Roles{},
+		ds.Users{},
+		ds.UserDetails{},
+		ds.Addresses{},
+		ds.SubPlans{},
+		ds.Modules{},
+		ds.SubModules{},
+		ds.Subjects{},
+		ds.SubSubject{},
+		ds.SubjectTestTypeQuizzes{},
+		ds.SubjectTestTypeExercises{},
+		ds.QuestionQuizzes{},
+		ds.QuestionExercises{},
+		ds.ChoiceQuizzes{},
+		ds.ChoiceExercises{},
+		ds.UserTestSubmissionQuizzes{},
+		ds.UserTestSubmissionExercises{},
+		ds.UserSubmittedAnswerQuizzes{},
+		ds.UserSubmittedAnswerExercises{},
+		ds.GradeExercises{},
+		ds.GradeQuizzes{},
+		ds.Testimonials{},
+		ds.Mentors{},
 		// ds.Transaction{},
 		// ds.Subscription{},
-		// ds.Mentor{},
-		// ds.Testimonials{},
 	)
-	DB.Migrator().HasConstraint(&ds.User{}, "UserDetail")
-	DB.Migrator().HasConstraint(&ds.Role{}, "Users")
-	DB.Migrator().HasConstraint(&ds.UserDetail{}, "Alamat")
-	DB.Migrator().HasConstraint(&ds.Paket{}, "SubPaket")
-	DB.Migrator().HasConstraint(&ds.SubPaket{}, "SubPaketDetail")
-	// DB.Migrator().HasConstraint(&ds.Transaction{}, "Transaksi")
-	// DB.Migrator().HasConstraint(&ds.Subscription{}, "Subskripsi")
-	// DB.Migrator().HasConstraint(&ds.Mentor{}, "mentor")
-	// DB.Migrator().HasConstraint(&ds.Mentor{}, "testimonials")
 }
