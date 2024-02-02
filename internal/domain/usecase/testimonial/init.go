@@ -6,7 +6,6 @@ import (
 )
 
 type TestimonialUsecase interface {
-	GetListTopSixTestimonials() (error, dto.Testimonials)
 	GetAllTestimonials() (error, dto.Testimonials)
 }
 
