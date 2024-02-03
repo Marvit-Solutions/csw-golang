@@ -7,7 +7,9 @@ import (
 
 type ExerciseQuestionsUsecase interface {
 	AddExerciseQuestion(exerciseQuestion dto.QuestionExercisesRequest) (dto.QuestionExercisesResponse, error)
+	AddBatchExerciseQuestion(exerciseQuestion []dto.QuestionExercisesRequest) ([]dto.QuestionExercisesResponse, error)
 	GetExerciseQuestions(exerciseQuestionsID string) (dto.QuestionExercisesResponse, error)
+	GetAllExerciseQuestions() ([]dto.QuestionExercisesResponse, error)
 }
 
 type exerciseQuestionsUsecase struct {

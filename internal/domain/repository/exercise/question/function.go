@@ -29,15 +29,49 @@ func (e exerciseQuestionsRepo) AddExerciseQuestion(exerciseQuestion dto.Question
 	}
 	// Create record in the database
 	result := e.db.Create(&exercises)
-
 	if result.Error != nil {
 		return datastruct.QuestionExercises{}, result.Error
 	}
 	return exercises, nil
 }
 
-func (e exerciseQuestionsRepo) GetExerciseQuestions(exerciseQuestionsID string) (datastruct.QuestionExercises, error) {
+func (e exerciseQuestionsRepo) AddBatchExerciseQuestion(exerciseQuestion []dto.QuestionExercisesRequest) ([]datastruct.QuestionExercises, error) {
 
+	var questionsArr []datastruct.QuestionExercises
+
+	for _, request := range exerciseQuestion {
+		var choiceExercisesArray []datastruct.ChoiceExercises
+		for _, request1 := range request.ChoiceExercises {
+			choiceExercises := datastruct.ChoiceExercises{
+				ID:                           uuid.NewString(),
+				Type:                         request1.Type,
+				Content:                      request1.Content,
+				IsCorrect:                    request1.IsCorrect,
+				Weight:                       request1.Weight,
+				UserSubmittedAnswerExercises: nil, // Initialize as needed
+			}
+
+			choiceExercisesArray = append(choiceExercisesArray, choiceExercises)
+		}
+
+		exercises := datastruct.QuestionExercises{
+			ID:              uuid.New().String(),
+			Content:         request.Content,
+			Weight:          request.Weight,
+			ChoiceExercises: choiceExercisesArray,
+		}
+		questionsArr = append(questionsArr, exercises)
+	}
+
+	result := e.db.CreateInBatches(questionsArr, 100)
+	if result.Error != nil {
+		return []datastruct.QuestionExercises{}, result.Error
+	}
+
+	return questionsArr, nil
+}
+
+func (e exerciseQuestionsRepo) GetExerciseQuestions(exerciseQuestionsID string) (datastruct.QuestionExercises, error) {
 	var model datastruct.QuestionExercises
 
 	// Find record in the database based on exerciseQuestionsID
@@ -46,4 +80,17 @@ func (e exerciseQuestionsRepo) GetExerciseQuestions(exerciseQuestionsID string) 
 		return datastruct.QuestionExercises{}, result.Error
 	}
 	return model, nil
+
+}
+
+func (e exerciseQuestionsRepo) GetALlExerciseQuestions() ([]datastruct.QuestionExercises, error) {
+	var model []datastruct.QuestionExercises
+
+	// Find record in the database based on exerciseQuestionsID
+	result := e.db.Preload("ChoiceExercises").Find(&model)
+	if result.Error != nil {
+		return []datastruct.QuestionExercises{}, result.Error
+	}
+	return model, nil
+
 }

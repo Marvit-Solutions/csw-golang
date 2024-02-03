@@ -8,7 +8,9 @@ import (
 
 type ExerciseQuestionsRepo interface {
 	AddExerciseQuestion(exerciseQuestion dto.QuestionExercisesRequest) (datastruct.QuestionExercises, error)
+	AddBatchExerciseQuestion(exerciseQuestion []dto.QuestionExercisesRequest) ([]datastruct.QuestionExercises, error)
 	GetExerciseQuestions(exerciseQuestionsID string) (datastruct.QuestionExercises, error)
+	GetALlExerciseQuestions() ([]datastruct.QuestionExercises, error)
 }
 
 type exerciseQuestionsRepo struct {
