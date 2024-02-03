@@ -10,8 +10,15 @@ func (mc *ExerciseQuestionsHandler) AddExerciseQuestion(c *gin.Context) {
 
 	request := dto.QuestionExercisesRequest{}
 
-	c.Bind(&request)
-
+	err := c.Bind(&request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Fail{
+			Message: err.Error(),
+			Code:    http.StatusBadRequest,
+			Status:  http.StatusText(http.StatusBadRequest),
+		})
+		return
+	}
 	question, err := mc.exerciseQuestionsUsecase.AddExerciseQuestion(request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
@@ -35,7 +42,15 @@ func (mc *ExerciseQuestionsHandler) AddBatchExerciseQuestion(c *gin.Context) {
 
 	request := []dto.QuestionExercisesRequest{}
 
-	c.Bind(&request)
+	err := c.Bind(&request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Fail{
+			Message: err.Error(),
+			Code:    http.StatusBadRequest,
+			Status:  http.StatusText(http.StatusBadRequest),
+		})
+		return
+	}
 
 	question, err := mc.exerciseQuestionsUsecase.AddBatchExerciseQuestion(request)
 
