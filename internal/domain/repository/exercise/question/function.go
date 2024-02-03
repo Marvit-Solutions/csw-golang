@@ -11,7 +11,6 @@ func (e exerciseQuestionsRepo) AddExerciseQuestion(exerciseQuestion dto.Question
 	for _, request := range exerciseQuestion.ChoiceExercises {
 		choiceExercises := datastruct.ChoiceExercises{
 			ID:                           uuid.NewString(),
-			Type:                         request.Type,
 			Content:                      request.Content,
 			IsCorrect:                    request.IsCorrect,
 			Weight:                       request.Weight,
@@ -44,7 +43,6 @@ func (e exerciseQuestionsRepo) AddBatchExerciseQuestion(exerciseQuestion []dto.Q
 		for _, request1 := range request.ChoiceExercises {
 			choiceExercises := datastruct.ChoiceExercises{
 				ID:                           uuid.NewString(),
-				Type:                         request1.Type,
 				Content:                      request1.Content,
 				IsCorrect:                    request1.IsCorrect,
 				Weight:                       request1.Weight,

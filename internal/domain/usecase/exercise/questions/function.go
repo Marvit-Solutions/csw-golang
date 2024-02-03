@@ -14,7 +14,6 @@ func (e exerciseQuestionsUsecase) AddExerciseQuestion(exerciseQuestion dto.Quest
 	var choiceExercisesArray []dto.ChoiceExercisesRequest
 	for _, request := range question.ChoiceExercises {
 		choiceExercises := dto.ChoiceExercisesRequest{
-			Type:      request.Type,
 			Content:   request.Content,
 			IsCorrect: request.IsCorrect,
 			Weight:    request.Weight,
@@ -44,7 +43,6 @@ func (e exerciseQuestionsUsecase) AddBatchExerciseQuestion(exerciseQuestion []dt
 		var choiceExercisesArray []dto.ChoiceExercisesRequest
 		for _, request := range question.ChoiceExercises {
 			choiceExercises := dto.ChoiceExercisesRequest{
-				Type:      request.Type,
 				Content:   request.Content,
 				IsCorrect: request.IsCorrect,
 				Weight:    request.Weight,
@@ -73,7 +71,6 @@ func (e exerciseQuestionsUsecase) GetExerciseQuestions(exerciseQuestionsID strin
 	var choiceExercisesArray []dto.ChoiceExercisesRequest
 	for _, request := range question.ChoiceExercises {
 		choiceExercises := dto.ChoiceExercisesRequest{
-			Type:      request.Type,
 			Content:   request.Content,
 			IsCorrect: request.IsCorrect,
 			Weight:    request.Weight,
@@ -102,7 +99,6 @@ func (e exerciseQuestionsUsecase) GetAllExerciseQuestions() ([]dto.QuestionExerc
 		var choiceExercisesArray []dto.ChoiceExercisesRequest
 		for _, request := range question.ChoiceExercises {
 			choiceExercises := dto.ChoiceExercisesRequest{
-				Type:      request.Type,
 				Content:   request.Content,
 				IsCorrect: request.IsCorrect,
 				Weight:    request.Weight,
