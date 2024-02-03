@@ -2,14 +2,16 @@ package handler
 
 import (
 	authHandler "csw-golang/internal/delivery/http/handler/auth"
+	exerciseQuestionsHandler "csw-golang/internal/delivery/http/handler/exercise/questions"
 	mentorHandler "csw-golang/internal/delivery/http/handler/mentor"
 	planHandler "csw-golang/internal/delivery/http/handler/plan"
 	testimonialHandler "csw-golang/internal/delivery/http/handler/testimonial"
 )
 
 type Handler struct {
-	AuthHandler        *authHandler.AuthHandler
-	PlanHandler        *planHandler.PlanHandler
-	MentorHandler      *mentorHandler.MentorHandler
-	TestimonialHandler *testimonialHandler.TestimonialHandler
+	AuthHandler              *authHandler.AuthHandler
+	PlanHandler              *planHandler.PlanHandler
+	MentorHandler            *mentorHandler.MentorHandler
+	TestimonialHandler       *testimonialHandler.TestimonialHandler
+	ExerciseQuestionsHandler *exerciseQuestionsHandler.ExerciseQuestionsHandler
 }

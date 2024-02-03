@@ -66,6 +66,7 @@ func InitialMigration() {
 		ds.GradeQuizzes{},
 		ds.Testimonials{},
 		ds.Mentors{},
+		ds.QuestionExercises{},
 		// &ds.Transaction{},
 		// &ds.Subscription{},
 	)
@@ -93,6 +94,7 @@ func InitialMigration() {
 		ds.GradeQuizzes{},
 		ds.Testimonials{},
 		ds.Mentors{},
+		ds.QuestionExercises{},
 		// ds.Transaction{},
 		// ds.Subscription{},
 	)
