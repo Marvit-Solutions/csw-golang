@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-func CreateSubSubjects() []*ds.SubSubject {
-	subSubjects := []*ds.SubSubject{
+func CreateSubSubjects() []*ds.SubSubjects {
+	subSubjects := []*ds.SubSubjects{
 		// Pancasila
 		{
 			ID:        "f8259b82-41ca-4d58-90e7-c2be3f4c235f",

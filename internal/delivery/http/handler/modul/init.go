@@ -1,11 +1,15 @@
-package modul
+package module
 
-type ModulHandler struct {
-	// modulUsecase mc.ModulUsecase
+import (
+	module "csw-golang/internal/domain/usecase/modul"
+)
+
+type ModuleHandler struct {
+	moduleUsecase module.ModuleUsecase
 }
 
-// func New(modulUsecase mc.ModulUsecase) *ModulHandler {
-// 	return &ModulHandler{
-// 		modulUsecase,
-// 	}
-// }
+func New(moduleUsecase module.ModuleUsecase) *ModuleHandler {
+	return &ModuleHandler{
+		moduleUsecase,
+	}
+}

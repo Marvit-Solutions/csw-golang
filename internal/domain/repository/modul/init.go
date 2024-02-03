@@ -7,7 +7,7 @@ import (
 )
 
 type ModuleRepo interface {
-	ListModule() ([]dto.ModuleResponse, error)
+	GetListModules() (*[]dto.ModuleResponse, error)
 }
 
 type moduleRepo struct {

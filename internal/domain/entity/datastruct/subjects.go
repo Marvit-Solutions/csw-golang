@@ -13,6 +13,6 @@ type Subjects struct {
 	DeletedAt              gorm.DeletedAt           `gorm:"index"`
 	SubModuleID            string                   `json:"SubModuleID" form:"SubModuleID"`
 	Name                   string                   `json:"Name" form:"Name"`
-	SubSubject             []SubSubject             `gorm:"foreignKey:SubjectID"`
+	SubSubject             []SubSubjects            `gorm:"foreignKey:SubjectID"`
 	SubjectTestTypeQuizzes []SubjectTestTypeQuizzes `gorm:"foreignKey:SubjectID"`
 }

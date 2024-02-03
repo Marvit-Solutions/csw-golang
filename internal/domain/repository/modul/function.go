@@ -2,12 +2,13 @@ package module
 
 import (
 	"csw-golang/internal/domain/entity/dto"
+	"fmt"
 )
 
-// ListModule ...
-func (mr *moduleRepo) ListModule() ([]dto.ModuleResponse, error) {
+func (mr *moduleRepo) GetListModules() (*[]dto.ModuleResponse, error) {
+	fmt.Println("ListModule repo")
 	var moduleList []dto.ModuleResponse
-	err := mr.db.Preload("SubModule").Preload("Subject").Preload("Exercise").Find(&moduleList).Error
+	err := mr.db.Preload("Modules").Preload("SubModules").Preload("Subject").Preload("SubSubject").Preload("SubjectTestTypeQuizzes").Find(&moduleList).Error
 	if err != nil {
 		return nil, err
 	}
@@ -44,5 +45,5 @@ func (mr *moduleRepo) ListModule() ([]dto.ModuleResponse, error) {
 
 	}
 
-	return moduleList, nil
+	return &moduleList, nil
 }
