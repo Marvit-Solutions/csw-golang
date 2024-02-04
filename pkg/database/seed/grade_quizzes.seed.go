@@ -18,6 +18,17 @@ func CreateGradeQuizzes() []*ds.GradeQuizzes {
 			Score:                    20,
 			GradingTime:              time.Now(),
 		},
+		// User 2 Pretest Pancasila
+		{
+			ID:                       "ed0155e5-222c-4014-822d-b6dfd0d99508",
+			CreatedAt:                time.Now(),
+			UpdatedAt:                time.Now(),
+			UserTestSubmissionQuizID: "58bbf5b2-1838-4a68-83b7-0d8c540bea54",
+			UserID:                   "41fb3d71-33bc-4a6e-9620-2d56f3090981",
+			TestTypeQuizID:           "8c88d1e5-eb9f-4d4d-a94e-94be94209cb0",
+			Score:                    20,
+			GradingTime:              time.Now(),
+		},
 	}
 
 	return gradeQuizzes

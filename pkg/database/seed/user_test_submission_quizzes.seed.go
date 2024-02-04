@@ -16,6 +16,15 @@ func CreateUserTestSubmissionQuizzes() []*ds.UserTestSubmissionQuizzes {
 			TestTypeQuizID: "8c88d1e5-eb9f-4d4d-a94e-94be94209cb0",
 			SubmissionTIme: time.Now(),
 		},
+		// Pretest Pancasila User 2
+		{
+			ID:             "58bbf5b2-1838-4a68-83b7-0d8c540bea54",
+			CreatedAt:      time.Now(),
+			UpdatedAt:      time.Now(),
+			UserID:         "41fb3d71-33bc-4a6e-9620-2d56f3090981",
+			TestTypeQuizID: "8c88d1e5-eb9f-4d4d-a94e-94be94209cb0",
+			SubmissionTIme: time.Now(),
+		},
 	}
 
 	return userTestSubmissionQuizzes
