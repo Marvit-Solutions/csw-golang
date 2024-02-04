@@ -6,7 +6,9 @@ import (
 )
 
 type ModuleUsecase interface {
-	GetListModules() (*[]dto.ModuleResponse, error)
+	GetListModules() ([]dto.ModuleResponse, error)
+	GetSubjectsBySubmoduleID(submoduleID string) ([]dto.SubjectResponse, error)
+	GetQuestionsByTestTypeID(testTypeID string) ([]dto.ExerciseResponse, error)
 }
 
 type moduleUsecase struct {

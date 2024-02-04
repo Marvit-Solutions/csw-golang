@@ -27,14 +27,14 @@ type SubSubject struct {
 }
 
 type ExerciseResponse struct {
-	ID          string     `json:"ID" form:"ID"`
-	Name        string     `json:"Name" form:"Name"`
-	Description string     `json:"Description" form:"Description"`
-	Explanation string     `json:"Explanation" form:"Explanation"`
-	Status      string     `json:"Status" form:"Status"`
-	Time        int        `json:"Time" form:"Time"`
-	JumlahSoal  int        `json:"JumlahSoal" form:"JumlahSoal"`
-	Question    []Question `json:"Soal" form:"Soal"`
+	ID            string     `json:"ID" form:"ID"`
+	Name          string     `json:"Name" form:"Name"`
+	Description   string     `json:"Description" form:"Description"`
+	Explanation   string     `json:"Explanation" form:"Explanation"`
+	Status        string     `json:"Status" form:"Status"`
+	Time          int        `json:"Time" form:"Time"`
+	QuestionTotal int        `json:"QuestionTotal" form:"QuestionTotal"`
+	Questions     []Question `json:"Questions" form:"Questions"`
 }
 
 type Question struct {

@@ -2,22 +2,28 @@ package module
 
 import (
 	"csw-golang/internal/domain/entity/dto"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func (mc *ModuleHandler) GetListModules(c *gin.Context) {
-	fmt.Println("GetListModules")
 	response, err := mc.moduleUsecase.GetListModules()
-	fmt.Println("response", response)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Message: err.Error(),
 			Code:    http.StatusBadRequest,
 			Status:  http.StatusText(http.StatusBadRequest),
+		})
+		return
+	}
+
+	if response == nil {
+		c.JSON(http.StatusNotFound, dto.Fail{
+			Message: "Data not found",
+			Code:    http.StatusNotFound,
+			Status:  http.StatusText(http.StatusNotFound),
 		})
 		return
 	}
@@ -29,4 +35,34 @@ func (mc *ModuleHandler) GetListModules(c *gin.Context) {
 		Data:    response,
 	})
 
+}
+
+func (mc *ModuleHandler) GetSubjectsBySubmoduleID(c *gin.Context) {
+	submoduleID := c.Param("id")
+
+	response, err := mc.moduleUsecase.GetSubjectsBySubmoduleID(submoduleID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Fail{
+			Message: err.Error(),
+			Code:    http.StatusBadRequest,
+			Status:  http.StatusText(http.StatusBadRequest),
+		})
+		return
+	}
+
+	if response == nil {
+		c.JSON(http.StatusNotFound, dto.Fail{
+			Message: "Data not found",
+			Code:    http.StatusNotFound,
+			Status:  http.StatusText(http.StatusNotFound),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Success[interface{}]{
+		Message: "Success",
+		Code:    http.StatusOK,
+		Status:  http.StatusText(http.StatusOK),
+		Data:    response,
+	})
 }

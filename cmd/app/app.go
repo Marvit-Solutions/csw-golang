@@ -7,16 +7,19 @@ import (
 	"csw-golang/internal/delivery/http/handler"
 	authHandler "csw-golang/internal/delivery/http/handler/auth"
 	mentorHandler "csw-golang/internal/delivery/http/handler/mentor"
+	moduleHandler "csw-golang/internal/delivery/http/handler/modul"
 	planHandler "csw-golang/internal/delivery/http/handler/plan"
 	testimonialsHandler "csw-golang/internal/delivery/http/handler/testimonial"
 
 	authRepo "csw-golang/internal/domain/repository/auth"
 	mentorRepo "csw-golang/internal/domain/repository/mentor"
+	moduleRepo "csw-golang/internal/domain/repository/modul"
 	planRepo "csw-golang/internal/domain/repository/plan"
 	testimonialsRepo "csw-golang/internal/domain/repository/testimonial"
 
 	authUsecase "csw-golang/internal/domain/usecase/auth"
 	mentorUsecase "csw-golang/internal/domain/usecase/mentor"
+	moduleUsecase "csw-golang/internal/domain/usecase/modul"
 	planUsecase "csw-golang/internal/domain/usecase/plan"
 	testimonialUsecase "csw-golang/internal/domain/usecase/testimonial"
 
@@ -41,11 +44,16 @@ func StartApp() *gin.Engine {
 	testimonialUsecase := testimonialUsecase.New(testimonialRepo)
 	testimonialHandler := testimonialsHandler.New(testimonialUsecase)
 
+	moduleRepo := moduleRepo.New(db.DB)
+	moduleUsecase := moduleUsecase.New(moduleRepo)
+	moduleHandler := moduleHandler.New(moduleUsecase)
+
 	handler := handler.Handler{
 		AuthHandler:        authHandler,
 		PlanHandler:        planHandler,
 		MentorHandler:      mentorHandler,
 		TestimonialHandler: testimonialHandler,
+		ModuleHandler:      moduleHandler,
 	}
 
 	router := delivery.StartRoute(handler)

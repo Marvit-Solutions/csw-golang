@@ -1,49 +1,54 @@
 package module
 
 import (
-	"csw-golang/internal/domain/entity/dto"
-	"fmt"
+	"csw-golang/internal/domain/entity/datastruct"
 )
 
-func (mr *moduleRepo) GetListModules() (*[]dto.ModuleResponse, error) {
-	fmt.Println("ListModule repo")
-	var moduleList []dto.ModuleResponse
-	err := mr.db.Preload("Modules").Preload("SubModules").Preload("Subject").Preload("SubSubject").Preload("SubjectTestTypeQuizzes").Find(&moduleList).Error
+func (mr *moduleRepo) GetListModules() ([]datastruct.SubModules, error) {
+
+	var moduleList []datastruct.SubModules
+
+	err := mr.db.Preload("Subjects").Find(&moduleList).Error
 	if err != nil {
 		return nil, err
 	}
 
-	var moduleResponses []dto.ModuleResponse
-	for _, module := range moduleList {
-		moduleResponse := dto.ModuleResponse{
-			ID:          module.ID,
-			Name:        module.Name,
-			Description: module.Description,
-		}
-		for _, subject := range module.Subject {
-			subjectResponse := struct {
-				ID   string `json:"ID" form:"ID"`
-				Name string `json:"Name" form:"Name"`
-			}{
-				ID:   subject.ID,
-				Name: subject.Name,
-			}
-			moduleResponse.Subject = append(moduleResponse.Subject, subjectResponse)
-		}
-		for _, excercise := range module.Exercise {
-			excerciseResponse := struct {
-				ID   string `json:"ID" form:"ID"`
-				Name string `json:"Name" form:"Name"`
-			}{
-				ID:   excercise.ID,
-				Name: excercise.Name,
-			}
-			moduleResponse.Exercise = append(moduleResponse.Exercise, excerciseResponse)
-		}
+	return moduleList, nil
+}
 
-		moduleResponses = append(moduleResponses, moduleResponse)
+func (mr *moduleRepo) GetListSubjectQuiz() ([]datastruct.SubjectTestTypeQuizzes, error) {
 
+	var quizzes []datastruct.SubjectTestTypeQuizzes
+
+	err := mr.db.Where("test_type LIKE '%Module%'").Find(&quizzes).Error
+	if err != nil {
+		return nil, err
 	}
 
-	return &moduleList, nil
+	return quizzes, nil
+}
+
+func (mr *moduleRepo) GetSubjectsBySubmoduleID(submoduleID string) ([]datastruct.Subjects, error) {
+
+	var subjects []datastruct.Subjects
+
+	err := mr.db.Preload("SubSubject").Where("sub_module_id = ?", submoduleID).Find(&subjects).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return subjects, nil
+}
+
+func (mr *moduleRepo) GetQuestionsByTestTypeID(testTypeID string) ([]datastruct.QuestionQuizzes, error) {
+
+	var questions []datastruct.QuestionQuizzes
+
+	err := mr.db.Preload("ChoiceQuizzes").Where("test_type_id = ?", testTypeID).Find(&questions).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return questions, nil
 }
