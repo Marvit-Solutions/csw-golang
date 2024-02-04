@@ -12,6 +12,7 @@ type QuestionQuizzes struct {
 	UpdatedAt                  time.Time                    `gorm:"default:CURRENT_TIMESTAMP"`
 	DeletedAt                  gorm.DeletedAt               `gorm:"index"`
 	TestTypeQuizID             string                       `json:"TestTypeQuizID" form:"TestTypeQuizID"`
+	Image                      string                       `json:"Image" form:"Image" gorm:"default: 'assets/img/questions/question.png'"`
 	Content                    string                       `json:"Content" form:"Content"`
 	Weight                     int                          `json:"Weight" form:"Weight"`
 	ChoiceQuizzes              []ChoiceQuizzes              `gorm:"foreignKey:QuestionQuizID"`
