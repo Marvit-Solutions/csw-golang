@@ -1,9 +1,10 @@
 package pretest
 
-// import (
-// 	"csw-golang/internal/domain/entity/dto"
-// )
+import (
+	"csw-golang/internal/domain/entity/dto"
+)
 
-// func (pr pretestRepo) GetAllPretests() (error, dto.GetAllPretestResponse) {
-
-// }
+func (pr pretestRepo) GetAllPretests() (error, dto.GetAllPretestResponse) {
+	var allPretest dto.GetAllPretestResponse
+	var pretests datastruct
+}

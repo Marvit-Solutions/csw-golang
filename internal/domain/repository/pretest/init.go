@@ -1,21 +1,21 @@
 package pretest
 
-// import (
-// 	"csw-golang/internal/domain/entity/dto"
+import (
+	"csw-golang/internal/domain/entity/dto"
 
-// 	"gorm.io/gorm"
-// )
+	"gorm.io/gorm"
+)
 
-// type PretestRepo interface {
-// 	GetAllPretests() (error, dto.GetAllPretestResponse)
-// }
+type PretestRepo interface {
+	GetAllPretests() (error, dto.GetAllPretestResponse)
+}
 
-// type pretestRepo struct {
-// 	db *gorm.DB
-// }
+type pretestRepo struct {
+	db *gorm.DB
+}
 
-// func New(db *gorm.DB) PretestRepo {
-// 	return &pretestRepo{
-// 		db,
-// 	}
-// }
+func New(db *gorm.DB) PretestRepo {
+	return &pretestRepo{
+		db,
+	}
+}
