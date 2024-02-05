@@ -1,13 +1,13 @@
 package pretest
 
 import (
-	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/entity/datastruct"
 
 	"gorm.io/gorm"
 )
 
 type PretestRepo interface {
-	GetAllPretests() (error, []dto.GetAllPretestResponse)
+	GetAllPretests() (error, []datastruct.Modules)
 }
 
 type pretestRepo struct {
