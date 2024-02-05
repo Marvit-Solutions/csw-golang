@@ -7,7 +7,7 @@ import (
 )
 
 type PretestRepo interface {
-	GetAllPretests() (error, dto.GetAllPretestResponse)
+	GetAllPretests() (error, []dto.GetAllPretestResponse)
 }
 
 type pretestRepo struct {

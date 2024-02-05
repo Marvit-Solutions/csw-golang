@@ -4,6 +4,7 @@ import (
 	authHandler "csw-golang/internal/delivery/http/handler/auth"
 	mentorHandler "csw-golang/internal/delivery/http/handler/mentor"
 	planHandler "csw-golang/internal/delivery/http/handler/plan"
+	pretestHandler "csw-golang/internal/delivery/http/handler/pretest"
 	testimonialHandler "csw-golang/internal/delivery/http/handler/testimonial"
 )
 
@@ -12,4 +13,5 @@ type Handler struct {
 	PlanHandler        *planHandler.PlanHandler
 	MentorHandler      *mentorHandler.MentorHandler
 	TestimonialHandler *testimonialHandler.TestimonialHandler
+	PretestHandler     *pretestHandler.PretestHandler
 }
