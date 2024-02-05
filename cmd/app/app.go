@@ -7,18 +7,21 @@ import (
 	"csw-golang/internal/delivery/http/handler"
 	authHandler "csw-golang/internal/delivery/http/handler/auth"
 	exerciseQuestionsHandler "csw-golang/internal/delivery/http/handler/exercise/questions"
+	exerciseTestHandler "csw-golang/internal/delivery/http/handler/exercise/test"
 	mentorHandler "csw-golang/internal/delivery/http/handler/mentor"
 	planHandler "csw-golang/internal/delivery/http/handler/plan"
 	testimonialsHandler "csw-golang/internal/delivery/http/handler/testimonial"
 
 	authRepo "csw-golang/internal/domain/repository/auth"
 	exerciseQuestionsRepo "csw-golang/internal/domain/repository/exercise/question"
+	exerciseTestRepo "csw-golang/internal/domain/repository/exercise/test"
 	mentorRepo "csw-golang/internal/domain/repository/mentor"
 	planRepo "csw-golang/internal/domain/repository/plan"
 	testimonialsRepo "csw-golang/internal/domain/repository/testimonial"
 
 	authUsecase "csw-golang/internal/domain/usecase/auth"
 	exerciseQuestionsUsecase "csw-golang/internal/domain/usecase/exercise/questions"
+	exerciseTestUsecase "csw-golang/internal/domain/usecase/exercise/test"
 	mentorUsecase "csw-golang/internal/domain/usecase/mentor"
 	planUsecase "csw-golang/internal/domain/usecase/plan"
 	testimonialUsecase "csw-golang/internal/domain/usecase/testimonial"
@@ -35,6 +38,10 @@ func StartApp() *gin.Engine {
 	exerciseQuestionsRepo := exerciseQuestionsRepo.New(db.DB)
 	exerciseQuestionsUsecase := exerciseQuestionsUsecase.New(exerciseQuestionsRepo)
 	exerciseQuestionsHandler := exerciseQuestionsHandler.New(exerciseQuestionsUsecase)
+
+	exerciseTestRepo := exerciseTestRepo.New(db.DB)
+	exerciseTestUsecase := exerciseTestUsecase.New(exerciseTestRepo)
+	exerciseTestHandler := exerciseTestHandler.New(exerciseTestUsecase)
 
 	planRepo := planRepo.New(db.DB)
 	planUsecase := planUsecase.New(planRepo)
@@ -54,6 +61,7 @@ func StartApp() *gin.Engine {
 		MentorHandler:            mentorHandler,
 		TestimonialHandler:       testimonialHandler,
 		ExerciseQuestionsHandler: exerciseQuestionsHandler,
+		ExerciseTestHandler:      exerciseTestHandler,
 	}
 
 	router := delivery.StartRoute(handler)
