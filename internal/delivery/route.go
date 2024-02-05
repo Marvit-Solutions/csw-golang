@@ -26,6 +26,7 @@ func StartRoute(handler handler.Handler) *gin.Engine {
 		handler.TestimonialHandler.RegisterRoutes(v1)
 		handler.ExerciseQuestionsHandler.RegisterRoutes(v1)
 		handler.ExerciseTestHandler.RegisterRoutes(v1)
+		handler.SubmissionHandler.RegisterRoutes(v1)
 	}
 
 	return r

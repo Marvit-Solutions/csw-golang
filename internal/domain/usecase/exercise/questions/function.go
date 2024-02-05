@@ -22,9 +22,8 @@ func (e exerciseQuestionsUsecase) AddExerciseQuestion(exerciseQuestion dto.Quest
 		choiceExercisesArray = append(choiceExercisesArray, choiceExercises)
 	}
 	response := dto.QuestionExercisesResponse{
-		TestTypeExerciseID: question.TestTypeExerciseID,
-		Content:            question.Content,
-		Weight:             question.Weight,
+		Content: question.Content,
+		Weight:  question.Weight,
 		//Tags:               question.Tags,
 		ChoiceExercises: choiceExercisesArray,
 	}
@@ -51,9 +50,8 @@ func (e exerciseQuestionsUsecase) AddBatchExerciseQuestion(exerciseQuestion []dt
 			choiceExercisesArray = append(choiceExercisesArray, choiceExercises)
 		}
 		response := dto.QuestionExercisesResponse{
-			TestTypeExerciseID: question.TestTypeExerciseID,
-			Content:            question.Content,
-			Weight:             question.Weight,
+			Content: question.Content,
+			Weight:  question.Weight,
 			//Tags:               question.Tags,
 			ChoiceExercises: choiceExercisesArray,
 		}
@@ -79,9 +77,8 @@ func (e exerciseQuestionsUsecase) GetExerciseQuestions(exerciseQuestionsID strin
 		choiceExercisesArray = append(choiceExercisesArray, choiceExercises)
 	}
 	response := dto.QuestionExercisesResponse{
-		TestTypeExerciseID: question.TestTypeExerciseID,
-		Content:            question.Content,
-		Weight:             question.Weight,
+		Content: question.Content,
+		Weight:  question.Weight,
 		//Tags:               question.Tags,
 		ChoiceExercises: choiceExercisesArray,
 	}
@@ -107,9 +104,8 @@ func (e exerciseQuestionsUsecase) GetAllExerciseQuestions() ([]dto.QuestionExerc
 			choiceExercisesArray = append(choiceExercisesArray, choiceExercises)
 		}
 		response := dto.QuestionExercisesResponse{
-			TestTypeExerciseID: question.TestTypeExerciseID,
-			Content:            question.Content,
-			Weight:             question.Weight,
+			Content: question.Content,
+			Weight:  question.Weight,
 			//Tags:               question.Tags,
 			ChoiceExercises: choiceExercisesArray,
 		}
