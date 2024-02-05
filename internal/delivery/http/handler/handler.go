@@ -2,6 +2,7 @@ package handler
 
 import (
 	authHandler "csw-golang/internal/delivery/http/handler/auth"
+	exerciseAnswerHandler "csw-golang/internal/delivery/http/handler/exercise/answer"
 	exerciseQuestionsHandler "csw-golang/internal/delivery/http/handler/exercise/questions"
 	submissionHandler "csw-golang/internal/delivery/http/handler/exercise/submission"
 	exerciseTestHandler "csw-golang/internal/delivery/http/handler/exercise/test"
@@ -18,4 +19,5 @@ type Handler struct {
 	ExerciseQuestionsHandler *exerciseQuestionsHandler.ExerciseQuestionsHandler
 	ExerciseTestHandler      *exerciseTestHandler.ExerciseTestHandler
 	SubmissionHandler        *submissionHandler.SubmissionHandler
+	ExerciseAnswerHandler    *exerciseAnswerHandler.ExerciseAnswerHandler
 }
