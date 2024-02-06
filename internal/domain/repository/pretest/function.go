@@ -24,3 +24,13 @@ func (pr pretestRepo) GetPretestById(pretestId string) (error, datastruct.Subjec
 
 	return nil, pretests
 }
+func (pr pretestRepo) GetPretestReview(pretestId, status string) (error, datastruct.SubjectTestTypeQuizzes) {
+	var pretests datastruct.SubjectTestTypeQuizzes
+
+	err := pr.db.Preload("QuestionQuizzes").Preload("QuestionQuizzes.ChoiceQuizzes").Preload("QuestionQuizzes.ChoiceQuizzes.UserSubmittedAnswerQuizzes").Where("id = ? AND status = ?", pretestId, status).Find(&pretests).Error
+	if err != nil {	
+		return err, pretests
+	}
+
+	return nil, pretests
+}

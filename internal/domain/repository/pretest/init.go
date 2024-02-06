@@ -9,6 +9,7 @@ import (
 type PretestRepo interface {
 	GetAllPretests() (error, []datastruct.Modules)
 	GetPretestById(pretestId string) (error, datastruct.SubjectTestTypeQuizzes)
+	GetPretestReview(pretestId, status string) (error, datastruct.SubjectTestTypeQuizzes)
 }
 
 type pretestRepo struct {

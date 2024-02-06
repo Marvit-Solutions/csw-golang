@@ -34,17 +34,24 @@ type Pretest struct {
 }
 
 type QuestionPretest struct {
-	IDQuestion string           `json:"IDQuestion" form:"IDQuestion"`
-	Image      string           `json:"Image" form:"Image"`
-	Content    string           `json:"Content" form:"Content"`
-	Weight     int              `json:"Weight" form:"Weight"`
-	Status     string           `json:"Status" form:"Status"`
-	Choice     []*ChoicePretest `json:"Choice,omitempty" form:"Choice,omitempty"`
+	IDQuestion          string                        `json:"IDQuestion" form:"IDQuestion"`
+	Image               string                        `json:"Image" form:"Image"`
+	Content             string                        `json:"Content" form:"Content"`
+	Weight              int                           `json:"Weight" form:"Weight"`
+	Status              string                        `json:"Status" form:"Status"`
+	Choice              []*ChoicePretest              `json:"Choice,omitempty" form:"Choice,omitempty"`
+	UserSubmittedAnswer []*UserSubmittedAnswerPretest `json:"UserSubmittedAnswer,omitempty" form:"UserSubmittedAnswer,omitempty"`
 }
 
 type ChoicePretest struct {
-	IDChoice  string `json:"IDChoice" form:"IDChoice"`
-	Content   string `json:"Content" form:"Content"`
-	IsCorrect bool   `json:"IsCorrect" form:"IsCorrect"`
-	Weight    int    `json:"Weight" form:"Weight"`
+	IDChoice            string                        `json:"IDChoice" form:"IDChoice"`
+	Content             string                        `json:"Content" form:"Content"`
+	IsCorrect           bool                          `json:"IsCorrect" form:"IsCorrect"`
+	Weight              int                           `json:"Weight" form:"Weight"`
+	UserSubmittedAnswer []*UserSubmittedAnswerPretest `json:"-"`
+	Selected            bool                          `json:"Selected" form:"Selected"`
+}
+
+type UserSubmittedAnswerPretest struct {
+	IDUserSubmittedAnswerPretest string `json:"IDUserSubmittedAnswerPretest" form:"IDUserSubmittedAnswerPretest"`
 }
