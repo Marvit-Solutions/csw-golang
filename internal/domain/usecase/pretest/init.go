@@ -7,6 +7,7 @@ import (
 
 type PretestUsecase interface {
 	GetAllPretests() (error, []dto.GetAllPretestResponse)
+	GetPretestById(pretestId string) (error, dto.Pretest)
 }
 
 type pretestUsecase struct {

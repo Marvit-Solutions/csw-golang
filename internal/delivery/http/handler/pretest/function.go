@@ -26,3 +26,34 @@ func (ph *PretestHandler) GetAllPretests(c *gin.Context) {
 	})
 
 }
+
+func (ph *PretestHandler) GetPretestById(c *gin.Context) {
+	id := c.Param("id")
+
+	err, response := ph.pretestUsecase.GetPretestById(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Fail{
+			Message: err.Error(),
+			Code:    http.StatusBadRequest,
+			Status:  http.StatusText(http.StatusBadRequest),
+		})
+		return
+	}
+
+	if response.IDPretest == "" {
+		c.JSON(http.StatusNotFound, dto.Fail{
+			Message: "Pretest not found",
+			Code:    http.StatusNotFound,
+			Status:  http.StatusText(http.StatusNotFound),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Success[interface{}]{
+		Message: "Success",
+		Code:    http.StatusOK,
+		Status:  http.StatusText(http.StatusOK),
+		Data:    response,
+	})
+
+}

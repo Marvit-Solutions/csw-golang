@@ -14,3 +14,13 @@ func (pr pretestRepo) GetAllPretests() (error, []datastruct.Modules) {
 
 	return nil, modules
 }
+func (pr pretestRepo) GetPretestById(pretestId string) (error, datastruct.SubjectTestTypeQuizzes) {
+	var pretests datastruct.SubjectTestTypeQuizzes
+
+	err := pr.db.Preload("QuestionQuizzes").Preload("QuestionQuizzes.ChoiceQuizzes").Where("id = ?", pretestId).Find(&pretests).Error
+	if err != nil {
+		return err, pretests
+	}
+
+	return nil, pretests
+}

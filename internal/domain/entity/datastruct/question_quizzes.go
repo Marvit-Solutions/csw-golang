@@ -15,7 +15,7 @@ type QuestionQuizzes struct {
 	Image                      string                       `json:"Image" form:"Image" gorm:"default: 'assets/img/questions/question.png'"`
 	Content                    string                       `json:"Content" form:"Content"`
 	Weight                     int                          `json:"Weight" form:"Weight"`
-	Status                     string                       `json:"Status" form:"Status"`
+	Status                     string                       `json:"Status" form:"Status"  gorm:"default: 'Belum Dijawab'"`
 	ChoiceQuizzes              []ChoiceQuizzes              `gorm:"foreignKey:QuestionQuizID"`
 	UserSubmittedAnswerQuizzes []UserSubmittedAnswerQuizzes `gorm:"foreignKey:QuestionQuizID"`
 }
