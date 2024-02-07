@@ -22,6 +22,8 @@ func RegisterSeed(db *gorm.DB) []Seed {
 		{Seed: CreateSubSubjects()},
 		{Seed: CreateMentors()},
 		{Seed: CreateSubjectTestTypeQuizzes()},
+		{Seed: CreateQuestionQuizzes()},
+		{Seed: CreateChoiceQuizzes()},
 	}
 }
 

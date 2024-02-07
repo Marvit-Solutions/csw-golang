@@ -32,27 +32,28 @@ type ExerciseResponse struct {
 	Description   string     `json:"Description" form:"Description"`
 	Explanation   string     `json:"Explanation" form:"Explanation"`
 	Status        string     `json:"Status" form:"Status"`
-	Time          int        `json:"Time" form:"Time"`
+	Time          uint       `json:"Time" form:"Time"`
 	QuestionTotal int        `json:"QuestionTotal" form:"QuestionTotal"`
 	Questions     []Question `json:"Questions" form:"Questions"`
 }
 
 type Question struct {
 	ID       string   `json:"ID" form:"ID"`
-	Number   int      `json:"Nomor" form:"Nomor"`
+	Number   int      `json:"Number" form:"Number"`
 	Status   string   `json:"Status" form:"Status"`
 	Mark     int      `json:"Mark" form:"Mark"`
 	Flag     bool     `json:"Flag" form:"Flag"`
 	Question string   `json:"Question" form:"Question"`
+	Image    string   `json:"Image" form:"Image"`
 	Answers  []Answer `json:"Answers" form:"Answers"`
 }
 
 type Answer struct {
-	ID      string  `json:"ID" form:"ID"`
-	Jenis   string  `json:"Jenis" form:"Jenis"`
-	Content string  `json:"Content" form:"Content"`
-	Dipilih bool    `json:"Dipilih" form:"Dipilih"`
-	Nilai   float64 `json:"Nilai" form:"Nilai"`
+	ID        string `json:"ID" form:"ID"`
+	Content   string `json:"Content" form:"Content"`
+	IsCorrect bool   `json:"IsCorrect" form:"IsCorrect"`
+	Weight    int    `json:"Weight" form:"Weight"`
+	IsChosen  bool   `json:"IsChosen" form:"IsChosen"`
 }
 
 type ReviewResultResponse struct {

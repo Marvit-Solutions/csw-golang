@@ -1,6 +1,7 @@
 package module
 
 import (
+	"csw-golang/internal/domain/entity/datastruct"
 	"csw-golang/internal/domain/entity/dto"
 	"fmt"
 )
@@ -77,4 +78,48 @@ func (mod *moduleUsecase) GetSubjectsBySubmoduleID(submoduleID string) ([]dto.Su
 	}
 
 	return subjectResponses, nil
+}
+
+func (mod *moduleUsecase) GetQuestionsByTestTypeID(testTypeID string) (dto.ExerciseResponse, error) {
+	fmt.Println("GetQuestionsByTestTypeID usecase")
+
+	var exercise datastruct.SubjectTestTypeQuizzes
+
+	exercise, err := mod.moduleRepo.GetTestByTestTypeID(testTypeID)
+	if err != nil {
+		return dto.ExerciseResponse{}, err
+	}
+
+	var exerciseResponses dto.ExerciseResponse
+	exerciseResponses.ID = exercise.ID
+	exerciseResponses.Name = exercise.Title
+	exerciseResponses.Description = exercise.Description
+	exerciseResponses.Explanation = exercise.Explanation
+	exerciseResponses.Status = exercise.Status
+	exerciseResponses.Time = exercise.Time
+	exerciseResponses.QuestionTotal = len(exercise.QuestionQuizzes)
+	for i, question := range exercise.QuestionQuizzes {
+		questionResponse := dto.Question{
+			ID:       question.ID,
+			Number:   i + 1,
+			Status:   question.Status,
+			Mark:     1,
+			Flag:     false,
+			Question: question.Content,
+			Image:    question.Image,
+		}
+		for _, answer := range question.ChoiceQuizzes {
+			answerResponse := dto.Answer{
+				ID:        answer.ID,
+				Content:   answer.Content,
+				IsCorrect: answer.IsCorrect,
+				Weight:    answer.Weight,
+				IsChosen:  false,
+			}
+			questionResponse.Answers = append(questionResponse.Answers, answerResponse)
+		}
+		exerciseResponses.Questions = append(exerciseResponses.Questions, questionResponse)
+	}
+
+	return exerciseResponses, nil
 }

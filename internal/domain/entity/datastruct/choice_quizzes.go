@@ -12,7 +12,6 @@ type ChoiceQuizzes struct {
 	UpdatedAt                  time.Time                    `gorm:"default:CURRENT_TIMESTAMP"`
 	DeletedAt                  gorm.DeletedAt               `gorm:"index"`
 	QuestionQuizID             string                       `json:"QuestionQuizID" form:"QuestionQuizID"`
-	Type                       string                       `json:"Type" form:"Type"`
 	Content                    string                       `json:"Content" form:"Content"`
 	IsCorrect                  bool                         `json:"IsCorrect" form:"IsCorrect"`
 	Weight                     int                          `json:"Weight" form:"Weight"`

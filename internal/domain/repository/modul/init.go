@@ -10,7 +10,7 @@ type ModuleRepo interface {
 	GetListModules() ([]datastruct.SubModules, error)
 	GetListSubjectQuiz() ([]datastruct.SubjectTestTypeQuizzes, error)
 	GetSubjectsBySubmoduleID(submoduleID string) ([]datastruct.Subjects, error)
-	GetQuestionsByTestTypeID(testTypeID string) ([]datastruct.QuestionQuizzes, error)
+	GetTestByTestTypeID(testTypeID string) (datastruct.SubjectTestTypeQuizzes, error)
 }
 
 type moduleRepo struct {

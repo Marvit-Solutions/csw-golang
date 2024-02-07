@@ -41,14 +41,15 @@ func (mr *moduleRepo) GetSubjectsBySubmoduleID(submoduleID string) ([]datastruct
 	return subjects, nil
 }
 
-func (mr *moduleRepo) GetQuestionsByTestTypeID(testTypeID string) ([]datastruct.QuestionQuizzes, error) {
+func (mr *moduleRepo) GetTestByTestTypeID(testTypeID string) (datastruct.SubjectTestTypeQuizzes, error) {
 
-	var questions []datastruct.QuestionQuizzes
+	var test datastruct.SubjectTestTypeQuizzes
 
-	err := mr.db.Preload("ChoiceQuizzes").Where("test_type_id = ?", testTypeID).Find(&questions).Error
+	err := mr.db.Preload("QuestionQuizzes").Preload("QuestionQuizzes.ChoiceQuizzes").Where("id = ?", testTypeID).Find(&test).Error
+
 	if err != nil {
-		return nil, err
+		return test, err
 	}
 
-	return questions, nil
+	return test, nil
 }
