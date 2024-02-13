@@ -9,6 +9,8 @@ type ModuleUsecase interface {
 	GetListModules() ([]dto.ModuleResponse, error)
 	GetSubjectsBySubmoduleID(submoduleID string) ([]dto.SubjectResponse, error)
 	GetQuestionsByTestTypeID(testTypeID string) (dto.ExerciseResponse, error)
+	GetTestReview(moduleTestID string) (dto.ReviewResultResponse, error)
+	PostSubmittedTest(testTypeID string, submittedQuiz dto.UserSubmittedQuizRequest) error
 }
 
 type moduleUsecase struct {

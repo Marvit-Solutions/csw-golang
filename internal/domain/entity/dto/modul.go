@@ -59,18 +59,30 @@ type Answer struct {
 type ReviewResultResponse struct {
 	ID            string     `json:"ID" form:"ID"`
 	Name          string     `json:"Name" form:"Name"`
+	Description   string     `json:"Description" form:"Description"`
+	Explanation   string     `json:"Explanation" form:"Explanation"`
 	Status        string     `json:"Status" form:"Status"`
 	Start         string     `json:"Start" form:"Start"`
 	Finish        string     `json:"Finish" form:"Finish"`
 	Time          string     `json:"Time" form:"Time"`
-	Mark          string     `json:"Mark" form:"Mark"`
-	Grade         string     `json:"Grade" form:"Grade"`
+	QuestionTotal int        `json:"QuestionTotal" form:"QuestionTotal"`
+	Grade         int        `json:"Grade" form:"Grade"`
 	TimesFinished int        `json:"TimesFinished" form:"TimesFinished"`
-	Question      []Question `json:"Soal" form:"Soal"`
+	Questions     []Question `json:"Soal" form:"Soal"`
+}
+
+type UserSubmittedQuizRequest struct {
+	UserID           string             `json:"UserID" form:"UserID"`
+	PairOfUserAnswer []PairOfUserAnswer `json:"PairOfUserAnswer"`
+}
+
+type PairOfUserAnswer struct {
+	QuestionQuizID string `json:"QuestionQuizID" form:"QuestionQuizID"`
+	ChoiceQuizID   string `json:"ChoiceQuizID" form:"ChoiceQuizID"`
 }
 
 type HistoryTop3NilaiReviewResponse struct {
-	ModulID string `json:"ModulID" form:"ModulID"`
+	SubModuleID string `json:"ModulID" form:"ModulID"`
 	Subject []struct {
 		SubjectID string `json:"SubjectID" form:"SubjectID"`
 		Name      string `json:"Name" form:"Name"`

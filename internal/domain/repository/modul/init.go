@@ -11,6 +11,11 @@ type ModuleRepo interface {
 	GetListSubjectQuiz() ([]datastruct.SubjectTestTypeQuizzes, error)
 	GetSubjectsBySubmoduleID(submoduleID string) ([]datastruct.Subjects, error)
 	GetTestByTestTypeID(testTypeID string) (datastruct.SubjectTestTypeQuizzes, error)
+	GetTestReview(moduleTestId string) (datastruct.SubjectTestTypeQuizzes, error)
+	GetSubmittedReviewByID(moduleTestId string) (datastruct.UserTestSubmissionQuizzes, error)
+	AddQuizSubmission(submission datastruct.UserTestSubmissionQuizzes) (string, error)
+	PostSubmittedQuizAnswer(testTypeID string, submittedAnswers []datastruct.UserSubmittedAnswerQuizzes) error
+	AddGrade(grade datastruct.GradeQuizzes) error
 }
 
 type moduleRepo struct {

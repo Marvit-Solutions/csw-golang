@@ -99,7 +99,7 @@ func CreateQuestionQuizzes() []*ds.QuestionQuizzes {
 			Content:        "Mengembangkan sikap bahwa bangsa Indonesia merupakan bagian dari seluruh umat manusia merupakan perwujudan sila ke- …..",
 			Weight:         5,
 		},
-		// Exercise Pancasila
+		// Module Test Pancasila
 		{
 			ID:             "2b45009a-e8cc-43f9-b957-c68fe137f9c3",
 			CreatedAt:      time.Now(),
