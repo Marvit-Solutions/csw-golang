@@ -2,9 +2,13 @@ package pretest
 
 import (
 	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/helper/debug"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 func (ph *PretestHandler) GetAllPretests(c *gin.Context) {
@@ -18,8 +22,8 @@ func (ph *PretestHandler) GetAllPretests(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Success",
+	c.JSON(http.StatusOK, dto.Success[[]dto.GetAllPretestResponse]{
+		Message: "Berhasil mendapatkan pretest!",
 		Code:    http.StatusOK,
 		Status:  http.StatusText(http.StatusOK),
 		Data:    response,
@@ -49,17 +53,20 @@ func (ph *PretestHandler) GetPretestById(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Success",
+	c.JSON(http.StatusOK, dto.Success[dto.Pretest]{
+		Message: "Berhasil mendapatkan pretest!",
 		Code:    http.StatusOK,
 		Status:  http.StatusText(http.StatusOK),
 		Data:    response,
 	})
-
 }
 func (ph *PretestHandler) GetPretestReview(c *gin.Context) {
 	id := c.Param("id")
 	status := c.Query("status")
+
+	// Remove case sensitive on query param
+	titleCase := cases.Title(language.English)
+	status = titleCase.String(status)
 
 	validParams := map[string]bool{"status": true}
 	for param := range c.Request.URL.Query() {
@@ -92,11 +99,32 @@ func (ph *PretestHandler) GetPretestReview(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Success",
+	c.JSON(http.StatusOK, dto.Success[dto.Pretest]{
+		Message: "Berhasil mendapatkan review pretest!",
 		Code:    http.StatusOK,
 		Status:  http.StatusText(http.StatusOK),
 		Data:    response,
 	})
 
+}
+
+func (ph *PretestHandler) SubmitPretest(c *gin.Context) {
+	var pretestSubmitRequest dto.PretestSubmitRequest
+
+	if err := c.ShouldBindJSON(&pretestSubmitRequest); err != nil {
+		c.JSON(http.StatusBadRequest, dto.Fail{
+			Message: err.Error(),
+			Code:    http.StatusBadRequest,
+			Status:  http.StatusText(http.StatusBadRequest),
+		})
+		return
+	}
+
+	fmt.Println(debug.TransformData(pretestSubmitRequest))
+
+	c.JSON(http.StatusOK, dto.Success[interface{}]{
+		Message: "Submit sukses!",
+		Code:    http.StatusOK,
+		Status:  http.StatusText(http.StatusOK),
+	})
 }

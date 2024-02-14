@@ -55,3 +55,14 @@ type ChoicePretest struct {
 type UserSubmittedAnswerPretest struct {
 	IDUserSubmittedAnswerPretest string `json:"IDUserSubmittedAnswerPretest" form:"IDUserSubmittedAnswerPretest"`
 }
+
+type PretestSubmitRequest struct {
+	UserID         string `json:"UserID" form:"UserID"`
+	TestTypeQuizID string `json:"TestTypeQuizID" form:"TestTypeQuizID"`
+	ChoiceQuizzes  []ChoiceQuizzes
+}
+
+type ChoiceQuizzes struct {
+	QuestionQuizID string `json:"QuestionQuizID" form:"QuestionQuizID"`
+	ChoiceQuizID   string `json:"ChoiceQuizID" form:"ChoiceQuizID"`
+}
