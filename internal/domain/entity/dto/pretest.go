@@ -57,9 +57,8 @@ type UserSubmittedAnswerPretest struct {
 }
 
 type PretestSubmitRequest struct {
-	UserID         string `json:"UserID" form:"UserID"`
-	TestTypeQuizID string `json:"TestTypeQuizID" form:"TestTypeQuizID"`
-	ChoiceQuizzes  []ChoiceQuizzes
+	UserID        string `json:"UserID" form:"UserID"`
+	ChoiceQuizzes []ChoiceQuizzes
 }
 
 type ChoiceQuizzes struct {

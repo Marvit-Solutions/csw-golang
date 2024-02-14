@@ -166,3 +166,12 @@ func (pr *pretestUsecase) GetPretestReview(pretestId, status string) (error, dto
 
 	return nil, pretest
 }
+
+func (pr *pretestUsecase) SubmitPretest(id string, req dto.PretestSubmitRequest) error {
+	err := pr.pretestRepo.SubmitPretest(id, req)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

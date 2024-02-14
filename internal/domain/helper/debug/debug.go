@@ -2,13 +2,14 @@ package debug
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
-func TransformData(req interface{}) string {
+func TransformData(req interface{}) {
 	jsonData, err := json.MarshalIndent(req, "", "    ")
 	if err != nil {
-		return err.Error()
+		fmt.Errorf("failed to transform data: %v", err)
 	}
 
-	return string(jsonData)
+	fmt.Println(string(jsonData))
 }

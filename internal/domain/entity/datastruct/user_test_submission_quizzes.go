@@ -13,7 +13,7 @@ type UserTestSubmissionQuizzes struct {
 	DeletedAt                  gorm.DeletedAt               `gorm:"index"`
 	UserID                     string                       `json:"UserID" form:"UserID"`
 	TestTypeQuizID             string                       `json:"TestTypeQuizID" form:"TestTypeQuizID"`
-	SubmissionTIme             time.Time                    `json:"SubmissionTIme" form:"SubmissionTIme"`
+	SubmissionTime             time.Time                    `gorm:"default:CURRENT_TIMESTAMP" json:"SubmissionTIme" form:"SubmissionTIme"`
 	GradeQuizzes               GradeQuizzes                 `gorm:"foreignKey:UserTestSubmissionQuizID"`
 	UserSubmittedAnswerQuizzes []UserSubmittedAnswerQuizzes `gorm:"foreignKey:UserTestSubmissionQuizID"`
 }

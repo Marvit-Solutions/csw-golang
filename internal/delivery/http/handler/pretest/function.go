@@ -2,8 +2,6 @@ package pretest
 
 import (
 	"csw-golang/internal/domain/entity/dto"
-	"csw-golang/internal/domain/helper/debug"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -109,9 +107,11 @@ func (ph *PretestHandler) GetPretestReview(c *gin.Context) {
 }
 
 func (ph *PretestHandler) SubmitPretest(c *gin.Context) {
-	var pretestSubmitRequest dto.PretestSubmitRequest
+	var req dto.PretestSubmitRequest
 
-	if err := c.ShouldBindJSON(&pretestSubmitRequest); err != nil {
+	id := c.Param("id")
+
+	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, dto.Fail{
 			Message: err.Error(),
 			Code:    http.StatusBadRequest,
@@ -120,7 +120,15 @@ func (ph *PretestHandler) SubmitPretest(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(debug.TransformData(pretestSubmitRequest))
+	err := ph.pretestUsecase.SubmitPretest(id, req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Fail{
+			Message: err.Error(),
+			Code:    http.StatusBadRequest,
+			Status:  http.StatusText(http.StatusBadRequest),
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, dto.Success[interface{}]{
 		Message: "Submit sukses!",
