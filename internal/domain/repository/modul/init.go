@@ -16,6 +16,7 @@ type ModuleRepo interface {
 	AddQuizSubmission(submission datastruct.UserTestSubmissionQuizzes) (string, error)
 	PostSubmittedQuizAnswer(testTypeID string, submittedAnswers []datastruct.UserSubmittedAnswerQuizzes) error
 	AddGrade(grade datastruct.GradeQuizzes) error
+	GetTop3EverySubject(userID string) ([]datastruct.SubModules, error)
 }
 
 type moduleRepo struct {

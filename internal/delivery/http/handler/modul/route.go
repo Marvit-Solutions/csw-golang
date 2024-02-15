@@ -9,5 +9,6 @@ func (moduleHandler *ModuleHandler) RegisterRoutes(r *gin.RouterGroup) {
 	moduleGroup.GET("/exercise/:id", moduleHandler.GetQuestionsByTestTypeID)
 	moduleGroup.GET("/exercise/review/:id", moduleHandler.GetTestReview)
 	moduleGroup.POST("/exercise/submit/:id", moduleHandler.PostSubmittedTest)
+	moduleGroup.GET("/history/top/:userid", moduleHandler.GetTop3EverySubject)
 
 }

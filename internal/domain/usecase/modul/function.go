@@ -228,7 +228,11 @@ func (mod *moduleUsecase) PostSubmittedTest(testTypeID string, submittedQuiz dto
 			QuestionQuizID:           pair.QuestionQuizID,
 			ChoiceQuizID:             pair.ChoiceQuizID,
 		})
+	}
 
+	err = mod.moduleRepo.PostSubmittedQuizAnswer(submissionID, submittedAnswers)
+	if err != nil {
+		return err
 	}
 
 	quizGradeResult := datastruct.GradeQuizzes{
@@ -238,15 +242,55 @@ func (mod *moduleUsecase) PostSubmittedTest(testTypeID string, submittedQuiz dto
 		TestTypeQuizID:           testTypeID,
 		GradingTime:              time.Now(),
 	}
+
 	err = mod.moduleRepo.AddGrade(quizGradeResult)
 	if err != nil {
 		return fmt.Errorf("Failed grading test:")
 	}
 
-	err = mod.moduleRepo.PostSubmittedQuizAnswer(submissionID, submittedAnswers)
+	return nil
+}
+
+func (mod *moduleUsecase) GetTop3EverySubject(userID string) ([]dto.HistoryTop3ScoreResponse, error) {
+	fmt.Println("GetTopThreeScores usecase")
+
+	// Get top 3 scores
+	topThreeScores, err := mod.moduleRepo.GetTop3EverySubject(userID)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	var topThreeScoresResponses []dto.HistoryTop3ScoreResponse
+	for _, subModule := range topThreeScores {
+		topThreeScoresResponse := dto.HistoryTop3ScoreResponse{
+			SubModuleID:   subModule.ID,
+			SubModuleName: subModule.Name,
+		}
+
+		for _, subject := range subModule.Subjects {
+			subjectResponse := dto.HistoryTop3ScoreSubjectResponse{
+				SubjectID: subject.ID,
+				Name:      subject.Name,
+			}
+
+			for _, SubjectTestTypeQuiz := range subject.SubjectTestTypeQuizzes {
+				// fmt.Println("SubjectTestTypeQuiz: ", SubjectTestTypeQuiz)
+				for _, userTestSubmissionQuiz := range SubjectTestTypeQuiz.UserTestSubmissionQuizzes {
+					userTestSubmissionQuizResponse := dto.HistoryTop3ScoreGradeResponse{
+						ResultID: userTestSubmissionQuiz.GradeQuiz.ID,
+						Mark:     userTestSubmissionQuiz.GradeQuiz.Mark,
+						Score:    userTestSubmissionQuiz.GradeQuiz.Score,
+					}
+					fmt.Println("userTestSubmissionQuizResponse: ", userTestSubmissionQuizResponse)
+					subjectResponse.Grade = append(subjectResponse.Grade, userTestSubmissionQuizResponse)
+
+				}
+			}
+			topThreeScoresResponse.Subject = append(topThreeScoresResponse.Subject, subjectResponse)
+		}
+
+		topThreeScoresResponses = append(topThreeScoresResponses, topThreeScoresResponse)
+	}
+
+	return topThreeScoresResponses, nil
 }

@@ -81,15 +81,20 @@ type PairOfUserAnswer struct {
 	ChoiceQuizID   string `json:"ChoiceQuizID" form:"ChoiceQuizID"`
 }
 
-type HistoryTop3NilaiReviewResponse struct {
-	SubModuleID string `json:"ModulID" form:"ModulID"`
-	Subject []struct {
-		SubjectID string `json:"SubjectID" form:"SubjectID"`
-		Name      string `json:"Name" form:"Name"`
-		Nilai     []struct {
-			ResultID string `json:"ResultID" form:"ResultID"`
-			Mark     string `json:"Mark" form:"Mark"`
-			Grade    string `json:"Grade" form:"Grade"`
-		}
-	}
+type HistoryTop3ScoreResponse struct {
+	SubModuleID   string `json:"SubModuleID" form:"SubModuleID"`
+	SubModuleName string `json:"SubModuleName" form:"SubModuleName"`
+	Subject       []HistoryTop3ScoreSubjectResponse
+}
+
+type HistoryTop3ScoreSubjectResponse struct {
+	SubjectID string                          `json:"SubjectID" form:"SubjectID"`
+	Name      string                          `json:"Name" form:"Name"`
+	Grade     []HistoryTop3ScoreGradeResponse `json:"Grade" form:"Grade"`
+}
+
+type HistoryTop3ScoreGradeResponse struct {
+	ResultID string `json:"ResultID" form:"ResultID"`
+	Mark     int    `json:"Mark" form:"Mark"`
+	Score    int    `json:"Score" form:"Score"`
 }

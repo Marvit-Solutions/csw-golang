@@ -11,6 +11,7 @@ type ModuleUsecase interface {
 	GetQuestionsByTestTypeID(testTypeID string) (dto.ExerciseResponse, error)
 	GetTestReview(moduleTestID string) (dto.ReviewResultResponse, error)
 	PostSubmittedTest(testTypeID string, submittedQuiz dto.UserSubmittedQuizRequest) error
+	GetTop3EverySubject(userID string) ([]dto.HistoryTop3ScoreResponse, error)
 }
 
 type moduleUsecase struct {

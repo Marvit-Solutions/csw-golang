@@ -109,6 +109,7 @@ func (mr *moduleRepo) AddGrade(grade datastruct.GradeQuizzes) error {
 	fmt.Printf("SUBMITTED: %v \n", submitted)
 
 	var score int
+	var mark int
 	var quizzesArr []datastruct.ChoiceQuizzes
 
 	for _, ss := range submitted {
@@ -121,10 +122,13 @@ func (mr *moduleRepo) AddGrade(grade datastruct.GradeQuizzes) error {
 		}
 		if choice.IsCorrect {
 			score += choice.Weight
+			mark += 1
 		}
 		quizzesArr = append(quizzesArr, choice)
 	}
+
 	grade.Score = score
+	grade.Mark = mark
 
 	if err := mr.db.Create(&grade).Error; err != nil {
 		fmt.Printf("ERROR creating grade: %v \n", err)
@@ -133,11 +137,15 @@ func (mr *moduleRepo) AddGrade(grade datastruct.GradeQuizzes) error {
 	return nil
 }
 
-func (mr *moduleRepo) GetTop3EverySubject() ([]datastruct.Subjects, error) {
-	var subjects []datastruct.Subjects
-	err := mr.db.Order("created_at desc").Limit(3).Find(&subjects).Error
+func (mr *moduleRepo) GetTop3EverySubject(userID string) ([]datastruct.SubModules, error) {
+	var top3score []datastruct.SubModules
+
+	whereClause := fmt.Sprintf("user_id = %v", userID)
+	fmt.Println("WHERE CLAUSE: ", whereClause)
+
+	err := mr.db.Preload("Subjects").Preload("Subjects.SubjectTestTypeQuizzes", "id = 'f8259b82-41ca-4d58-90e7-c2be3f4c235f' ").Preload("Subjects.SubjectTestTypeQuizzes.UserTestSubmissionQuizzes", "user_id = ?", userID).Preload("Subjects.SubjectTestTypeQuizzes.UserTestSubmissionQuizzes.GradeQuiz").Order("created_at DESC").Limit(3).Find(&top3score).Error
 	if err != nil {
 		return nil, err
 	}
-	return subjects, nil
+	return top3score, nil
 }

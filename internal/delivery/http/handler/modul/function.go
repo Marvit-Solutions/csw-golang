@@ -2,6 +2,7 @@ package module
 
 import (
 	"csw-golang/internal/domain/entity/dto"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -160,4 +161,36 @@ func (mc *ModuleHandler) PostSubmittedTest(c *gin.Context) {
 		Status:  http.StatusText(http.StatusOK),
 		Data:    nil,
 	})
+}
+
+func (mc *ModuleHandler) GetTop3EverySubject(c *gin.Context) {
+	userID := c.Param("userid")
+	fmt.Println("USER ID: ", userID)
+
+	response, err := mc.moduleUsecase.GetTop3EverySubject(userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Fail{
+			Message: err.Error(),
+			Code:    http.StatusBadRequest,
+			Status:  http.StatusText(http.StatusBadRequest),
+		})
+		return
+	}
+
+	if response == nil {
+		c.JSON(http.StatusNotFound, dto.Fail{
+			Message: "Data not found",
+			Code:    http.StatusNotFound,
+			Status:  http.StatusText(http.StatusNotFound),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Success[interface{}]{
+		Message: "Success",
+		Code:    http.StatusOK,
+		Status:  http.StatusText(http.StatusOK),
+		Data:    response,
+	})
+
 }
