@@ -31,7 +31,7 @@ func (pr pretestRepo) GetPretestReview(pretestId, status string) (error, datastr
 	var pretests datastruct.SubjectTestTypeQuizzes
 
 	// belum ada handle jawaban tiap user
-	err := pr.db.Preload("QuestionQuizzes").Preload("QuestionQuizzes.ChoiceQuizzes").Preload("QuestionQuizzes.ChoiceQuizzes.UserSubmittedAnswerQuizzes").Where("id = ? AND status = ?", pretestId, status).Find(&pretests).Error
+	err := pr.db.Preload("GradeQuizzes").Preload("QuestionQuizzes").Preload("QuestionQuizzes.ChoiceQuizzes").Preload("QuestionQuizzes.ChoiceQuizzes.UserSubmittedAnswerQuizzes").Where("id = ? AND status = ?", pretestId, status).Find(&pretests).Error
 	if err != nil {
 		return err, pretests
 	}

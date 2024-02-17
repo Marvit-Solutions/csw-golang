@@ -31,6 +31,7 @@ type Pretest struct {
 	Status      string             `json:"Status" form:"Status"`
 	Attempt     int                `json:"Attempt" form:"Attempt"`
 	Question    []*QuestionPretest `json:"Question,omitempty" form:"Question,omitempty"`
+	Grade       GradePretest       `json:"Grade,omitempty" form:"Grade,omitempty"`
 }
 
 type QuestionPretest struct {
@@ -50,6 +51,12 @@ type ChoicePretest struct {
 	Weight              int                           `json:"Weight" form:"Weight"`
 	UserSubmittedAnswer []*UserSubmittedAnswerPretest `json:"-"`
 	Selected            bool                          `json:"Selected" form:"Selected"`
+}
+
+type GradePretest struct {
+	IDGrade     string `json:"IDGrade" form:"IDGrade"`
+	Score       int    `json:"Score" form:"Score"`
+	GradingTime string `json:"GradingTime" form:"GradingTime"`
 }
 
 type UserSubmittedAnswerPretest struct {

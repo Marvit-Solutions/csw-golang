@@ -1,17 +1,15 @@
 package time
 
 import (
-	"fmt"
 	"time"
 )
 
-func ConvertTimeFormat(t time.Time) string {
-	// Menggunakan format tanggal Indonesia
-	months := [...]string{"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"}
-	month := months[t.Month()-1]
+func ConvertTimeFormat(inputTime time.Time) string {
+	// Define the desired output format
+	desiredLayout := "Monday, 02 January 2006, 15:04" // Adjust according to your needs
 
-	// Format: "28 Desember 1998"
-	formattedDate := fmt.Sprintf("%d %s %d", t.Day(), month, t.Year())
+	// Format the time according to the desired layout
+	outputTime := inputTime.Format(desiredLayout)
 
-	return formattedDate
+	return outputTime
 }

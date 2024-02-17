@@ -2,6 +2,7 @@ package pretest
 
 import (
 	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/helper/time"
 )
 
 func (pr *pretestUsecase) GetAllPretests() (error, []dto.GetAllPretestResponse) {
@@ -36,8 +37,8 @@ func (pr *pretestUsecase) GetAllPretests() (error, []dto.GetAllPretestResponse) 
 						IDPretest:   SubjectTestTypeQuiz.ID,
 						TestType:    SubjectTestTypeQuiz.TestType,
 						Title:       SubjectTestTypeQuiz.Title,
-						MeetingDate: SubjectTestTypeQuiz.MeetingDate,
-						Open:        SubjectTestTypeQuiz.Open,
+						MeetingDate: time.ConvertTimeFormat(SubjectTestTypeQuiz.MeetingDate),
+						Open:        time.ConvertTimeFormat(SubjectTestTypeQuiz.Open),
 						Description: SubjectTestTypeQuiz.Description,
 						Time:        SubjectTestTypeQuiz.Time,
 						Point:       SubjectTestTypeQuiz.Point,
@@ -70,8 +71,8 @@ func (pr *pretestUsecase) GetPretestById(pretestId string) (error, dto.Pretest) 
 		IDPretest:   pretests.ID,
 		TestType:    pretests.TestType,
 		Title:       pretests.Title,
-		MeetingDate: pretests.MeetingDate,
-		Open:        pretests.Open,
+		MeetingDate: time.ConvertTimeFormat(pretests.MeetingDate),
+		Open:        time.ConvertTimeFormat(pretests.Open),
 		Description: pretests.Description,
 		Time:        pretests.Time,
 		Point:       pretests.Point,
@@ -113,18 +114,22 @@ func (pr *pretestUsecase) GetPretestReview(pretestId, status string) (error, dto
 	}
 
 	// belum ada handle jawaban tiap user
-
 	pretest = dto.Pretest{
 		IDPretest:   pretests.ID,
 		TestType:    pretests.TestType,
 		Title:       pretests.Title,
-		MeetingDate: pretests.MeetingDate,
-		Open:        pretests.Open,
+		MeetingDate: time.ConvertTimeFormat(pretests.MeetingDate),
+		Open:        time.ConvertTimeFormat(pretests.Open),
 		Description: pretests.Description,
 		Time:        pretests.Time,
 		Point:       pretests.Point,
 		Status:      pretests.Status,
 		Attempt:     pretests.Attempt,
+		Grade: dto.GradePretest{
+			IDGrade:     pretests.GradeQuizzes.ID,
+			Score:       pretests.GradeQuizzes.Score,
+			GradingTime: time.ConvertTimeFormat(pretests.GradeQuizzes.GradingTime),
+		},
 	}
 
 	for _, question := range pretests.QuestionQuizzes {

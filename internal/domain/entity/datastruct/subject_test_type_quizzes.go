@@ -14,8 +14,8 @@ type SubjectTestTypeQuizzes struct {
 	SubjectID                 string                      `json:"SubjectID" form:"SubjectID"`
 	TestType                  string                      `json:"TestType" form:"TestType"`
 	Title                     string                      `json:"Title" form:"Title"`
-	MeetingDate               string                      `json:"MeetingDate" form:"MeetingDate"`
-	Open                      string                      `json:"Open" form:"Open"`
+	MeetingDate               time.Time                   `json:"MeetingDate" form:"MeetingDate"`
+	Open                      time.Time                   `json:"Open" form:"Open"`
 	Description               string                      `json:"Description" form:"Description"`
 	Time                      uint                        `json:"Time" form:"Time"`
 	Point                     int                         `json:"Point" form:"Point"`
