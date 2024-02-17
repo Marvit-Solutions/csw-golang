@@ -10,6 +10,7 @@ type PretestUsecase interface {
 	GetPretestById(pretestId string) (error, dto.Pretest)
 	GetPretestReview(pretestId, status string) (error, dto.Pretest)
 	SubmitPretest(id string, req dto.PretestSubmitRequest) error
+	GradingPretest(id string, req dto.PretestSubmitRequest) error
 }
 
 type pretestUsecase struct {

@@ -15,5 +15,5 @@ type GradeQuizzes struct {
 	UserID                   string         `json:"UserID" form:"UserID"`
 	TestTypeQuizID           string         `json:"TestTypeQuizID" form:"TestTypeQuizID"`
 	Score                    int            `json:"Score" form:"Score"`
-	GradingTime              time.Time      `json:"GradingTime" form:"GradingTime"`
+	GradingTime              time.Time      `gorm:"default:CURRENT_TIMESTAMP" json:"GradingTime" form:"GradingTime"`
 }

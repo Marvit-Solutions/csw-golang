@@ -124,8 +124,18 @@ func (ph *PretestHandler) SubmitPretest(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Message: err.Error(),
-			Code:    http.StatusBadRequest,
-			Status:  http.StatusText(http.StatusBadRequest),
+			Code:    http.StatusInternalServerError,
+			Status:  http.StatusText(http.StatusInternalServerError),
+		})
+		return
+	}
+
+	err = ph.pretestUsecase.GradingPretest(id, req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Fail{
+			Message: err.Error(),
+			Code:    http.StatusInternalServerError,
+			Status:  http.StatusText(http.StatusInternalServerError),
 		})
 		return
 	}

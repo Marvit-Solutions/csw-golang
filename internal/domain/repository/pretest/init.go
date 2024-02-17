@@ -12,6 +12,7 @@ type PretestRepo interface {
 	GetPretestById(pretestId string) (error, datastruct.SubjectTestTypeQuizzes)
 	GetPretestReview(pretestId, status string) (error, datastruct.SubjectTestTypeQuizzes)
 	SubmitPretest(id string, req dto.PretestSubmitRequest) error
+	GradingPretest(id string, req dto.PretestSubmitRequest) error
 }
 
 type pretestRepo struct {

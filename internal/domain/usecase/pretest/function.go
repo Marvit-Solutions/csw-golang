@@ -85,7 +85,7 @@ func (pr *pretestUsecase) GetPretestById(pretestId string) (error, dto.Pretest) 
 			Image:      question.Image,
 			Content:    question.Content,
 			Weight:     question.Weight,
-			Status:     question.Status,
+			// Status:     question.Status,
 		}
 
 		for _, choice := range question.ChoiceQuizzes {
@@ -133,7 +133,7 @@ func (pr *pretestUsecase) GetPretestReview(pretestId, status string) (error, dto
 			Image:      question.Image,
 			Content:    question.Content,
 			Weight:     question.Weight,
-			Status:     question.Status,
+			// Status:     question.Status,
 		}
 
 		for _, choice := range question.ChoiceQuizzes {
@@ -169,6 +169,14 @@ func (pr *pretestUsecase) GetPretestReview(pretestId, status string) (error, dto
 
 func (pr *pretestUsecase) SubmitPretest(id string, req dto.PretestSubmitRequest) error {
 	err := pr.pretestRepo.SubmitPretest(id, req)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+func (pr *pretestUsecase) GradingPretest(id string, req dto.PretestSubmitRequest) error {
+	err := pr.pretestRepo.GradingPretest(id, req)
 	if err != nil {
 		return err
 	}
