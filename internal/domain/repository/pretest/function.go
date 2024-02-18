@@ -7,7 +7,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (pr pretestRepo) GetAllPretests() (error, []datastruct.Modules) {
+func (pr pretestRepo) GetAllPretests(userID, module string) (error, []datastruct.Modules) {
 	var modules []datastruct.Modules
 
 	err := pr.db.Preload("SubModules").Preload("SubModules.Subjects").Preload("SubModules.Subjects.SubjectTestTypeQuizzes").Find(&modules).Error

@@ -17,7 +17,7 @@ func CreateModules() []*ds.Modules {
 			ID:        "575282d4-9a34-47bf-8093-0c8c06520485",
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			Name:      "Matematika",
+			Name:      "MATEMATIKA",
 		},
 	}
 

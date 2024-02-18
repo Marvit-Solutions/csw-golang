@@ -6,10 +6,10 @@ import (
 	"fmt"
 )
 
-func (pr *pretestUsecase) GetAllPretests() (error, []dto.GetAllPretestResponse) {
+func (pr *pretestUsecase) GetAllPretests(userID, module string) (error, []dto.GetAllPretestResponse) {
 	var allPretests []dto.GetAllPretestResponse
 
-	err, pretests := pr.pretestRepo.GetAllPretests()
+	err, pretests := pr.pretestRepo.GetAllPretests(userID, module)
 	if err != nil {
 		return err, []dto.GetAllPretestResponse{}
 	}

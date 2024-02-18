@@ -8,7 +8,7 @@ import (
 )
 
 type PretestRepo interface {
-	GetAllPretests() (error, []datastruct.Modules)
+	GetAllPretests(userID, module string) (error, []datastruct.Modules)
 	GetPretestById(pretestId string) (error, datastruct.SubjectTestTypeQuizzes)
 	GetPretestReview(pretestId, status string) (error, datastruct.SubjectTestTypeQuizzes)
 	SubmitPretest(id string, req dto.PretestSubmitRequest) error

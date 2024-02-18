@@ -2,7 +2,11 @@ package pretest
 
 import (
 	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/helper/debug"
+	"csw-golang/internal/domain/helper/validator"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/text/cases"
@@ -10,7 +14,39 @@ import (
 )
 
 func (ph *PretestHandler) GetAllPretests(c *gin.Context) {
-	err, response := ph.pretestUsecase.GetAllPretests()
+	// Before implement claims for user id
+	userID := "8f23e5cd-0e96-4e1d-a72b-b8f85ca083ee" // user 4
+
+	// Define page and limit
+	pageParam := c.Query("page")
+	page, err := strconv.Atoi(pageParam)
+	if err != nil || page < 1 {
+		page = 1
+	}
+
+	limit := 10
+	offset := (page - 1) * limit
+
+	// Remove case sensitive on query param
+	module := c.Query("module")
+	module = strings.ToUpper(module)
+
+	validParams := map[string]interface{}{"module": "string", "page": 0}
+	if !validator.ValidateParams(c, validParams) {
+		c.JSON(http.StatusNotFound, dto.Fail{
+			Message: "Masukkan parameter dengan benar!",
+			Code:    http.StatusBadRequest,
+			Status:  http.StatusText(http.StatusBadRequest),
+		})
+		return
+	}
+
+	debug.TransformData(module)
+	debug.TransformData(page)
+	debug.TransformData(limit)
+	debug.TransformData(offset)
+
+	err, response := ph.pretestUsecase.GetAllPretests(userID, module)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Message: err.Error(),
