@@ -72,3 +72,17 @@ type ChoiceQuizzes struct {
 	QuestionQuizID string `json:"QuestionQuizID" form:"QuestionQuizID"`
 	ChoiceQuizID   string `json:"ChoiceQuizID" form:"ChoiceQuizID"`
 }
+
+type PretestReviewResponse struct {
+	IDPretest      string             `json:"IDPretest" form:"IDPretest"`
+	TestType       string             `json:"TestType" form:"TestType"`
+	Title          string             `json:"Title" form:"Title"`
+	StartTime      string             `json:"StartTime" form:"StartTime"`
+	SubmissionTime string             `json:"SubmissionTime" form:"SubmissionTime"`
+	Description    string             `json:"Description" form:"Description"`
+	Time           uint               `json:"Time" form:"Time"`
+	Point          string             `json:"Point" form:"Point"`
+	Status         string             `json:"Status" form:"Status"`
+	Attempt        int                `json:"Attempt" form:"Attempt"`
+	Question       []*QuestionPretest `json:"Question,omitempty" form:"Question,omitempty"`
+}

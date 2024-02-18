@@ -19,7 +19,6 @@ type SubjectTestTypeQuizzes struct {
 	Description               string                      `json:"Description" form:"Description"`
 	Time                      uint                        `json:"Time" form:"Time"`
 	Point                     int                         `json:"Point" form:"Point"`
-	Status                    string                      `json:"Status" form:"Status"`
 	Attempt                   int                         `json:"Attempt" form:"Attempt"`
 	GradeQuizzes              GradeQuizzes                `gorm:"foreignKey:TestTypeQuizID"`
 	QuestionQuizzes           []QuestionQuizzes           `gorm:"foreignKey:TestTypeQuizID"`

@@ -14,4 +14,5 @@ type UserSubmittedAnswerQuizzes struct {
 	UserTestSubmissionQuizID string         `json:"UserTestSubmissionQuizID" form:"UserTestSubmissionQuizID"`
 	QuestionQuizID           string         `json:"QuestionQuizID" form:"QuestionQuizID"`
 	ChoiceQuizID             string         `json:"ChoiceQuizID" form:"ChoiceQuizID"`
+	Status                   string         `json:"Status" form:"Status"` // Dijawab atau Belum dijawab
 }

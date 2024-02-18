@@ -3,6 +3,7 @@ package pretest
 import (
 	"csw-golang/internal/domain/entity/dto"
 	"csw-golang/internal/domain/helper/time"
+	"fmt"
 )
 
 func (pr *pretestUsecase) GetAllPretests() (error, []dto.GetAllPretestResponse) {
@@ -42,8 +43,8 @@ func (pr *pretestUsecase) GetAllPretests() (error, []dto.GetAllPretestResponse) 
 						Description: SubjectTestTypeQuiz.Description,
 						Time:        SubjectTestTypeQuiz.Time,
 						Point:       SubjectTestTypeQuiz.Point,
-						Status:      SubjectTestTypeQuiz.Status,
-						Attempt:     SubjectTestTypeQuiz.Attempt,
+						// Status:      SubjectTestTypeQuiz.Status,
+						Attempt: SubjectTestTypeQuiz.Attempt,
 					}
 
 					subjectResponse.Pretest = append(subjectResponse.Pretest, &subjectTestTypeQuizResponse)
@@ -76,8 +77,8 @@ func (pr *pretestUsecase) GetPretestById(pretestId string) (error, dto.Pretest) 
 		Description: pretests.Description,
 		Time:        pretests.Time,
 		Point:       pretests.Point,
-		Status:      pretests.Status,
-		Attempt:     pretests.Attempt,
+		// Status:      pretests.Status,
+		Attempt: pretests.Attempt,
 	}
 
 	for _, question := range pretests.QuestionQuizzes {
@@ -105,31 +106,26 @@ func (pr *pretestUsecase) GetPretestById(pretestId string) (error, dto.Pretest) 
 
 	return nil, pretest
 }
-func (pr *pretestUsecase) GetPretestReview(pretestId, status string) (error, dto.Pretest) {
-	var pretest dto.Pretest
+func (pr *pretestUsecase) GetPretestReview(pretestId, status string) (error, dto.PretestReviewResponse) {
+	var pretest dto.PretestReviewResponse
 
 	err, pretests := pr.pretestRepo.GetPretestReview(pretestId, status)
 	if err != nil {
-		return err, dto.Pretest{}
+		return err, dto.PretestReviewResponse{}
 	}
 
 	// belum ada handle jawaban tiap user
-	pretest = dto.Pretest{
-		IDPretest:   pretests.ID,
-		TestType:    pretests.TestType,
-		Title:       pretests.Title,
-		MeetingDate: time.ConvertTimeFormat(pretests.MeetingDate),
-		Open:        time.ConvertTimeFormat(pretests.Open),
-		Description: pretests.Description,
-		Time:        pretests.Time,
-		Point:       pretests.Point,
-		Status:      pretests.Status,
-		Attempt:     pretests.Attempt,
-		Grade: dto.GradePretest{
-			IDGrade:     pretests.GradeQuizzes.ID,
-			Score:       pretests.GradeQuizzes.Score,
-			GradingTime: time.ConvertTimeFormat(pretests.GradeQuizzes.GradingTime),
-		},
+	pretest = dto.PretestReviewResponse{
+		IDPretest:      pretests.ID,
+		TestType:       pretests.TestType,
+		Title:          pretests.Title,
+		StartTime:      time.ConvertTimeFormat(pretests.Open),
+		SubmissionTime: time.ConvertTimeFormat(pretests.GradeQuizzes.GradingTime),
+		Description:    pretests.Description,
+		Time:           pretests.Time,
+		Point:          fmt.Sprintf("%d dari %d", pretests.GradeQuizzes.Score, pretests.Point),
+		// Status:         pretests.Status,
+		Attempt: pretests.Attempt,
 	}
 
 	for _, question := range pretests.QuestionQuizzes {

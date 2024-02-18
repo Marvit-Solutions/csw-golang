@@ -97,7 +97,7 @@ func (ph *PretestHandler) GetPretestReview(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[dto.Pretest]{
+	c.JSON(http.StatusOK, dto.Success[dto.PretestReviewResponse]{
 		Message: "Berhasil mendapatkan review pretest!",
 		Code:    http.StatusOK,
 		Status:  http.StatusText(http.StatusOK),
