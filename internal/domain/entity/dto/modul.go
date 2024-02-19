@@ -94,7 +94,8 @@ type HistoryTop3ScoreSubjectResponse struct {
 }
 
 type HistoryTop3ScoreGradeResponse struct {
-	ResultID string `json:"ResultID" form:"ResultID"`
-	Mark     int    `json:"Mark" form:"Mark"`
-	Score    int    `json:"Score" form:"Score"`
+	ResultID    string `json:"ResultID" form:"ResultID"`
+	GradingTime string `json:"GradingTime" form:"GradingTime"`
+	Mark        int    `json:"Mark" form:"Mark"`
+	Score       int    `json:"Score" form:"Score"`
 }

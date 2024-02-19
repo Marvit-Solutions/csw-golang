@@ -4,13 +4,14 @@ import (
 	"csw-golang/internal/domain/entity/datastruct"
 	"csw-golang/internal/domain/entity/dto"
 	"fmt"
+	"sort"
 	"time"
 
 	"github.com/google/uuid"
 )
 
 func (mod *moduleUsecase) GetListModules() ([]dto.ModuleResponse, error) {
-	fmt.Println("GetListModules usecase")
+	// fmt.Println("GetListModules usecase")
 	moduleList, err := mod.moduleRepo.GetListModules()
 	if err != nil {
 		return nil, err
@@ -56,7 +57,7 @@ func (mod *moduleUsecase) GetListModules() ([]dto.ModuleResponse, error) {
 }
 
 func (mod *moduleUsecase) GetSubjectsBySubmoduleID(submoduleID string) ([]dto.SubjectResponse, error) {
-	fmt.Println("GetSubjectsBySubmoduleID usecase")
+	// fmt.Println("GetSubjectsBySubmoduleID usecase")
 
 	subjects, err := mod.moduleRepo.GetSubjectsBySubmoduleID(submoduleID)
 	if err != nil {
@@ -87,7 +88,7 @@ func (mod *moduleUsecase) GetSubjectsBySubmoduleID(submoduleID string) ([]dto.Su
 }
 
 func (mod *moduleUsecase) GetQuestionsByTestTypeID(testTypeID string) (dto.ExerciseResponse, error) {
-	fmt.Println("GetQuestionsByTestTypeID usecase")
+	// fmt.Println("GetQuestionsByTestTypeID usecase")
 
 	var moduleTest datastruct.SubjectTestTypeQuizzes
 
@@ -133,7 +134,7 @@ func (mod *moduleUsecase) GetQuestionsByTestTypeID(testTypeID string) (dto.Exerc
 }
 
 func (mod *moduleUsecase) GetTestReview(moduleTestID string) (dto.ReviewResultResponse, error) {
-	fmt.Println("GetQuestionsByTestTypeID usecase")
+	// fmt.Println("GetQuestionsByTestTypeID usecase")
 
 	var moduleTest datastruct.SubjectTestTypeQuizzes
 
@@ -162,7 +163,7 @@ func (mod *moduleUsecase) GetTestReview(moduleTestID string) (dto.ReviewResultRe
 		questionResponse := dto.Question{
 			ID:       question.ID,
 			Number:   i + 1,
-			Status:   question.Status,
+			Status:   "Not Answered",
 			Mark:     1,
 			Flag:     false,
 			Question: question.Content,
@@ -186,11 +187,14 @@ func (mod *moduleUsecase) GetTestReview(moduleTestID string) (dto.ReviewResultRe
 				Weight:    answer.Weight,
 				IsChosen:  submittedChoices[answer.ID], // Check if the answer is chosen by the user.
 			}
-			if answerResponse.IsChosen && !answerResponse.IsCorrect {
-				questionResponse.Status = "Wrong"
-			}
-			if answerResponse.IsChosen && answerResponse.IsCorrect {
-				questionResponse.Status = "Correct"
+			// if answerResponse.IsChosen && !answerResponse.IsCorrect {
+			// 	questionResponse.Status = "Wrong"
+			// }
+			// if answerResponse.IsChosen && answerResponse.IsCorrect {
+			// 	questionResponse.Status = "Correct"
+			// }
+			if answerResponse.IsChosen {
+				questionResponse.Status = "Answered"
 			}
 			questionResponse.Answers = append(questionResponse.Answers, answerResponse)
 		}
@@ -216,7 +220,7 @@ func (mod *moduleUsecase) PostSubmittedTest(testTypeID string, submittedQuiz dto
 		return err
 	}
 	if submissionID == "" {
-		return fmt.Errorf("Failed to submit test")
+		return fmt.Errorf("failed to submit test")
 	}
 
 	submittedAnswers := make([]datastruct.UserSubmittedAnswerQuizzes, 0)
@@ -245,17 +249,17 @@ func (mod *moduleUsecase) PostSubmittedTest(testTypeID string, submittedQuiz dto
 
 	err = mod.moduleRepo.AddGrade(quizGradeResult)
 	if err != nil {
-		return fmt.Errorf("Failed grading test:")
+		return fmt.Errorf("failed grading test")
 	}
 
 	return nil
 }
 
-func (mod *moduleUsecase) GetTop3EverySubject(userID string) ([]dto.HistoryTop3ScoreResponse, error) {
-	fmt.Println("GetTopThreeScores usecase")
+func (mod *moduleUsecase) GetTop3EverySubject(userID string, subjectTypeID string) ([]dto.HistoryTop3ScoreResponse, error) {
+	// fmt.Println("GetTopThreeScores usecase")
 
 	// Get top 3 scores
-	topThreeScores, err := mod.moduleRepo.GetTop3EverySubject(userID)
+	topThreeScores, err := mod.moduleRepo.GetTop3EverySubject(userID, subjectTypeID)
 	if err != nil {
 		return nil, err
 	}
@@ -274,16 +278,26 @@ func (mod *moduleUsecase) GetTop3EverySubject(userID string) ([]dto.HistoryTop3S
 			}
 
 			for _, SubjectTestTypeQuiz := range subject.SubjectTestTypeQuizzes {
-				// fmt.Println("SubjectTestTypeQuiz: ", SubjectTestTypeQuiz)
-				for _, userTestSubmissionQuiz := range SubjectTestTypeQuiz.UserTestSubmissionQuizzes {
-					userTestSubmissionQuizResponse := dto.HistoryTop3ScoreGradeResponse{
-						ResultID: userTestSubmissionQuiz.GradeQuiz.ID,
-						Mark:     userTestSubmissionQuiz.GradeQuiz.Mark,
-						Score:    userTestSubmissionQuiz.GradeQuiz.Score,
-					}
-					fmt.Println("userTestSubmissionQuizResponse: ", userTestSubmissionQuizResponse)
-					subjectResponse.Grade = append(subjectResponse.Grade, userTestSubmissionQuizResponse)
 
+				// Sort UserTestSubmissionQuizzes by grading time
+				sort.Slice(SubjectTestTypeQuiz.UserTestSubmissionQuizzes, func(i, j int) bool {
+					return SubjectTestTypeQuiz.UserTestSubmissionQuizzes[i].GradeQuiz.GradingTime.After(
+						SubjectTestTypeQuiz.UserTestSubmissionQuizzes[j].GradeQuiz.GradingTime)
+				})
+
+				// Take only the top 3 scores
+				for i, userTestSubmissionQuiz := range SubjectTestTypeQuiz.UserTestSubmissionQuizzes {
+					if i >= 3 {
+						break
+					}
+					userTestSubmissionQuizResponse := dto.HistoryTop3ScoreGradeResponse{
+						ResultID:    userTestSubmissionQuiz.GradeQuiz.ID,
+						GradingTime: userTestSubmissionQuiz.GradeQuiz.GradingTime.Format("2006-01-02 15:04:05"),
+						Mark:        userTestSubmissionQuiz.GradeQuiz.Mark,
+						Score:       userTestSubmissionQuiz.GradeQuiz.Score,
+					}
+					// fmt.Println("userTestSubmissionQuizResponse: ", userTestSubmissionQuizResponse)
+					subjectResponse.Grade = append(subjectResponse.Grade, userTestSubmissionQuizResponse)
 				}
 			}
 			topThreeScoresResponse.Subject = append(topThreeScoresResponse.Subject, subjectResponse)

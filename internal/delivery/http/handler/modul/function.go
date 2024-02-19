@@ -165,9 +165,11 @@ func (mc *ModuleHandler) PostSubmittedTest(c *gin.Context) {
 
 func (mc *ModuleHandler) GetTop3EverySubject(c *gin.Context) {
 	userID := c.Param("userid")
+	subjectTypeID := c.Param("subjectTypeID")
+
 	fmt.Println("USER ID: ", userID)
 
-	response, err := mc.moduleUsecase.GetTop3EverySubject(userID)
+	response, err := mc.moduleUsecase.GetTop3EverySubject(userID, subjectTypeID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Message: err.Error(),

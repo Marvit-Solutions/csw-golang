@@ -99,14 +99,11 @@ func (mr *moduleRepo) PostSubmittedQuizAnswer(testTypeID string, submittedAnswer
 func (mr *moduleRepo) AddGrade(grade datastruct.GradeQuizzes) error {
 	var submitted []datastruct.UserSubmittedAnswerQuizzes
 
-	fmt.Println("SUBMISSION ID: ", grade.UserTestSubmissionQuizID)
 	err := mr.db.Where("user_test_submission_quiz_id = ?", grade.UserTestSubmissionQuizID).Find(&submitted).Error
 	if err != nil {
 		fmt.Printf("ERROR: %v \n", err)
 		return err
 	}
-
-	fmt.Printf("SUBMITTED: %v \n", submitted)
 
 	var score int
 	var mark int
@@ -116,7 +113,6 @@ func (mr *moduleRepo) AddGrade(grade datastruct.GradeQuizzes) error {
 		choiceId := ss.ChoiceQuizID
 		var choice datastruct.ChoiceQuizzes
 		if err := mr.db.Where("id = ?", choiceId).Find(&choice).Error; err != nil {
-			fmt.Printf("ERROR retrieving choice: %v \n", err)
 			// Handle error or continue to next iteration
 			continue
 		}
@@ -137,13 +133,28 @@ func (mr *moduleRepo) AddGrade(grade datastruct.GradeQuizzes) error {
 	return nil
 }
 
-func (mr *moduleRepo) GetTop3EverySubject(userID string) ([]datastruct.SubModules, error) {
+func (mr *moduleRepo) GetTop3EverySubject(userID string, subjectTypeID string) ([]datastruct.SubModules, error) {
 	var top3score []datastruct.SubModules
 
-	whereClause := fmt.Sprintf("user_id = %v", userID)
-	fmt.Println("WHERE CLAUSE: ", whereClause)
+	// whereClause := fmt.Sprintf("subject_test_type_quizzes.id = %v AND grade_quizzes.user_id = %v", userID, subjectTypeID)
 
-	err := mr.db.Preload("Subjects").Preload("Subjects.SubjectTestTypeQuizzes", "id = 'f8259b82-41ca-4d58-90e7-c2be3f4c235f' ").Preload("Subjects.SubjectTestTypeQuizzes.UserTestSubmissionQuizzes", "user_id = ?", userID).Preload("Subjects.SubjectTestTypeQuizzes.UserTestSubmissionQuizzes.GradeQuiz").Order("created_at DESC").Limit(3).Find(&top3score).Error
+	err := mr.db.
+		// Table("grade_quizzes").Table("user_test_submission_quizzes").Table("subject_test_type_quizzes").Table("subjects").Table("sub_modules").
+
+		Preload("Subjects").
+		Preload("Subjects.SubjectTestTypeQuizzes", "id = ?", subjectTypeID).
+		Preload("Subjects.SubjectTestTypeQuizzes.UserTestSubmissionQuizzes", "user_id = ?", userID).
+		Preload("Subjects.SubjectTestTypeQuizzes.UserTestSubmissionQuizzes.GradeQuiz").
+
+		// Joins("JOIN subjects ON sub_modules.id = subjects.sub_module_id").
+		// Joins("JOIN subject_test_type_quizzes ON subjects.id = subject_test_type_quizzes.subject_id").
+		// Joins("JOIN user_test_submission_quizzes ON subject_test_type_quizzes.id = user_test_submission_quizzes.test_type_quiz_id").
+		// Joins("JOIN grade_quizzes ON user_test_submission_quizzes.id = grade_quizzes.user_test_submission_quiz_id").
+		// Where().
+
+		Order("created_at DESC").
+		Find(&top3score).Error
+
 	if err != nil {
 		return nil, err
 	}
