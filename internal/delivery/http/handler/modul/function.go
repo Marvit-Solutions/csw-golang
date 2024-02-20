@@ -39,7 +39,7 @@ func (mc *ModuleHandler) GetListModules(c *gin.Context) {
 }
 
 func (mc *ModuleHandler) GetSubjectsBySubmoduleID(c *gin.Context) {
-	submoduleID := c.Param("id")
+	submoduleID := c.Param("submoduleID")
 
 	response, err := mc.moduleUsecase.GetSubjectsBySubmoduleID(submoduleID)
 	if err != nil {
@@ -69,7 +69,7 @@ func (mc *ModuleHandler) GetSubjectsBySubmoduleID(c *gin.Context) {
 }
 
 func (mc *ModuleHandler) GetQuestionsByTestTypeID(c *gin.Context) {
-	testTypeID := c.Param("id")
+	testTypeID := c.Param("testTypeID")
 
 	response, err := mc.moduleUsecase.GetQuestionsByTestTypeID(testTypeID)
 	if err != nil {
@@ -99,10 +99,10 @@ func (mc *ModuleHandler) GetQuestionsByTestTypeID(c *gin.Context) {
 }
 
 func (mc *ModuleHandler) GetTestReview(c *gin.Context) {
-	testTypeID := c.Param("id")
+	submissionID := c.Param("submissionID")
 	// status := c.Param("status")
 
-	response, err := mc.moduleUsecase.GetTestReview(testTypeID)
+	response, err := mc.moduleUsecase.GetTestReview(submissionID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Message: err.Error(),
@@ -131,7 +131,7 @@ func (mc *ModuleHandler) GetTestReview(c *gin.Context) {
 
 func (mc *ModuleHandler) PostSubmittedTest(c *gin.Context) {
 
-	testTypeID := c.Param("id")
+	testTypeID := c.Param("testTypeID")
 
 	request := dto.UserSubmittedQuizRequest{}
 

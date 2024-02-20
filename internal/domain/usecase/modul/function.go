@@ -3,7 +3,6 @@ package module
 import (
 	"csw-golang/internal/domain/entity/datastruct"
 	"csw-golang/internal/domain/entity/dto"
-	"fmt"
 	"sort"
 	"time"
 
@@ -215,41 +214,29 @@ func (mod *moduleUsecase) PostSubmittedTest(testTypeID string, submittedQuiz dto
 		TestTypeQuizID: testTypeID,
 		SubmissionTIme: time.Now(),
 	}
-	submissionID, err := mod.moduleRepo.AddQuizSubmission(submitedTest)
-	if err != nil {
-		return err
-	}
-	if submissionID == "" {
-		return fmt.Errorf("failed to submit test")
-	}
 
 	submittedAnswers := make([]datastruct.UserSubmittedAnswerQuizzes, 0)
 	for _, pair := range submittedQuiz.PairOfUserAnswer {
 		submittedAnswers = append(submittedAnswers, datastruct.UserSubmittedAnswerQuizzes{
 			ID:                       uuid.New().String(),
 			CreatedAt:                time.Now(),
-			UserTestSubmissionQuizID: submissionID,
+			UserTestSubmissionQuizID: submitedTest.ID,
 			QuestionQuizID:           pair.QuestionQuizID,
 			ChoiceQuizID:             pair.ChoiceQuizID,
 		})
 	}
 
-	err = mod.moduleRepo.PostSubmittedQuizAnswer(submissionID, submittedAnswers)
-	if err != nil {
-		return err
-	}
-
 	quizGradeResult := datastruct.GradeQuizzes{
 		ID:                       uuid.New().String(),
-		UserTestSubmissionQuizID: submissionID,
+		UserTestSubmissionQuizID: submitedTest.ID,
 		UserID:                   submittedQuiz.UserID,
 		TestTypeQuizID:           testTypeID,
 		GradingTime:              time.Now(),
 	}
 
-	err = mod.moduleRepo.AddGrade(quizGradeResult)
+	_, err := mod.moduleRepo.AddQuizSubmissionWithAnswersAndGrade(submitedTest, submittedAnswers, quizGradeResult)
 	if err != nil {
-		return fmt.Errorf("failed grading test")
+		return err
 	}
 
 	return nil

@@ -160,3 +160,63 @@ func (mr *moduleRepo) GetTop3EverySubject(userID string, subjectTypeID string) (
 	}
 	return top3score, nil
 }
+
+func (mr *moduleRepo) AddQuizSubmissionWithAnswersAndGrade(submission datastruct.UserTestSubmissionQuizzes, submittedAnswers []datastruct.UserSubmittedAnswerQuizzes, grade datastruct.GradeQuizzes) (string, error) {
+	// Start a transaction
+	tx := mr.db.Begin()
+
+	// Defer a rollback in case of error
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	// Create submission
+	err := tx.Create(&submission).Error
+	if err != nil {
+		tx.Rollback()
+		return "", err
+	}
+
+	// Post submitted quiz answers
+	err = tx.Create(&submittedAnswers).Error
+	if err != nil {
+		tx.Rollback()
+		return "", err
+	}
+
+	// Calculate score and mark
+	var score int
+	var mark int
+	var quizzesArr []datastruct.ChoiceQuizzes
+
+	for _, ss := range submittedAnswers {
+		choiceID := ss.ChoiceQuizID
+		var choice datastruct.ChoiceQuizzes
+		if err := tx.Where("id = ?", choiceID).Find(&choice).Error; err != nil {
+			continue
+		}
+		if choice.IsCorrect {
+			score += choice.Weight
+			mark++
+		}
+		quizzesArr = append(quizzesArr, choice)
+	}
+
+	grade.Score = score
+	grade.Mark = mark
+
+	// Add grade
+	if err := tx.Create(&grade).Error; err != nil {
+		tx.Rollback()
+		return "", err
+	}
+
+	// Commit transaction
+	if err := tx.Commit().Error; err != nil {
+		return "", err
+	}
+
+	return submission.ID, nil
+}
