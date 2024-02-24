@@ -63,16 +63,6 @@ type UserSubmittedAnswerPretest struct {
 	IDUserSubmittedAnswerPretest string `json:"IDUserSubmittedAnswerPretest" form:"IDUserSubmittedAnswerPretest"`
 }
 
-type PretestSubmitRequest struct {
-	UserID        string `json:"UserID" form:"UserID"`
-	ChoiceQuizzes []ChoiceQuizzes
-}
-
-type ChoiceQuizzes struct {
-	QuestionQuizID string `json:"QuestionQuizID" form:"QuestionQuizID"`
-	ChoiceQuizID   string `json:"ChoiceQuizID" form:"ChoiceQuizID"`
-}
-
 type PretestReviewResponse struct {
 	IDPretest      string             `json:"IDPretest" form:"IDPretest"`
 	TestType       string             `json:"TestType" form:"TestType"`

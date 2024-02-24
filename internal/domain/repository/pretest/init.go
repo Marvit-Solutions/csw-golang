@@ -2,17 +2,17 @@ package pretest
 
 import (
 	"csw-golang/internal/domain/entity/datastruct"
-	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/entity/request"
 
 	"gorm.io/gorm"
 )
 
 type PretestRepo interface {
-	GetAllPretests(userID, module string) (error, []datastruct.Modules)
+	GetAllPretests() (error, []datastruct.Modules)
 	GetPretestById(pretestId string) (error, datastruct.SubjectTestTypeQuizzes)
 	GetPretestReview(pretestId, status string) (error, datastruct.SubjectTestTypeQuizzes)
-	SubmitPretest(id string, req dto.PretestSubmitRequest) error
-	GradingPretest(id string, req dto.PretestSubmitRequest) error
+	SubmitPretest(id string, req request.PretestSubmitRequest) error
+	GradingPretest(id string, req request.PretestSubmitRequest) error
 }
 
 type pretestRepo struct {

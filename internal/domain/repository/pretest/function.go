@@ -2,12 +2,12 @@ package pretest
 
 import (
 	"csw-golang/internal/domain/entity/datastruct"
-	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/entity/request"
 
 	"github.com/google/uuid"
 )
 
-func (pr pretestRepo) GetAllPretests(userID, module string) (error, []datastruct.Modules) {
+func (pr pretestRepo) GetAllPretests() (error, []datastruct.Modules) {
 	var modules []datastruct.Modules
 
 	err := pr.db.Preload("SubModules").Preload("SubModules.Subjects").Preload("SubModules.Subjects.SubjectTestTypeQuizzes").Find(&modules).Error
@@ -39,7 +39,7 @@ func (pr pretestRepo) GetPretestReview(pretestId, status string) (error, datastr
 	return nil, pretests
 }
 
-func (pr pretestRepo) SubmitPretest(id string, req dto.PretestSubmitRequest) error {
+func (pr pretestRepo) SubmitPretest(id string, req request.PretestSubmitRequest) error {
 	var testType datastruct.SubjectTestTypeQuizzes
 
 	err := pr.db.Where("id = ?", id).First(&testType).Error
@@ -78,7 +78,7 @@ func (pr pretestRepo) SubmitPretest(id string, req dto.PretestSubmitRequest) err
 
 	return nil
 }
-func (pr pretestRepo) GradingPretest(id string, req dto.PretestSubmitRequest) error {
+func (pr pretestRepo) GradingPretest(id string, req request.PretestSubmitRequest) error {
 	// Get Questions and Choices
 	var questions []datastruct.QuestionQuizzes
 	err := pr.db.Preload("ChoiceQuizzes").Where("test_type_quiz_id = ?", id).Find(&questions).Error

@@ -2,14 +2,15 @@ package pretest
 
 import (
 	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/entity/request"
 	"csw-golang/internal/domain/helper/time"
 	"fmt"
 )
 
-func (pr *pretestUsecase) GetAllPretests(userID, module string) (error, []dto.GetAllPretestResponse) {
+func (pr *pretestUsecase) GetAllPretests() (error, []dto.GetAllPretestResponse) {
 	var allPretests []dto.GetAllPretestResponse
 
-	err, pretests := pr.pretestRepo.GetAllPretests(userID, module)
+	err, pretests := pr.pretestRepo.GetAllPretests()
 	if err != nil {
 		return err, []dto.GetAllPretestResponse{}
 	}
@@ -168,7 +169,7 @@ func (pr *pretestUsecase) GetPretestReview(pretestId, status string) (error, dto
 	return nil, pretest
 }
 
-func (pr *pretestUsecase) SubmitPretest(id string, req dto.PretestSubmitRequest) error {
+func (pr *pretestUsecase) SubmitPretest(id string, req request.PretestSubmitRequest) error {
 	err := pr.pretestRepo.SubmitPretest(id, req)
 	if err != nil {
 		return err
@@ -176,7 +177,7 @@ func (pr *pretestUsecase) SubmitPretest(id string, req dto.PretestSubmitRequest)
 
 	return nil
 }
-func (pr *pretestUsecase) GradingPretest(id string, req dto.PretestSubmitRequest) error {
+func (pr *pretestUsecase) GradingPretest(id string, req request.PretestSubmitRequest) error {
 	err := pr.pretestRepo.GradingPretest(id, req)
 	if err != nil {
 		return err
