@@ -5,7 +5,7 @@ type Success[Data interface{}] struct {
 	Code    uint   `json:"Code"`
 	Status  string `json:"Status"`
 	Data    Data   `json:"Data,omitempty"`
-	Meta    Meta   `json:"Meta,omitempty"`
+	Meta    *Meta  `json:"Meta,omitempty"`
 	// "Meta": {
 	// 	"Page": "4"
 	// 	"PerPage": "10",
@@ -21,8 +21,8 @@ type Fail struct {
 }
 
 type Meta struct {
-	Page      uint `json:"Page"`
-	PerPage   uint `json:"PerPage"`
-	LastPage  uint `json:"LastPage"`
-	TotalPage uint `json:"TotalPage"`
+	Page      int64 `json:"Page"`
+	PerPage   int64 `json:"PerPage"`
+	LastPage  int64 `json:"LastPage"`
+	TotalPage int64 `json:"TotalPage"`
 }

@@ -6,6 +6,7 @@ import (
 	"csw-golang/internal/domain/helper/paginate"
 	"csw-golang/internal/domain/helper/validator"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -42,11 +43,11 @@ func (th *TestHandler) GetAllTests(c *gin.Context) {
 		Module:    module,
 		SubModule: subModule,
 		TestType:  testType,
-		Page:      limit,
+		Limit:     int64(limit),
 		Offset:    offset,
 	}
 
-	response, err := th.testUsecase.GetAllTests(req)
+	response, meta, err := th.testUsecase.GetAllTests(req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Code:    http.StatusInternalServerError,
@@ -55,7 +56,7 @@ func (th *TestHandler) GetAllTests(c *gin.Context) {
 		})
 		return
 	}
-
+ 
 	if response == nil || len(*response) == 0 {
 		c.JSON(http.StatusNotFound, dto.Fail{
 			Message: "Data not found!",
@@ -65,10 +66,14 @@ func (th *TestHandler) GetAllTests(c *gin.Context) {
 		return
 	}
 
+	pageInt, err := strconv.ParseInt(page, 10, 64)
+	meta.Page = pageInt
+
 	c.JSON(http.StatusOK, dto.Success[*[]dto.QuizResponse]{
 		Message: "Success get test!",
 		Code:    http.StatusOK,
 		Status:  http.StatusText(http.StatusOK),
 		Data:    response,
+		Meta:    meta,
 	})
 }

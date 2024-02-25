@@ -8,7 +8,7 @@ import (
 )
 
 type TestRepo interface {
-	GetAllTests(req request.QuizParamRequest) (*[]dto.QuizResponse, error)
+	GetAllTests(req request.QuizParamRequest) (*[]dto.QuizResponse, *dto.Meta, error)
 }
 
 type testRepo struct {

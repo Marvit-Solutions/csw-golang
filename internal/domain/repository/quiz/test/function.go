@@ -5,22 +5,49 @@ import (
 	"csw-golang/internal/domain/entity/request"
 )
 
-func (tr testRepo) GetAllTests(req request.QuizParamRequest) (*[]dto.QuizResponse, error) {
+func (tr testRepo) GetAllTests(req request.QuizParamRequest) (*[]dto.QuizResponse, *dto.Meta, error) {
 	var quizzes []dto.QuizResponse
+	var count int64
+	var perPage int64
+	var meta *dto.Meta
 
 	err := tr.db.Table("modules m").
+		Select("CEIL(COUNT(*)::NUMERIC / 10)").
+		Joins("inner join sub_modules sm on sm.module_id = m.id").
+		Joins("inner join subjects s on s.sub_module_id = sm.id").
+		Joins("inner join subject_test_type_quizzes sttq on sttq.subject_id = s.id").
+		Where("m.name LIKE ? AND sm.name LIKE ? AND sttq.test_type LIKE ?", "%"+req.Module+"%", "%"+req.SubModule+"%", "%"+req.TestType+"%").
+		Scan(&count).
+		Error
+	if err != nil {
+		return nil, nil, err
+	}
+
+	perPage = req.Limit
+	lastPage := count / perPage
+	if count%perPage != 0 {
+		lastPage++
+	}
+
+	err = tr.db.Table("modules m").
 		Select("sttq.id, sttq.test_type, sttq.title, sttq.meeting_date, sttq.open, sttq.description, sttq.time, sttq.point, sttq.attempt").
 		Joins("inner join sub_modules sm on sm.module_id = m.id").
 		Joins("inner join subjects s on s.sub_module_id = sm.id").
 		Joins("inner join subject_test_type_quizzes sttq on sttq.subject_id = s.id").
 		Where("m.name LIKE ? and sm.name LIKE ? and sttq.test_type LIKE ?", "%"+req.Module+"%", "%"+req.SubModule+"%", "%"+req.TestType+"%").
-		Limit(10).
-		Offset(0).
+		Limit(int(req.Limit)).
+		Offset(req.Offset).
 		Find(&quizzes).
 		Error
 	if err != nil {
-		return &quizzes, err
+		return &quizzes, nil, err
 	}
 
-	return &quizzes, nil
+	meta = &dto.Meta{
+		PerPage:   perPage,
+		LastPage:  lastPage,
+		TotalPage: count,
+	}
+
+	return &quizzes, meta, nil
 }

@@ -5,6 +5,6 @@ type QuizParamRequest struct {
 	Module    string `json:"Module" form:"Module"`
 	SubModule string `json:"SubModule" form:"SubModule"`
 	TestType  string `json:"TestType" form:"TestType"`
-	Page      int    `json:"Page" form:"Page"`
+	Limit     int64  `json:"Limit" form:"Limit"`
 	Offset    int    `json:"Offset" form:"Offset"`
 }

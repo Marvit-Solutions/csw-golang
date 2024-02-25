@@ -5,11 +5,11 @@ import (
 	"csw-golang/internal/domain/entity/request"
 )
 
-func (tc *testUsecase) GetAllTests(req request.QuizParamRequest) (*[]dto.QuizResponse, error) {
-	quizzes, err := tc.testRepo.GetAllTests(req)
+func (tc *testUsecase) GetAllTests(req request.QuizParamRequest) (*[]dto.QuizResponse, *dto.Meta, error) {
+	quizzes, meta, err := tc.testRepo.GetAllTests(req)
 	if err != nil {
-		return quizzes, err
+		return quizzes, meta, err
 	}
 
-	return quizzes, err
+	return quizzes, meta, err
 }
