@@ -1,13 +1,13 @@
 package tests
 
 import (
-	"csw-golang/internal/domain/entity/datastruct"
+	"csw-golang/internal/domain/entity/dto"
 
 	"gorm.io/gorm"
 )
 
 type TestRepo interface {
-	GetAllTests() ([]datastruct.Modules, error)
+	GetAllTests() ([]dto.QuizResponse, error)
 }
 
 type testRepo struct {

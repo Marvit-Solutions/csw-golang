@@ -1,12 +1,12 @@
 package tests
 
 import (
-	"csw-golang/internal/domain/entity/datastruct"
+	"csw-golang/internal/domain/entity/dto"
 	tr "csw-golang/internal/domain/repository/quiz/test"
 )
 
 type TestUsecase interface {
-	GetAllTests() ([]datastruct.Modules, error)
+	GetAllTests() ([]dto.QuizResponse, error)
 }
 
 type testUsecase struct {

@@ -1,12 +1,12 @@
 package tests
 
-import "csw-golang/internal/domain/entity/datastruct"
+import "csw-golang/internal/domain/entity/dto"
 
-func (tc *testUsecase) GetAllTests() ([]datastruct.Modules, error) {
-	ListPlan, err := tc.testRepo.GetAllTests()
+func (tc *testUsecase) GetAllTests() ([]dto.QuizResponse, error) {
+	quizzes, err := tc.testRepo.GetAllTests()
 	if err != nil {
-		return ListPlan, err
+		return quizzes, err
 	}
 
-	return ListPlan, err
+	return quizzes, err
 }

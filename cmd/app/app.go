@@ -26,6 +26,10 @@ import (
 	testimonialsRepo "csw-golang/internal/domain/repository/testimonial"
 	testimonialUsecase "csw-golang/internal/domain/usecase/testimonial"
 
+	quizTestHandler "csw-golang/internal/delivery/http/handler/quiz/test"
+	quizTestRepo "csw-golang/internal/domain/repository/quiz/test"
+	quizTestUsecase "csw-golang/internal/domain/usecase/quiz/test"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -51,12 +55,17 @@ func StartApp() *gin.Engine {
 	pretestUsecase := pretestUsecase.New(pretestRepo)
 	pretestHandler := pretestHandler.New(pretestUsecase)
 
+	quizTestRepo := quizTestRepo.New(db.DB)
+	quizTestUsecase := quizTestUsecase.New(quizTestRepo)
+	quizTestHandler := quizTestHandler.New(quizTestUsecase)
+
 	handler := handler.Handler{
 		AuthHandler:        authHandler,
 		PlanHandler:        planHandler,
 		MentorHandler:      mentorHandler,
 		TestimonialHandler: testimonialHandler,
 		PretestHandler:     pretestHandler,
+		QuizTestHandler:    quizTestHandler,
 	}
 
 	router := delivery.StartRoute(handler)
