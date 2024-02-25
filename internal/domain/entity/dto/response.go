@@ -5,7 +5,7 @@ type Success[Data interface{}] struct {
 	Code    uint   `json:"Code"`
 	Status  string `json:"Status"`
 	Data    Data   `json:"Data,omitempty"`
-	Meta    Meta   `json:"meta,omitempty"`
+	Meta    Meta   `json:"Meta,omitempty"`
 	// "Meta": {
 	// 	"Page": "4"
 	// 	"PerPage": "10",
