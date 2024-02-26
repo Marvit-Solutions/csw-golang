@@ -72,7 +72,7 @@ type ReviewResultResponse struct {
 }
 
 type UserSubmittedQuizRequest struct {
-	UserID           string             `json:"UserID" form:"UserID"`
+	// UserID           string             `json:"UserID" form:"UserID"`
 	PairOfUserAnswer []PairOfUserAnswer `json:"PairOfUserAnswer"`
 }
 

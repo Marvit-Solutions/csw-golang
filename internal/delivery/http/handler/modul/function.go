@@ -132,7 +132,7 @@ func (mc *ModuleHandler) GetTestReview(c *gin.Context) {
 func (mc *ModuleHandler) PostSubmittedTest(c *gin.Context) {
 
 	testTypeID := c.Param("testTypeID")
-
+	userID := "7aa65bf1-9273-46ad-ba2c-bf94ddcfcc6e"
 	request := dto.UserSubmittedQuizRequest{}
 
 	err := c.Bind(&request)
@@ -145,7 +145,7 @@ func (mc *ModuleHandler) PostSubmittedTest(c *gin.Context) {
 		return
 	}
 
-	err = mc.moduleUsecase.PostSubmittedTest(testTypeID, request)
+	err = mc.moduleUsecase.PostSubmittedTest(testTypeID, userID, request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Message: err.Error(),
@@ -164,7 +164,7 @@ func (mc *ModuleHandler) PostSubmittedTest(c *gin.Context) {
 }
 
 func (mc *ModuleHandler) GetTop3EverySubject(c *gin.Context) {
-	userID := c.Param("userid")
+	userID := "7aa65bf1-9273-46ad-ba2c-bf94ddcfcc6e"
 	subjectTypeID := c.Param("subjectTypeID")
 
 	fmt.Println("USER ID: ", userID)

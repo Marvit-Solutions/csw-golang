@@ -204,13 +204,13 @@ func (mod *moduleUsecase) GetTestReview(moduleTestID string) (dto.ReviewResultRe
 	return moduleTestResponses, nil
 }
 
-func (mod *moduleUsecase) PostSubmittedTest(testTypeID string, submittedQuiz dto.UserSubmittedQuizRequest) error {
+func (mod *moduleUsecase) PostSubmittedTest(testTypeID, userID string, submittedQuiz dto.UserSubmittedQuizRequest) error {
 	// fmt.Println("PostSubmittedTest usecase")
 
 	submitedTest := datastruct.UserTestSubmissionQuizzes{
 		ID:             uuid.New().String(),
 		CreatedAt:      time.Now(),
-		UserID:         submittedQuiz.UserID,
+		UserID:         userID,
 		TestTypeQuizID: testTypeID,
 		SubmissionTIme: time.Now(),
 	}
@@ -229,7 +229,7 @@ func (mod *moduleUsecase) PostSubmittedTest(testTypeID string, submittedQuiz dto
 	quizGradeResult := datastruct.GradeQuizzes{
 		ID:                       uuid.New().String(),
 		UserTestSubmissionQuizID: submitedTest.ID,
-		UserID:                   submittedQuiz.UserID,
+		UserID:                   userID,
 		TestTypeQuizID:           testTypeID,
 		GradingTime:              time.Now(),
 	}
@@ -266,10 +266,10 @@ func (mod *moduleUsecase) GetTop3EverySubject(userID string, subjectTypeID strin
 
 			for _, SubjectTestTypeQuiz := range subject.SubjectTestTypeQuizzes {
 
-				// Sort UserTestSubmissionQuizzes by grading time
+				// Sort UserTestSubmissionQuizzes by score in descending order
 				sort.Slice(SubjectTestTypeQuiz.UserTestSubmissionQuizzes, func(i, j int) bool {
-					return SubjectTestTypeQuiz.UserTestSubmissionQuizzes[i].GradeQuiz.GradingTime.After(
-						SubjectTestTypeQuiz.UserTestSubmissionQuizzes[j].GradeQuiz.GradingTime)
+					return SubjectTestTypeQuiz.UserTestSubmissionQuizzes[i].GradeQuiz.Score >
+						SubjectTestTypeQuiz.UserTestSubmissionQuizzes[j].GradeQuiz.Score
 				})
 
 				// Take only the top 3 scores

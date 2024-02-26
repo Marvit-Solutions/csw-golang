@@ -135,23 +135,11 @@ func (mr *moduleRepo) AddGrade(grade datastruct.GradeQuizzes) error {
 
 func (mr *moduleRepo) GetTop3EverySubject(userID string, subjectTypeID string) ([]datastruct.SubModules, error) {
 	var top3score []datastruct.SubModules
-
-	// whereClause := fmt.Sprintf("subject_test_type_quizzes.id = %v AND grade_quizzes.user_id = %v", userID, subjectTypeID)
-
 	err := mr.db.
-		// Table("grade_quizzes").Table("user_test_submission_quizzes").Table("subject_test_type_quizzes").Table("subjects").Table("sub_modules").
-
 		Preload("Subjects").
 		Preload("Subjects.SubjectTestTypeQuizzes", "id = ?", subjectTypeID).
 		Preload("Subjects.SubjectTestTypeQuizzes.UserTestSubmissionQuizzes", "user_id = ?", userID).
 		Preload("Subjects.SubjectTestTypeQuizzes.UserTestSubmissionQuizzes.GradeQuiz").
-
-		// Joins("JOIN subjects ON sub_modules.id = subjects.sub_module_id").
-		// Joins("JOIN subject_test_type_quizzes ON subjects.id = subject_test_type_quizzes.subject_id").
-		// Joins("JOIN user_test_submission_quizzes ON subject_test_type_quizzes.id = user_test_submission_quizzes.test_type_quiz_id").
-		// Joins("JOIN grade_quizzes ON user_test_submission_quizzes.id = grade_quizzes.user_test_submission_quiz_id").
-		// Where().
-
 		Order("created_at DESC").
 		Find(&top3score).Error
 
