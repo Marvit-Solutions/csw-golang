@@ -15,3 +15,5 @@ type Modules struct {
 	SubModules []SubModules   `gorm:"foreignKey:ModuleID"`
 	SubPlans   []SubPlans     `gorm:"foreignKey:ModuleID"`
 }
+
+

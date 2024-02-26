@@ -1,14 +1,14 @@
 package dto
 
-type ModulResponse struct {
+type ModuleResponse struct {
 	ID          string `json:"ID" form:"ID"`
 	Name        string `json:"Name" form:"Name"`
 	Description string `json:"Description" form:"Description"`
-	Subject     struct {
+	Subject     []struct {
 		ID   string `json:"ID" form:"ID"`
 		Name string `json:"Name" form:"Name"`
 	}
-	Exercise struct {
+	Exercise []struct {
 		ID   string `json:"ID" form:"ID"`
 		Name string `json:"Name" form:"Name"`
 	}
@@ -27,56 +27,75 @@ type SubSubject struct {
 }
 
 type ExerciseResponse struct {
-	ID          string     `json:"ID" form:"ID"`
-	Name        string     `json:"Name" form:"Name"`
-	Description string     `json:"Description" form:"Description"`
-	Explanation string     `json:"Explanation" form:"Explanation"`
-	Status      string     `json:"Status" form:"Status"`
-	Time        int        `json:"Time" form:"Time"`
-	JumlahSoal  int        `json:"JumlahSoal" form:"JumlahSoal"`
-	Question    []Question `json:"Soal" form:"Soal"`
+	ID            string     `json:"ID" form:"ID"`
+	Name          string     `json:"Name" form:"Name"`
+	Description   string     `json:"Description" form:"Description"`
+	Explanation   string     `json:"Explanation" form:"Explanation"`
+	Status        string     `json:"Status" form:"Status"`
+	Time          uint       `json:"Time" form:"Time"`
+	QuestionTotal int        `json:"QuestionTotal" form:"QuestionTotal"`
+	Questions     []Question `json:"Questions" form:"Questions"`
 }
 
 type Question struct {
 	ID       string   `json:"ID" form:"ID"`
-	Number   int      `json:"Nomor" form:"Nomor"`
+	Number   int      `json:"Number" form:"Number"`
 	Status   string   `json:"Status" form:"Status"`
 	Mark     int      `json:"Mark" form:"Mark"`
 	Flag     bool     `json:"Flag" form:"Flag"`
 	Question string   `json:"Question" form:"Question"`
+	Image    string   `json:"Image" form:"Image"`
 	Answers  []Answer `json:"Answers" form:"Answers"`
 }
 
 type Answer struct {
-	ID      string  `json:"ID" form:"ID"`
-	Jenis   string  `json:"Jenis" form:"Jenis"`
-	Content string  `json:"Content" form:"Content"`
-	Dipilih bool    `json:"Dipilih" form:"Dipilih"`
-	Nilai   float64 `json:"Nilai" form:"Nilai"`
+	ID        string `json:"ID" form:"ID"`
+	Content   string `json:"Content" form:"Content"`
+	IsCorrect bool   `json:"IsCorrect" form:"IsCorrect"`
+	Weight    int    `json:"Weight" form:"Weight"`
+	IsChosen  bool   `json:"IsChosen" form:"IsChosen"`
 }
 
 type ReviewResultResponse struct {
 	ID            string     `json:"ID" form:"ID"`
 	Name          string     `json:"Name" form:"Name"`
+	Description   string     `json:"Description" form:"Description"`
+	Explanation   string     `json:"Explanation" form:"Explanation"`
 	Status        string     `json:"Status" form:"Status"`
 	Start         string     `json:"Start" form:"Start"`
 	Finish        string     `json:"Finish" form:"Finish"`
 	Time          string     `json:"Time" form:"Time"`
-	Mark          string     `json:"Mark" form:"Mark"`
-	Grade         string     `json:"Grade" form:"Grade"`
+	QuestionTotal int        `json:"QuestionTotal" form:"QuestionTotal"`
+	Grade         int        `json:"Grade" form:"Grade"`
 	TimesFinished int        `json:"TimesFinished" form:"TimesFinished"`
-	Question      []Question `json:"Soal" form:"Soal"`
+	Questions     []Question `json:"Soal" form:"Soal"`
 }
 
-type HistoryTop3NilaiReviewResponse struct {
-	ModulID string `json:"ModulID" form:"ModulID"`
-	Subject []struct {
-		SubjectID string `json:"SubjectID" form:"SubjectID"`
-		Name      string `json:"Name" form:"Name"`
-		Nilai     []struct {
-			ResultID string `json:"ResultID" form:"ResultID"`
-			Mark     string `json:"Mark" form:"Mark"`
-			Grade    string `json:"Grade" form:"Grade"`
-		}
-	}
+type UserSubmittedQuizRequest struct {
+	// UserID           string             `json:"UserID" form:"UserID"`
+	PairOfUserAnswer []PairOfUserAnswer `json:"PairOfUserAnswer"`
+}
+
+type PairOfUserAnswer struct {
+	QuestionQuizID string `json:"QuestionQuizID" form:"QuestionQuizID"`
+	ChoiceQuizID   string `json:"ChoiceQuizID" form:"ChoiceQuizID"`
+}
+
+type HistoryTop3ScoreResponse struct {
+	SubModuleID   string `json:"SubModuleID" form:"SubModuleID"`
+	SubModuleName string `json:"SubModuleName" form:"SubModuleName"`
+	Subject       []HistoryTop3ScoreSubjectResponse
+}
+
+type HistoryTop3ScoreSubjectResponse struct {
+	SubjectID string                          `json:"SubjectID" form:"SubjectID"`
+	Name      string                          `json:"Name" form:"Name"`
+	Grade     []HistoryTop3ScoreGradeResponse `json:"Grade" form:"Grade"`
+}
+
+type HistoryTop3ScoreGradeResponse struct {
+	ResultID    string `json:"ResultID" form:"ResultID"`
+	GradingTime string `json:"GradingTime" form:"GradingTime"`
+	Mark        int    `json:"Mark" form:"Mark"`
+	Score       int    `json:"Score" form:"Score"`
 }

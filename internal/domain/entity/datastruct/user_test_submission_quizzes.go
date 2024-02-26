@@ -14,6 +14,6 @@ type UserTestSubmissionQuizzes struct {
 	UserID                     string                       `json:"UserID" form:"UserID"`
 	TestTypeQuizID             string                       `json:"TestTypeQuizID" form:"TestTypeQuizID"`
 	SubmissionTIme             time.Time                    `json:"SubmissionTIme" form:"SubmissionTIme"`
-	GradeQuizzes               GradeQuizzes                 `gorm:"foreignKey:UserTestSubmissionQuizID"`
+	GradeQuiz                  GradeQuizzes                 `gorm:"foreignKey:UserTestSubmissionQuizID"`
 	UserSubmittedAnswerQuizzes []UserSubmittedAnswerQuizzes `gorm:"foreignKey:UserTestSubmissionQuizID"`
 }

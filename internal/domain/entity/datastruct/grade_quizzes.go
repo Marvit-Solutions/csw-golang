@@ -14,6 +14,7 @@ type GradeQuizzes struct {
 	UserTestSubmissionQuizID string         `json:"UserTestSubmissionQuizID" form:"UserTestSubmissionQuizID"`
 	UserID                   string         `json:"UserID" form:"UserID"`
 	TestTypeQuizID           string         `json:"TestTypeQuizID" form:"TestTypeQuizID"`
+	Mark                     int            `json:"Mark" form:"Mark"`
 	Score                    int            `json:"Score" form:"Score"`
 	GradingTime              time.Time      `json:"GradingTime" form:"GradingTime"`
 }

@@ -1,15 +1,25 @@
-package modul
+package module
 
-// type ModulUsecase interface {
-// 	// ListModul() ([]dto.ModulResponse, error)
-// }
+import (
+	"csw-golang/internal/domain/entity/dto"
+	module "csw-golang/internal/domain/repository/modul"
+)
 
-// type modultUsecase struct {
-// 	modulRepo mr.ModultRepo
-// }
+type ModuleUsecase interface {
+	GetListModules() ([]dto.ModuleResponse, error)
+	GetSubjectsBySubmoduleID(submoduleID string) ([]dto.SubjectResponse, error)
+	GetQuestionsByTestTypeID(testTypeID string) (dto.ExerciseResponse, error)
+	GetTestReview(moduleTestID string) (dto.ReviewResultResponse, error)
+	PostSubmittedTest(testTypeID, userID string, submittedQuiz dto.UserSubmittedQuizRequest) error
+	GetTop3EverySubject(userID string, subjectTypeID string) ([]dto.HistoryTop3ScoreResponse, error)
+}
 
-// func New(modulRepo mr.ModulRepo) *modultUsecase {
-// 	return &modulUsecase{
-// 		modulRepo,
-// 	}
-// }
+type moduleUsecase struct {
+	moduleRepo module.ModuleRepo
+}
+
+func New(moduleRepo module.ModuleRepo) ModuleUsecase {
+	return &moduleUsecase{
+		moduleRepo,
+	}
+}
