@@ -74,7 +74,7 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 
 func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 	existingUser := &datastruct.Users{}
-	err := ar.db.Preload("UserDetail").Where("email = ?", user.Email).First(&existingUser).Error
+	err := ar.db.Preload("UserDetails").Where("email = ?", user.Email).First(&existingUser).Error
 	if err != nil {
 		return dto.AuthResponse{}, err
 	}
@@ -104,18 +104,8 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 		Email:          existingUser.Email,
 		Name:           existingUser.UserDetails.Name,
 		Role:           userRole.Role,
-		PhoneNumber:    existingUser.UserDetails.PhoneNumber,
 		ProfilePicture: existingUser.UserDetails.ProfilePicture,
-		Address: struct {
-			Province    string "json:\"Province\" form:\"Province\""
-			RegencyCity string "json:\"RegencyCity\" form:\"RegencyCity\""
-			SubDistrict string "json:\"SubDistrict\" form:\"SubDistrict\""
-		}{
-			Province:    userAddress.Province,
-			RegencyCity: userAddress.RegencyCity,
-			SubDistrict: userAddress.SubDistrict,
-		},
-		Token: token,
+		Token:          token,
 	}
 
 	return *response, nil

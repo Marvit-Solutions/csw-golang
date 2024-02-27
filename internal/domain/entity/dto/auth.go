@@ -1,20 +1,14 @@
 package dto
 
 type AuthResponse struct {
-	ID          string `json:"ID" form:"ID"`
-	GoogleID    string `json:"GoogleID,omitempty" form:"GoogleID"`
-	FacebookID  string `json:"FacebookId,omitempty" form:"FacebookId"`
-	Email       string `json:"Email" form:"Email" validate:"required,email"`
-	Password    string `json:"-"`
-	Name        string `json:"Name" form:"Name"`
-	Role        string `json:"Role" form:"Role" validate:"required"`
-	PhoneNumber string `json:"PhoneNumber" form:"PhoneNumber" validate:"required,min=10,max=13"`
-	Token       string `json:"Token" form:"Token"`
-	Address     struct {
-		Province    string `json:"Province" form:"Province"`
-		RegencyCity string `json:"RegencyCity" form:"RegencyCity"`
-		SubDistrict string `json:"SubDistrict" form:"SubDistrict"`
-	}
+	ID             string `json:"ID" form:"ID"`
+	GoogleID       string `json:"GoogleID" form:"GoogleID"`
+	FacebookID     string `json:"FacebookId" form:"FacebookId"`
+	Email          string `json:"Email" form:"Email" validate:"required,email"`
+	Password       string `json:"-"`
+	Name           string `json:"Name" form:"Name"`
+	Role           string `json:"Role" form:"Role" validate:"required"`
+	Token          string `json:"Token" form:"Token"`
 	ProfilePicture string `json:"FotoProfil" form:"FotoProfil" default:"assets/img/users/profile/account.png"`
 }
 
