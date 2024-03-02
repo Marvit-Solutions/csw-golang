@@ -7,16 +7,34 @@ import (
 	"time"
 )
 
-func (e exerciseSubmissionUsecase) AddSubmissionUsecase(submission dto.UserTestSubmissionExercisesRequest) (dto.UserTestSubmissionExercisesResponse, error) {
+func (e exerciseSubmissionUsecase) AddSubmissionUsecase(testTypeID, userID string, answer dto.UserSubmittedAnswerExercisesRequest) (dto.UserTestSubmissionExercisesResponse, error) {
 
 	exercises := datastruct.UserTestSubmissionExercises{
 		ID:                 uuid.New().String(),
-		UserID:             submission.UserID,
-		TestTypeExerciseID: submission.TestTypeExerciseID,
+		UserID:             userID,
+		TestTypeExerciseID: testTypeID,
 		SubmissionTIme:     time.Now(),
 	}
 
-	addSubmission, err := e.exerciseSubmissionRepo.AddSubmission(exercises)
+	submittedAnswers := make([]datastruct.UserSubmittedAnswerExercises, 0)
+	for _, pair := range answer.PairOfUserAnswer {
+		submittedAnswers = append(submittedAnswers, datastruct.UserSubmittedAnswerExercises{
+			ID:                           uuid.New().String(),
+			CreatedAt:                    time.Now(),
+			UserTestSubmissionExerciseID: exercises.ID,
+			QuestionExerciseID:           pair.QuestionExerciseID,
+			ChoiceExerciseID:             pair.ChoiceExerciseID,
+		})
+	}
+
+	exerciseGradeResult := datastruct.GradeExercises{
+		ID:                           uuid.New().String(),
+		UserTestSubmissionExerciseID: exercises.ID,
+		UserID:                       userID,
+		TestTypeExerciseID:           testTypeID,
+		GradingTime:                  time.Now(),
+	}
+	addSubmission, err := e.exerciseSubmissionRepo.AddSubmission(exercises, submittedAnswers, exerciseGradeResult)
 
 	if err != nil {
 		return dto.UserTestSubmissionExercisesResponse{}, err

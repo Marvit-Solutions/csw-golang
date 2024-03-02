@@ -8,7 +8,9 @@ import (
 
 func (ms *SubmissionHandler) AddSubmission(c *gin.Context) {
 
-	request := dto.UserTestSubmissionExercisesRequest{}
+	testTypeID := c.Query("testTypeID")
+	userID := "7aa65bf1-9273-46ad-ba2c-bf94ddcfcc6e"
+	request := dto.UserSubmittedAnswerExercisesRequest{}
 
 	err := c.Bind(&request)
 	if err != nil {
@@ -19,7 +21,7 @@ func (ms *SubmissionHandler) AddSubmission(c *gin.Context) {
 		})
 		return
 	}
-	question, err := ms.submissionUsecase.AddSubmissionUsecase(request)
+	question, err := ms.submissionUsecase.AddSubmissionUsecase(testTypeID, userID, request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Message: err.Error(),

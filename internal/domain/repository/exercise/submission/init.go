@@ -6,7 +6,7 @@ import (
 )
 
 type ExerciseSubmissionRepo interface {
-	AddSubmission(submission datastruct.UserTestSubmissionExercises) (datastruct.UserTestSubmissionExercises, error)
+	AddSubmission(submission datastruct.UserTestSubmissionExercises, answer []datastruct.UserSubmittedAnswerExercises, grade datastruct.GradeExercises) (datastruct.UserTestSubmissionExercises, error)
 	GetSubmission(submissionId string) (datastruct.UserTestSubmissionExercises, error)
 	GetAllSubmissions() ([]datastruct.UserTestSubmissionExercises, error)
 }

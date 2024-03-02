@@ -1,8 +1,8 @@
 package dto
 
 type UserSubmittedAnswerExercisesRequest struct {
-	UserTestSubmissionExerciseID string             `json:"UserTestSubmissionExerciseID" form:"UserTestSubmissionExerciseID"`
-	PairOfUserAnswer             []PairOfUserAnswer `json:"PairOfUserAnswer"`
+	UserID           string             `json:"UserID" form:"UserID"`
+	PairOfUserAnswer []PairOfUserAnswer `json:"PairOfUserAnswer"`
 }
 
 type UserSubmittedAnswerExercisesResponse struct {

@@ -6,7 +6,7 @@ import (
 )
 
 type ExerciseSubmissionUsecase interface {
-	AddSubmissionUsecase(submission dto.UserTestSubmissionExercisesRequest) (dto.UserTestSubmissionExercisesResponse, error)
+	AddSubmissionUsecase(testTypeID, userID string, answer dto.UserSubmittedAnswerExercisesRequest) (dto.UserTestSubmissionExercisesResponse, error)
 	GetSubmissionUsecase(submissionId string) (dto.UserTestSubmissionExercisesResponse, error)
 	GetAllSubmissionsUsecase() ([]dto.UserTestSubmissionExercisesResponse, error)
 }
