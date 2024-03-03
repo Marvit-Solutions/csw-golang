@@ -7,7 +7,7 @@ import (
 )
 
 type AuthUsecase interface {
-	Register(req request.RegisterRequest) error
+	Register(req request.RegisterRequest) (*dto.AuthResponse, error)
 	Login(req request.LoginRequest) (*dto.AuthResponse, error)
 }
 

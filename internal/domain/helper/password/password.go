@@ -16,3 +16,7 @@ func ComparePasswords(hashed string, plain string) bool {
 	}
 	return true
 }
+
+func HashPassword(password string) ([]byte, error) {
+	return bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+}

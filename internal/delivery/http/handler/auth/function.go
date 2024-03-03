@@ -17,13 +17,13 @@ func (ah *AuthHandler) Register(c *gin.Context) {
 		return
 	}
 
-	err := ah.authUsecase.Register(req)
+	data, err := ah.authUsecase.Register(req)
 	if err != nil {
 		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
 
-	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), nil, "Register Sukses!")
+	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data, "Register Sukses!")
 }
 
 func (ah *AuthHandler) Login(c *gin.Context) {

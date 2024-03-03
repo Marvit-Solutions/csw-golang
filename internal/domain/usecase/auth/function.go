@@ -3,23 +3,15 @@ package auth
 import (
 	"csw-golang/internal/domain/entity/dto"
 	"csw-golang/internal/domain/entity/request"
-	pw "csw-golang/internal/domain/helper/password"
 )
 
-func (ac *authUsecase) Register(req request.RegisterRequest) error {
-	hashedPassword, err := pw.HashPassword(req.Password)
+func (ac *authUsecase) Register(req request.RegisterRequest) (*dto.AuthResponse, error) {
+	response, err := ac.authRepo.Register(req)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	req.Password = string(hashedPassword)
-
-	err = ac.authRepo.Register(req)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return response, nil
 }
 
 func (ac *authUsecase) Login(req request.LoginRequest) (*dto.AuthResponse, error) {

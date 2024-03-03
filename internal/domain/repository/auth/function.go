@@ -9,26 +9,34 @@ import (
 	"os"
 
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 
 	jwt "csw-golang/internal/delivery/http/middleware/jwt"
 )
 
-func (ar *authRepo) Register(req request.RegisterRequest) error {
-	existingUser := datastruct.Users{}
+func (ar *authRepo) Register(req request.RegisterRequest) (*dto.AuthResponse, error) {
+	var existingUser datastruct.Users
 	if err := ar.db.Where("email = ?", req.Email).First(&existingUser).Error; err == nil {
-		return fmt.Errorf("email already exists")
+		return nil, fmt.Errorf("email already exists")
 	}
 
 	var role datastruct.Roles
 	if err := ar.db.Where("role = ?", "User").First(&role).Error; err != nil {
-		return fmt.Errorf("failed to get user role: %v", err)
+		return nil, fmt.Errorf("failed to get user role: %v", err)
+	}
+
+	cswAuth := jwt.NewCswAuth([]byte(os.Getenv("SECRET_KEY")))
+	bytePassword := []byte(req.Password)
+	userPassword, err := bcrypt.GenerateFromPassword(bytePassword, bcrypt.DefaultCost)
+	if err != nil {
+		return nil, fmt.Errorf("failed hashing password: %v", err)
 	}
 
 	newUser := datastruct.Users{
 		ID:         uuid.NewString(),
 		RoleID:     role.ID,
 		Email:      req.Email,
-		Password:   req.Password,
+		Password:   string(userPassword),
 		GoogleID:   req.GoogleID,
 		FacebookID: req.FacebookID,
 		UserDetails: datastruct.UserDetails{
@@ -61,17 +69,32 @@ func (ar *authRepo) Register(req request.RegisterRequest) error {
 
 	if err := ar.db.Create(&newUser).Error; err != nil {
 		tx.Rollback()
-		return fmt.Errorf("failed to create user: %v", err)
+		return nil, fmt.Errorf("failed to create user: %v", err)
 	}
 
 	if err := ar.db.Create(&newAddress).Error; err != nil {
 		tx.Rollback()
-		return fmt.Errorf("failed to create user address: %v", err)
+		return nil, fmt.Errorf("failed to create user address: %v", err)
 	}
 
 	tx.Commit()
 
-	return nil
+	tokenStruct := jwt.TokenStructure{
+		UserID: newUser.ID,
+		Email:  newUser.Email,
+	}
+	token, err := cswAuth.GenerateToken(tokenStruct)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create token: %v", err)
+	}
+
+	response := &dto.AuthResponse{
+		AccessToken: token.AccessToken,
+		ExpiredIn:   token.ExpiredIn,
+		ExpiredAt:   token.ExpiredAt,
+	}
+
+	return response, nil
 }
 
 func (ar *authRepo) Login(req request.LoginRequest) (*dto.AuthResponse, error) {
