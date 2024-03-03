@@ -1,0 +1,119 @@
+package jwt
+
+import (
+	"fmt"
+	"net/http"
+	"os"
+	"time"
+
+	jwtmiddleware "github.com/auth0/go-jwt-middleware"
+	"github.com/form3tech-oss/jwt-go"
+	"golang.org/x/crypto/bcrypt"
+)
+
+var jwtMiddleware *jwtmiddleware.JWTMiddleware
+var signingKey []byte
+
+type TokenStructure struct {
+	UserID int
+	Phone  string
+	Email  string
+}
+
+type TokenResponse struct {
+	AccessToken string  `json:"access_token"`
+	TokenType   string  `json:"token_type"`
+	ExpiredIn   float64 `json:"expired_in"`
+	ExpiredAt   int64   `json:"expired_at"`
+}
+
+type cswAuth struct {
+	signature []byte
+}
+
+type CswAuth interface {
+	GenerateToken(data TokenStructure) (response *TokenResponse, err error)
+}
+
+func NewCswAuth(signature []byte) CswAuth {
+	return &cswAuth{signature}
+}
+
+const (
+	EXPIRED_IN = time.Hour * (24 * 90) // 90 days
+)
+
+func NewMiddlewareConfig() error {
+
+	InitJWTMiddlewareCustom([]byte(os.Getenv("SECRET_KEY")), jwt.SigningMethodHS512)
+
+	return nil
+}
+
+func InitJWTMiddlewareCustom(secret []byte, signingMethod jwt.SigningMethod) {
+	signingKey = secret
+	jwtMiddleware = jwtmiddleware.New(jwtmiddleware.Options{
+		ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
+			return signingKey, nil
+		},
+		SigningMethod: signingMethod,
+	})
+}
+
+func (cAuth *cswAuth) GenerateToken(data TokenStructure) (response *TokenResponse, err error) {
+	token := jwt.New(jwt.SigningMethodHS512)
+	claims := token.Claims.(jwt.MapClaims)
+
+	expiredIn := EXPIRED_IN
+	expiredAt := time.Now().Add(EXPIRED_IN)
+
+	myCrypt, err := bcrypt.GenerateFromPassword([]byte(os.Getenv("SECRET_KEY")), 8)
+	if err != nil {
+		return nil, fmt.Errorf("failed generating password: %v", err)
+	}
+
+	claims["user_id"] = data.UserID
+	claims["phone"] = data.Phone
+	claims["email"] = data.Email
+	claims["hash"] = string(myCrypt)
+	claims["exp"] = expiredIn
+
+	tokenString, err := token.SignedString(cAuth.signature)
+	if err != nil {
+		return nil, fmt.Errorf("failed signing string: %v", err)
+	}
+
+	response = new(TokenResponse)
+	response.AccessToken = tokenString
+	response.TokenType = "Bearer"
+	response.ExpiredAt = expiredAt.Unix()
+	response.ExpiredIn = expiredIn.Seconds()
+
+	return response, nil
+}
+
+func ExtractToken(r *http.Request, key string) (interface{}, error) {
+	tokenStr, err := jwtMiddleware.Options.Extractor(r)
+	if err != nil {
+		return "", err
+	}
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+		return signingKey, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		return claims[key], nil
+	} else {
+		return "", nil
+	}
+}
+
+func GetAuthenticatedUser(r *http.Request) (int, error) {
+	userID, err := ExtractToken(r, "user_id")
+	if err != nil {
+		return 0, err
+	}
+	return int(userID.(float64)), nil
+}
