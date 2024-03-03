@@ -3,6 +3,7 @@ package auth
 import (
 	"csw-golang/internal/domain/entity/datastruct"
 	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/entity/request"
 	"errors"
 
 	"github.com/google/uuid"
@@ -10,9 +11,9 @@ import (
 	md "csw-golang/internal/delivery/http/middleware"
 )
 
-func (ar *authRepo) Register(user dto.RegisterRequest) error {
+func (ar *authRepo) Register(req request.RegisterRequest) error {
 	existingUser := datastruct.Users{}
-	if err := ar.db.Where("email = ?", user.Email).First(&existingUser).Error; err == nil {
+	if err := ar.db.Where("email = ?", req.Email).First(&existingUser).Error; err == nil {
 		//lint:ignore ST1005 Reason for ignoring this linter
 		return errors.New("Email already exists")
 	}
@@ -25,18 +26,18 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 	newUser := datastruct.Users{
 		ID:         uuid.NewString(),
 		RoleID:     role.ID,
-		Email:      user.Email,
-		Password:   user.Password,
-		GoogleID:   user.GoogleID,
-		FacebookID: user.FacebookID,
+		Email:      req.Email,
+		Password:   req.Password,
+		GoogleID:   req.GoogleID,
+		FacebookID: req.FacebookID,
 		UserDetails: datastruct.UserDetails{
 			ID:          uuid.NewString(),
-			Name:        user.Name,
-			PhoneNumber: user.Phone,
+			Name:        req.Name,
+			PhoneNumber: req.Phone,
 			Addresses: datastruct.Addresses{
-				Province:    user.Province,
-				RegencyCity: user.Regency,
-				SubDistrict: user.District,
+				Province:    req.Province,
+				RegencyCity: req.Regency,
+				SubDistrict: req.District,
 			},
 		},
 	}
@@ -72,9 +73,9 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 	return nil
 }
 
-func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
+func (ar *authRepo) Login(req request.LoginRequest) (dto.AuthResponse, error) {
 	existingUser := &datastruct.Users{}
-	err := ar.db.Preload("UserDetails").Where("email = ?", user.Email).First(&existingUser).Error
+	err := ar.db.Preload("UserDetails").Where("email = ?", req.Email).First(&existingUser).Error
 	if err != nil {
 		return dto.AuthResponse{}, err
 	}

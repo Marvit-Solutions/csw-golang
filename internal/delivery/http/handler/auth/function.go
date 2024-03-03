@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/entity/request"
 	"csw-golang/internal/domain/helper/response"
 	"csw-golang/internal/domain/helper/validator"
 	"net/http"
@@ -10,14 +10,14 @@ import (
 )
 
 func (ah *AuthHandler) Register(c *gin.Context) {
-	var request dto.RegisterRequest
+	var req request.RegisterRequest
 
-	if err := validator.Validation(c, &request); err != nil {
+	if err := validator.Validation(c, &req); err != nil {
 		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
 
-	err := ah.authUsecase.Register(request)
+	err := ah.authUsecase.Register(req)
 	if err != nil {
 		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
@@ -27,14 +27,14 @@ func (ah *AuthHandler) Register(c *gin.Context) {
 }
 
 func (ah *AuthHandler) Login(c *gin.Context) {
-	var request dto.LoginRequest
+	var req request.LoginRequest
 
-	if err := validator.Validation(c, &request); err != nil {
+	if err := validator.Validation(c, &req); err != nil {
 		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
 
-	data, err := ah.authUsecase.Login(request)
+	data, err := ah.authUsecase.Login(req)
 	if err != nil {
 		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
