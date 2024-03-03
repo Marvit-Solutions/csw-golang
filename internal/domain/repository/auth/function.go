@@ -85,12 +85,6 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 		return dto.AuthResponse{}, err
 	}
 
-	userRole := &datastruct.Roles{}
-	err = ar.db.Where("id = ?", existingUser.RoleID).First(&userRole).Error
-	if err != nil {
-		return dto.AuthResponse{}, err
-	}
-
 	token, err := md.CreateToken(existingUser.ID, existingUser.Email)
 	if err != nil {
 		return dto.AuthResponse{}, err
@@ -103,7 +97,6 @@ func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
 		FacebookID:     existingUser.FacebookID,
 		Email:          existingUser.Email,
 		Name:           existingUser.UserDetails.Name,
-		Role:           userRole.Role,
 		ProfilePicture: existingUser.UserDetails.ProfilePicture,
 		Token:          token,
 	}

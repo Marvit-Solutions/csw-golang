@@ -7,7 +7,6 @@ type AuthResponse struct {
 	Email          string `json:"Email" form:"Email" validate:"required,email"`
 	Password       string `json:"-"`
 	Name           string `json:"Name" form:"Name"`
-	Role           string `json:"Role" form:"Role" validate:"required"`
 	Token          string `json:"Token" form:"Token"`
 	ProfilePicture string `json:"FotoProfil" form:"FotoProfil" default:"assets/img/users/profile/account.png"`
 }
