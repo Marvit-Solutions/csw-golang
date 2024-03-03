@@ -15,16 +15,16 @@ var jwtMiddleware *jwtmiddleware.JWTMiddleware
 var signingKey []byte
 
 type TokenStructure struct {
-	UserID int
+	UserID string
 	Phone  string
 	Email  string
 }
 
 type TokenResponse struct {
-	AccessToken string  `json:"access_token"`
-	TokenType   string  `json:"token_type"`
-	ExpiredIn   float64 `json:"expired_in"`
-	ExpiredAt   int64   `json:"expired_at"`
+	AccessToken string  `json:"AccessToken"`
+	TokenType   string  `json:"TokenType"`
+	ExpiredIn   float64 `json:"ExpiredIn"`
+	ExpiredAt   int64   `json:"ExpiredAt"`
 }
 
 type cswAuth struct {
