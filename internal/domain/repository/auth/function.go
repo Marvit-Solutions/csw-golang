@@ -4,11 +4,13 @@ import (
 	"csw-golang/internal/domain/entity/datastruct"
 	"csw-golang/internal/domain/entity/dto"
 	"csw-golang/internal/domain/entity/request"
+	"csw-golang/internal/domain/helper/password"
 	"fmt"
+	"os"
 
 	"github.com/google/uuid"
 
-	md "csw-golang/internal/delivery/http/middleware"
+	jwt "csw-golang/internal/delivery/http/middleware/jwt"
 )
 
 func (ar *authRepo) Register(req request.RegisterRequest) error {
@@ -72,34 +74,33 @@ func (ar *authRepo) Register(req request.RegisterRequest) error {
 	return nil
 }
 
-func (ar *authRepo) Login(req request.LoginRequest) (dto.AuthResponse, error) {
-	existingUser := &datastruct.Users{}
-	err := ar.db.Preload("UserDetails").Where("email = ?", req.Email).First(&existingUser).Error
+func (ar *authRepo) Login(req request.LoginRequest) (*dto.AuthResponse, error) {
+	var user *datastruct.Users
+	err := ar.db.Preload("UserDetails").Where("email = ?", req.Email).First(&user).Error
 	if err != nil {
-		return dto.AuthResponse{}, fmt.Errorf("failed to get user: %v", err)
+		return nil, fmt.Errorf("failed to get user: %v", err)
 	}
 
-	userAddress := &datastruct.Addresses{}
-	err = ar.db.Where("user_detail_id = ?", existingUser.UserDetails.ID).First(&userAddress).Error
-	if err != nil {
-		return dto.AuthResponse{}, fmt.Errorf("failed to get user address: %v", err)
+	if !password.ComparePasswords(user.Password, req.Password) {
+		return nil, fmt.Errorf("invalid password")
 	}
 
-	token, err := md.CreateToken(existingUser.ID, existingUser.Email)
+	cswAuth := jwt.NewCswAuth([]byte(os.Getenv("SECRET_KEY")))
+
+	tokenStruct := jwt.TokenStructure{
+		UserID: user.ID,
+		Email:  user.Email,
+	}
+	token, err := cswAuth.GenerateToken(tokenStruct)
 	if err != nil {
-		return dto.AuthResponse{}, fmt.Errorf("failed to create token: %v", err)
+		return nil, fmt.Errorf("failed to create token: %v", err)
 	}
 
 	response := &dto.AuthResponse{
-		ID:             existingUser.ID,
-		Password:       existingUser.Password,
-		GoogleID:       existingUser.GoogleID,
-		FacebookID:     existingUser.FacebookID,
-		Email:          existingUser.Email,
-		Name:           existingUser.UserDetails.Name,
-		ProfilePicture: existingUser.UserDetails.ProfilePicture,
-		Token:          token,
+		AccessToken: token.AccessToken,
+		ExpiredIn:   token.ExpiredIn,
+		ExpiredAt:   token.ExpiredAt,
 	}
 
-	return *response, nil
+	return response, nil
 }

@@ -8,7 +8,7 @@ import (
 
 type AuthUsecase interface {
 	Register(req request.RegisterRequest) error
-	Login(req request.LoginRequest) (dto.AuthResponse, error)
+	Login(req request.LoginRequest) (*dto.AuthResponse, error)
 }
 
 type authUsecase struct {

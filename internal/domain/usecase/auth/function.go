@@ -4,7 +4,6 @@ import (
 	"csw-golang/internal/domain/entity/dto"
 	"csw-golang/internal/domain/entity/request"
 	pw "csw-golang/internal/domain/helper/password"
-	"fmt"
 )
 
 func (ac *authUsecase) Register(req request.RegisterRequest) error {
@@ -23,15 +22,10 @@ func (ac *authUsecase) Register(req request.RegisterRequest) error {
 	return nil
 }
 
-func (ac *authUsecase) Login(req request.LoginRequest) (dto.AuthResponse, error) {
+func (ac *authUsecase) Login(req request.LoginRequest) (*dto.AuthResponse, error) {
 	response, err := ac.authRepo.Login(req)
 	if err != nil {
-		return dto.AuthResponse{}, err
-	}
-
-	err = pw.VerifyPassword(response.Password, req.Password)
-	if err != nil {
-		return dto.AuthResponse{}, fmt.Errorf("failed to verify password: %v", err)
+		return nil, err
 	}
 
 	return response, nil

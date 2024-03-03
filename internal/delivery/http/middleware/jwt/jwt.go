@@ -16,7 +16,6 @@ var signingKey []byte
 
 type TokenStructure struct {
 	UserID string
-	Phone  string
 	Email  string
 }
 
@@ -73,7 +72,6 @@ func (cAuth *cswAuth) GenerateToken(data TokenStructure) (response *TokenRespons
 	}
 
 	claims["user_id"] = data.UserID
-	claims["phone"] = data.Phone
 	claims["email"] = data.Email
 	claims["hash"] = string(myCrypt)
 	claims["exp"] = expiredIn
