@@ -90,8 +90,6 @@ func (ar *authRepo) Register(req request.RegisterRequest) (*dto.AuthResponse, er
 
 	response := &dto.AuthResponse{
 		AccessToken: token.AccessToken,
-		ExpiredIn:   token.ExpiredIn,
-		ExpiredAt:   token.ExpiredAt,
 	}
 
 	return response, nil
@@ -121,8 +119,6 @@ func (ar *authRepo) Login(req request.LoginRequest) (*dto.AuthResponse, error) {
 
 	response := &dto.AuthResponse{
 		AccessToken: token.AccessToken,
-		ExpiredIn:   token.ExpiredIn,
-		ExpiredAt:   token.ExpiredAt,
 	}
 
 	return response, nil
