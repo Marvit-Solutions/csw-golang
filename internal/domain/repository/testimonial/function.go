@@ -23,7 +23,7 @@ func (t testimonialRepo) GetAllTestimonials() (error, dto.Testimonials) {
 			User    struct {
 				Name           string `json:"Name" form:"Name"`
 				ProfilePicture string `json:"ProfilePicture" form:"ProfilePicture"`
-				Status         string `json:"Status" form:"Status"`
+				Class          string `json:"Class " form:"Class "`
 			}
 		}{
 			ID:      testimonial.ID,
@@ -32,11 +32,11 @@ func (t testimonialRepo) GetAllTestimonials() (error, dto.Testimonials) {
 			User: struct {
 				Name           string `json:"Name" form:"Name"`
 				ProfilePicture string `json:"ProfilePicture" form:"ProfilePicture"`
-				Status         string `json:"Status" form:"Status"`
+				Class          string `json:"Class " form:"Class "`
 			}{
 				Name:           testimonial.UserDetail.Name,
 				ProfilePicture: testimonial.UserDetail.ProfilePicture,
-				Status:         testimonial.UserDetail.Status,
+				Class:          testimonial.UserDetail.Class,
 			},
 		}
 		allTestimonials = append(allTestimonials, dtoTestimonial)

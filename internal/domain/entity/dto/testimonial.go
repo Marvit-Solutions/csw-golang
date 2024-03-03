@@ -7,6 +7,6 @@ type Testimonials []struct {
 	User    struct {
 		Name           string `json:"Name" form:"Name"`
 		ProfilePicture string `json:"ProfilePicture" form:"ProfilePicture"`
-		Status         string `json:"Status" form:"Status"`
+		Class          string `json:"Class " form:"Class "`
 	}
 }
