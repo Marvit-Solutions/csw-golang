@@ -32,11 +32,11 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 		UserDetails: datastruct.UserDetails{
 			ID:          uuid.NewString(),
 			Name:        user.Name,
-			PhoneNumber: user.PhoneNumber,
+			PhoneNumber: user.Phone,
 			Addresses: datastruct.Addresses{
 				Province:    user.Province,
-				RegencyCity: user.RegencyCity,
-				SubDistrict: user.SubDistrict,
+				RegencyCity: user.Regency,
+				SubDistrict: user.District,
 			},
 		},
 	}

@@ -2,6 +2,7 @@ package auth
 
 import (
 	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/helper/response"
 	"csw-golang/internal/domain/helper/validator"
 	"net/http"
 
@@ -12,57 +13,32 @@ func (ah *AuthHandler) Register(c *gin.Context) {
 	var request dto.RegisterRequest
 
 	if err := validator.Validation(c, &request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Message": err.Error(),
-			"Code":    http.StatusBadRequest,
-			"Status":  http.StatusText(http.StatusBadRequest),
-		})
+		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
 
 	err := ah.authUsecase.Register(request)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Message: err.Error(),
-			Code:    http.StatusInternalServerError,
-			Status:  http.StatusText(http.StatusInternalServerError),
-		})
+		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Register sukses!",
-		Code:    http.StatusOK,
-		Status:  http.StatusText(http.StatusOK),
-	})
+	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), nil, "Register Sukses!")
 }
 
 func (ah *AuthHandler) Login(c *gin.Context) {
 	var request dto.LoginRequest
 
 	if err := validator.Validation(c, &request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Message": err.Error(),
-			"Code":    http.StatusBadRequest,
-			"Status":  http.StatusText(http.StatusBadRequest),
-		})
+		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
 
-	response, err := ah.authUsecase.Login(request)
+	data, err := ah.authUsecase.Login(request)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Message: err.Error(),
-			Code:    http.StatusBadRequest,
-			Status:  http.StatusText(http.StatusBadRequest),
-		})
+		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Login sukses!",
-		Code:    http.StatusOK,
-		Status:  http.StatusText(http.StatusOK),
-		Data:    response,
-	})
+	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data, "Login Sukses!")
 }
