@@ -4,7 +4,7 @@ import (
 	"csw-golang/internal/domain/entity/datastruct"
 	"csw-golang/internal/domain/entity/dto"
 	"csw-golang/internal/domain/entity/request"
-	"errors"
+	"fmt"
 
 	"github.com/google/uuid"
 
@@ -14,13 +14,12 @@ import (
 func (ar *authRepo) Register(req request.RegisterRequest) error {
 	existingUser := datastruct.Users{}
 	if err := ar.db.Where("email = ?", req.Email).First(&existingUser).Error; err == nil {
-		//lint:ignore ST1005 Reason for ignoring this linter
-		return errors.New("Email already exists")
+		return fmt.Errorf("email already exists")
 	}
 
 	var role datastruct.Roles
 	if err := ar.db.Where("role = ?", "User").First(&role).Error; err != nil {
-		return err
+		return fmt.Errorf("failed to get user role: %v", err)
 	}
 
 	newUser := datastruct.Users{
@@ -60,12 +59,12 @@ func (ar *authRepo) Register(req request.RegisterRequest) error {
 
 	if err := ar.db.Create(&newUser).Error; err != nil {
 		tx.Rollback()
-		return err
+		return fmt.Errorf("failed to create user: %v", err)
 	}
 
 	if err := ar.db.Create(&newAddress).Error; err != nil {
 		tx.Rollback()
-		return err
+		return fmt.Errorf("failed to create user address: %v", err)
 	}
 
 	tx.Commit()
@@ -77,18 +76,18 @@ func (ar *authRepo) Login(req request.LoginRequest) (dto.AuthResponse, error) {
 	existingUser := &datastruct.Users{}
 	err := ar.db.Preload("UserDetails").Where("email = ?", req.Email).First(&existingUser).Error
 	if err != nil {
-		return dto.AuthResponse{}, err
+		return dto.AuthResponse{}, fmt.Errorf("failed to get user: %v", err)
 	}
 
 	userAddress := &datastruct.Addresses{}
 	err = ar.db.Where("user_detail_id = ?", existingUser.UserDetails.ID).First(&userAddress).Error
 	if err != nil {
-		return dto.AuthResponse{}, err
+		return dto.AuthResponse{}, fmt.Errorf("failed to get user address: %v", err)
 	}
 
 	token, err := md.CreateToken(existingUser.ID, existingUser.Email)
 	if err != nil {
-		return dto.AuthResponse{}, err
+		return dto.AuthResponse{}, fmt.Errorf("failed to create token: %v", err)
 	}
 
 	response := &dto.AuthResponse{

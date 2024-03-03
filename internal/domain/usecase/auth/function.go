@@ -4,7 +4,7 @@ import (
 	"csw-golang/internal/domain/entity/dto"
 	"csw-golang/internal/domain/entity/request"
 	pw "csw-golang/internal/domain/helper/password"
-	"errors"
+	"fmt"
 )
 
 func (ac *authUsecase) Register(req request.RegisterRequest) error {
@@ -26,14 +26,12 @@ func (ac *authUsecase) Register(req request.RegisterRequest) error {
 func (ac *authUsecase) Login(req request.LoginRequest) (dto.AuthResponse, error) {
 	response, err := ac.authRepo.Login(req)
 	if err != nil {
-		//lint:ignore ST1005 Reason for ignoring this linter
-		return dto.AuthResponse{}, errors.New("Email atau password salah")
+		return dto.AuthResponse{}, err
 	}
 
 	err = pw.VerifyPassword(response.Password, req.Password)
 	if err != nil {
-		//lint:ignore ST1005 Reason for ignoring this linter
-		return dto.AuthResponse{}, errors.New("Email atau password salah")
+		return dto.AuthResponse{}, fmt.Errorf("failed to verify password: %v", err)
 	}
 
 	return response, nil
