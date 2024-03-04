@@ -5,42 +5,37 @@ import (
 	"csw-golang/internal/domain/entity/dto"
 )
 
-func (t testimonialRepo) GetAllTestimonials() (error, dto.Testimonials) {
+func (t testimonialRepo) GetAllTestimonials() ([]dto.Testimonials, error) {
 
-	var allTestimonials dto.Testimonials
 	var testimonials []datastruct.Testimonials
+	var users []datastruct.Users
 
-	tx := t.db.Preload("UserDetail").Find(&testimonials)
+	tx := t.db.Preload("UserTestimonials").Find(&testimonials)
 	if tx.Error != nil {
-		return tx.Error, allTestimonials
+		return nil, tx.Error
 	}
 
+	allTestimonials := make([]dto.Testimonials, 0)
 	for _, testimonial := range testimonials {
-		dtoTestimonial := struct {
-			ID      string  `json:"ID"`
-			Comment string  `json:"Comment"`
-			Rating  float32 `json:"Rating"`
-			User    struct {
-				Name           string `json:"Name" form:"Name"`
-				ProfilePicture string `json:"ProfilePicture" form:"ProfilePicture"`
-				Class          string `json:"Class " form:"Class "`
-			}
-		}{
+		tx := t.db.Preload("UserDetails").
+			Where("users.id = ?", testimonial.UserTestimonials.UserID).
+			First(&users)
+		if tx.Error != nil {
+			return nil, tx.Error
+		}
+
+		newTestimonials := dto.Testimonials{
 			ID:      testimonial.ID,
-			Rating:  testimonial.Rating,
 			Comment: testimonial.Comment,
-			User: struct {
-				Name           string `json:"Name" form:"Name"`
-				ProfilePicture string `json:"ProfilePicture" form:"ProfilePicture"`
-				Class          string `json:"Class " form:"Class "`
-			}{
-				Name:           testimonial.UserDetail.Name,
-				ProfilePicture: testimonial.UserDetail.ProfilePicture,
-				Class:          testimonial.UserDetail.Class,
+			Rating:  testimonial.Rating,
+			User: dto.UserTestimonialResponse{
+				Name:           users[0].UserDetails.Name,
+				ProfilePicture: users[0].UserDetails.ProfilePicture,
+				Class:          users[0].UserDetails.Class,
 			},
 		}
-		allTestimonials = append(allTestimonials, dtoTestimonial)
+		allTestimonials = append(allTestimonials, newTestimonials)
 	}
-	return nil, allTestimonials
 
+	return allTestimonials, nil
 }

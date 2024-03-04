@@ -13,9 +13,8 @@ type UserDetails struct {
 	DeletedAt      gorm.DeletedAt `gorm:"index"`
 	UserID         string         `gorm:"type:text;not null"`
 	Name           string         `gorm:"type:varchar(100);not null"`
-	PhoneNumber    string         `gorm:"type:varchar(15);not null"`
-	ProfilePicture string         `gorm:"type:varchar(15);not null;default: 'assets/img/users/profile/account.png'"`
+	PhoneNumber    string         `gorm:"type:varchar(50);not null"`
+	ProfilePicture string         `gorm:"type:text;not null;default: 'assets/img/users/profile/account.png'"`
 	Class          string         `gorm:"type:varchar(10);not null"`
-	TestimonialID  *string        `gorm:"type:text;not null"`
 	Addresses      Addresses      `gorm:"foreignKey:UserDetailID"`
 }
