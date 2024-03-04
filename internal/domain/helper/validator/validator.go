@@ -7,7 +7,7 @@ import (
 	"github.com/go-playground/validator"
 )
 
-func Validation(c *gin.Context, request interface{}) error {
+func BindingValidation(c *gin.Context, request interface{}) error {
 	if err := c.ShouldBindJSON(request); err != nil {
 		return fmt.Errorf("failed binding data: %v", err)
 	}

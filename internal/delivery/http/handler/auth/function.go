@@ -12,7 +12,7 @@ import (
 func (ah *AuthHandler) Register(c *gin.Context) {
 	var req request.RegisterRequest
 
-	if err := validator.Validation(c, &req); err != nil {
+	if err := validator.BindingValidation(c, &req); err != nil {
 		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
@@ -29,7 +29,7 @@ func (ah *AuthHandler) Register(c *gin.Context) {
 func (ah *AuthHandler) Login(c *gin.Context) {
 	var req request.LoginRequest
 
-	if err := validator.Validation(c, &req); err != nil {
+	if err := validator.BindingValidation(c, &req); err != nil {
 		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
