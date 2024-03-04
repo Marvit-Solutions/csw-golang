@@ -2,12 +2,13 @@ package auth
 
 import (
 	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/entity/request"
 	ar "csw-golang/internal/domain/repository/auth"
 )
 
 type AuthUsecase interface {
-	Register(user dto.RegisterRequest) error
-	Login(user dto.LoginRequest) (dto.AuthResponse, error)
+	Register(req request.RegisterRequest) (*dto.AuthResponse, error)
+	Login(req request.LoginRequest) (*dto.AuthResponse, error)
 }
 
 type authUsecase struct {
