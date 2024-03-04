@@ -43,20 +43,14 @@ func (ar *authRepo) Register(req request.RegisterRequest) (*dto.AuthResponse, er
 			ID:          uuid.NewString(),
 			Name:        req.Name,
 			PhoneNumber: req.Phone,
+			Class:       req.Class,
 			Addresses: datastruct.Addresses{
+				ID:          uuid.NewString(),
 				Province:    req.Province,
 				RegencyCity: req.Regency,
 				SubDistrict: req.District,
 			},
 		},
-	}
-
-	newAddress := datastruct.Addresses{
-		ID:           uuid.NewString(),
-		UserDetailID: newUser.UserDetails.ID,
-		Province:     newUser.UserDetails.Addresses.Province,
-		RegencyCity:  newUser.UserDetails.Addresses.RegencyCity,
-		SubDistrict:  newUser.UserDetails.Addresses.SubDistrict,
 	}
 
 	tx := ar.db.Begin()
@@ -70,11 +64,6 @@ func (ar *authRepo) Register(req request.RegisterRequest) (*dto.AuthResponse, er
 	if err := ar.db.Create(&newUser).Error; err != nil {
 		tx.Rollback()
 		return nil, fmt.Errorf("failed to create user: %v", err)
-	}
-
-	if err := ar.db.Create(&newAddress).Error; err != nil {
-		tx.Rollback()
-		return nil, fmt.Errorf("failed to create user address: %v", err)
 	}
 
 	tx.Commit()
@@ -103,7 +92,7 @@ func (ar *authRepo) Login(req request.LoginRequest) (*dto.AuthResponse, error) {
 	}
 
 	if !password.ComparePasswords(user.Password, req.Password) {
-		return nil, fmt.Errorf("invalid password")
+		return nil, fmt.Errorf("invalid email or password")
 	}
 
 	cswAuth := jwt.NewCswAuth([]byte(os.Getenv("SECRET_KEY")))
