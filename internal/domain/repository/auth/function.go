@@ -3,50 +3,54 @@ package auth
 import (
 	"csw-golang/internal/domain/entity/datastruct"
 	"csw-golang/internal/domain/entity/dto"
-	"errors"
+	"csw-golang/internal/domain/entity/request"
+	"csw-golang/internal/domain/helper/password"
+	"fmt"
+	"os"
 
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 
-	md "csw-golang/internal/delivery/http/middleware"
+	jwt "csw-golang/internal/delivery/http/middleware/jwt"
 )
 
-func (ar *authRepo) Register(user dto.RegisterRequest) error {
-	existingUser := datastruct.Users{}
-	if err := ar.db.Where("email = ?", user.Email).First(&existingUser).Error; err == nil {
-		//lint:ignore ST1005 Reason for ignoring this linter
-		return errors.New("Email already exists")
+func (ar *authRepo) Register(req request.RegisterRequest) (*dto.AuthResponse, error) {
+	var existingUser datastruct.Users
+	if err := ar.db.Where("email = ?", req.Email).First(&existingUser).Error; err == nil {
+		return nil, fmt.Errorf("email already exists")
 	}
 
 	var role datastruct.Roles
 	if err := ar.db.Where("role = ?", "User").First(&role).Error; err != nil {
-		return err
+		return nil, fmt.Errorf("failed to get user role: %v", err)
+	}
+
+	cswAuth := jwt.NewCswAuth([]byte(os.Getenv("SECRET_KEY")))
+	bytePassword := []byte(req.Password)
+	userPassword, err := bcrypt.GenerateFromPassword(bytePassword, bcrypt.DefaultCost)
+	if err != nil {
+		return nil, fmt.Errorf("failed hashing password: %v", err)
 	}
 
 	newUser := datastruct.Users{
 		ID:         uuid.NewString(),
 		RoleID:     role.ID,
-		Email:      user.Email,
-		Password:   user.Password,
-		GoogleID:   user.GoogleID,
-		FacebookID: user.FacebookID,
+		Email:      req.Email,
+		Password:   string(userPassword),
+		GoogleID:   req.GoogleID,
+		FacebookID: req.FacebookID,
 		UserDetails: datastruct.UserDetails{
 			ID:          uuid.NewString(),
-			Name:        user.Name,
-			PhoneNumber: user.PhoneNumber,
+			Name:        req.Name,
+			PhoneNumber: req.Phone,
+			Class:       req.Class,
 			Addresses: datastruct.Addresses{
-				Province:    user.Province,
-				RegencyCity: user.RegencyCity,
-				SubDistrict: user.SubDistrict,
+				ID:          uuid.NewString(),
+				Province:    req.Province,
+				RegencyCity: req.Regency,
+				SubDistrict: req.District,
 			},
 		},
-	}
-
-	newAddress := datastruct.Addresses{
-		ID:           uuid.NewString(),
-		UserDetailID: newUser.UserDetails.ID,
-		Province:     newUser.UserDetails.Addresses.Province,
-		RegencyCity:  newUser.UserDetails.Addresses.RegencyCity,
-		SubDistrict:  newUser.UserDetails.Addresses.SubDistrict,
 	}
 
 	tx := ar.db.Begin()
@@ -59,64 +63,52 @@ func (ar *authRepo) Register(user dto.RegisterRequest) error {
 
 	if err := ar.db.Create(&newUser).Error; err != nil {
 		tx.Rollback()
-		return err
-	}
-
-	if err := ar.db.Create(&newAddress).Error; err != nil {
-		tx.Rollback()
-		return err
+		return nil, fmt.Errorf("failed to create user: %v", err)
 	}
 
 	tx.Commit()
 
-	return nil
-}
-
-func (ar *authRepo) Login(user dto.LoginRequest) (dto.AuthResponse, error) {
-	existingUser := &datastruct.Users{}
-	err := ar.db.Preload("UserDetail").Where("email = ?", user.Email).First(&existingUser).Error
-	if err != nil {
-		return dto.AuthResponse{}, err
+	tokenStruct := jwt.TokenStructure{
+		UserID: newUser.ID,
+		Email:  newUser.Email,
 	}
-
-	userAddress := &datastruct.Addresses{}
-	err = ar.db.Where("user_detail_id = ?", existingUser.UserDetails.ID).First(&userAddress).Error
+	token, err := cswAuth.GenerateToken(tokenStruct)
 	if err != nil {
-		return dto.AuthResponse{}, err
-	}
-
-	userRole := &datastruct.Roles{}
-	err = ar.db.Where("id = ?", existingUser.RoleID).First(&userRole).Error
-	if err != nil {
-		return dto.AuthResponse{}, err
-	}
-
-	token, err := md.CreateToken(existingUser.ID, existingUser.Email)
-	if err != nil {
-		return dto.AuthResponse{}, err
+		return nil, fmt.Errorf("failed to create token: %v", err)
 	}
 
 	response := &dto.AuthResponse{
-		ID:             existingUser.ID,
-		Password:       existingUser.Password,
-		GoogleID:       existingUser.GoogleID,
-		FacebookID:     existingUser.FacebookID,
-		Email:          existingUser.Email,
-		Name:           existingUser.UserDetails.Name,
-		Role:           userRole.Role,
-		PhoneNumber:    existingUser.UserDetails.PhoneNumber,
-		ProfilePicture: existingUser.UserDetails.ProfilePicture,
-		Address: struct {
-			Province    string "json:\"Province\" form:\"Province\""
-			RegencyCity string "json:\"RegencyCity\" form:\"RegencyCity\""
-			SubDistrict string "json:\"SubDistrict\" form:\"SubDistrict\""
-		}{
-			Province:    userAddress.Province,
-			RegencyCity: userAddress.RegencyCity,
-			SubDistrict: userAddress.SubDistrict,
-		},
-		Token: token,
+		AccessToken: token.AccessToken,
 	}
 
-	return *response, nil
+	return response, nil
+}
+
+func (ar *authRepo) Login(req request.LoginRequest) (*dto.AuthResponse, error) {
+	var user *datastruct.Users
+	err := ar.db.Preload("UserDetails").Where("email = ?", req.Email).First(&user).Error
+	if err != nil {
+		return nil, fmt.Errorf("failed to get user: %v", err)
+	}
+
+	if !password.ComparePasswords(user.Password, req.Password) {
+		return nil, fmt.Errorf("invalid email or password")
+	}
+
+	cswAuth := jwt.NewCswAuth([]byte(os.Getenv("SECRET_KEY")))
+
+	tokenStruct := jwt.TokenStructure{
+		UserID: user.ID,
+		Email:  user.Email,
+	}
+	token, err := cswAuth.GenerateToken(tokenStruct)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create token: %v", err)
+	}
+
+	response := &dto.AuthResponse{
+		AccessToken: token.AccessToken,
+	}
+
+	return response, nil
 }
