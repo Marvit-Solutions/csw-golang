@@ -1,10 +1,11 @@
 package tests
 
 import (
-	"csw-golang/internal/domain/entity/dto"
 	"csw-golang/internal/domain/entity/request"
 	"csw-golang/internal/domain/helper/paginate"
+	"csw-golang/internal/domain/helper/response"
 	"csw-golang/internal/domain/helper/validator"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -30,11 +31,7 @@ func (th *TestHandler) GetAllTests(c *gin.Context) {
 
 	validParams := map[string]interface{}{"module": "string", "submodule": "string", "testtype": "string", "page": 0, "perpage": 0}
 	if !validator.ValidateParams(c, validParams) {
-		c.JSON(http.StatusNotFound, dto.Fail{
-			Message: "Masukkan parameter dengan benar!",
-			Code:    http.StatusBadRequest,
-			Status:  http.StatusText(http.StatusBadRequest),
-		})
+		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), fmt.Errorf("failed to send param: %v", validParams))
 		return
 	}
 
@@ -47,33 +44,19 @@ func (th *TestHandler) GetAllTests(c *gin.Context) {
 		Offset:    offset,
 	}
 
-	response, meta, err := th.testUsecase.GetAllTests(req)
+	data, meta, err := th.testUsecase.GetAllTests(req)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Code:    http.StatusInternalServerError,
-			Status:  http.StatusText(http.StatusInternalServerError),
-			Message: err.Error(),
-		})
-		return
-	}
- 
-	if response == nil || len(*response) == 0 {
-		c.JSON(http.StatusNotFound, dto.Fail{
-			Message: "Data not found!",
-			Code:    http.StatusNotFound,
-			Status:  http.StatusText(http.StatusNotFound),
-		})
+		response.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 
-	pageInt, err := strconv.ParseInt(page, 10, 64)
+	if data == nil || len(*data) == 0 {
+		response.NewErrorResponse(c, http.StatusNotFound, http.StatusText(http.StatusNotFound), fmt.Errorf("test not found"))
+		return
+	}
+
+	pageInt, _ := strconv.ParseInt(page, 10, 64)
 	meta.Page = pageInt
 
-	c.JSON(http.StatusOK, dto.Success[*[]dto.QuizResponse]{
-		Message: "Success get test!",
-		Code:    http.StatusOK,
-		Status:  http.StatusText(http.StatusOK),
-		Data:    response,
-		Meta:    meta,
-	})
+	response.NewSuccessResponsePaged(c, http.StatusOK, http.StatusText(http.StatusOK), data, meta, "Success get test!")
 }

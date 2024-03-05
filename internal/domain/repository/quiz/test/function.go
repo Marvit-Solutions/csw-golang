@@ -3,13 +3,15 @@ package tests
 import (
 	"csw-golang/internal/domain/entity/dto"
 	"csw-golang/internal/domain/entity/request"
+	"csw-golang/internal/domain/helper/response"
+	"fmt"
 )
 
-func (tr testRepo) GetAllTests(req request.QuizParamRequest) (*[]dto.QuizResponse, *dto.Meta, error) {
+func (tr testRepo) GetAllTests(req request.QuizParamRequest) (*[]dto.QuizResponse, *response.Meta, error) {
 	var quizzes []dto.QuizResponse
 	var count int64
 	var perPage int64
-	var meta *dto.Meta
+	var meta *response.Meta
 
 	err := tr.db.Table("modules m").
 		Select("CEIL(COUNT(*)::NUMERIC / 10)").
@@ -20,7 +22,7 @@ func (tr testRepo) GetAllTests(req request.QuizParamRequest) (*[]dto.QuizRespons
 		Scan(&count).
 		Error
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, fmt.Errorf("failed to get count: %v", err)
 	}
 
 	perPage = req.Limit
@@ -40,10 +42,10 @@ func (tr testRepo) GetAllTests(req request.QuizParamRequest) (*[]dto.QuizRespons
 		Find(&quizzes).
 		Error
 	if err != nil {
-		return &quizzes, nil, err
+		return &quizzes, nil, fmt.Errorf("failed to get data: %v", err)
 	}
 
-	meta = &dto.Meta{
+	meta = &response.Meta{
 		PerPage:   perPage,
 		LastPage:  lastPage,
 		TotalPage: count,

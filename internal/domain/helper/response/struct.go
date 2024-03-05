@@ -11,7 +11,7 @@ type ResponsePaged[Data interface{}] struct {
 	Code    int    `json:"Code"`
 	Status  string `json:"Status"`
 	Data    Data   `json:"Data"`
-	Meta    Meta   `json:"Meta"`
+	Meta    *Meta  `json:"Meta"`
 	// "Meta": {
 	// 	"Page": "4"
 	// 	"PerPage": "10",
