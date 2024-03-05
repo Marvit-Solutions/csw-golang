@@ -6,16 +6,31 @@ import (
 	"csw-golang/internal/delivery"
 	"csw-golang/internal/delivery/http/handler"
 	authHandler "csw-golang/internal/delivery/http/handler/auth"
+	exerciseAnswerHandler "csw-golang/internal/delivery/http/handler/exercise/answer"
+	exerciseGradeHandler "csw-golang/internal/delivery/http/handler/exercise/grade"
+	exerciseQuestionsHandler "csw-golang/internal/delivery/http/handler/exercise/questions"
+	exerciseSubmissionHandler "csw-golang/internal/delivery/http/handler/exercise/submission"
+	exerciseTestHandler "csw-golang/internal/delivery/http/handler/exercise/test"
 	mentorHandler "csw-golang/internal/delivery/http/handler/mentor"
 	planHandler "csw-golang/internal/delivery/http/handler/plan"
 	testimonialsHandler "csw-golang/internal/delivery/http/handler/testimonial"
 
 	authRepo "csw-golang/internal/domain/repository/auth"
+	exerciseAnswerRepo "csw-golang/internal/domain/repository/exercise/answer"
+	exerciseGradeRepo "csw-golang/internal/domain/repository/exercise/grade"
+	exerciseQuestionsRepo "csw-golang/internal/domain/repository/exercise/question"
+	exerciseSubmissionRepo "csw-golang/internal/domain/repository/exercise/submission"
+	exerciseTestRepo "csw-golang/internal/domain/repository/exercise/test"
 	mentorRepo "csw-golang/internal/domain/repository/mentor"
 	planRepo "csw-golang/internal/domain/repository/plan"
 	testimonialsRepo "csw-golang/internal/domain/repository/testimonial"
 
 	authUsecase "csw-golang/internal/domain/usecase/auth"
+	exerciseAnswerUsecase "csw-golang/internal/domain/usecase/exercise/answer"
+	exerciseGradeUsecase "csw-golang/internal/domain/usecase/exercise/grade"
+	exerciseQuestionsUsecase "csw-golang/internal/domain/usecase/exercise/questions"
+	exerciseSubmissionUsecase "csw-golang/internal/domain/usecase/exercise/submission"
+	exerciseTestUsecase "csw-golang/internal/domain/usecase/exercise/test"
 	mentorUsecase "csw-golang/internal/domain/usecase/mentor"
 	planUsecase "csw-golang/internal/domain/usecase/plan"
 	testimonialUsecase "csw-golang/internal/domain/usecase/testimonial"
@@ -28,6 +43,26 @@ func StartApp() *gin.Engine {
 	authRepo := authRepo.New(db.DB)
 	authUsecase := authUsecase.New(authRepo)
 	authHandler := authHandler.New(authUsecase)
+
+	exerciseQuestionsRepo := exerciseQuestionsRepo.New(db.DB)
+	exerciseQuestionsUsecase := exerciseQuestionsUsecase.New(exerciseQuestionsRepo)
+	exerciseQuestionsHandler := exerciseQuestionsHandler.New(exerciseQuestionsUsecase)
+
+	exerciseSubmissionRepo := exerciseSubmissionRepo.New(db.DB)
+	exerciseSubmissionUsecase := exerciseSubmissionUsecase.New(exerciseSubmissionRepo)
+	exerciseSubmissionHandler := exerciseSubmissionHandler.New(exerciseSubmissionUsecase)
+
+	exerciseTestRepo := exerciseTestRepo.New(db.DB)
+	exerciseTestUsecase := exerciseTestUsecase.New(exerciseTestRepo)
+	exerciseTestHandler := exerciseTestHandler.New(exerciseTestUsecase)
+
+	eAnswerRepo := exerciseAnswerRepo.New(db.DB)
+	eAnswerUsecase := exerciseAnswerUsecase.New(eAnswerRepo)
+	eAnswerHandler := exerciseAnswerHandler.New(eAnswerUsecase)
+
+	eGradeRepo := exerciseGradeRepo.New(db.DB)
+	eGradeUsecase := exerciseGradeUsecase.New(eGradeRepo)
+	eGradeHandler := exerciseGradeHandler.New(eGradeUsecase)
 
 	planRepo := planRepo.New(db.DB)
 	planUsecase := planUsecase.New(planRepo)
@@ -42,10 +77,15 @@ func StartApp() *gin.Engine {
 	testimonialHandler := testimonialsHandler.New(testimonialUsecase)
 
 	handler := handler.Handler{
-		AuthHandler:        authHandler,
-		PlanHandler:        planHandler,
-		MentorHandler:      mentorHandler,
-		TestimonialHandler: testimonialHandler,
+		AuthHandler:              authHandler,
+		PlanHandler:              planHandler,
+		MentorHandler:            mentorHandler,
+		TestimonialHandler:       testimonialHandler,
+		ExerciseQuestionsHandler: exerciseQuestionsHandler,
+		ExerciseTestHandler:      exerciseTestHandler,
+		SubmissionHandler:        exerciseSubmissionHandler,
+		ExerciseAnswerHandler:    eAnswerHandler,
+		ExerciseGradeHandler:     eGradeHandler,
 	}
 
 	router := delivery.StartRoute(handler)

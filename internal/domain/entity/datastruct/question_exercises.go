@@ -11,7 +11,7 @@ type QuestionExercises struct {
 	CreatedAt                    time.Time                      `gorm:"default:CURRENT_TIMESTAMP"`
 	UpdatedAt                    time.Time                      `gorm:"default:CURRENT_TIMESTAMP"`
 	DeletedAt                    gorm.DeletedAt                 `gorm:"index"`
-	TestTypeExerciseID           string                         `json:"TestTypeExerciseID" form:"TestTypeExerciseID"`
+	TestTypeExerciseID           string                         `json:"TestTypeExerciseID" form:"TestTypeExerciseID" gorm:"default:null"`
 	Content                      string                         `json:"Content" form:"Content"`
 	Weight                       int                            `json:"Weight" form:"Weight"`
 	ChoiceExercises              []ChoiceExercises              `gorm:"foreignKey:QuestionExerciseID"`
