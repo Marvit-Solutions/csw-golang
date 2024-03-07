@@ -15,7 +15,7 @@ import (
 )
 
 func (th *TestHandler) GetAllTests(c *gin.Context) {
-	var req request.QuizParamRequest
+	var req request.QuizRequest
 
 	// Define page and limit
 	page := c.Query("page")
@@ -43,7 +43,7 @@ func (th *TestHandler) GetAllTests(c *gin.Context) {
 		response.NewErrorResponse(c, http.StatusForbidden, http.StatusText(http.StatusForbidden), err)
 	}
 
-	req = request.QuizParamRequest{
+	req = request.QuizRequest{
 		UserID:    authenticatedUser,
 		Module:    module,
 		SubModule: subModule,

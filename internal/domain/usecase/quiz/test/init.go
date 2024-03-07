@@ -8,7 +8,7 @@ import (
 )
 
 type TestUsecase interface {
-	GetAllTests(req request.QuizParamRequest) (*[]dto.QuizResponse, *response.Meta, error)
+	GetAllTests(req request.QuizRequest) (*[]dto.QuizResponse, *response.Meta, error)
 }
 
 type testUsecase struct {

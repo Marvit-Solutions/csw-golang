@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-func (tr testRepo) GetAllTests(req request.QuizParamRequest) (*[]dto.QuizResponse, *response.Meta, error) {
+func (tr testRepo) GetAllTests(req request.QuizRequest) (*[]dto.QuizResponse, *response.Meta, error) {
 	var quizzes []dto.QuizResponse
 	var count int64
 	var perPage int64

@@ -1,6 +1,6 @@
 package request
 
-type QuizParamRequest struct {
+type QuizRequest struct {
 	UserID    string `json:"UserID" form:"UserID"`
 	Module    string `json:"Module" form:"Module"`
 	SubModule string `json:"SubModule" form:"SubModule"`
