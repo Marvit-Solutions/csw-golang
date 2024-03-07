@@ -22,7 +22,7 @@ func (th *TestHandler) GetAllTests(c *gin.Context) {
 	perPage := c.Query("perpage")
 	limit, offset := paginate.Paginate(page, perPage)
 
-	// Define module and sub module
+	// Define module, testtype and sub module
 	module := c.Query("module")
 	module = strings.ToUpper(module)
 	subModule := c.Query("submodule")
