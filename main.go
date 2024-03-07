@@ -15,6 +15,7 @@ func init() {
 
 func main() {
 	log.Println("Starting application...")
+
 	r := app.StartApp()
 
 	port := os.Getenv("APP_PORT")

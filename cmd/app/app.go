@@ -2,9 +2,11 @@ package app
 
 import (
 	db "csw-golang/pkg/database/psql"
+	"fmt"
 
 	"csw-golang/internal/delivery"
 	"csw-golang/internal/delivery/http/handler"
+	"csw-golang/internal/delivery/http/middleware/jwt"
 
 	authHandler "csw-golang/internal/delivery/http/handler/auth"
 	authRepo "csw-golang/internal/domain/repository/auth"
@@ -35,6 +37,12 @@ import (
 
 func StartApp() *gin.Engine {
 	db.Init()
+
+	err := jwt.NewMiddlewareConfig()
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	authRepo := authRepo.New(db.DB)
 	authUsecase := authUsecase.New(authRepo)
 	authHandler := authHandler.New(authUsecase)
