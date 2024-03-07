@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"csw-golang/internal/delivery/http/middleware/jwt"
 	"csw-golang/internal/domain/entity/request"
 	"csw-golang/internal/domain/helper/paginate"
 	"csw-golang/internal/domain/helper/response"
@@ -14,7 +15,12 @@ import (
 )
 
 func (th *TestHandler) GetAllTests(c *gin.Context) {
-	userID := "8f23e5cd-0e96-4e1d-a72b-b8f85ca083ee" // user 4
+	var req request.QuizParamRequest
+
+	authenticatedUser, err := jwt.GetAuthenticatedUser(c.Request)
+	if err != nil {
+		response.NewErrorResponse(c, http.StatusForbidden, http.StatusText(http.StatusForbidden), err)
+	}
 
 	// Define page and limit
 	page := c.Query("page")
@@ -29,14 +35,15 @@ func (th *TestHandler) GetAllTests(c *gin.Context) {
 	testType := c.Query("testtype")
 	testType = strings.ToUpper(testType)
 
+	// Validate params
 	validParams := map[string]interface{}{"module": "string", "submodule": "string", "testtype": "string", "page": 0, "perpage": 0}
 	if !validator.ValidateParams(c, validParams) {
 		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), fmt.Errorf("failed to send param: %v", validParams))
 		return
 	}
 
-	req := request.QuizParamRequest{
-		UserID:    userID,
+	req = request.QuizParamRequest{
+		UserID:    authenticatedUser,
 		Module:    module,
 		SubModule: subModule,
 		TestType:  testType,

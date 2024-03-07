@@ -31,7 +31,7 @@ type cswAuth struct {
 }
 
 type CswAuth interface {
-	GenerateToken(data TokenStructure) (response *TokenResponse, err error)
+	GenerateToken(data TokenStructure) (*TokenResponse, error)
 }
 
 func NewCswAuth(signature []byte) CswAuth {
@@ -43,9 +43,7 @@ const (
 )
 
 func NewMiddlewareConfig() error {
-
 	InitJWTMiddlewareCustom([]byte(os.Getenv("SECRET_KEY")), jwt.SigningMethodHS512)
-
 	return nil
 }
 
@@ -93,25 +91,29 @@ func (cAuth *cswAuth) GenerateToken(data TokenStructure) (response *TokenRespons
 func ExtractToken(r *http.Request, key string) (interface{}, error) {
 	tokenStr, err := jwtMiddleware.Options.Extractor(r)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		return signingKey, nil
 	})
-	if err != nil {
-		return nil, err
+	if err != nil || !token.Valid {
+		return nil, fmt.Errorf("invalid token")
 	}
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		return claims[key], nil
-	} else {
-		return "", nil
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return nil, fmt.Errorf("invalid token claims")
 	}
+	claimValue, exists := claims[key]
+	if !exists {
+		return nil, fmt.Errorf("claim not found")
+	}
+	return claimValue, nil
 }
 
-func GetAuthenticatedUser(r *http.Request) (int, error) {
+func GetAuthenticatedUser(r *http.Request) (string, error) {
 	userID, err := ExtractToken(r, "user_id")
 	if err != nil {
-		return 0, err
+		return "", err
 	}
-	return int(userID.(float64)), nil
+	return userID.(string), nil
 }
