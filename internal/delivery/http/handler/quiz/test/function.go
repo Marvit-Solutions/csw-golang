@@ -17,11 +17,6 @@ import (
 func (th *TestHandler) GetAllTests(c *gin.Context) {
 	var req request.QuizParamRequest
 
-	authenticatedUser, err := jwt.GetAuthenticatedUser(c.Request)
-	if err != nil {
-		response.NewErrorResponse(c, http.StatusForbidden, http.StatusText(http.StatusForbidden), err)
-	}
-
 	// Define page and limit
 	page := c.Query("page")
 	perPage := c.Query("perpage")
@@ -40,6 +35,12 @@ func (th *TestHandler) GetAllTests(c *gin.Context) {
 	if !validator.ValidateParams(c, validParams) {
 		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), fmt.Errorf("failed to send param: %v", validParams))
 		return
+	}
+
+	// Get user id from jwt token
+	authenticatedUser, err := jwt.GetAuthenticatedUser(c.Request)
+	if err != nil {
+		response.NewErrorResponse(c, http.StatusForbidden, http.StatusText(http.StatusForbidden), err)
 	}
 
 	req = request.QuizParamRequest{
