@@ -7,7 +7,7 @@ import (
 )
 
 type TestimonialRepo interface {
-	GetAllTestimonials() (error, dto.Testimonials)
+	GetAllTestimonials() ([]dto.Testimonials, error)
 }
 
 type testimonialRepo struct {

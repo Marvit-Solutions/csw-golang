@@ -1,28 +1,18 @@
 package testimonial
 
 import (
-	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/helper/response"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func (tc *TestimonialHandler) GetAllTestimonials(c *gin.Context) {
-	err, response := tc.testimonialUsecase.GetAllTestimonials()
+	data, err := tc.testimonialUsecase.GetAllTestimonials()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Message: err.Error(),
-			Code:    http.StatusBadRequest,
-			Status:  http.StatusText(http.StatusBadRequest),
-		})
+		response.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Success",
-		Code:    http.StatusOK,
-		Status:  http.StatusText(http.StatusOK),
-		Data:    response,
-	})
-
+	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data, "Berhasil mendapatkan testimonials!")
 }

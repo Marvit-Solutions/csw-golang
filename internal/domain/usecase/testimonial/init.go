@@ -6,7 +6,7 @@ import (
 )
 
 type TestimonialUsecase interface {
-	GetAllTestimonials() (error, dto.Testimonials)
+	GetAllTestimonials() ([]dto.Testimonials, error)
 }
 
 type testimonialUsecase struct {

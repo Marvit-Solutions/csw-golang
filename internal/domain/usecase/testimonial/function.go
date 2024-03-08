@@ -4,10 +4,10 @@ import (
 	"csw-golang/internal/domain/entity/dto"
 )
 
-func (tr *testimonialUsecase) GetAllTestimonials() (error, dto.Testimonials) {
-	err, mentor := tr.testimonialRepo.GetAllTestimonials()
+func (tr *testimonialUsecase) GetAllTestimonials() ([]dto.Testimonials, error) {
+	data, err := tr.testimonialRepo.GetAllTestimonials()
 	if err != nil {
-		return err, dto.Testimonials{}
+		return nil, err
 	}
-	return nil, mentor
+	return data, err
 }
