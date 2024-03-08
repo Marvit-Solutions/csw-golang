@@ -1,7 +1,9 @@
 package module
 
 import (
-	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/entity/request"
+	"csw-golang/internal/domain/helper/response"
+	"csw-golang/internal/domain/helper/validator"
 	"fmt"
 	"net/http"
 
@@ -9,158 +11,102 @@ import (
 )
 
 func (mc *ModuleHandler) GetListModules(c *gin.Context) {
-	response, err := mc.moduleUsecase.GetListModules()
+	data, err := mc.moduleUsecase.GetListModules()
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Message: err.Error(),
-			Code:    http.StatusBadRequest,
-			Status:  http.StatusText(http.StatusBadRequest),
-		})
+		response.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 
-	if response == nil {
-		c.JSON(http.StatusNotFound, dto.Fail{
-			Message: "Data not found",
-			Code:    http.StatusNotFound,
-			Status:  http.StatusText(http.StatusNotFound),
-		})
+	if data == nil {
+		response.NewErrorResponse(c, http.StatusNotFound, http.StatusText(http.StatusNotFound), nil)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Success",
-		Code:    http.StatusOK,
-		Status:  http.StatusText(http.StatusOK),
-		Data:    response,
-	})
+	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data, "Success Get List Of Modules")
 
 }
 
 func (mc *ModuleHandler) GetSubjectsBySubmoduleID(c *gin.Context) {
 	submoduleID := c.Param("submoduleID")
 
-	response, err := mc.moduleUsecase.GetSubjectsBySubmoduleID(submoduleID)
+	data, err := mc.moduleUsecase.GetSubjectsBySubmoduleID(submoduleID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Message: err.Error(),
-			Code:    http.StatusBadRequest,
-			Status:  http.StatusText(http.StatusBadRequest),
-		})
+		response.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 
-	if response == nil {
-		c.JSON(http.StatusNotFound, dto.Fail{
-			Message: "Data not found",
-			Code:    http.StatusNotFound,
-			Status:  http.StatusText(http.StatusNotFound),
-		})
+	if data == nil {
+		response.NewErrorResponse(c, http.StatusNotFound, http.StatusText(http.StatusNotFound), nil)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Success",
-		Code:    http.StatusOK,
-		Status:  http.StatusText(http.StatusOK),
-		Data:    response,
-	})
+	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data, "Success Get Subjects By Submodule ID")
 }
 
 func (mc *ModuleHandler) GetQuestionsByTestTypeID(c *gin.Context) {
 	testTypeID := c.Param("testTypeID")
 
-	response, err := mc.moduleUsecase.GetQuestionsByTestTypeID(testTypeID)
+	data, err := mc.moduleUsecase.GetQuestionsByTestTypeID(testTypeID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Message: err.Error(),
-			Code:    http.StatusBadRequest,
-			Status:  http.StatusText(http.StatusBadRequest),
-		})
+		response.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 
-	if response.QuestionTotal == 0 {
-		c.JSON(http.StatusNotFound, dto.Fail{
-			Message: "Data not found",
-			Code:    http.StatusNotFound,
-			Status:  http.StatusText(http.StatusNotFound),
-		})
+	if data.QuestionTotal == 0 {
+		response.NewErrorResponse(c, http.StatusNotFound, http.StatusText(http.StatusNotFound), nil)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Success",
-		Code:    http.StatusOK,
-		Status:  http.StatusText(http.StatusOK),
-		Data:    response,
-	})
+	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data, "Success Get Questions By Test Type ID")
 }
 
 func (mc *ModuleHandler) GetTestReview(c *gin.Context) {
 	submissionID := c.Param("submissionID")
-	// status := c.Param("status")
 
-	response, err := mc.moduleUsecase.GetTestReview(submissionID)
+	data, err := mc.moduleUsecase.GetTestReview(submissionID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Message: err.Error(),
-			Code:    http.StatusBadRequest,
-			Status:  http.StatusText(http.StatusBadRequest),
-		})
+		response.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 
-	if response.QuestionTotal == 0 {
-		c.JSON(http.StatusNotFound, dto.Fail{
-			Message: "Data not found",
-			Code:    http.StatusNotFound,
-			Status:  http.StatusText(http.StatusNotFound),
-		})
+	if data.QuestionTotal == 0 {
+		response.NewErrorResponse(c, http.StatusNotFound, http.StatusText(http.StatusNotFound), nil)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Success",
-		Code:    http.StatusOK,
-		Status:  http.StatusText(http.StatusOK),
-		Data:    response,
-	})
+	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data, "Success Get Test Review")
 }
 
 func (mc *ModuleHandler) PostSubmittedTest(c *gin.Context) {
 
 	testTypeID := c.Param("testTypeID")
 	userID := "7aa65bf1-9273-46ad-ba2c-bf94ddcfcc6e"
-	request := dto.UserSubmittedQuizRequest{}
 
-	err := c.Bind(&request)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, dto.Fail{
-			Message: err.Error(),
-			Code:    http.StatusBadRequest,
-			Status:  http.StatusText(http.StatusBadRequest),
-		})
+	// userID, err := jwt.GetAuthenticatedUser(c.Request)
+	// if err != nil {
+	// 	response.NewErrorResponse(c, http.StatusUnauthorized, http.StatusText(http.StatusUnauthorized), err)
+	// 	return
+	// }
+
+	// userIDString := strconv.Itoa(userID)
+	// fmt.Println("USER ID: ", userID)
+	// fmt.Println("USER ID CONVERTED: ", userIDString)
+
+	request := request.UserSubmittedQuizRequest{}
+
+	if err := validator.BindingValidation(c, &request); err != nil {
+		response.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
 
-	err = mc.moduleUsecase.PostSubmittedTest(testTypeID, userID, request)
+	err := mc.moduleUsecase.PostSubmittedTest(testTypeID, userID, request)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Message: err.Error(),
-			Code:    http.StatusBadRequest,
-			Status:  http.StatusText(http.StatusBadRequest),
-		})
+		response.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Success",
-		Code:    http.StatusOK,
-		Status:  http.StatusText(http.StatusOK),
-		Data:    nil,
-	})
+	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), nil, "Success Post Submitted Test")
 }
 
 func (mc *ModuleHandler) GetTop3EverySubject(c *gin.Context) {
@@ -169,30 +115,17 @@ func (mc *ModuleHandler) GetTop3EverySubject(c *gin.Context) {
 
 	fmt.Println("USER ID: ", userID)
 
-	response, err := mc.moduleUsecase.GetTop3EverySubject(userID, subjectTypeID)
+	data, err := mc.moduleUsecase.GetTop3EverySubject(userID, subjectTypeID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Message: err.Error(),
-			Code:    http.StatusBadRequest,
-			Status:  http.StatusText(http.StatusBadRequest),
-		})
+		response.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 
-	if response == nil {
-		c.JSON(http.StatusNotFound, dto.Fail{
-			Message: "Data not found",
-			Code:    http.StatusNotFound,
-			Status:  http.StatusText(http.StatusNotFound),
-		})
+	if data == nil {
+		response.NewErrorResponse(c, http.StatusNotFound, http.StatusText(http.StatusNotFound), nil)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Success",
-		Code:    http.StatusOK,
-		Status:  http.StatusText(http.StatusOK),
-		Data:    response,
-	})
+	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data, "Success Get Top 3 Every Subject")
 
 }

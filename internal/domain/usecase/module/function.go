@@ -3,6 +3,7 @@ package module
 import (
 	"csw-golang/internal/domain/entity/datastruct"
 	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/entity/request"
 	"sort"
 	"time"
 
@@ -204,7 +205,7 @@ func (mod *moduleUsecase) GetTestReview(moduleTestID string) (dto.ReviewResultRe
 	return moduleTestResponses, nil
 }
 
-func (mod *moduleUsecase) PostSubmittedTest(testTypeID, userID string, submittedQuiz dto.UserSubmittedQuizRequest) error {
+func (mod *moduleUsecase) PostSubmittedTest(testTypeID, userID string, submittedQuiz request.UserSubmittedQuizRequest) error {
 	// fmt.Println("PostSubmittedTest usecase")
 
 	submitedTest := datastruct.UserTestSubmissionQuizzes{

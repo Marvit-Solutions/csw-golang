@@ -7,7 +7,7 @@ import (
 	"csw-golang/internal/delivery/http/handler"
 	authHandler "csw-golang/internal/delivery/http/handler/auth"
 	mentorHandler "csw-golang/internal/delivery/http/handler/mentor"
-	moduleHandler "csw-golang/internal/delivery/http/handler/modul"
+	moduleHandler "csw-golang/internal/delivery/http/handler/module"
 	planHandler "csw-golang/internal/delivery/http/handler/plan"
 	testimonialsHandler "csw-golang/internal/delivery/http/handler/testimonial"
 
@@ -19,7 +19,7 @@ import (
 
 	authUsecase "csw-golang/internal/domain/usecase/auth"
 	mentorUsecase "csw-golang/internal/domain/usecase/mentor"
-	moduleUsecase "csw-golang/internal/domain/usecase/modul"
+	moduleUsecase "csw-golang/internal/domain/usecase/module"
 	planUsecase "csw-golang/internal/domain/usecase/plan"
 	testimonialUsecase "csw-golang/internal/domain/usecase/testimonial"
 

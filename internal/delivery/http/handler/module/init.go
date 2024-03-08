@@ -1,7 +1,7 @@
 package module
 
 import (
-	module "csw-golang/internal/domain/usecase/modul"
+	module "csw-golang/internal/domain/usecase/module"
 )
 
 type ModuleHandler struct {
