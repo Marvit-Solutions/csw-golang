@@ -70,7 +70,7 @@ func swagger(engine *gin.Engine) {
 	if env.GetString("server.env") == "stage" {
 		docs.SwaggerInfo.Host = "stage.api.csw.id"
 	} else if env.GetString("server.env") == "local" {
-		docs.SwaggerInfo.Host = "127.0.0.1:5000"
+		docs.SwaggerInfo.Host = "127.0.0.1:8080"
 	}
 
 	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
