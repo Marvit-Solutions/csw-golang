@@ -21,4 +21,10 @@ func NewRouteInit(req request.RouteInit) {
 		authGroup.POST("/register", module.Auth.Register)
 		authGroup.POST("/login", module.Auth.Login)
 	}
+
+	{
+		mentorGroup := route.Group("/mentor")
+		mentorGroup.GET("/top", module.Mentor.ListThreeMentors)
+		mentorGroup.GET("/all", module.Mentor.GetAllMentors)
+	}
 }

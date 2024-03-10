@@ -1,11 +1,11 @@
 package mentor
 
 import (
-	"csw-golang/internal/domain/entity/datastruct"
-	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/datastruct"
+	dto "csw-golang/internal/domain/response"
 )
 
-func (m mentorRepo) GetListTopThreeMentors() (error, dto.ListMentor) {
+func (m mentorRepository) GetListTopThreeMentors() (dto.ListMentor, error) {
 	var topMentors dto.ListMentor
 	var mentors []datastruct.Mentors
 	_ = m.db.Order("rating desc, name").Limit(3).Find(&mentors)
@@ -28,17 +28,17 @@ func (m mentorRepo) GetListTopThreeMentors() (error, dto.ListMentor) {
 		}
 		topMentors = append(topMentors, dtoMentor)
 	}
-	return nil, topMentors
+	return topMentors, nil
 }
 
-func (m mentorRepo) GetAllMentors() (error, dto.ListMentor) {
+func (m mentorRepository) GetAllMentors() (dto.ListMentor, error) {
 	var allMentors dto.ListMentor
 	var mentors []datastruct.Mentors
 
 	// Fetch all mentors from the database
 	tx := m.db.Find(&mentors)
 	if tx.Error != nil {
-		return tx.Error, allMentors
+		return allMentors, tx.Error
 	}
 
 	for _, mentor := range mentors {
@@ -59,5 +59,5 @@ func (m mentorRepo) GetAllMentors() (error, dto.ListMentor) {
 		allMentors = append(allMentors, dtoMentor)
 	}
 
-	return nil, allMentors
+	return allMentors, nil
 }

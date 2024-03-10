@@ -1,15 +1,25 @@
 package mentor
 
 import (
-	mc "csw-golang/internal/domain/usecase/mentor"
+	"csw-golang/internal/usecase/mentor"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-type MentorHandler struct {
-	mentorUsecase mc.MentorUsecase
+type mentorHandler struct {
+	mentorUsecase mentor.MentorUsecase
 }
 
-func New(mentorUsecase mc.MentorUsecase) *MentorHandler {
-	return &MentorHandler{
-		mentorUsecase,
+type MentorHandler interface {
+	ListThreeMentors(c *gin.Context)
+	GetAllMentors(c *gin.Context)
+}
+
+func NewMentorHandler(
+	db *gorm.DB,
+) MentorHandler {
+	return &mentorHandler{
+		mentorUsecase: mentor.NewMentorUsecase(db),
 	}
 }

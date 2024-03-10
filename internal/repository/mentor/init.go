@@ -1,21 +1,20 @@
 package mentor
 
 import (
-	"csw-golang/internal/domain/entity/dto"
+	dto "csw-golang/internal/domain/response"
+
 	"gorm.io/gorm"
 )
 
-type MentorRepo interface {
-	GetListTopThreeMentors() (error, dto.ListMentor)
-	GetAllMentors() (error, dto.ListMentor)
+type MentorRepository interface {
+	GetListTopThreeMentors() (dto.ListMentor, error)
+	GetAllMentors() (dto.ListMentor, error)
 }
 
-type mentorRepo struct {
+type mentorRepository struct {
 	db *gorm.DB
 }
 
-func New(db *gorm.DB) MentorRepo {
-	return &mentorRepo{
-		db,
-	}
+func NewMentorRepository(db *gorm.DB) MentorRepository {
+	return &mentorRepository{db}
 }

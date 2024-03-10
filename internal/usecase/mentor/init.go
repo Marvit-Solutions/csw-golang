@@ -1,21 +1,25 @@
 package mentor
 
 import (
-	"csw-golang/internal/domain/entity/dto"
-	mr "csw-golang/internal/domain/repository/mentor"
+	dto "csw-golang/internal/domain/response"
+	"csw-golang/internal/repository/mentor"
+
+	"gorm.io/gorm"
 )
 
 type MentorUsecase interface {
-	GetListTopThreeMentors() (error, dto.ListMentor)
-	GetAllMentors() (error, dto.ListMentor)
+	GetListTopThreeMentors() (dto.ListMentor, error)
+	GetAllMentors() (dto.ListMentor, error)
 }
 
 type mentorUsecase struct {
-	mentorRepo mr.MentorRepo
+	mentorRepo mentor.MentorRepository
 }
 
-func New(mentorRepo mr.MentorRepo) *mentorUsecase {
+func NewMentorUsecase(
+	db *gorm.DB,
+) MentorUsecase {
 	return &mentorUsecase{
-		mentorRepo,
+		mentorRepo: mentor.NewMentorRepository(db),
 	}
 }

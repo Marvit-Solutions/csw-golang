@@ -1,21 +1,21 @@
 package mentor
 
 import (
-	"csw-golang/internal/domain/entity/dto"
+	dto "csw-golang/internal/domain/response"
 )
 
-func (mr *mentorUsecase) GetListTopThreeMentors() (error, dto.ListMentor) {
-	err, mentor := mr.mentorRepo.GetListTopThreeMentors()
+func (mr *mentorUsecase) GetListTopThreeMentors() (dto.ListMentor, error) {
+	mentor, err := mr.mentorRepo.GetListTopThreeMentors()
 	if err != nil {
-		return err, dto.ListMentor{}
+		return dto.ListMentor{}, err
 	}
-	return nil, mentor
+	return mentor, nil
 }
 
-func (mr *mentorUsecase) GetAllMentors() (error, dto.ListMentor) {
-	err, mentor := mr.mentorRepo.GetAllMentors()
+func (mr *mentorUsecase) GetAllMentors() (dto.ListMentor, error) {
+	mentor, err := mr.mentorRepo.GetAllMentors()
 	if err != nil {
-		return err, dto.ListMentor{}
+		return dto.ListMentor{}, err
 	}
-	return nil, mentor
+	return mentor, nil
 }

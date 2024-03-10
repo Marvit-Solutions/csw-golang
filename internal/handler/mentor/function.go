@@ -1,14 +1,14 @@
 package mentor
 
 import (
-	"csw-golang/internal/domain/entity/dto"
+	dto "csw-golang/internal/domain/response"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func (mc *MentorHandler) ListThreeMentors(c *gin.Context) {
-	err, response := mc.mentorUsecase.GetListTopThreeMentors()
+func (mc *mentorHandler) ListThreeMentors(c *gin.Context) {
+	response, err := mc.mentorUsecase.GetListTopThreeMentors()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Message: err.Error(),
@@ -27,8 +27,8 @@ func (mc *MentorHandler) ListThreeMentors(c *gin.Context) {
 
 }
 
-func (mc *MentorHandler) GetAllMentors(c *gin.Context) {
-	err, response := mc.mentorUsecase.GetAllMentors()
+func (mc *mentorHandler) GetAllMentors(c *gin.Context) {
+	response, err := mc.mentorUsecase.GetAllMentors()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Message: err.Error(),
