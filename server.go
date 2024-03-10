@@ -11,6 +11,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/swag/example/basic/docs"
 )
 
 var env config.Config
@@ -30,6 +33,9 @@ func startApp() {
 
 	//start gin engine
 	engine := gin.New()
+
+	//add swagger documentation
+	swagger(engine)
 
 	//add route endpoint and healthcheck
 	healthCheck(engine)
@@ -58,4 +64,14 @@ func healthCheck(engine *gin.Engine) {
 		func(ctx *gin.Context) {
 			ctx.JSON(http.StatusOK, "pong!")
 		})
+}
+
+func swagger(engine *gin.Engine) {
+	if env.GetString("server.env") == "stage" {
+		docs.SwaggerInfo.Host = "stage.api.csw.id"
+	} else if env.GetString("server.env") == "local" {
+		docs.SwaggerInfo.Host = "127.0.0.1:5000"
+	}
+
+	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 }
