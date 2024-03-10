@@ -16,11 +16,13 @@ import (
 var env config.Config
 
 func startApp() {
+	// initiate auth middleware
 	err := auth.NewMiddlewareConfig(env)
 	if err != nil {
 		fmt.Println(err)
 	}
 
+	// initiate postgresql
 	SQLMasterConn, err := database.InitDBSQL(env, "postgresql")
 	if err != nil {
 		fmt.Println(err)
@@ -32,7 +34,7 @@ func startApp() {
 	//add route endpoint and healthcheck
 	healthCheck(engine)
 
-	//call route per modul
+	//call route
 	req := request.RouteInit{Engine: engine, SQLMaster: SQLMasterConn, Env: env}
 	app.NewRouteInit(req)
 
