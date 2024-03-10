@@ -1,8 +1,8 @@
 package plan
 
 import (
-	dto "csw-golang/internal/domain/response"
-	"csw-golang/internal/repository/plan"
+	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/repository/plan"
 
 	"gorm.io/gorm"
 )

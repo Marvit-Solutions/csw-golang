@@ -1,8 +1,8 @@
 package mentor
 
 import (
-	dto "csw-golang/internal/domain/response"
-	"csw-golang/internal/repository/mentor"
+	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/repository/mentor"
 
 	"gorm.io/gorm"
 )

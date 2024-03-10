@@ -1,8 +1,9 @@
 package main
 
 import (
-	"csw-golang/library/config"
 	"os"
+
+	"github.com/Marvit-Solutions/csw-golang/library/config"
 
 	"github.com/sirupsen/logrus"
 )

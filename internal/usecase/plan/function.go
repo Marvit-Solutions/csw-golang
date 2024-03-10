@@ -1,7 +1,7 @@
 package plan
 
 import (
-	dto "csw-golang/internal/domain/response"
+	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 )
 
 func (pc *planUsecase) ListPlan() ([]dto.PlanResponse, error) {

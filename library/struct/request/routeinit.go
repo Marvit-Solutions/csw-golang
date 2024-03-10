@@ -1,7 +1,7 @@
 package request
 
 import (
-	"csw-golang/library/config"
+	"github.com/Marvit-Solutions/csw-golang/library/config"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"

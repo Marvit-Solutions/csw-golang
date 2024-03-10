@@ -1,10 +1,11 @@
 package auth
 
 import (
-	"csw-golang/library/config"
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/Marvit-Solutions/csw-golang/library/config"
 
 	jwtmiddleware "github.com/auth0/go-jwt-middleware"
 	"github.com/form3tech-oss/jwt-go"

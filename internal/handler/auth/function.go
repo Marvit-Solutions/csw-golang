@@ -1,10 +1,11 @@
 package auth
 
 import (
-	"csw-golang/internal/domain/request"
-	"csw-golang/library/helper/response"
-	"csw-golang/library/helper/validator"
 	"net/http"
+
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/request"
+	"github.com/Marvit-Solutions/csw-golang/library/helper/response"
+	"github.com/Marvit-Solutions/csw-golang/library/helper/validator"
 
 	"github.com/gin-gonic/gin"
 )

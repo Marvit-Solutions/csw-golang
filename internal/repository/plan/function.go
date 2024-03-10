@@ -1,9 +1,10 @@
 package plan
 
 import (
-	"csw-golang/internal/domain/datastruct"
-	dto "csw-golang/internal/domain/response"
 	"sort"
+
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/datastruct"
+	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 )
 
 func (pr *planRepository) ListPlan() ([]dto.PlanResponse, error) {

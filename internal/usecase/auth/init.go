@@ -1,9 +1,9 @@
 package auth
 
 import (
-	"csw-golang/internal/domain/request"
-	dto "csw-golang/internal/domain/response"
-	"csw-golang/internal/repository/auth"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/request"
+	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/repository/auth"
 
 	"gorm.io/gorm"
 )

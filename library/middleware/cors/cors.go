@@ -1,8 +1,9 @@
 package cors
 
 import (
-	"csw-golang/library/config"
 	"net/http"
+
+	"github.com/Marvit-Solutions/csw-golang/library/config"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"csw-golang/internal/domain/request"
-	dto "csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/request"
+	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 )
 
 func (ac *authUsecase) Register(req request.RegisterRequest) (*dto.AuthResponse, error) {

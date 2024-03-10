@@ -1,11 +1,11 @@
 package cmd
 
 import (
-	"csw-golang/internal/handler/auth"
-	"csw-golang/internal/handler/mentor"
-	"csw-golang/internal/handler/plan"
-	"csw-golang/internal/handler/testimonial"
-	"csw-golang/library/config"
+	"github.com/Marvit-Solutions/csw-golang/internal/handler/auth"
+	"github.com/Marvit-Solutions/csw-golang/internal/handler/mentor"
+	"github.com/Marvit-Solutions/csw-golang/internal/handler/plan"
+	"github.com/Marvit-Solutions/csw-golang/internal/handler/testimonial"
+	"github.com/Marvit-Solutions/csw-golang/library/config"
 
 	"gorm.io/gorm"
 )

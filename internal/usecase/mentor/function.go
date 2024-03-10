@@ -1,7 +1,7 @@
 package mentor
 
 import (
-	dto "csw-golang/internal/domain/response"
+	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 )
 
 func (mr *mentorUsecase) GetListTopThreeMentors() (dto.ListMentor, error) {

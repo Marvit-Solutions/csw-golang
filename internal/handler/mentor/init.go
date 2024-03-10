@@ -1,7 +1,7 @@
 package mentor
 
 import (
-	"csw-golang/internal/usecase/mentor"
+	"github.com/Marvit-Solutions/csw-golang/internal/usecase/mentor"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"

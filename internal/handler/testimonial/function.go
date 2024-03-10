@@ -1,8 +1,9 @@
 package testimonial
 
 import (
-	"csw-golang/library/helper/response"
 	"net/http"
+
+	"github.com/Marvit-Solutions/csw-golang/library/helper/response"
 
 	"github.com/gin-gonic/gin"
 )

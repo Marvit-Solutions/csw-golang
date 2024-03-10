@@ -1,8 +1,8 @@
 package mentor
 
 import (
-	"csw-golang/internal/domain/datastruct"
-	dto "csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/datastruct"
+	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 )
 
 func (m mentorRepository) GetListTopThreeMentors() (dto.ListMentor, error) {

@@ -1,17 +1,18 @@
 package auth
 
 import (
-	"csw-golang/internal/domain/datastruct"
-	"csw-golang/internal/domain/request"
-	dto "csw-golang/internal/domain/response"
-	"csw-golang/library/helper/password"
 	"fmt"
 	"os"
+
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/datastruct"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/request"
+	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/library/helper/password"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 
-	"csw-golang/library/middleware/auth"
+	"github.com/Marvit-Solutions/csw-golang/library/middleware/auth"
 )
 
 func (ar *authRepository) Register(req request.RegisterRequest) (*dto.AuthResponse, error) {

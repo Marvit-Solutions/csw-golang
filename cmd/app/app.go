@@ -1,8 +1,8 @@
 package app
 
 import (
-	"csw-golang/cmd"
-	"csw-golang/library/struct/request"
+	"github.com/Marvit-Solutions/csw-golang/cmd"
+	"github.com/Marvit-Solutions/csw-golang/library/struct/request"
 
 	"github.com/gin-gonic/gin"
 	"go.elastic.co/apm/module/apmgin"

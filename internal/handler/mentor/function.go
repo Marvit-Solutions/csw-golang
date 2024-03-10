@@ -1,8 +1,9 @@
 package mentor
 
 import (
-	dto "csw-golang/internal/domain/response"
 	"net/http"
+
+	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 
 	"github.com/gin-gonic/gin"
 )

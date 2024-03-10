@@ -1,8 +1,9 @@
 package database
 
 import (
-	"csw-golang/library/config"
 	"fmt"
+
+	"github.com/Marvit-Solutions/csw-golang/library/config"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

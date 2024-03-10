@@ -1,14 +1,15 @@
 package main
 
 import (
-	"csw-golang/cmd/app"
-	"csw-golang/library/config"
-	"csw-golang/library/config/database"
-	"csw-golang/library/middleware/auth"
-	"csw-golang/library/struct/request"
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/Marvit-Solutions/csw-golang/cmd/app"
+	"github.com/Marvit-Solutions/csw-golang/library/config"
+	"github.com/Marvit-Solutions/csw-golang/library/config/database"
+	"github.com/Marvit-Solutions/csw-golang/library/middleware/auth"
+	"github.com/Marvit-Solutions/csw-golang/library/struct/request"
 
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
