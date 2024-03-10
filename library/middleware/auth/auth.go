@@ -1,9 +1,9 @@
 package auth
 
 import (
+	"csw-golang/library/config"
 	"fmt"
 	"net/http"
-	"os"
 	"time"
 
 	jwtmiddleware "github.com/auth0/go-jwt-middleware"
@@ -31,7 +31,7 @@ type cswAuth struct {
 }
 
 type CswAuth interface {
-	GenerateToken(data TokenStructure) (*TokenResponse, error)
+	GenerateToken(data TokenStructure) (response *TokenResponse, err error)
 }
 
 func NewCswAuth(signature []byte) CswAuth {
@@ -42,8 +42,10 @@ const (
 	EXPIRED_IN = time.Hour * (24 * 90) // 90 days
 )
 
-func NewMiddlewareConfig() error {
-	InitJWTMiddlewareCustom([]byte(os.Getenv("SECRET_KEY")), jwt.SigningMethodHS512)
+func NewMiddlewareConfig(cfg config.Config) error {
+	signature := cfg.GetString("app.signature")
+	InitJWTMiddlewareCustom([]byte(signature), jwt.SigningMethodHS512)
+
 	return nil
 }
 
@@ -58,13 +60,15 @@ func InitJWTMiddlewareCustom(secret []byte, signingMethod jwt.SigningMethod) {
 }
 
 func (cAuth *cswAuth) GenerateToken(data TokenStructure) (response *TokenResponse, err error) {
+	cfg := config.NewConfig()
+
 	token := jwt.New(jwt.SigningMethodHS512)
 	claims := token.Claims.(jwt.MapClaims)
 
 	expiredIn := EXPIRED_IN
 	expiredAt := time.Now().Add(EXPIRED_IN)
 
-	myCrypt, err := bcrypt.GenerateFromPassword([]byte(os.Getenv("SECRET_KEY")), 8)
+	myCrypt, err := bcrypt.GenerateFromPassword([]byte(cfg.GetString("app.signature")), 8)
 	if err != nil {
 		return nil, fmt.Errorf("failed generating password: %v", err)
 	}
@@ -91,23 +95,19 @@ func (cAuth *cswAuth) GenerateToken(data TokenStructure) (response *TokenRespons
 func ExtractToken(r *http.Request, key string) (interface{}, error) {
 	tokenStr, err := jwtMiddleware.Options.Extractor(r)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		return signingKey, nil
 	})
-	if err != nil || !token.Valid {
-		return nil, fmt.Errorf("invalid token")
+	if err != nil {
+		return nil, err
 	}
-	claims, ok := token.Claims.(jwt.MapClaims)
-	if !ok {
-		return nil, fmt.Errorf("invalid token claims")
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		return claims[key], nil
+	} else {
+		return "", nil
 	}
-	claimValue, exists := claims[key]
-	if !exists {
-		return nil, fmt.Errorf("claim not found")
-	}
-	return claimValue, nil
 }
 
 func GetAuthenticatedUser(r *http.Request) (string, error) {

@@ -4,6 +4,7 @@ import (
 	"csw-golang/cmd/app"
 	"csw-golang/library/config"
 	"csw-golang/library/config/database"
+	"csw-golang/library/middleware/auth"
 	"csw-golang/library/struct/request"
 	"fmt"
 	"log"
@@ -15,6 +16,11 @@ import (
 var env config.Config
 
 func startApp() {
+	err := auth.NewMiddlewareConfig(env)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	SQLMasterConn, err := database.InitDBSQL(env, "postgresql")
 	if err != nil {
 		fmt.Println(err)
