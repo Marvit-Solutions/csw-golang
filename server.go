@@ -51,13 +51,11 @@ func healthCheck(engine *gin.Engine) {
 	// root endpoint
 	engine.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, "CSW API Service")
-		return
 	})
 
 	// Healthcheck endpoint
 	engine.GET("ping",
 		func(ctx *gin.Context) {
 			ctx.JSON(http.StatusOK, "pong!")
-			return
 		})
 }
