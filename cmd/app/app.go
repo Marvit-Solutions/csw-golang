@@ -27,4 +27,10 @@ func NewRouteInit(req request.RouteInit) {
 		mentorGroup.GET("/top", module.Mentor.ListThreeMentors)
 		mentorGroup.GET("/all", module.Mentor.GetAllMentors)
 	}
+
+	{
+		planGroup := route.Group("/plan")
+		planGroup.GET("/all", module.Plan.ListPlan)
+		planGroup.GET("/top", module.Plan.GetTop3Plan)
+	}
 }

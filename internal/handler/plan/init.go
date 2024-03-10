@@ -1,15 +1,25 @@
 package plan
 
 import (
-	pc "csw-golang/internal/domain/usecase/plan"
+	"csw-golang/internal/usecase/plan"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-type PlanHandler struct {
-	planUsecase pc.PlanUsecase
+type planHandler struct {
+	planUsecase plan.PlanUsecase
 }
 
-func New(planUsecase pc.PlanUsecase) *PlanHandler {
-	return &PlanHandler{
-		planUsecase,
+type PlanHandler interface {
+	ListPlan(c *gin.Context)
+	GetTop3Plan(c *gin.Context)
+}
+
+func NewPlanHandler(
+	db *gorm.DB,
+) PlanHandler {
+	return &planHandler{
+		planUsecase: plan.NewPlanUsecase(db),
 	}
 }

@@ -1,12 +1,12 @@
 package plan
 
 import (
-	"csw-golang/internal/domain/entity/datastruct"
-	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/datastruct"
+	dto "csw-golang/internal/domain/response"
 	"sort"
 )
 
-func (pr *planRepo) ListPlan() ([]dto.PlanResponse, error) {
+func (pr *planRepository) ListPlan() ([]dto.PlanResponse, error) {
 	var PlanList []datastruct.Modules
 
 	err := pr.db.Preload("SubPlans").Find(&PlanList).Error
@@ -43,7 +43,7 @@ func (pr *planRepo) ListPlan() ([]dto.PlanResponse, error) {
 	return PlanResponses, nil
 }
 
-func (pr *planRepo) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
+func (pr *planRepository) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
 	var PlanList []datastruct.Modules
 
 	err := pr.db.Preload("SubPlans").Find(&PlanList).Error

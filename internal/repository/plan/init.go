@@ -1,22 +1,20 @@
 package plan
 
 import (
-	"csw-golang/internal/domain/entity/dto"
+	dto "csw-golang/internal/domain/response"
 
 	"gorm.io/gorm"
 )
 
-type PlanRepo interface {
+type PlanRepository interface {
 	ListPlan() ([]dto.PlanResponse, error)
 	GetTop3Plan() ([]dto.SubPlanTop3Response, error)
 }
 
-type planRepo struct {
+type planRepository struct {
 	db *gorm.DB
 }
 
-func New(db *gorm.DB) PlanRepo {
-	return &planRepo{
-		db,
-	}
+func NewPlanRepository(db *gorm.DB) PlanRepository {
+	return &planRepository{db}
 }

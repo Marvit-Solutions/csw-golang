@@ -1,8 +1,10 @@
 package plan
 
 import (
-	"csw-golang/internal/domain/entity/dto"
-	pr "csw-golang/internal/domain/repository/plan"
+	dto "csw-golang/internal/domain/response"
+	"csw-golang/internal/repository/plan"
+
+	"gorm.io/gorm"
 )
 
 type PlanUsecase interface {
@@ -11,11 +13,13 @@ type PlanUsecase interface {
 }
 
 type planUsecase struct {
-	planRepo pr.PlanRepo
+	planRepo plan.PlanRepository
 }
 
-func New(planRepo pr.PlanRepo) *planUsecase {
+func NewPlanUsecase(
+	db *gorm.DB,
+) PlanUsecase {
 	return &planUsecase{
-		planRepo,
+		planRepo: plan.NewPlanRepository(db),
 	}
 }

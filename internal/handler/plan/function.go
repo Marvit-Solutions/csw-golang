@@ -1,13 +1,13 @@
 package plan
 
 import (
-	"csw-golang/internal/domain/entity/dto"
+	dto "csw-golang/internal/domain/response"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func (ph *PlanHandler) ListPlan(c *gin.Context) {
+func (ph *planHandler) ListPlan(c *gin.Context) {
 
 	response, err := ph.planUsecase.ListPlan()
 	if err != nil {
@@ -36,7 +36,7 @@ func (ph *PlanHandler) ListPlan(c *gin.Context) {
 	})
 }
 
-func (ph *PlanHandler) GetTop3Plan(c *gin.Context) {
+func (ph *planHandler) GetTop3Plan(c *gin.Context) {
 	response, err := ph.planUsecase.GetTop3Plan()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
