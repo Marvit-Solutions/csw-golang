@@ -2,8 +2,9 @@ package mentor
 
 import (
 	"csw-golang/internal/domain/entity/dto"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func (mc *MentorHandler) ListThreeMentors(c *gin.Context) {

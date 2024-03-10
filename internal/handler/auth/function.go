@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"csw-golang/internal/domain/entity/request"
+	"csw-golang/internal/domain/request"
 	"csw-golang/library/helper/response"
 	"csw-golang/library/helper/validator"
 	"net/http"
