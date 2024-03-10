@@ -8,6 +8,7 @@ type QuizResponse struct {
 	Title       string    `json:"Title"`
 	MeetingDate time.Time `json:"MeetingDate"`
 	Open        time.Time `json:"Open"`
+	Close       time.Time `json:"Close"`
 	Description string    `json:"Description"`
 	Time        uint      `json:"Time"`
 	Point       uint      `json:"Point"`
