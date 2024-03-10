@@ -3,7 +3,7 @@ package auth
 import (
 	"csw-golang/internal/domain/entity/dto"
 	"csw-golang/internal/domain/entity/request"
-	"csw-golang/internal/domain/repository/auth"
+	"csw-golang/internal/repository/auth"
 
 	"gorm.io/gorm"
 )

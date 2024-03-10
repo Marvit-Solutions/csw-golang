@@ -4,14 +4,14 @@ import (
 	"csw-golang/internal/domain/entity/datastruct"
 	"csw-golang/internal/domain/entity/dto"
 	"csw-golang/internal/domain/entity/request"
-	"csw-golang/internal/domain/helper/password"
+	"csw-golang/library/helper/password"
 	"fmt"
 	"os"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 
-	jwt "csw-golang/internal/delivery/http/middleware/jwt"
+	"csw-golang/library/middleware/auth"
 )
 
 func (ar *authRepository) Register(req request.RegisterRequest) (*dto.AuthResponse, error) {
@@ -25,7 +25,7 @@ func (ar *authRepository) Register(req request.RegisterRequest) (*dto.AuthRespon
 		return nil, fmt.Errorf("failed to get user role: %v", err)
 	}
 
-	cswAuth := jwt.NewCswAuth([]byte(os.Getenv("SECRET_KEY")))
+	cswAuth := auth.NewCswAuth([]byte(os.Getenv("SECRET_KEY")))
 	bytePassword := []byte(req.Password)
 	userPassword, err := bcrypt.GenerateFromPassword(bytePassword, bcrypt.DefaultCost)
 	if err != nil {
@@ -68,7 +68,7 @@ func (ar *authRepository) Register(req request.RegisterRequest) (*dto.AuthRespon
 
 	tx.Commit()
 
-	tokenStruct := jwt.TokenStructure{
+	tokenStruct := auth.TokenStructure{
 		UserID: newUser.ID,
 		Email:  newUser.Email,
 	}
@@ -95,9 +95,9 @@ func (ar *authRepository) Login(req request.LoginRequest) (*dto.AuthResponse, er
 		return nil, fmt.Errorf("invalid email or password")
 	}
 
-	cswAuth := jwt.NewCswAuth([]byte(os.Getenv("SECRET_KEY")))
+	cswAuth := auth.NewCswAuth([]byte(os.Getenv("SECRET_KEY")))
 
-	tokenStruct := jwt.TokenStructure{
+	tokenStruct := auth.TokenStructure{
 		UserID: user.ID,
 		Email:  user.Email,
 	}
