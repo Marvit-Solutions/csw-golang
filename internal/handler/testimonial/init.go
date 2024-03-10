@@ -1,15 +1,24 @@
 package testimonial
 
 import (
-	tc "csw-golang/internal/domain/usecase/testimonial"
+	"csw-golang/internal/usecase/testimonial"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-type TestimonialHandler struct {
-	testimonialUsecase tc.TestimonialUsecase
+type testimonialHandler struct {
+	testimonialUsecase testimonial.TestimonialUsecase
 }
 
-func New(testimonialUsecase tc.TestimonialUsecase) *TestimonialHandler {
-	return &TestimonialHandler{
-		testimonialUsecase,
+type TestimonialHandler interface {
+	GetAllTestimonials(c *gin.Context)
+}
+
+func NewTestimonialHandler(
+	db *gorm.DB,
+) TestimonialHandler {
+	return &testimonialHandler{
+		testimonialUsecase: testimonial.NewTestimonialUsecase(db),
 	}
 }

@@ -33,4 +33,9 @@ func NewRouteInit(req request.RouteInit) {
 		planGroup.GET("/all", module.Plan.ListPlan)
 		planGroup.GET("/top", module.Plan.GetTop3Plan)
 	}
+
+	{
+		testimonialGroup := route.Group("/testimonials")
+		testimonialGroup.GET("/all", module.Testimonial.GetAllTestimonials)
+	}
 }

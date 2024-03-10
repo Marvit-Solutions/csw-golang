@@ -1,8 +1,10 @@
 package testimonial
 
 import (
-	"csw-golang/internal/domain/entity/dto"
-	tr "csw-golang/internal/domain/repository/testimonial"
+	dto "csw-golang/internal/domain/response"
+	"csw-golang/internal/repository/testimonial"
+
+	"gorm.io/gorm"
 )
 
 type TestimonialUsecase interface {
@@ -10,11 +12,13 @@ type TestimonialUsecase interface {
 }
 
 type testimonialUsecase struct {
-	testimonialRepo tr.TestimonialRepo
+	testimonialRepo testimonial.TestimonialRepository
 }
 
-func New(testimonialRepo tr.TestimonialRepo) *testimonialUsecase {
+func NewTestimonialUsecase(
+	db *gorm.DB,
+) TestimonialUsecase {
 	return &testimonialUsecase{
-		testimonialRepo,
+		testimonialRepo: testimonial.NewTestimonialRepository(db),
 	}
 }

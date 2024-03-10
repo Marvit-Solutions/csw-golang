@@ -1,11 +1,11 @@
 package testimonial
 
 import (
-	"csw-golang/internal/domain/entity/datastruct"
-	"csw-golang/internal/domain/entity/dto"
+	"csw-golang/internal/domain/datastruct"
+	dto "csw-golang/internal/domain/response"
 )
 
-func (t testimonialRepo) GetAllTestimonials() ([]dto.Testimonials, error) {
+func (t testimonialRepository) GetAllTestimonials() ([]dto.Testimonials, error) {
 
 	var testimonials []datastruct.Testimonials
 	var users []datastruct.Users

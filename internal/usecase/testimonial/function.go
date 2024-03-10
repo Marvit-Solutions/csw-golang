@@ -1,7 +1,7 @@
 package testimonial
 
 import (
-	"csw-golang/internal/domain/entity/dto"
+	dto "csw-golang/internal/domain/response"
 )
 
 func (tr *testimonialUsecase) GetAllTestimonials() ([]dto.Testimonials, error) {

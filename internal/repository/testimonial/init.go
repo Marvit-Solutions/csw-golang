@@ -1,21 +1,19 @@
 package testimonial
 
 import (
-	"csw-golang/internal/domain/entity/dto"
+	dto "csw-golang/internal/domain/response"
 
 	"gorm.io/gorm"
 )
 
-type TestimonialRepo interface {
+type TestimonialRepository interface {
 	GetAllTestimonials() ([]dto.Testimonials, error)
 }
 
-type testimonialRepo struct {
+type testimonialRepository struct {
 	db *gorm.DB
 }
 
-func New(db *gorm.DB) TestimonialRepo {
-	return &testimonialRepo{
-		db,
-	}
+func NewTestimonialRepository(db *gorm.DB) TestimonialRepository {
+	return &testimonialRepository{db}
 }
