@@ -8,7 +8,6 @@ import (
 )
 
 func init() {
-	//godotenv.Load()
 	_ = os.Setenv("TZ", "Asia/Jakarta")
 }
 
@@ -16,7 +15,7 @@ func main() {
 	logrus.SetFormatter(&logrus.TextFormatter{
 		ForceColors:     true,
 		FullTimestamp:   true,
-		TimestampFormat: "02-01-2006 15:04:05",
+		TimestampFormat: "02-01-2024 15:04:05",
 	})
 
 	env = config.NewConfig()
