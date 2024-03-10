@@ -3,20 +3,19 @@ package auth
 import (
 	"csw-golang/internal/domain/entity/dto"
 	"csw-golang/internal/domain/entity/request"
-	ar "csw-golang/internal/domain/repository/auth"
+
+	"gorm.io/gorm"
 )
 
-type AuthUsecase interface {
+type AuthRepository interface {
 	Register(req request.RegisterRequest) (*dto.AuthResponse, error)
 	Login(req request.LoginRequest) (*dto.AuthResponse, error)
 }
 
-type authUsecase struct {
-	authRepo ar.AuthRepo
+type authRepository struct {
+	db *gorm.DB
 }
 
-func New(authRepo ar.AuthRepo) *authUsecase {
-	return &authUsecase{
-		authRepo,
-	}
+func NewAuthRepository(db *gorm.DB) AuthRepository {
+	return &authRepository{db}
 }

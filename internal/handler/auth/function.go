@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (ah *AuthHandler) Register(c *gin.Context) {
+func (ah *authHandler) Register(c *gin.Context) {
 	var req request.RegisterRequest
 
 	if err := validator.BindingValidation(c, &req); err != nil {
@@ -26,7 +26,7 @@ func (ah *AuthHandler) Register(c *gin.Context) {
 	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data, "Register Sukses!")
 }
 
-func (ah *AuthHandler) Login(c *gin.Context) {
+func (ah *authHandler) Login(c *gin.Context) {
 	var req request.LoginRequest
 
 	if err := validator.BindingValidation(c, &req); err != nil {

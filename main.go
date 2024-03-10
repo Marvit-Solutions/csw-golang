@@ -1,29 +1,28 @@
 package main
 
 import (
-	"log"
+	"csw-golang/library/config"
 	"os"
 
-	"csw-golang/cmd/app"
-
-	"github.com/joho/godotenv"
+	"github.com/sirupsen/logrus"
 )
 
 func init() {
-	godotenv.Load(".env")
+	//godotenv.Load()
+	_ = os.Setenv("TZ", "Asia/Jakarta")
 }
 
 func main() {
-	log.Println("Starting application...")
-	r := app.StartApp()
+	logrus.SetFormatter(&logrus.TextFormatter{
+		ForceColors:     true,
+		FullTimestamp:   true,
+		TimestampFormat: "02-01-2006 15:04:05",
+	})
 
-	port := os.Getenv("APP_PORT")
-	if port == "" {
-		port = "8080"
-	}
+	env = config.NewConfig()
 
-	err := r.Run(":" + port)
-	if err != nil {
-		log.Fatal("Failed to start application:", err)
-	}
+	logrus.Info("success loading .env")
+	logrus.Info("Starting server... \n")
+
+	startApp()
 }

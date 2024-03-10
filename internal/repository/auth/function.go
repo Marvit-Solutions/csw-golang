@@ -14,7 +14,7 @@ import (
 	jwt "csw-golang/internal/delivery/http/middleware/jwt"
 )
 
-func (ar *authRepo) Register(req request.RegisterRequest) (*dto.AuthResponse, error) {
+func (ar *authRepository) Register(req request.RegisterRequest) (*dto.AuthResponse, error) {
 	var existingUser datastruct.Users
 	if err := ar.db.Where("email = ?", req.Email).First(&existingUser).Error; err == nil {
 		return nil, fmt.Errorf("email already exists")
@@ -84,7 +84,7 @@ func (ar *authRepo) Register(req request.RegisterRequest) (*dto.AuthResponse, er
 	return response, nil
 }
 
-func (ar *authRepo) Login(req request.LoginRequest) (*dto.AuthResponse, error) {
+func (ar *authRepository) Login(req request.LoginRequest) (*dto.AuthResponse, error) {
 	var user *datastruct.Users
 	err := ar.db.Preload("UserDetails").Where("email = ?", req.Email).First(&user).Error
 	if err != nil {
