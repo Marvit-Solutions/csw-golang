@@ -1,9 +1,9 @@
 package auth
 
 import (
-	"csw-golang/internal/domain/entity/datastruct"
-	"csw-golang/internal/domain/entity/dto"
-	"csw-golang/internal/domain/entity/request"
+	"csw-golang/internal/domain/datastruct"
+	"csw-golang/internal/domain/request"
+	dto "csw-golang/internal/domain/response"
 	"csw-golang/library/helper/password"
 	"fmt"
 	"os"
