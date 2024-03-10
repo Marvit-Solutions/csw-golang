@@ -1,7 +1,7 @@
 package testimonial
 
 import (
-	"github.com/Marvit-Solutions/csw-golang/internal/usecase/testimonial"
+	"github.com/Marvit-Solutions/csw-golang/internal/app/usecase/testimonial"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"

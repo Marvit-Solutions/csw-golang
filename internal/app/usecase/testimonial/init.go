@@ -1,8 +1,8 @@
 package testimonial
 
 import (
+	"github.com/Marvit-Solutions/csw-golang/internal/app/repository/testimonial"
 	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
-	"github.com/Marvit-Solutions/csw-golang/internal/repository/testimonial"
 
 	"gorm.io/gorm"
 )

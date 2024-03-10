@@ -1,16 +1,15 @@
-package app
+package route
 
 import (
-	"github.com/Marvit-Solutions/csw-golang/cmd"
+	"github.com/Marvit-Solutions/csw-golang/internal"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/request"
-
 	"github.com/gin-gonic/gin"
 	"go.elastic.co/apm/module/apmgin"
 )
 
 func NewRouteInit(req request.RouteInit) {
 
-	module := cmd.NewInitialInjection(req.SQLMaster, req.Env)
+	module := internal.NewInitialInjection(req.SQLMaster, req.Env)
 	route := req.Engine.Group("api/v1")
 	route.Use(apmgin.Middleware(req.Engine))
 	route.Use(gin.Logger())

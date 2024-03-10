@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"github.com/Marvit-Solutions/csw-golang/internal/usecase/auth"
+	"github.com/Marvit-Solutions/csw-golang/internal/app/usecase/auth"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"

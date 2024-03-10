@@ -1,7 +1,7 @@
 package plan
 
 import (
-	"github.com/Marvit-Solutions/csw-golang/internal/usecase/plan"
+	"github.com/Marvit-Solutions/csw-golang/internal/app/usecase/plan"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"

@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Marvit-Solutions/csw-golang/cmd/app"
+	"github.com/Marvit-Solutions/csw-golang/internal/route"
 	"github.com/Marvit-Solutions/csw-golang/library/config"
 	"github.com/Marvit-Solutions/csw-golang/library/config/database"
 	"github.com/Marvit-Solutions/csw-golang/library/middleware/auth"
@@ -43,7 +43,7 @@ func startApp() {
 
 	//call route
 	req := request.RouteInit{Engine: engine, SQLMaster: SQLMasterConn, Env: env}
-	app.NewRouteInit(req)
+	route.NewRouteInit(req)
 
 	//run server
 	serverPort := env.GetString("server.address")
