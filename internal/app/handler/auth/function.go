@@ -19,7 +19,7 @@ func (ah *authHandler) Register(c *gin.Context) {
 
 	data, err := ah.authUsecase.Register(req)
 	if err != nil {
-		helper.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
+		helper.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 
@@ -36,7 +36,7 @@ func (ah *authHandler) Login(c *gin.Context) {
 
 	data, err := ah.authUsecase.Login(req)
 	if err != nil {
-		helper.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
+		helper.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 

@@ -3,7 +3,7 @@ package plan
 import (
 	"net/http"
 
-	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/library/helper"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,54 +12,29 @@ func (ph *planHandler) ListPlan(c *gin.Context) {
 
 	data, err := ph.planUsecase.ListPlan()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Code:    http.StatusInternalServerError,
-			Status:  http.StatusText(http.StatusInternalServerError),
-			Message: err.Error(),
-		})
+		helper.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 
 	if len(data) == 0 {
-		c.JSON(http.StatusNotFound, dto.Success[interface{}]{
-			Message: "Plans not found!",
-			Code:    http.StatusNotFound,
-			Status:  http.StatusText(http.StatusNotFound),
-		})
+		helper.NewErrorResponse(c, http.StatusNotFound, http.StatusText(http.StatusNotFound), err)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Success get plans!",
-		Code:    http.StatusOK,
-		Status:  http.StatusText(http.StatusOK),
-		Data:    data,
-	})
+	helper.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data)
 }
 
 func (ph *planHandler) GetTop3Plan(c *gin.Context) {
 	data, err := ph.planUsecase.GetTop3Plan()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Code:    http.StatusInternalServerError,
-			Message: err.Error(),
-		})
+		helper.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 
 	if len(data) == 0 {
-		c.JSON(http.StatusNotFound, dto.Success[interface{}]{
-			Message: "Plans not found!",
-			Code:    http.StatusNotFound,
-			Status:  http.StatusText(http.StatusNotFound),
-		})
+		helper.NewErrorResponse(c, http.StatusNotFound, http.StatusText(http.StatusNotFound), err)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Success[interface{}]{
-		Message: "Success get top 3 plans!",
-		Code:    http.StatusOK,
-		Status:  http.StatusText(http.StatusOK),
-		Data:    data,
-	})
+	helper.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data)
 }
