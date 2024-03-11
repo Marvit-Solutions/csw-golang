@@ -9,7 +9,7 @@ import (
 )
 
 func (mc *mentorHandler) ListThreeMentors(c *gin.Context) {
-	response, err := mc.mentorUsecase.GetListTopThreeMentors()
+	data, err := mc.mentorUsecase.GetListTopThreeMentors()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Message: err.Error(),
@@ -23,13 +23,13 @@ func (mc *mentorHandler) ListThreeMentors(c *gin.Context) {
 		Message: "Success",
 		Code:    http.StatusOK,
 		Status:  http.StatusText(http.StatusOK),
-		Data:    response,
+		Data:    data,
 	})
 
 }
 
 func (mc *mentorHandler) GetAllMentors(c *gin.Context) {
-	response, err := mc.mentorUsecase.GetAllMentors()
+	data, err := mc.mentorUsecase.GetAllMentors()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Message: err.Error(),
@@ -43,7 +43,7 @@ func (mc *mentorHandler) GetAllMentors(c *gin.Context) {
 		Message: "Success",
 		Code:    http.StatusOK,
 		Status:  http.StatusText(http.StatusOK),
-		Data:    response,
+		Data:    data,
 	})
 
 }

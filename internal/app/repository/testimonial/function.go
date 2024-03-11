@@ -15,7 +15,7 @@ func (t testimonialRepository) GetAllTestimonials() ([]dto.Testimonials, error) 
 		return nil, tx.Error
 	}
 
-	allTestimonials := make([]dto.Testimonials, 0)
+	data := make([]dto.Testimonials, 0)
 	for _, testimonial := range testimonials {
 		tx := t.db.Preload("UserDetails").
 			Where("users.id = ?", testimonial.UserTestimonials.UserID).
@@ -34,8 +34,8 @@ func (t testimonialRepository) GetAllTestimonials() ([]dto.Testimonials, error) 
 				Class:          users[0].UserDetails.Class,
 			},
 		}
-		allTestimonials = append(allTestimonials, newTestimonials)
+		data = append(data, newTestimonials)
 	}
 
-	return allTestimonials, nil
+	return data, nil
 }

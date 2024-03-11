@@ -10,7 +10,7 @@ import (
 
 func (ph *planHandler) ListPlan(c *gin.Context) {
 
-	response, err := ph.planUsecase.ListPlan()
+	data, err := ph.planUsecase.ListPlan()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Code:    http.StatusInternalServerError,
@@ -20,7 +20,7 @@ func (ph *planHandler) ListPlan(c *gin.Context) {
 		return
 	}
 
-	if len(response) == 0 {
+	if len(data) == 0 {
 		c.JSON(http.StatusNotFound, dto.Success[interface{}]{
 			Message: "Plans not found!",
 			Code:    http.StatusNotFound,
@@ -33,12 +33,12 @@ func (ph *planHandler) ListPlan(c *gin.Context) {
 		Message: "Success get plans!",
 		Code:    http.StatusOK,
 		Status:  http.StatusText(http.StatusOK),
-		Data:    response,
+		Data:    data,
 	})
 }
 
 func (ph *planHandler) GetTop3Plan(c *gin.Context) {
-	response, err := ph.planUsecase.GetTop3Plan()
+	data, err := ph.planUsecase.GetTop3Plan()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.Fail{
 			Code:    http.StatusInternalServerError,
@@ -47,7 +47,7 @@ func (ph *planHandler) GetTop3Plan(c *gin.Context) {
 		return
 	}
 
-	if len(response) == 0 {
+	if len(data) == 0 {
 		c.JSON(http.StatusNotFound, dto.Success[interface{}]{
 			Message: "Plans not found!",
 			Code:    http.StatusNotFound,
@@ -60,6 +60,6 @@ func (ph *planHandler) GetTop3Plan(c *gin.Context) {
 		Message: "Success get top 3 plans!",
 		Code:    http.StatusOK,
 		Status:  http.StatusText(http.StatusOK),
-		Data:    response,
+		Data:    data,
 	})
 }

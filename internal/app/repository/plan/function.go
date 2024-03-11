@@ -15,7 +15,7 @@ func (pr *planRepository) ListPlan() ([]dto.PlanResponse, error) {
 		return nil, err
 	}
 
-	var PlanResponses []dto.PlanResponse
+	var data []dto.PlanResponse
 	for _, Plan := range PlanList {
 		PlanResponse := dto.PlanResponse{
 			ID:       Plan.ID,
@@ -38,10 +38,10 @@ func (pr *planRepository) ListPlan() ([]dto.PlanResponse, error) {
 			PlanResponse.SubPlan = append(PlanResponse.SubPlan, SubPlanResponse)
 		}
 
-		PlanResponses = append(PlanResponses, PlanResponse)
+		data = append(data, PlanResponse)
 	}
 
-	return PlanResponses, nil
+	return data, nil
 }
 
 func (pr *planRepository) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
@@ -52,7 +52,7 @@ func (pr *planRepository) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
 		return nil, err
 	}
 
-	var PlanResponses []dto.SubPlanTop3Response
+	var data []dto.SubPlanTop3Response
 	for _, Plan := range PlanList {
 		for _, SubPlan := range Plan.SubPlans {
 			response := dto.SubPlanTop3Response{
@@ -68,19 +68,19 @@ func (pr *planRepository) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
 				Zoom:        SubPlan.Zoom,
 			}
 
-			PlanResponses = append(PlanResponses, response)
+			data = append(data, response)
 		}
 	}
 
 	// Sorting descending berdasarkan Price (Belum berdasarkan rating pembeli)
 	// digabung, antara skd dan mtk
-	sort.Slice(PlanResponses, func(i, j int) bool {
-		return PlanResponses[i].Price > PlanResponses[j].Price
+	sort.Slice(data, func(i, j int) bool {
+		return data[i].Price > data[j].Price
 	})
 
-	if len(PlanResponses) > 3 {
-		PlanResponses = PlanResponses[:3]
+	if len(data) > 3 {
+		data = data[:3]
 	}
 
-	return PlanResponses, nil
+	return data, nil
 }

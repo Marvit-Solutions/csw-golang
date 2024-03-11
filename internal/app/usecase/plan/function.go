@@ -5,19 +5,19 @@ import (
 )
 
 func (pc *planUsecase) ListPlan() ([]dto.PlanResponse, error) {
-	ListPlan, err := pc.planRepo.ListPlan()
+	data, err := pc.planRepo.ListPlan()
 	if err != nil {
-		return ListPlan, err
+		return data, err
 	}
 
-	return ListPlan, err
+	return data, err
 }
 
 func (pc *planUsecase) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
-	GetTop3Plan, err := pc.planRepo.GetTop3Plan()
+	data, err := pc.planRepo.GetTop3Plan()
 	if err != nil {
 		return nil, err
 	}
 
-	return GetTop3Plan, err
+	return data, err
 }

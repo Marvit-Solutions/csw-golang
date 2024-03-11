@@ -6,19 +6,19 @@ import (
 )
 
 func (ac *authUsecase) Register(req request.RegisterRequest) (*dto.AuthResponse, error) {
-	response, err := ac.authRepo.Register(req)
+	data, err := ac.authRepo.Register(req)
 	if err != nil {
 		return nil, err
 	}
 
-	return response, nil
+	return data, nil
 }
 
 func (ac *authUsecase) Login(req request.LoginRequest) (*dto.AuthResponse, error) {
-	response, err := ac.authRepo.Login(req)
+	data, err := ac.authRepo.Login(req)
 	if err != nil {
 		return nil, err
 	}
 
-	return response, nil
+	return data, nil
 }

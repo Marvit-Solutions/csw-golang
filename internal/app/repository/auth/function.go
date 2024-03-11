@@ -78,11 +78,11 @@ func (ar *authRepository) Register(req request.RegisterRequest) (*dto.AuthRespon
 		return nil, fmt.Errorf("failed to create token: %v", err)
 	}
 
-	response := &dto.AuthResponse{
+	data := &dto.AuthResponse{
 		AccessToken: token.AccessToken,
 	}
 
-	return response, nil
+	return data, nil
 }
 
 func (ar *authRepository) Login(req request.LoginRequest) (*dto.AuthResponse, error) {
@@ -107,9 +107,9 @@ func (ar *authRepository) Login(req request.LoginRequest) (*dto.AuthResponse, er
 		return nil, fmt.Errorf("failed to create token: %v", err)
 	}
 
-	response := &dto.AuthResponse{
+	data := &dto.AuthResponse{
 		AccessToken: token.AccessToken,
 	}
 
-	return response, nil
+	return data, nil
 }

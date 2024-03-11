@@ -6,7 +6,7 @@ import (
 )
 
 func (m mentorRepository) GetListTopThreeMentors() (dto.ListMentor, error) {
-	var topMentors dto.ListMentor
+	var data dto.ListMentor
 	var mentors []datastruct.Mentors
 	_ = m.db.Order("rating desc, name").Limit(3).Find(&mentors)
 
@@ -26,19 +26,19 @@ func (m mentorRepository) GetListTopThreeMentors() (dto.ListMentor, error) {
 			Rating:         mentor.Rating,
 			// Add other fields as needed
 		}
-		topMentors = append(topMentors, dtoMentor)
+		data = append(data, dtoMentor)
 	}
-	return topMentors, nil
+	return data, nil
 }
 
 func (m mentorRepository) GetAllMentors() (dto.ListMentor, error) {
-	var allMentors dto.ListMentor
+	var data dto.ListMentor
 	var mentors []datastruct.Mentors
 
 	// Fetch all mentors from the database
 	tx := m.db.Find(&mentors)
 	if tx.Error != nil {
-		return allMentors, tx.Error
+		return data, tx.Error
 	}
 
 	for _, mentor := range mentors {
@@ -56,8 +56,8 @@ func (m mentorRepository) GetAllMentors() (dto.ListMentor, error) {
 			Rating:         mentor.Rating,
 			// Add other fields as needed
 		}
-		allMentors = append(allMentors, dtoMentor)
+		data = append(data, dtoMentor)
 	}
 
-	return allMentors, nil
+	return data, nil
 }
