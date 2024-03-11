@@ -9,7 +9,6 @@ import (
 )
 
 func (ph *planHandler) ListPlan(c *gin.Context) {
-
 	data, err := ph.planUsecase.ListPlan()
 	if err != nil {
 		helper.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)

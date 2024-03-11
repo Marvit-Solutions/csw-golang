@@ -8,7 +8,6 @@ import (
 )
 
 func (t testimonialRepository) GetAllTestimonials() ([]dto.Testimonials, error) {
-
 	var testimonials []datastruct.Testimonials
 	var users []datastruct.Users
 
