@@ -7,7 +7,7 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/datastruct"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/request"
 	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
-	"github.com/Marvit-Solutions/csw-golang/library/helper/password"
+	"github.com/Marvit-Solutions/csw-golang/library/helper"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -92,7 +92,7 @@ func (ar *authRepository) Login(req request.LoginRequest) (*dto.AuthResponse, er
 		return nil, fmt.Errorf("failed to get user: %v", err)
 	}
 
-	if !password.ComparePasswords(user.Password, req.Password) {
+	if !helper.ComparePasswords(user.Password, req.Password) {
 		return nil, fmt.Errorf("invalid email or password")
 	}
 

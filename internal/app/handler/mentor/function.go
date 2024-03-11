@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/library/helper"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,11 +12,7 @@ import (
 func (mc *mentorHandler) ListThreeMentors(c *gin.Context) {
 	data, err := mc.mentorUsecase.GetListTopThreeMentors()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, dto.Fail{
-			Message: err.Error(),
-			Code:    http.StatusBadRequest,
-			Status:  http.StatusText(http.StatusBadRequest),
-		})
+		helper.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
 
