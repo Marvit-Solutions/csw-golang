@@ -19,33 +19,34 @@ import (
 
 var env config.Config
 
+// startApp initializes the application.
 func startApp() {
-	// initiate auth middleware
+	// Initialize authentication middleware.
 	err := auth.NewMiddlewareConfig(env)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	// initiate postgresql
+	// Initialize PostgreSQL database.
 	SQLMasterConn, err := database.InitDBSQL(env, "postgresql")
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	//start gin engine
+	// Initialize Gin engine.
 	engine := gin.New()
 
-	//add swagger documentation
+	// Add Swagger documentation.
 	swagger(engine)
 
-	//add route endpoint and healthcheck
+	// Add route endpoints and healthcheck.
 	healthCheck(engine)
 
-	//call route
+	// Call route initialization.
 	req := request.RouteInit{Engine: engine, SQLMaster: SQLMasterConn, Env: env}
 	route.NewRouteInit(req)
 
-	//run server
+	// Run server.
 	serverPort := env.GetString("server.address")
 	log.Println("run on port ", serverPort)
 	fmt.Printf("App running on port %s\n", serverPort)
@@ -54,19 +55,21 @@ func startApp() {
 	}
 }
 
+// healthCheck sets up root and health check endpoints.
 func healthCheck(engine *gin.Engine) {
-	// root endpoint
+	// Root endpoint.
 	engine.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, "CSW API Service")
 	})
 
-	// Healthcheck endpoint
+	// Healthcheck endpoint.
 	engine.GET("ping",
 		func(ctx *gin.Context) {
 			ctx.JSON(http.StatusOK, "pong!")
 		})
 }
 
+// swagger sets up Swagger documentation endpoint.
 func swagger(engine *gin.Engine) {
 	if env.GetString("server.env") == "stage" {
 		docs.SwaggerInfo.Host = "stage.api.csw.id"

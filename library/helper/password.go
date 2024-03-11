@@ -6,6 +6,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// ComparePasswords compares a hashed password with a plain text password.
+// Returns true if they match, false otherwise.
 func ComparePasswords(hashed string, plain string) bool {
 	byteHash := []byte(hashed)
 	bytePlain := []byte(plain)
@@ -17,6 +19,8 @@ func ComparePasswords(hashed string, plain string) bool {
 	return true
 }
 
+// HashPassword generates a bcrypt hash from the given password.
+// Returns the hashed password byte slice and any error encountered.
 func HashPassword(password string) ([]byte, error) {
 	return bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 }

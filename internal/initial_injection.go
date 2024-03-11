@@ -10,6 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// InitialInjection represents initial dependency injection for each handler.
 type InitialInjection struct {
 	Auth        auth.AuthHandler
 	Mentor      mentor.MentorHandler
@@ -17,7 +18,7 @@ type InitialInjection struct {
 	Testimonial testimonial.TestimonialHandler
 }
 
-// NewInitialInjection initial value dependency injection for every handler
+// NewInitialInjection initializes the dependencies for the handlers.
 func NewInitialInjection(sQLMaster *gorm.DB, conf config.Config) InitialInjection {
 	return InitialInjection{
 		Auth:        auth.NewAuthHandler(sQLMaster),

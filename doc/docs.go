@@ -3,6 +3,7 @@ package doc
 
 import "github.com/swaggo/swag"
 
+// docTemplate represents the Swagger documentation template.
 const docTemplate = `{
 	"schemes": {{ marshal .Schemes }},
 	"swagger": "2.0",

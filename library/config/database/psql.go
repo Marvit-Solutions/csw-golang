@@ -9,6 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// InitDBSQL initializes the PostgreSQL database connection.
 func InitDBSQL(env config.Config, parentKey string) (db *gorm.DB, err error) {
 	dbUser := env.GetString(parentKey + `.user`)
 	dbPass := env.GetString(parentKey + `.pass`)
@@ -16,6 +17,7 @@ func InitDBSQL(env config.Config, parentKey string) (db *gorm.DB, err error) {
 	dbHost := env.GetString(parentKey + `.address`)
 	dbPort := env.GetString(parentKey + `.port`)
 
+	// Construct the connection string.
 	connectionString := fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=disable",
 		dbUser,
 		dbPass,
@@ -24,6 +26,7 @@ func InitDBSQL(env config.Config, parentKey string) (db *gorm.DB, err error) {
 		dbPort,
 	)
 
+	// Open a connection to the database.
 	db, err = gorm.Open(postgres.Open(connectionString), &gorm.Config{})
 	if err != nil {
 		panic("failed connect to database")
