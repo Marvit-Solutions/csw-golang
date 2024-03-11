@@ -24,7 +24,7 @@ func (ah *authHandler) Register(c *gin.Context) {
 		return
 	}
 
-	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data, "Register Sukses!")
+	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data)
 }
 
 func (ah *authHandler) Login(c *gin.Context) {
@@ -41,5 +41,5 @@ func (ah *authHandler) Login(c *gin.Context) {
 		return
 	}
 
-	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data, "Login Sukses!")
+	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data)
 }

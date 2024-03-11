@@ -10,18 +10,16 @@ func NewErrorResponse(c *gin.Context, code int, status string, err error) {
 	c.JSON(code, &response)
 }
 
-func NewSuccessResponsePaged(c *gin.Context, code int, status string, data interface{}, meta Meta, message string) {
+func NewSuccessResponsePaged(c *gin.Context, code int, status string, data interface{}, meta Meta) {
 	response := new(ResponsePaged[interface{}])
-	response.Message = message
 	response.Code = code
 	response.Status = status
 	response.Data = data
 	response.Meta = meta
 	c.JSON(code, &response)
 }
-func NewSuccessResponseNonPaged(c *gin.Context, code int, status string, data interface{}, message string) {
+func NewSuccessResponseNonPaged(c *gin.Context, code int, status string, data interface{}) {
 	response := new(ResponseNonPaged[interface{}])
-	response.Message = message
 	response.Code = code
 	response.Status = status
 	response.Data = data

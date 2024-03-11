@@ -15,5 +15,5 @@ func (tc *testimonialHandler) GetAllTestimonials(c *gin.Context) {
 		return
 	}
 
-	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data, "Berhasil mendapatkan testimonials!")
+	response.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data)
 }
