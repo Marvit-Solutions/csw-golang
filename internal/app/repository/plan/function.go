@@ -1,6 +1,7 @@
 package plan
 
 import (
+	"fmt"
 	"sort"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/datastruct"
@@ -12,7 +13,7 @@ func (pr *planRepository) ListPlan() ([]dto.PlanResponse, error) {
 
 	err := pr.db.Preload("SubPlans").Find(&PlanList).Error
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get plans: %v", err)
 	}
 
 	var data []dto.PlanResponse
@@ -49,7 +50,7 @@ func (pr *planRepository) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
 
 	err := pr.db.Preload("SubPlans").Find(&PlanList).Error
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get plans: %v", err)
 	}
 
 	var data []dto.SubPlanTop3Response

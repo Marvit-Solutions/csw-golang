@@ -1,6 +1,8 @@
 package testimonial
 
 import (
+	"fmt"
+
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/datastruct"
 	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 )
@@ -12,7 +14,7 @@ func (t testimonialRepository) GetAllTestimonials() ([]dto.Testimonials, error) 
 
 	tx := t.db.Preload("UserTestimonials").Find(&testimonials)
 	if tx.Error != nil {
-		return nil, tx.Error
+		return nil, fmt.Errorf("failed to get testimonials: %v", tx.Error)
 	}
 
 	data := make([]dto.Testimonials, 0)
@@ -21,7 +23,7 @@ func (t testimonialRepository) GetAllTestimonials() ([]dto.Testimonials, error) 
 			Where("users.id = ?", testimonial.UserTestimonials.UserID).
 			First(&users)
 		if tx.Error != nil {
-			return nil, tx.Error
+			return nil, fmt.Errorf("failed to get user: %v", tx.Error)
 		}
 
 		newTestimonials := dto.Testimonials{

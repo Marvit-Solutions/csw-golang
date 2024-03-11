@@ -1,6 +1,8 @@
 package mentor
 
 import (
+	"fmt"
+
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/datastruct"
 	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 )
@@ -38,7 +40,7 @@ func (m mentorRepository) GetAllMentors() (dto.ListMentor, error) {
 	// Fetch all mentors from the database
 	tx := m.db.Find(&mentors)
 	if tx.Error != nil {
-		return data, tx.Error
+		return data, fmt.Errorf("failed to fetch mentors: %v", tx.Error)
 	}
 
 	for _, mentor := range mentors {
