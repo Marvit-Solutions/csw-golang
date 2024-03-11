@@ -1,4 +1,4 @@
-package dto
+package response
 
 type ListMentor []struct {
 	ID             string  `json:"ID"`

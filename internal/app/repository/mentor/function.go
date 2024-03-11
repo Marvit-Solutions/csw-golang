@@ -4,17 +4,17 @@ import (
 	"fmt"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/datastruct"
-	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 )
 
-func (m mentorRepository) GetListTopThreeMentors() (dto.ListMentor, error) {
-	var data dto.ListMentor
+func (m mentorRepository) GetListTopThreeMentors() (response.ListMentor, error) {
+	var data response.ListMentor
 	var mentors []datastruct.Mentors
 	_ = m.db.Order("rating desc, name").Limit(3).Find(&mentors)
 
-	// Convert the database mentors to DTO mentors
+	// Convert the database mentors to response mentors
 	for _, mentor := range mentors {
-		dtoMentor := struct {
+		responseMentor := struct {
 			ID             string  `json:"ID"`
 			Name           string  `json:"Name"`
 			Description    string  `json:"Description"`
@@ -28,13 +28,13 @@ func (m mentorRepository) GetListTopThreeMentors() (dto.ListMentor, error) {
 			Rating:         mentor.Rating,
 			// Add other fields as needed
 		}
-		data = append(data, dtoMentor)
+		data = append(data, responseMentor)
 	}
 	return data, nil
 }
 
-func (m mentorRepository) GetAllMentors() (dto.ListMentor, error) {
-	var data dto.ListMentor
+func (m mentorRepository) GetAllMentors() (response.ListMentor, error) {
+	var data response.ListMentor
 	var mentors []datastruct.Mentors
 
 	// Fetch all mentors from the database
@@ -44,7 +44,7 @@ func (m mentorRepository) GetAllMentors() (dto.ListMentor, error) {
 	}
 
 	for _, mentor := range mentors {
-		dtoMentor := struct {
+		responseMentor := struct {
 			ID             string  `json:"ID"`
 			Name           string  `json:"Name"`
 			Description    string  `json:"Description"`
@@ -58,7 +58,7 @@ func (m mentorRepository) GetAllMentors() (dto.ListMentor, error) {
 			Rating:         mentor.Rating,
 			// Add other fields as needed
 		}
-		data = append(data, dtoMentor)
+		data = append(data, responseMentor)
 	}
 
 	return data, nil

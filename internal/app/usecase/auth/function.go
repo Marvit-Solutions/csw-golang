@@ -2,10 +2,10 @@ package auth
 
 import (
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/request"
-	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 )
 
-func (ac *authUsecase) Register(req request.RegisterRequest) (*dto.AuthResponse, error) {
+func (ac *authUsecase) Register(req request.RegisterRequest) (*response.AuthResponse, error) {
 	data, err := ac.authRepo.Register(req)
 	if err != nil {
 		return nil, err
@@ -14,7 +14,7 @@ func (ac *authUsecase) Register(req request.RegisterRequest) (*dto.AuthResponse,
 	return data, nil
 }
 
-func (ac *authUsecase) Login(req request.LoginRequest) (*dto.AuthResponse, error) {
+func (ac *authUsecase) Login(req request.LoginRequest) (*response.AuthResponse, error) {
 	data, err := ac.authRepo.Login(req)
 	if err != nil {
 		return nil, err

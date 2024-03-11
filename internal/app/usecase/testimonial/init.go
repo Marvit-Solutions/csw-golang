@@ -2,13 +2,13 @@ package testimonial
 
 import (
 	"github.com/Marvit-Solutions/csw-golang/internal/app/repository/testimonial"
-	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 
 	"gorm.io/gorm"
 )
 
 type TestimonialUsecase interface {
-	GetAllTestimonials() ([]dto.Testimonials, error)
+	GetAllTestimonials() ([]response.Testimonials, error)
 }
 
 type testimonialUsecase struct {

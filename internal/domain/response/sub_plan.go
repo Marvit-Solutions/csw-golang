@@ -1,4 +1,4 @@
-package dto
+package response
 
 type SubPlanResponse struct {
 	ID                 string `json:"IdSubPlan" form:"IdSubPlan"`

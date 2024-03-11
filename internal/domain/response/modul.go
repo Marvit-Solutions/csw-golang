@@ -1,4 +1,4 @@
-package dto
+package response
 
 type ModulResponse struct {
 	ID          string `json:"ID" form:"ID"`

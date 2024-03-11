@@ -1,4 +1,4 @@
-package dto
+package response
 
 type Success[Data interface{}] struct {
 	Message string      `json:"Message"`

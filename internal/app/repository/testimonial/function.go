@@ -4,10 +4,10 @@ import (
 	"fmt"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/datastruct"
-	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 )
 
-func (t testimonialRepository) GetAllTestimonials() ([]dto.Testimonials, error) {
+func (t testimonialRepository) GetAllTestimonials() ([]response.Testimonials, error) {
 	var testimonials []datastruct.Testimonials
 	var users []datastruct.Users
 
@@ -16,7 +16,7 @@ func (t testimonialRepository) GetAllTestimonials() ([]dto.Testimonials, error) 
 		return nil, fmt.Errorf("failed to get testimonials: %v", tx.Error)
 	}
 
-	data := make([]dto.Testimonials, 0)
+	data := make([]response.Testimonials, 0)
 	for _, testimonial := range testimonials {
 		tx := t.db.Preload("UserDetails").
 			Where("users.id = ?", testimonial.UserTestimonials.UserID).
@@ -25,11 +25,11 @@ func (t testimonialRepository) GetAllTestimonials() ([]dto.Testimonials, error) 
 			return nil, fmt.Errorf("failed to get user: %v", tx.Error)
 		}
 
-		newTestimonials := dto.Testimonials{
+		newTestimonials := response.Testimonials{
 			ID:      testimonial.ID,
 			Comment: testimonial.Comment,
 			Rating:  testimonial.Rating,
-			User: dto.UserTestimonialResponse{
+			User: response.UserTestimonialResponse{
 				Name:           users[0].UserDetails.Name,
 				ProfilePicture: users[0].UserDetails.ProfilePicture,
 				Class:          users[0].UserDetails.Class,

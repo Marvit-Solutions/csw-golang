@@ -6,7 +6,7 @@ import (
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/datastruct"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/request"
-	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
 
 	"github.com/google/uuid"
@@ -15,7 +15,7 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/library/middleware/auth"
 )
 
-func (ar *authRepository) Register(req request.RegisterRequest) (*dto.AuthResponse, error) {
+func (ar *authRepository) Register(req request.RegisterRequest) (*response.AuthResponse, error) {
 	var existingUser datastruct.Users
 	if err := ar.db.Where("email = ?", req.Email).First(&existingUser).Error; err == nil {
 		return nil, fmt.Errorf("email already exists")
@@ -78,14 +78,14 @@ func (ar *authRepository) Register(req request.RegisterRequest) (*dto.AuthRespon
 		return nil, fmt.Errorf("failed to create token: %v", err)
 	}
 
-	data := &dto.AuthResponse{
+	data := &response.AuthResponse{
 		AccessToken: token.AccessToken,
 	}
 
 	return data, nil
 }
 
-func (ar *authRepository) Login(req request.LoginRequest) (*dto.AuthResponse, error) {
+func (ar *authRepository) Login(req request.LoginRequest) (*response.AuthResponse, error) {
 	var user *datastruct.Users
 	err := ar.db.Preload("UserDetails").Where("email = ?", req.Email).First(&user).Error
 	if err != nil {
@@ -107,7 +107,7 @@ func (ar *authRepository) Login(req request.LoginRequest) (*dto.AuthResponse, er
 		return nil, fmt.Errorf("failed to create token: %v", err)
 	}
 
-	data := &dto.AuthResponse{
+	data := &response.AuthResponse{
 		AccessToken: token.AccessToken,
 	}
 

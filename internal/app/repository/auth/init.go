@@ -2,14 +2,14 @@ package auth
 
 import (
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/request"
-	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 
 	"gorm.io/gorm"
 )
 
 type AuthRepository interface {
-	Register(req request.RegisterRequest) (*dto.AuthResponse, error)
-	Login(req request.LoginRequest) (*dto.AuthResponse, error)
+	Register(req request.RegisterRequest) (*response.AuthResponse, error)
+	Login(req request.LoginRequest) (*response.AuthResponse, error)
 }
 
 type authRepository struct {

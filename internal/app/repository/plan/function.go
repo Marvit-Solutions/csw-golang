@@ -5,10 +5,10 @@ import (
 	"sort"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/datastruct"
-	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 )
 
-func (pr *planRepository) ListPlan() ([]dto.PlanResponse, error) {
+func (pr *planRepository) ListPlan() ([]response.PlanResponse, error) {
 	var PlanList []datastruct.Modules
 
 	err := pr.db.Preload("SubPlans").Find(&PlanList).Error
@@ -16,15 +16,15 @@ func (pr *planRepository) ListPlan() ([]dto.PlanResponse, error) {
 		return nil, fmt.Errorf("failed to get plans: %v", err)
 	}
 
-	var data []dto.PlanResponse
+	var data []response.PlanResponse
 	for _, Plan := range PlanList {
-		PlanResponse := dto.PlanResponse{
+		PlanResponse := response.PlanResponse{
 			ID:       Plan.ID,
 			PlanName: Plan.Name,
 		}
 
 		for _, SubPlan := range Plan.SubPlans {
-			SubPlanResponse := dto.SubPlan{
+			SubPlanResponse := response.SubPlan{
 				ID:          SubPlan.ID,
 				SubPlanName: SubPlan.Name,
 				Price:       SubPlan.Price,
@@ -45,7 +45,7 @@ func (pr *planRepository) ListPlan() ([]dto.PlanResponse, error) {
 	return data, nil
 }
 
-func (pr *planRepository) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
+func (pr *planRepository) GetTop3Plan() ([]response.SubPlanTop3Response, error) {
 	var PlanList []datastruct.Modules
 
 	err := pr.db.Preload("SubPlans").Find(&PlanList).Error
@@ -53,10 +53,10 @@ func (pr *planRepository) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
 		return nil, fmt.Errorf("failed to get plans: %v", err)
 	}
 
-	var data []dto.SubPlanTop3Response
+	var data []response.SubPlanTop3Response
 	for _, Plan := range PlanList {
 		for _, SubPlan := range Plan.SubPlans {
-			response := dto.SubPlanTop3Response{
+			response := response.SubPlanTop3Response{
 				ID:          Plan.ID,
 				PlanName:    Plan.Name,
 				SubPlanName: SubPlan.Name,

@@ -1,14 +1,14 @@
 package mentor
 
 import (
-	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 
 	"gorm.io/gorm"
 )
 
 type MentorRepository interface {
-	GetListTopThreeMentors() (dto.ListMentor, error)
-	GetAllMentors() (dto.ListMentor, error)
+	GetListTopThreeMentors() (response.ListMentor, error)
+	GetAllMentors() (response.ListMentor, error)
 }
 
 type mentorRepository struct {

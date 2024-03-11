@@ -1,10 +1,10 @@
 package plan
 
 import (
-	dto "github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/response"
 )
 
-func (pc *planUsecase) ListPlan() ([]dto.PlanResponse, error) {
+func (pc *planUsecase) ListPlan() ([]response.PlanResponse, error) {
 	data, err := pc.planRepo.ListPlan()
 	if err != nil {
 		return data, err
@@ -13,7 +13,7 @@ func (pc *planUsecase) ListPlan() ([]dto.PlanResponse, error) {
 	return data, err
 }
 
-func (pc *planUsecase) GetTop3Plan() ([]dto.SubPlanTop3Response, error) {
+func (pc *planUsecase) GetTop3Plan() ([]response.SubPlanTop3Response, error) {
 	data, err := pc.planRepo.GetTop3Plan()
 	if err != nil {
 		return nil, err
