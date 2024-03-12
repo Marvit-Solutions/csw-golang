@@ -57,7 +57,7 @@ func main() {
 
 }
 
-// replacer processes struct names and generates repository and service files.
+// Replacer processes struct names and generates repository and service files.
 func replacer(structName string) {
 	replace := structName
 	replaceLow := strings.ToLower(replace[0:1]) + replace[1:]
@@ -74,7 +74,7 @@ func replacer(structName string) {
 	}
 }
 
-// generateFile generates repository and service files.
+// GenerateFile generates repository and service files.
 func generateFile(replaceLow, replaceUp, title, repo, service string) error {
 	// Open the repository template file.
 	fileRepo, err := os.Open(repo)
