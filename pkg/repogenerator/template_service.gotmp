@@ -5,7 +5,6 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/Marvit-Solutions/csw-golang/library/repository"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
-	"strconv"
 
 	"github.com/olivere/elastic/v7"
 	"gorm.io/gorm"
@@ -78,28 +77,6 @@ func (srv *xxxService) Delete(model *model.yyy, tx *gorm.DB) error {
 	return err
 }
 
-// Creates an index for the model.
-func (srv *xxxService) CreateIndex(model *model.yyy) error {
-	exists, err := srv.client.IndexExists(model.TableName()).Do(context.Background())
-	if err != nil {
-		return err
-	}
-
-	if !exists {
-		_, err := srv.client.CreateIndex(model.TableName()).Do(context.Background())
-		if err != nil {
-			return err
-		}
-	}
-
-	_, err = srv.client.Index().
-		Index(model.TableName()).
-		Id(strconv.Itoa(model.ID)).
-		BodyJson(&model).
-		Do(context.Background())
-	return err
-}
-
 // Creates or updates an index for the model.
 func (srv *xxxService) CreateOrUpdateIndex(model *model.yyy) error {
 	ctx := context.Background()
@@ -118,7 +95,7 @@ func (srv *xxxService) CreateOrUpdateIndex(model *model.yyy) error {
 
 	_, err = srv.client.Delete().
 		Index(model.TableName()).
-		Id(strconv.Itoa(model.ID)).
+		Id(model.ID).
 		Refresh("true").
 		Do(ctx)
 
@@ -128,7 +105,7 @@ func (srv *xxxService) CreateOrUpdateIndex(model *model.yyy) error {
 
 	_, err = srv.client.Index().
 		Index(model.TableName()).
-		Id(strconv.Itoa(model.ID)).
+		Id(model.ID).
 		BodyJson(&model).
 		Do(context.Background())
 	return err
