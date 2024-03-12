@@ -1,17 +1,17 @@
-local:
-  dialect: postgresql
-  datasource: dbusername:pass@tcp(127.0.0.1:3306)/csw?parseTime=true
+development:
+  dialect: postgres
+  datasource: host=localhost dbname=csw user=${DB_USER} password=${DB_PASSWORD} sslmode=require
   dir: library/migration
   table: migrations
 
 stage:
-  dialect: postgresql
-  datasource: dbusername:pass@tcp(127.0.0.1:3306)/csw?parseTime=true
+  dialect: postgres
+  datasource: host=stagehost dbname=csw user=${DB_USER} password=${DB_PASSWORD} sslmode=require
   dir: library/migration
   table: migrations
 
 prod:
-  dialect: postgresql
-  datasource: dbusername:pass@tcp(127.0.0.1:3306)/csw?parseTime=true
+  dialect: postgres
+  datasource: host=prodhost dbname=csw user=${DB_USER} password=${DB_PASSWORD} sslmode=require
   dir: library/migration
   table: migrations

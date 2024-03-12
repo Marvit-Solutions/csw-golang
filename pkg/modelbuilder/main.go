@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Parse command-line flags
-	u := flag.String("u", "user", "user")
+	u := flag.String("u", "postgres", "user")
 	p := flag.String("p", "", "password")
 	d := flag.String("d", "csw", "database")
 	t := flag.String("t", "yourtables", "tables comma separated")
@@ -19,7 +19,14 @@ func main() {
 	flag.Parse()
 
 	// Execute the gentool command to generate models
-	cmd := exec.Command("gentool", "-dsn", *u+`:`+*p+`@tcp(`+*db+`:5432)/`+*d+`?charset=utf8mb4`, "-outPath=library/struct/model/", "-modelPkgName=model", "-onlyModel", "-fieldNullable", "-tables="+*t)
+	cmd := exec.Command("gentool",
+		"-dsn", fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable", *u, *p, *db, *d),
+		"-db=postgres",
+		"-outPath=./library/struct/model/",
+		"-modelPkgName=model",
+		"-onlyModel",
+		"-fieldNullable",
+		"-tables="+*t)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Println(err)
@@ -61,7 +68,6 @@ func main() {
 			fmt.Println(err)
 		}
 
-		// Rename files if necessary
 		name := strings.TrimSuffix(f.Name(), "gen.go")
 		if name == f.Name() { // no suffix so no need to rename
 			continue
