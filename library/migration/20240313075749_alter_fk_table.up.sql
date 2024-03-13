@@ -1,0 +1,154 @@
+ALTER TABLE
+        IF EXISTS public.addresses
+ADD
+        CONSTRAINT user_detail_address_fk FOREIGN KEY (user_detail_id) REFERENCES public.user_details (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.class_user_plans
+ADD
+        CONSTRAINT plan_class_user_plan_fk FOREIGN KEY (plan_id) REFERENCES public.plans (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.class_user_plans
+ADD
+        CONSTRAINT user_class_user_plan_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_answers
+ADD
+        CONSTRAINT choice_exercise_answer_fk FOREIGN KEY (choice_id) REFERENCES public.exercise_choices (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_answers
+ADD
+        CONSTRAINT submission_exercise_answer_fk FOREIGN KEY (submission_id) REFERENCES public.exercise_submissions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_choices
+ADD
+        CONSTRAINT question_exercise_choice_fk FOREIGN KEY (question_id) REFERENCES public.exercise_questions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_questions
+ADD
+        CONSTRAINT exercise_exercise_question_fk FOREIGN KEY (exercise_id) REFERENCES public.exercises (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_scores
+ADD
+        CONSTRAINT submission_exercise_score_fk FOREIGN KEY (submission_id) REFERENCES public.exercise_submissions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_submissions
+ADD
+        CONSTRAINT exercise_exercise_submission_fk FOREIGN KEY (exercise_id) REFERENCES public.exercises (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_submissions
+ADD
+        CONSTRAINT user_exercise_submission_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercises
+ADD
+        CONSTRAINT test_type_exercise_fk FOREIGN KEY (test_type_id) REFERENCES public.test_types (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.plans
+ADD
+        CONSTRAINT module_sub_plan_fk FOREIGN KEY (module_id) REFERENCES public.modules (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.quiz_answers
+ADD
+        CONSTRAINT choice_quiz_answer_fk FOREIGN KEY (choice_id) REFERENCES public.quiz_choices (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.quiz_answers
+ADD
+        CONSTRAINT submission_quiz_answer_fk FOREIGN KEY (submission_id) REFERENCES public.quiz_submissions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.quiz_choices
+ADD
+        CONSTRAINT question_quiz_choice_fk FOREIGN KEY (question_id) REFERENCES public.quiz_questions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.quiz_questions
+ADD
+        CONSTRAINT quiz_quiz_question_fk FOREIGN KEY (quiz_id) REFERENCES public.quizzes (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.quiz_scores
+ADD
+        CONSTRAINT submission_quiz_score_fk FOREIGN KEY (submission_id) REFERENCES public.quiz_submissions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.quiz_submissions
+ADD
+        CONSTRAINT quiz_quiz_submission_fk FOREIGN KEY (quiz_id) REFERENCES public.quizzes (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.quiz_submissions
+ADD
+        CONSTRAINT user_quiz_submission_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.quizzes
+ADD
+        CONSTRAINT sub_subject_quiz_fk FOREIGN KEY (sub_subject_id) REFERENCES public.sub_subjects (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.quizzes
+ADD
+        CONSTRAINT test_type_quiz_fk FOREIGN KEY (test_type_id) REFERENCES public.test_types (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.schedules
+ADD
+        CONSTRAINT class_user_plan_schedule_fk FOREIGN KEY (class_user_plan_id) REFERENCES public.class_user_plans (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.schedules
+ADD
+        CONSTRAINT sub_subject_schedule_fk FOREIGN KEY (sub_subject_id) REFERENCES public.sub_subjects (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.sub_modules
+ADD
+        CONSTRAINT module_sub_module_fk FOREIGN KEY (module_id) REFERENCES public.modules (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.sub_subjects
+ADD
+        CONSTRAINT subject_sub_subject_fk FOREIGN KEY (subject_id) REFERENCES public.subjects (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.subjects
+ADD
+        CONSTRAINT sub_module_subject_fk FOREIGN KEY (sub_module_id) REFERENCES public.sub_modules (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.user_details
+ADD
+        CONSTRAINT class_user_user_detail_fk FOREIGN KEY (class_user_id) REFERENCES public.class_user (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.user_details
+ADD
+        CONSTRAINT user_user_detail_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.user_testimonials
+ADD
+        CONSTRAINT testimonial_user_testimonial_fk FOREIGN KEY (testimonial_id) REFERENCES public.testimonials (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.user_testimonials
+ADD
+        CONSTRAINT user_user_testimonial_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.users
+ADD
+        CONSTRAINT role_user_fk FOREIGN KEY (role_id) REFERENCES public.roles (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
