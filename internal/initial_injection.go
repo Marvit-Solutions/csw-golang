@@ -12,7 +12,7 @@ import (
 
 // InitialInjection represents initial dependency injection for each handler.
 type InitialInjection struct {
-	Auth        auth.AuthHandler
+	Auth        auth.Handler
 	Mentor      mentor.MentorHandler
 	Plan        plan.PlanHandler
 	Testimonial testimonial.TestimonialHandler
@@ -21,7 +21,7 @@ type InitialInjection struct {
 // NewInitialInjection initializes the dependencies for the handlers.
 func NewInitialInjection(sQLMaster *gorm.DB, conf config.Config) InitialInjection {
 	return InitialInjection{
-		Auth:        auth.NewAuthHandler(sQLMaster),
+		Auth:        auth.NewHandler(sQLMaster, conf),
 		Mentor:      mentor.NewMentorHandler(sQLMaster),
 		Plan:        plan.NewPlanHandler(sQLMaster),
 		Testimonial: testimonial.NewTestimonialHandler(sQLMaster),

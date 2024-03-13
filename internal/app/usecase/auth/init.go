@@ -1,26 +1,33 @@
 package auth
 
 import (
-	"github.com/Marvit-Solutions/csw-golang/internal/app/repository/auth"
-	"github.com/Marvit-Solutions/csw-golang/internal/domain/request"
-	"github.com/Marvit-Solutions/csw-golang/internal/domain/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
+	"github.com/Marvit-Solutions/csw-golang/library/config"
+	"github.com/Marvit-Solutions/csw-golang/library/repository"
+	"github.com/Marvit-Solutions/csw-golang/library/service"
 
 	"gorm.io/gorm"
 )
 
-type AuthUsecase interface {
+type Usecase interface {
 	Register(req request.RegisterRequest) (*response.AuthResponse, error)
 	Login(req request.LoginRequest) (*response.AuthResponse, error)
 }
 
-type authUsecase struct {
-	authRepo auth.AuthRepository
+type usecase struct {
+	db       *gorm.DB
+	userRepo repository.UserRepository
+	roleRepo repository.RoleRepository
 }
 
-func NewAuthUsecase(
+func NewUsecase(
 	db *gorm.DB,
-) AuthUsecase {
-	return &authUsecase{
-		authRepo: auth.NewAuthRepository(db),
+	conf config.Config,
+) Usecase {
+	return &usecase{
+		db:       db,
+		userRepo: service.NewUserService(db, nil),
+		roleRepo: service.NewRoleService(db, nil),
 	}
 }

@@ -3,42 +3,41 @@ package auth
 import (
 	"net/http"
 
-	"github.com/Marvit-Solutions/csw-golang/internal/domain/request"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
-
 	"github.com/gin-gonic/gin"
 )
 
-func (ah *authHandler) Register(c *gin.Context) {
+func (h *handler) Register(ctx *gin.Context) {
 	var req request.RegisterRequest
 
-	if err := helper.BindingValidation(c, &req); err != nil {
-		helper.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
 
-	data, err := ah.authUsecase.Register(req)
+	user, err := h.u.Register(req)
 	if err != nil {
-		helper.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
+		helper.NewErrorResponse(ctx, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 
-	helper.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data)
+	helper.NewSuccessResponseNonPaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), user)
 }
 
-func (ah *authHandler) Login(c *gin.Context) {
+func (h *handler) Login(ctx *gin.Context) {
 	var req request.LoginRequest
 
-	if err := helper.BindingValidation(c, &req); err != nil {
-		helper.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
 
-	data, err := ah.authUsecase.Login(req)
+	user, err := h.u.Login(req)
 	if err != nil {
-		helper.NewErrorResponse(c, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
+		helper.NewErrorResponse(ctx, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
 		return
 	}
 
-	helper.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), data)
+	helper.NewSuccessResponseNonPaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), user)
 }
