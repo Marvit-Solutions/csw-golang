@@ -30,21 +30,4 @@ func NewRouteInit(req request.RouteInit) {
 		authGroup.POST("/register", module.Auth.Register)
 		authGroup.POST("/login", module.Auth.Login)
 	}
-
-	{
-		mentorGroup := route.Group("/mentor")
-		mentorGroup.GET("/top", module.Mentor.ListThreeMentors)
-		mentorGroup.GET("/all", module.Mentor.GetAllMentors)
-	}
-
-	{
-		planGroup := route.Group("/plan")
-		planGroup.GET("/all", module.Plan.ListPlan)
-		planGroup.GET("/top", module.Plan.GetTop3Plan)
-	}
-
-	{
-		testimonialGroup := route.Group("/testimonials")
-		testimonialGroup.GET("/all", module.Testimonial.GetAllTestimonials)
-	}
 }
