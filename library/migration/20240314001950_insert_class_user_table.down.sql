@@ -1,0 +1,1 @@
+TRUNCATE TABLE public.class_users CASCADE;

@@ -1,0 +1,34 @@
+info:
+  contact: {}
+paths:
+  /api/v1/user/{order_code}:
+    post:
+      consumes:
+        - application/json
+      description: Store data user
+      parameters:
+        - description: id
+          in: path
+          name: id
+          required: true
+          type: integer
+        - description: Authentication header (Bearer Token)
+          in: header
+          name: Authorization
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create User
+      tags:
+        - CSW API
+swagger: "2.0"

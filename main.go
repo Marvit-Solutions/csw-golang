@@ -1,29 +1,32 @@
 package main
 
 import (
-	"log"
 	"os"
 
-	"csw-golang/cmd/app"
+	"github.com/Marvit-Solutions/csw-golang/library/config"
 
-	"github.com/joho/godotenv"
+	"github.com/sirupsen/logrus"
 )
 
+// init sets the timezone environment variable to Asia/Jakarta.
 func init() {
-	godotenv.Load(".env")
+	_ = os.Setenv("TZ", "Asia/Jakarta")
 }
 
 func main() {
-	log.Println("Starting application...")
-	r := app.StartApp()
+	// Configure logrus formatter.
+	logrus.SetFormatter(&logrus.TextFormatter{
+		ForceColors:     true,
+		FullTimestamp:   true,
+		TimestampFormat: "02-01-2024 15:04:05",
+	})
 
-	port := os.Getenv("APP_PORT")
-	if port == "" {
-		port = "8080"
-	}
+	// Load environment variables from config.
+	env = config.NewConfig()
 
-	err := r.Run(":" + port)
-	if err != nil {
-		log.Fatal("Failed to start application:", err)
-	}
+	logrus.Info("success loading .env")
+	logrus.Info("Starting server... \n")
+
+	// Start the application.
+	startApp()
 }
