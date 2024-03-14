@@ -30,8 +30,8 @@ func NewUsecase(
 	return &usecase{
 		db:             db,
 		userRepo:       service.NewUserService(db, nil),
-		roleRepo:       service.NewRoleService(db, nil),
 		classUserRepo:  service.NewClassUserService(db, nil),
 		userDetailRepo: service.NewUserDetailService(db, nil),
+		roleRepo:       service.NewRoleService(db, nil),
 	}
 }

@@ -6,9 +6,9 @@ import (
 	"gorm.io/gorm"
 )
 
-const TableNameClassUser = "class_user"
+const TableNameClassUser = "class_users"
 
-// ClassUser mapped from table <class_user>
+// ClassUser mapped from table <class_users>
 type ClassUser struct {
 	ID        string         `gorm:"column:id;primaryKey" json:"id"`
 	Name      string         `gorm:"column:name;not null" json:"name"`
