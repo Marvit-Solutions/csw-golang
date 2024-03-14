@@ -6,9 +6,7 @@
 ./script/migrate_create.sh -name your_name_table
 
 ###### Example:
-./script/migrate_create.sh -name create_table
 ./script/migrate_create.sh -name alter_default_deleted_at_table
-./script/migrate_create.sh -name insert_class_user_table
 
 
 #### To generate model from database (must be migrated first!):
