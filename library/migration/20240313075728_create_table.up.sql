@@ -284,11 +284,14 @@ CREATE TABLE IF NOT EXISTS public.user_details (
         class_user_id text COLLATE pg_catalog."default" NOT NULL,
         user_id text COLLATE pg_catalog."default" NOT NULL,
         name character varying(100) COLLATE pg_catalog."default" NOT NULL,
+        province character varying(100) NOT NULL,
+        regency character varying(255) NOT NULL,
+        district character varying(255) NOT NULL,
         phone_number character varying(50) COLLATE pg_catalog."default" NOT NULL,
         profile_picture text COLLATE pg_catalog."default" NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT user_details_pkey PRIMARY KEY (id),
         CONSTRAINT user_details_uq UNIQUE (phone_number, profile_picture)
 );
