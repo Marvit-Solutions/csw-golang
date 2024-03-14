@@ -17,7 +17,7 @@ type ExerciseQuestion struct {
 	Point      int          `gorm:"column:point;not null" json:"point"`
 	CreatedAt  time.Time      `gorm:"column:created_at;not null;default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt  time.Time      `gorm:"column:updated_at;not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
-	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at;default:CURRENT_TIMESTAMP" json:"deleted_at"`
+	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
 }
 
 // TableName ExerciseQuestion's table name
