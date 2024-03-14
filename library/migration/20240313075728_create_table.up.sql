@@ -6,17 +6,8 @@ CREATE TABLE IF NOT EXISTS public.addresses (
         sub_district text COLLATE pg_catalog."default" NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT addresses_pkey PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS public.class_users (
-        id text COLLATE pg_catalog."default" NOT NULL,
-        name character varying(100) COLLATE pg_catalog."default" NOT NULL,
-        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-        CONSTRAINT class_user_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.class_user_plans (
@@ -26,9 +17,18 @@ CREATE TABLE IF NOT EXISTS public.class_user_plans (
         name character varying(50) COLLATE pg_catalog."default" NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT class_user_plan_pkey PRIMARY KEY (id),
         CONSTRAINT class_user_plan_uq UNIQUE (name)
+);
+
+CREATE TABLE IF NOT EXISTS public.class_users (
+        id text COLLATE pg_catalog."default" NOT NULL,
+        name character varying(100) COLLATE pg_catalog."default" NOT NULL,
+        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
+        CONSTRAINT class_user_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.exercise_answers (
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_answers (
         is_marked boolean NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT exercise_answer_pkey PRIMARY KEY (id)
 );
 
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_choices (
         is_correct boolean NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT exercise_choice_pkey PRIMARY KEY (id)
 );
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_questions (
         point integer NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT exercise_question_pkey PRIMARY KEY (id)
 );
 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_scores (
         score integer NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT exercise_scores_pkey PRIMARY KEY (id)
 );
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_submissions (
         time_required time without time zone NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT exercise_submissions_pkey PRIMARY KEY (id)
 );
 
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS public.exercises (
         "time" integer NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT exercise_pkey PRIMARY KEY (id)
 );
 
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS public.modules (
         name text COLLATE pg_catalog."default" NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT modules_pkey PRIMARY KEY (id),
         CONSTRAINT module_uq UNIQUE (name) INCLUDE(name)
 );
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS public.plans (
         zoom boolean NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT sub_plans_pkey PRIMARY KEY (id)
 );
 
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_answers (
         is_marked boolean NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT quiz_answers_pkey PRIMARY KEY (id)
 );
 
@@ -147,7 +147,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_choices (
         is_correct boolean NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT quiz_choices_pkey PRIMARY KEY (id)
 );
 
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_questions (
         point integer NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT quiz_questions_pkey PRIMARY KEY (id)
 );
 
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_scores (
         score integer NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT quiz_scores_pket PRIMARY KEY (id)
 );
 
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_submissions (
         time_required time without time zone NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT quiz_submissions_pkey PRIMARY KEY (id)
 );
 
@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS public.quizzes (
         attempt integer NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT quiz_pkey PRIMARY KEY (id),
         CONSTRAINT quiz_uq UNIQUE (title)
 );
@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS public.roles (
         name character varying(20) COLLATE pg_catalog."default" NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT roles_pkey PRIMARY KEY (id),
         CONSTRAINT role_uq UNIQUE (name) INCLUDE(name)
 );
@@ -220,8 +220,14 @@ CREATE TABLE IF NOT EXISTS public.schedules (
         meeting_date timestamp with time zone NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT schedule_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.schema_migrations (
+        version bigint NOT NULL,
+        dirty boolean NOT NULL,
+        CONSTRAINT schema_migrations_pkey PRIMARY KEY (version)
 );
 
 CREATE TABLE IF NOT EXISTS public.sub_modules (
@@ -231,7 +237,7 @@ CREATE TABLE IF NOT EXISTS public.sub_modules (
         description text COLLATE pg_catalog."default" NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT sub_modules_pkey PRIMARY KEY (id),
         CONSTRAINT sub_module_uq UNIQUE (name) INCLUDE(name)
 );
@@ -243,7 +249,7 @@ CREATE TABLE IF NOT EXISTS public.sub_subjects (
         content text COLLATE pg_catalog."default" NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT sub_subjects_pkey PRIMARY KEY (id),
         CONSTRAINT sub_subject_uq UNIQUE (name, content)
 );
@@ -254,7 +260,7 @@ CREATE TABLE IF NOT EXISTS public.subjects (
         name text COLLATE pg_catalog."default" NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT subjects_pkey PRIMARY KEY (id),
         CONSTRAINT subject_uq UNIQUE (name) INCLUDE(name)
 );
@@ -264,7 +270,7 @@ CREATE TABLE IF NOT EXISTS public.test_types (
         name text COLLATE pg_catalog."default" NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT test_type_pkey PRIMARY KEY (id),
         CONSTRAINT test_type_uq UNIQUE (name)
 );
@@ -275,7 +281,7 @@ CREATE TABLE IF NOT EXISTS public.testimonials (
         rating numeric NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT testimonials_pkey PRIMARY KEY (id)
 );
 
@@ -284,9 +290,9 @@ CREATE TABLE IF NOT EXISTS public.user_details (
         class_user_id text COLLATE pg_catalog."default" NOT NULL,
         user_id text COLLATE pg_catalog."default" NOT NULL,
         name character varying(100) COLLATE pg_catalog."default" NOT NULL,
-        province character varying(100) NOT NULL,
-        regency character varying(255) NOT NULL,
-        district character varying(255) NOT NULL,
+        province character varying(100) COLLATE pg_catalog."default" NOT NULL,
+        regency character varying(255) COLLATE pg_catalog."default" NOT NULL,
+        district character varying(255) COLLATE pg_catalog."default" NOT NULL,
         phone_number character varying(50) COLLATE pg_catalog."default" NOT NULL,
         profile_picture text COLLATE pg_catalog."default" NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -302,7 +308,7 @@ CREATE TABLE IF NOT EXISTS public.user_testimonials (
         testimonial_id text COLLATE pg_catalog."default" NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT user_testimonials_pkey PRIMARY KEY (id)
 );
 
@@ -315,7 +321,30 @@ CREATE TABLE IF NOT EXISTS public.users (
         password text COLLATE pg_catalog."default" NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
         CONSTRAINT users_pkey PRIMARY KEY (id),
         CONSTRAINT users_email_key UNIQUE (email)
+);
+
+CREATE TABLE IF NOT EXISTS public.mentors (
+        id text NOT NULL,
+        user_id text NOT NULL,
+        short_name character varying(10) NOT NULL,
+        type character varying(50) NOT NULL,
+        description text NOT NULL,
+        motto character varying(255) NOT NULL,
+        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
+        CONSTRAINT mentor_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.uniques (
+        id text NOT NULL,
+        mentor_id text NOT NULL,
+        name character varying(100) NOT NULL,
+        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
+        CONSTRAINT unique_pkey PRIMARY KEY (id)
 );

@@ -26,8 +26,14 @@ func NewRouteInit(req request.RouteInit) {
 
 	// Define routes for different endpoints.
 	{
-		authGroup := route.Group("/account")
+		authGroup := route.Group("/auth")
 		authGroup.POST("/register", module.Auth.Register)
 		authGroup.POST("/login", module.Auth.Login)
+	}
+
+	{
+		homeGroup := route.Group("/home")
+		homeGroup.GET("/mentor/top", module.Home.TopMentor)
+		homeGroup.GET("/mentor/all", module.Home.AllMentor)
 	}
 }
