@@ -6,7 +6,7 @@ SET
         DEFAULT CURRENT_TIMESTAMP;
 
 ALTER TABLE
-        public.class_user
+        public.class_users
 ALTER COLUMN
         deleted_at
 SET
