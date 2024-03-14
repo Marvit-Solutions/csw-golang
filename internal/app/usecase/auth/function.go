@@ -14,13 +14,9 @@ import (
 )
 
 func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse, error) {
-	user, err := u.userRepo.FindOneBy(map[string]interface{}{
+	user, _ := u.userRepo.FindOneBy(map[string]interface{}{
 		"email": req.Email,
 	})
-	if err != nil {
-		return nil, fmt.Errorf("failed to finding user: %v", err)
-	}
-
 	if user != nil {
 		return nil, fmt.Errorf("email already registered")
 	}
@@ -30,6 +26,13 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to finding role: %v", err)
+	}
+
+	class, err := u.classUserRepo.FindOneBy(map[string]interface{}{
+		"name": req.Class,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to finding class: %v", err)
 	}
 
 	tx := u.db.Begin()
@@ -53,12 +56,27 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 		return nil, fmt.Errorf("failed to create user: %v", err)
 	}
 
+	userDetail := &model.UserDetail{
+		ID:             uuid.NewString(),
+		ClassUserID:    class.ID,
+		UserID:         user.ID,
+		Name:           req.Name,
+		PhoneNumber:    req.Phone,
+		ProfilePicture: "./assets/img/users/profiles/account.png",
+	}
+
+	_, err = u.userDetailRepo.Create(userDetail, tx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create user detail: %v", err)
+	}
+
 	conf := config.NewConfig()
 	cswAuth := auth.NewCswAuth([]byte(conf.GetString("app.signature")))
 	tokenStruct := auth.TokenStructure{
 		UserID: user.ID,
 		Email:  req.Email,
 	}
+
 	token, err := cswAuth.GenerateToken(tokenStruct)
 	if err != nil {
 		return nil, fmt.Errorf("failed generating token: %v", err)
