@@ -4,7 +4,7 @@ ALTER COLUMN
         deleted_at DROP DEFAULT;
 
 ALTER TABLE
-        public.class_user
+        public.class_users
 ALTER COLUMN
         deleted_at DROP DEFAULT;
 

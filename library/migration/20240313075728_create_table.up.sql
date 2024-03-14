@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS public.addresses (
         CONSTRAINT addresses_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.class_user (
+CREATE TABLE IF NOT EXISTS public.class_users (
         id text COLLATE pg_catalog."default" NOT NULL,
         name character varying(100) COLLATE pg_catalog."default" NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,

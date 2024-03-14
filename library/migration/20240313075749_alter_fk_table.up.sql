@@ -131,7 +131,7 @@ ADD
 ALTER TABLE
         IF EXISTS public.user_details
 ADD
-        CONSTRAINT class_user_user_detail_fk FOREIGN KEY (class_user_id) REFERENCES public.class_user (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT class_user_user_detail_fk FOREIGN KEY (class_user_id) REFERENCES public.class_users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.user_details
