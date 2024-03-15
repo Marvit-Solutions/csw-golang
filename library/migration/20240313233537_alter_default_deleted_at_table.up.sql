@@ -132,3 +132,8 @@ ALTER TABLE
         public.users
 ALTER COLUMN
         deleted_at DROP DEFAULT;
+
+ALTER TABLE
+        public.user_mentor_testimonials
+ALTER COLUMN
+        deleted_at DROP DEFAULT;

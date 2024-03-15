@@ -186,3 +186,10 @@ ALTER COLUMN
         deleted_at
 SET
         DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE
+        public.user_mentor_testimonials
+ALTER COLUMN
+        deleted_at
+SET
+        DEFAULT CURRENT_TIMESTAMP;

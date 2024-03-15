@@ -162,3 +162,13 @@ ALTER TABLE
         IF EXISTS public.uniques
 ADD
         CONSTRAINT mentor_unique_fk FOREIGN KEY (mentor_id) REFERENCES public.mentors (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.user_mentor_testimonials
+ADD
+        CONSTRAINT user_user_mentor_testimonial_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.user_mentor_testimonials
+ADD
+        CONSTRAINT mentor_user_mentor_testimonial_fk FOREIGN KEY (mentor_id) REFERENCES public.mentors (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;

@@ -348,3 +348,15 @@ CREATE TABLE IF NOT EXISTS public.uniques (
         deleted_at timestamp with time zone,
         CONSTRAINT unique_pkey PRIMARY KEY (id)
 );
+
+CREATE TABLE IF NOT EXISTS public.user_mentor_testimonials (
+        id text NOT NULL,
+        user_id text NOT NULL,
+        mentor_id text NOT NULL,
+        comment text NOT NULL,
+        rating numeric NOT NULL,
+        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
+        CONSTRAINT user_mentor_testimonial_pkey PRIMARY KEY (id)
+);

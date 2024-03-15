@@ -55,3 +55,5 @@ DROP TABLE IF EXISTS public.users;
 DROP TABLE IF EXISTS public.mentors;
 
 DROP TABLE IF EXISTS public.uniques;
+
+DROP TABLE IF EXISTS public.user_mentor_testimonials;
