@@ -16,7 +16,7 @@ var jwtMiddleware *jwtmiddleware.JWTMiddleware
 var signingKey []byte
 
 type TokenStructure struct {
-	UserID string
+	UserID int
 	Email  string
 }
 

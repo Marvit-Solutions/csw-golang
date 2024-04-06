@@ -44,7 +44,7 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 	}
 
 	user = &model.User{
-		ID:       uuid.NewString(),
+		UUID:     uuid.NewString(),
 		RoleID:   role.ID,
 		Email:    req.Email,
 		Password: string(userPassword),
@@ -56,7 +56,7 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 	}
 
 	userDetail := &model.UserDetail{
-		ID:             uuid.NewString(),
+		UUID:           uuid.NewString(),
 		ClassUserID:    class.ID,
 		UserID:         user.ID,
 		Name:           req.Name,
