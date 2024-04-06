@@ -11,7 +11,7 @@ func (h *handler) TopMentor(ctx *gin.Context) {
 
 	mentors, err := h.u.TopMentor()
 	if err != nil {
-		helper.NewErrorResponse(ctx, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
+		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err)
 		return
 	}
 
@@ -22,7 +22,7 @@ func (h *handler) AllMentor(ctx *gin.Context) {
 
 	mentors, err := h.u.AllMentor()
 	if err != nil {
-		helper.NewErrorResponse(ctx, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
+		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err)
 		return
 	}
 

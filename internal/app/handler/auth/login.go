@@ -18,7 +18,7 @@ func (h *handler) Login(ctx *gin.Context) {
 
 	user, err := h.u.Login(req)
 	if err != nil {
-		helper.NewErrorResponse(ctx, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError), err)
+		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err)
 		return
 	}
 
