@@ -41,7 +41,12 @@ func (u *usecase) TopMentor() (*response.AllMentor, error) {
 		return nil, fmt.Errorf("failed to finding mentors: %v", err)
 	}
 
-	fmt.Println(mentors)
+	mentorMap := make(map[string]*model.Mentor)
+	for _, mentor := range mentors {
+		mentorMap[mentor.ID] = mentor
+	}
+
+	var result []response.TopMentor
 
 	return nil, nil
 }
