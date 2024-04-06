@@ -18,12 +18,12 @@ func ConvertDateFormat(t time.Time) string {
 }
 
 func ConvertTimeFormat(inputTime time.Time) string {
-	formattedTime := inputTime.Format("15:04")
+	formattedTime := inputTime.Format(TimeFormat)
 	return formattedTime
 }
 
 func ConvertStrtoClock(inputString string) (time.Time, error) {
-	formattedTime, err := time.Parse("15:04", inputString)
+	formattedTime, err := time.Parse(TimeFormat, inputString)
 	return formattedTime, err
 }
 
