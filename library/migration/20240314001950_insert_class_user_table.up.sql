@@ -1,5 +1,5 @@
 INSERT INTO
-        public.class_users (id, name)
+        public.class_users (uuid, name)
 VALUES
         ('24db3824-0d1b-4fc9-94c7-06513ccea377', '10'),
         ('8d9e300a-fabd-46f0-88f3-a3260425ff8c', '11'),
