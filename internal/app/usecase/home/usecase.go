@@ -1,6 +1,7 @@
 package home
 
 import (
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
 	"github.com/Marvit-Solutions/csw-golang/library/config"
 	"github.com/Marvit-Solutions/csw-golang/library/repository"
@@ -9,8 +10,9 @@ import (
 )
 
 type Usecase interface {
-	TopMentor() ([]*response.MentorHome, error)
-	AllMentor() ([]*response.MentorHome, error)
+	MentorTop() ([]*response.MentorHome, error)
+	MentorAll() ([]*response.MentorHome, error)
+	MentorDetail(request.MentorDetailHome) (*response.MentorDetailHome, error)
 	// TopPlan() ([]*response.PlanHome, error)
 	// AllPlan() ([]*response.PlanHome, error)
 }

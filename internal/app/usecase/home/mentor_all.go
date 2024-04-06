@@ -8,7 +8,7 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
-func (u *usecase) AllMentor() ([]*response.MentorHome, error) {
+func (u *usecase) MentorAll() ([]*response.MentorHome, error) {
 	role, err := u.roleRepo.FindOneBy(map[string]interface{}{
 		"slug": "mentor",
 	})

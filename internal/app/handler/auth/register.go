@@ -11,7 +11,7 @@ import (
 func (h *handler) Register(ctx *gin.Context) {
 	var req request.RegisterRequest
 
-	if err := helper.BindingValidation(ctx, &req); err != nil {
+	if err := helper.ValidateRequestBody(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}

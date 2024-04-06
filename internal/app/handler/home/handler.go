@@ -12,8 +12,9 @@ type handler struct {
 }
 
 type Handler interface {
-	TopMentor(c *gin.Context)
-	AllMentor(c *gin.Context)
+	MentorTop(c *gin.Context)
+	MentorAll(c *gin.Context)
+	MentorDetail(c *gin.Context)
 	// TopPlan(c *gin.Context)
 	// AllPlan(c *gin.Context)
 }

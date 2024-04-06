@@ -3,13 +3,17 @@ package home
 import (
 	"net/http"
 
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/gin-gonic/gin"
 )
 
-func (h *handler) MentorAll(ctx *gin.Context) {
+func (h *handler) MentorDetail(ctx *gin.Context) {
+	var req request.MentorDetailHome
 
-	mentors, err := h.u.MentorAll()
+	req.UUID = ctx.Param("uuid")
+
+	mentors, err := h.u.MentorDetail(req)
 	if err != nil && err == helper.ErrDataNotFound {
 		helper.NewErrorResponse(ctx, http.StatusNotFound, http.StatusText(http.StatusNotFound), err.Error())
 		return

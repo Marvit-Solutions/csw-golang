@@ -7,9 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *handler) TopMentor(ctx *gin.Context) {
+func (h *handler) MentorTop(ctx *gin.Context) {
 
-	mentors, err := h.u.TopMentor()
+	mentors, err := h.u.MentorTop()
 	if err != nil && err == helper.ErrDataNotFound {
 		helper.NewErrorResponse(ctx, http.StatusNotFound, http.StatusText(http.StatusNotFound), err.Error())
 		return
