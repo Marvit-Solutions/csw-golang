@@ -5,6 +5,7 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/Marvit-Solutions/csw-golang/library/repository"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
+	"strconv"
 
 	"github.com/olivere/elastic/v7"
 	"gorm.io/gorm"
@@ -95,7 +96,7 @@ func (srv *subModuleService) CreateOrUpdateIndex(model *model.SubModule) error {
 
 	_, err = srv.client.Delete().
 		Index(model.TableName()).
-		Id(model.ID).
+		Id(strconv.Itoa(model.ID)).
 		Refresh("true").
 		Do(ctx)
 
@@ -105,7 +106,7 @@ func (srv *subModuleService) CreateOrUpdateIndex(model *model.SubModule) error {
 
 	_, err = srv.client.Index().
 		Index(model.TableName()).
-		Id(model.ID).
+		Id(strconv.Itoa(model.ID)).
 		BodyJson(&model).
 		Do(context.Background())
 	return err
