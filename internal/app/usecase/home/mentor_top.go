@@ -22,14 +22,14 @@ func (u *usecase) TopMentor() (*response.AllMentor, error) {
 		return nil, fmt.Errorf("failed to finding user: %v", err)
 	}
 
-	userMap := make(map[string]*model.User)
+	userMap := make(map[int]*model.User)
 	for _, user := range users {
 		userMap[user.ID] = &model.User{
 			ID: user.ID,
 		}
 	}
 
-	var mentorIDs []string
+	var mentorIDs []int
 	for userID := range userMap {
 		mentorIDs = append(mentorIDs, userID)
 	}
@@ -41,16 +41,12 @@ func (u *usecase) TopMentor() (*response.AllMentor, error) {
 		return nil, fmt.Errorf("failed to finding mentors: %v", err)
 	}
 
-	mentorMap := make(map[string]*model.Mentor)
+	mentorMap := make(map[int]*model.Mentor)
 	for _, mentor := range mentors {
 		mentorMap[mentor.ID] = mentor
 	}
 
 	var result []response.TopMentor
 
-	return nil, nil
-}
-
-func (u *usecase) AllMentor() (*response.AllMentor, error) {
 	return nil, nil
 }
