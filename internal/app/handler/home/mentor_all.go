@@ -7,17 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *handler) TopMentor(ctx *gin.Context) {
-
-	mentors, err := h.u.TopMentor()
-	if err != nil {
-		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err)
-		return
-	}
-
-	helper.NewSuccessResponseNonPaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), mentors)
-}
-
 func (h *handler) AllMentor(ctx *gin.Context) {
 
 	mentors, err := h.u.AllMentor()

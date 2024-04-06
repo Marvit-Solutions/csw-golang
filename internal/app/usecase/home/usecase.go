@@ -9,15 +9,18 @@ import (
 )
 
 type Usecase interface {
-	TopMentor() (*response.AllMentor, error)
-	AllMentor() (*response.AllMentor, error)
+	TopMentor() ([]*response.MentorHome, error)
+	AllMentor() ([]*response.MentorHome, error)
+	// TopPlan() ([]*response.PlanHome, error)
+	// AllPlan() ([]*response.PlanHome, error)
 }
 
 type usecase struct {
-	db         *gorm.DB
-	userRepo   repository.UserRepository
-	roleRepo   repository.RoleRepository
-	mentorRepo repository.MentorRepository
+	db             *gorm.DB
+	userRepo       repository.UserRepository
+	userDetailRepo repository.UserDetailRepository
+	roleRepo       repository.RoleRepository
+	mentorRepo     repository.MentorRepository
 }
 
 func NewUsecase(
@@ -25,9 +28,10 @@ func NewUsecase(
 	conf config.Config,
 ) Usecase {
 	return &usecase{
-		db:         db,
-		userRepo:   service.NewUserService(db, nil),
-		roleRepo:   service.NewRoleService(db, nil),
-		mentorRepo: service.NewMentorService(db, nil),
+		db:             db,
+		userRepo:       service.NewUserService(db, nil),
+		userDetailRepo: service.NewUserDetailService(db, nil),
+		roleRepo:       service.NewRoleService(db, nil),
+		mentorRepo:     service.NewMentorService(db, nil),
 	}
 }

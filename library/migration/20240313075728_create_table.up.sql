@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS public.class_user_plans (
 CREATE TABLE IF NOT EXISTS public.class_users (
         id SERIAL PRIMARY KEY,
         uuid UUID NOT NULL,
-        name character varying(100) NOT NULL,
+        name character varying(20) NOT NULL,
+        slug character varying(20) NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone
@@ -130,7 +131,7 @@ CREATE TABLE IF NOT EXISTS public.plans (
         module_id integer NOT NULL,
         name text NOT NULL,
         price numeric NOT NULL,
-        grup_pejuang boolean NOT NULL,
+        group boolean NOT NULL,
         exercise bigint NOT NULL,
         access bigint NOT NULL,
         module boolean NOT NULL,
@@ -220,6 +221,7 @@ CREATE TABLE IF NOT EXISTS public.roles (
         id SERIAL PRIMARY KEY,
         uuid UUID NOT NULL,
         name character varying(20) NOT NULL,
+        slug character varying(20) NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone,
