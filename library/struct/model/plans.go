@@ -10,8 +10,9 @@ const TableNamePlan = "plans"
 
 // Plan mapped from table <plans>
 type Plan struct {
-	ID          string         `gorm:"column:id;primaryKey" json:"id"`
-	ModuleID    string         `gorm:"column:module_id;not null" json:"module_id"`
+	ID          int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
+	UUID        string         `gorm:"column:uuid;not null" json:"uuid"`
+	ModuleID    int          `gorm:"column:module_id;not null" json:"module_id"`
 	Name        string         `gorm:"column:name;not null" json:"name"`
 	Price       float64        `gorm:"column:price;not null" json:"price"`
 	GrupPejuang bool           `gorm:"column:grup_pejuang;not null" json:"grup_pejuang"`

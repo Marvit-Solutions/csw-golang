@@ -10,8 +10,9 @@ const TableNameExerciseQuestion = "exercise_questions"
 
 // ExerciseQuestion mapped from table <exercise_questions>
 type ExerciseQuestion struct {
-	ID         string         `gorm:"column:id;primaryKey" json:"id"`
-	ExerciseID string         `gorm:"column:exercise_id;not null" json:"exercise_id"`
+	ID         int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
+	UUID       string         `gorm:"column:uuid;not null" json:"uuid"`
+	ExerciseID int          `gorm:"column:exercise_id;not null" json:"exercise_id"`
 	Content    string         `gorm:"column:content;not null" json:"content"`
 	Image      *string        `gorm:"column:image" json:"image"`
 	Point      int          `gorm:"column:point;not null" json:"point"`

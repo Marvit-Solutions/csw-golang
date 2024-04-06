@@ -10,8 +10,9 @@ const TableNameAddress = "addresses"
 
 // Address mapped from table <addresses>
 type Address struct {
-	ID           string         `gorm:"column:id;primaryKey" json:"id"`
-	UserDetailID string         `gorm:"column:user_detail_id;not null" json:"user_detail_id"`
+	ID           int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
+	UUID         string         `gorm:"column:uuid;not null" json:"uuid"`
+	UserDetailID int          `gorm:"column:user_detail_id;not null" json:"user_detail_id"`
 	Province     string         `gorm:"column:province;not null" json:"province"`
 	RegencyCity  string         `gorm:"column:regency_city;not null" json:"regency_city"`
 	SubDistrict  string         `gorm:"column:sub_district;not null" json:"sub_district"`
