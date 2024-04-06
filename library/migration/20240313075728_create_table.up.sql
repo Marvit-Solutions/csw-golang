@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS public.plans (
         module_id integer NOT NULL,
         name text NOT NULL,
         price numeric NOT NULL,
-        group boolean NOT NULL,
+        "group" boolean NOT NULL,
         exercise bigint NOT NULL,
         access bigint NOT NULL,
         module boolean NOT NULL,
