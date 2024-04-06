@@ -10,7 +10,8 @@ const TableNameClassUser = "class_users"
 
 // ClassUser mapped from table <class_users>
 type ClassUser struct {
-	ID        string         `gorm:"column:id;primaryKey" json:"id"`
+	ID        int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
+	UUID      string         `gorm:"column:uuid;not null" json:"uuid"`
 	Name      string         `gorm:"column:name;not null" json:"name"`
 	CreatedAt time.Time      `gorm:"column:created_at;not null;default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt time.Time      `gorm:"column:updated_at;not null;default:CURRENT_TIMESTAMP" json:"updated_at"`

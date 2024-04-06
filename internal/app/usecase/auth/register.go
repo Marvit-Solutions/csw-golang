@@ -6,7 +6,6 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
 	"github.com/Marvit-Solutions/csw-golang/library/config"
-	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/Marvit-Solutions/csw-golang/library/middleware/auth"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 	"github.com/google/uuid"
@@ -45,7 +44,7 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 	}
 
 	user = &model.User{
-		ID:       uuid.NewString(),
+		UUID:     uuid.NewString(),
 		RoleID:   role.ID,
 		Email:    req.Email,
 		Password: string(userPassword),
@@ -57,7 +56,7 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 	}
 
 	userDetail := &model.UserDetail{
-		ID:             uuid.NewString(),
+		UUID:           uuid.NewString(),
 		ClassUserID:    class.ID,
 		UserID:         user.ID,
 		Name:           req.Name,
@@ -91,35 +90,5 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 		AccessToken: token.AccessToken,
 	}
 
-	return resp, nil
-}
-
-func (u *usecase) Login(req request.LoginRequest) (*response.AuthResponse, error) {
-	user, err := u.userRepo.FindOneBy(map[string]interface{}{
-		"email": req.Email,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("failed to finding user: %v", err)
-	}
-
-	if !helper.ComparePasswords(user.Password, req.Password) {
-		return nil, fmt.Errorf("invalid email or password")
-	}
-
-	conf := config.NewConfig()
-	cswAuth := auth.NewCswAuth([]byte(conf.GetString("app.signature")))
-	tokenStruct := auth.TokenStructure{
-		UserID: user.ID,
-		Email:  user.Email,
-	}
-
-	token, err := cswAuth.GenerateToken(tokenStruct)
-	if err != nil {
-		return nil, fmt.Errorf("failed generating token: %v", err)
-	}
-
-	resp := &response.AuthResponse{
-		AccessToken: token.AccessToken,
-	}
 	return resp, nil
 }

@@ -10,9 +10,10 @@ const TableNameQuiz = "quizzes"
 
 // Quiz mapped from table <quizzes>
 type Quiz struct {
-	ID           string         `gorm:"column:id;primaryKey" json:"id"`
-	SubSubjectID string         `gorm:"column:sub_subject_id;not null" json:"sub_subject_id"`
-	TestTypeID   string         `gorm:"column:test_type_id;not null" json:"test_type_id"`
+	ID           int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
+	UUID         string         `gorm:"column:uuid;not null" json:"uuid"`
+	SubSubjectID int          `gorm:"column:sub_subject_id;not null" json:"sub_subject_id"`
+	TestTypeID   int          `gorm:"column:test_type_id;not null" json:"test_type_id"`
 	Open         time.Time      `gorm:"column:open;not null" json:"open"`
 	Title        string         `gorm:"column:title;not null" json:"title"`
 	Description  string         `gorm:"column:description;not null" json:"description"`

@@ -10,9 +10,10 @@ const TableNameExerciseSubmission = "exercise_submissions"
 
 // ExerciseSubmission mapped from table <exercise_submissions>
 type ExerciseSubmission struct {
-	ID           string         `gorm:"column:id;primaryKey" json:"id"`
-	UserID       string         `gorm:"column:user_id;not null" json:"user_id"`
-	ExerciseID   string         `gorm:"column:exercise_id;not null" json:"exercise_id"`
+	ID           int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
+	UUID         string         `gorm:"column:uuid;not null" json:"uuid"`
+	UserID       int          `gorm:"column:user_id;not null" json:"user_id"`
+	ExerciseID   int          `gorm:"column:exercise_id;not null" json:"exercise_id"`
 	StartedAt    time.Time      `gorm:"column:started_at;not null" json:"started_at"`
 	FinishedAt   time.Time      `gorm:"column:finished_at;not null" json:"finished_at"`
 	TimeRequired string         `gorm:"column:time_required;not null" json:"time_required"`

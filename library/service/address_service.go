@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"strconv"
+
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/Marvit-Solutions/csw-golang/library/repository"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
@@ -95,7 +97,7 @@ func (srv *addressService) CreateOrUpdateIndex(model *model.Address) error {
 
 	_, err = srv.client.Delete().
 		Index(model.TableName()).
-		Id(model.ID).
+		Id(strconv.Itoa(model.ID)).
 		Refresh("true").
 		Do(ctx)
 
@@ -105,7 +107,7 @@ func (srv *addressService) CreateOrUpdateIndex(model *model.Address) error {
 
 	_, err = srv.client.Index().
 		Index(model.TableName()).
-		Id(model.ID).
+		Id(strconv.Itoa(model.ID)).
 		BodyJson(&model).
 		Do(context.Background())
 	return err

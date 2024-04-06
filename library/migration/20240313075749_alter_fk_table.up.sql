@@ -54,6 +54,11 @@ ADD
         CONSTRAINT test_type_exercise_fk FOREIGN KEY (test_type_id) REFERENCES public.test_types (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
+        IF EXISTS public.mentors
+ADD
+        CONSTRAINT user_mentor_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
         IF EXISTS public.plans
 ADD
         CONSTRAINT module_sub_plan_fk FOREIGN KEY (module_id) REFERENCES public.modules (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
@@ -129,6 +134,11 @@ ADD
         CONSTRAINT sub_module_subject_fk FOREIGN KEY (sub_module_id) REFERENCES public.sub_modules (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
+        IF EXISTS public.uniques
+ADD
+        CONSTRAINT mentor_unique_fk FOREIGN KEY (mentor_id) REFERENCES public.mentors (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
         IF EXISTS public.user_details
 ADD
         CONSTRAINT class_user_user_detail_fk FOREIGN KEY (class_user_id) REFERENCES public.class_users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
@@ -137,6 +147,16 @@ ALTER TABLE
         IF EXISTS public.user_details
 ADD
         CONSTRAINT user_user_detail_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.user_mentor_testimonials
+ADD
+        CONSTRAINT mentor_user_mentor_testimonial_fk FOREIGN KEY (mentor_id) REFERENCES public.mentors (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.user_mentor_testimonials
+ADD
+        CONSTRAINT user_user_mentor_testimonial_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.user_testimonials
