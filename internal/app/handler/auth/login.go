@@ -11,7 +11,7 @@ import (
 func (h *handler) Login(ctx *gin.Context) {
 	var req request.LoginRequest
 
-	if err := ctx.ShouldBindJSON(&req); err != nil {
+	if err := helper.BindingValidation(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
 		return
 	}
