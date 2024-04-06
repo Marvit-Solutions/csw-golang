@@ -11,7 +11,7 @@ const TableNameUserMentorTestimonial = "user_mentor_testimonials"
 // UserMentorTestimonial mapped from table <user_mentor_testimonials>
 type UserMentorTestimonial struct {
 	ID        int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	UUID      string         `gorm:"column:uuid;not null" json:"uuid"`
+	UUID      string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
 	UserID    int          `gorm:"column:user_id;not null" json:"user_id"`
 	MentorID  int          `gorm:"column:mentor_id;not null" json:"mentor_id"`
 	Comment   string         `gorm:"column:comment;not null" json:"comment"`

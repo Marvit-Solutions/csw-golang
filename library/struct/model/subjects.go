@@ -11,9 +11,10 @@ const TableNameSubject = "subjects"
 // Subject mapped from table <subjects>
 type Subject struct {
 	ID          int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	UUID        string         `gorm:"column:uuid;not null" json:"uuid"`
+	UUID        string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
 	SubModuleID int          `gorm:"column:sub_module_id;not null" json:"sub_module_id"`
 	Name        string         `gorm:"column:name;not null" json:"name"`
+	Slug        string         `gorm:"column:slug;not null" json:"slug"`
 	CreatedAt   time.Time      `gorm:"column:created_at;not null;default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt   time.Time      `gorm:"column:updated_at;not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 	DeletedAt   gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`

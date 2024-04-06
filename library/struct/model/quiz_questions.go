@@ -11,7 +11,7 @@ const TableNameQuizQuestion = "quiz_questions"
 // QuizQuestion mapped from table <quiz_questions>
 type QuizQuestion struct {
 	ID        int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	UUID      string         `gorm:"column:uuid;not null" json:"uuid"`
+	UUID      string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
 	QuizID    int          `gorm:"column:quiz_id;not null" json:"quiz_id"`
 	Content   string         `gorm:"column:content;not null" json:"content"`
 	Image     *string        `gorm:"column:image" json:"image"`
