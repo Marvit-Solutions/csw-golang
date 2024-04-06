@@ -14,6 +14,8 @@ type handler struct {
 type Handler interface {
 	TopMentor(c *gin.Context)
 	AllMentor(c *gin.Context)
+	// TopPlan(c *gin.Context)
+	// AllPlan(c *gin.Context)
 }
 
 func NewHandler(

@@ -86,9 +86,9 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 
 	tx.Commit()
 
-	resp := &response.AuthResponse{
+	result := &response.AuthResponse{
 		AccessToken: token.AccessToken,
 	}
 
-	return resp, nil
+	return result, nil
 }
