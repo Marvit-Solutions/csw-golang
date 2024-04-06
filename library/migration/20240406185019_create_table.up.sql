@@ -1,15 +1,3 @@
-CREATE TABLE IF NOT EXISTS public.addresses (
-        id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
-        user_detail_id integer NOT NULL,
-        province text NOT NULL,
-        regency_city text NOT NULL,
-        sub_district text NOT NULL,
-        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone
-);
-
 CREATE TABLE IF NOT EXISTS public.class_user_plans (
         id SERIAL PRIMARY KEY,
         uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
@@ -107,8 +95,8 @@ CREATE TABLE IF NOT EXISTS public.mentors (
         id SERIAL PRIMARY KEY,
         uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         user_id integer NOT NULL,
+        module_id integer NOT NULL,
         short_name character varying(100) NOT NULL,
-        type character varying(50) NOT NULL,
         description text NOT NULL,
         motto character varying(255) NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,

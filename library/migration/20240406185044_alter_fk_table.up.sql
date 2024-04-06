@@ -1,9 +1,4 @@
 ALTER TABLE
-        IF EXISTS public.addresses
-ADD
-        CONSTRAINT user_detail_address_fk FOREIGN KEY (user_detail_id) REFERENCES public.user_details (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
-
-ALTER TABLE
         IF EXISTS public.class_user_plans
 ADD
         CONSTRAINT plan_class_user_plan_fk FOREIGN KEY (plan_id) REFERENCES public.plans (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
@@ -57,6 +52,11 @@ ALTER TABLE
         IF EXISTS public.mentors
 ADD
         CONSTRAINT user_mentor_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.mentors
+ADD
+        CONSTRAINT module_mentor_fk FOREIGN KEY (module_id) REFERENCES public.modules (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.plans

@@ -99,7 +99,3 @@ ALTER TABLE
         IF EXISTS public.class_user_plans 
         DROP CONSTRAINT IF EXISTS user_class_user_plan_fk,
         DROP CONSTRAINT IF EXISTS plan_class_user_plan_fk;
-
-ALTER TABLE
-        IF EXISTS public.addresses 
-        DROP CONSTRAINT IF EXISTS user_detail_address_fk;
