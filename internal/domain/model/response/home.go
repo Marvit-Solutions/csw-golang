@@ -11,12 +11,12 @@ type MentorHome struct {
 }
 
 type MentorDetailHome struct {
-	UUID           string `json:"uuid"`
-	Name           string `json:"name"`
-	TeachingField  string `json:"teaching_field"`
-	Description    string `json:"description"`
-	Motto          string `json:"motto"`
-	ProfilePicture string `json:"profile_picture"`
+	UUID           string   `json:"uuid"`
+	Name           string   `json:"name"`
+	TeachingField  string   `json:"teaching_field"`
+	Description    string   `json:"description"`
+	ProfilePicture string   `json:"profile_picture"`
+	Uniques        []string `json:"uniques"`
 }
 
 type PlanHome struct {

@@ -25,6 +25,7 @@ type usecase struct {
 	roleRepo                  repository.RoleRepository
 	mentorRepo                repository.MentorRepository
 	moduleRepo                repository.ModuleRepository
+	uniqueRepo                repository.UniqueRepository
 }
 
 func NewUsecase(
@@ -39,5 +40,6 @@ func NewUsecase(
 		roleRepo:                  service.NewRoleService(db, nil),
 		mentorRepo:                service.NewMentorService(db, nil),
 		moduleRepo:                service.NewModuleService(db, nil),
+		uniqueRepo:                service.NewUniqueService(db, nil),
 	}
 }
