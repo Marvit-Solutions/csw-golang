@@ -15,6 +15,7 @@ type Usecase interface {
 	MentorDetail(request.ParamMentorDetailHome) (*response.MentorDetailHome, error)
 	PlanTop() ([]*response.PlanHome, error)
 	PlanAll(req request.PlanHome) ([]*response.PlanHome, error)
+	Testimonial() ([]*response.TestimonialHome, error)
 }
 
 type usecase struct {
@@ -22,6 +23,8 @@ type usecase struct {
 	userRepo                  repository.UserRepository
 	userDetailRepo            repository.UserDetailRepository
 	userMentorTestimonialRepo repository.UserMentorTestimonialRepository
+	userTestimonialRepo       repository.UserTestimonialRepository
+	classUserRepo             repository.ClassUserRepository
 	roleRepo                  repository.RoleRepository
 	mentorRepo                repository.MentorRepository
 	moduleRepo                repository.ModuleRepository
@@ -38,6 +41,8 @@ func NewUsecase(
 		userRepo:                  service.NewUserService(db, nil),
 		userDetailRepo:            service.NewUserDetailService(db, nil),
 		userMentorTestimonialRepo: service.NewUserMentorTestimonialService(db, nil),
+		userTestimonialRepo:       service.NewUserTestimonialService(db, nil),
+		classUserRepo:             service.NewClassUserService(db, nil),
 		roleRepo:                  service.NewRoleService(db, nil),
 		mentorRepo:                service.NewMentorService(db, nil),
 		moduleRepo:                service.NewModuleService(db, nil),

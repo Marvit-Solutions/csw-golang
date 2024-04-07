@@ -33,6 +33,15 @@ type PlanHome struct {
 	Zoom       bool    `json:"zoom"`
 }
 
+type TestimonialHome struct {
+	UUID           string  `json:"uuid"`
+	Name           string  `json:"name"`
+	Class          string  `json:"class"`
+	ProfilePicture string  `json:"profile_picture"`
+	Comment        string  `json:"comment"`
+	Rating         float64 `json:"rating"`
+}
+
 type MentorStats struct {
 	Rating      float64
 	Testimonial int

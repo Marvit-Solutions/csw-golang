@@ -42,5 +42,8 @@ func NewRouteInit(req request.RouteInit) {
 		planGroup := homeGroup.Group("/plan")
 		planGroup.GET("all", module.Home.PlanAll)
 		planGroup.GET("top", module.Home.PlanTop)
+
+		testimonialGroup := homeGroup.Group("/testimonial")
+		testimonialGroup.GET("all", module.Home.Testimonial)
 	}
 }
