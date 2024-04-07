@@ -10,7 +10,7 @@ VALUES
         ('Manajer Akademik', 'manajer-akademik'),
         ('Koordinator Try Out', 'koordinator-try-out'),
         ('Koordinator Bimbel', 'koordinator-bimbel'),
-        ('Staff Try Out : Compiler & Pembuat Soal', 'staff-try-out-compiler-pembuat-soal'),
-        ('Staff Bimbel : Tutor & Pembuat Modul', 'staff-bimbel-tutor-pembuat-modul'),
+        ('Staff Try Out', 'staff-try-out'),
+        ('Staff Bimbel', 'staff-bimbel'),
         ('Umum', 'umum'),
         ('Pembeli Paket Bimbel', 'pembeli-paket-bimbel');
