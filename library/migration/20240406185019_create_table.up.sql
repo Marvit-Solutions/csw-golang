@@ -288,7 +288,7 @@ CREATE TABLE IF NOT EXISTS public.uniques (
         id SERIAL PRIMARY KEY,
         uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         mentor_id integer NOT NULL,
-        name character varying(1000) NOT NULL,
+        uniqueness text NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone
