@@ -23,6 +23,7 @@ type PlanHome struct {
 	UUID       string  `json:"uuid"`
 	ModuleName string  `json:"module_name"`
 	Name       string  `json:"name"`
+	Picture    string  `json:"picture"`
 	Price      float64 `json:"price"`
 	Group      bool    `json:"group"`
 	Exercise   int     `json:"exercise"`

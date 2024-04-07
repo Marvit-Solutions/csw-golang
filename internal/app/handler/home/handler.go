@@ -15,8 +15,8 @@ type Handler interface {
 	MentorTop(c *gin.Context)
 	MentorAll(c *gin.Context)
 	MentorDetail(c *gin.Context)
-	// TopPlan(c *gin.Context)
-	// AllPlan(c *gin.Context)
+	PlanTop(c *gin.Context)
+	PlanAll(c *gin.Context)
 }
 
 func NewHandler(

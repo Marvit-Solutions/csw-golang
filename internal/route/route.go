@@ -33,8 +33,14 @@ func NewRouteInit(req request.RouteInit) {
 
 	{
 		homeGroup := route.Group("/home")
-		homeGroup.GET("/mentor/top", module.Home.MentorTop)
-		homeGroup.GET("/mentor/all", module.Home.MentorAll)
-		homeGroup.GET("/mentor/:uuid", module.Home.MentorDetail)
+
+		mentorGroup := homeGroup.Group("/mentor")
+		mentorGroup.GET("top", module.Home.MentorTop)
+		mentorGroup.GET("all", module.Home.MentorAll)
+		mentorGroup.GET(":uuid", module.Home.MentorDetail)
+
+		planGroup := homeGroup.Group("/plan")
+		planGroup.GET("all", module.Home.PlanAll)
+		planGroup.GET("top", module.Home.PlanTop)
 	}
 }

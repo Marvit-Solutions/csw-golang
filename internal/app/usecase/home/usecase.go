@@ -13,8 +13,8 @@ type Usecase interface {
 	MentorTop() ([]*response.MentorHome, error)
 	MentorAll() ([]*response.MentorHome, error)
 	MentorDetail(request.ParamMentorDetailHome) (*response.MentorDetailHome, error)
-	// TopPlan() ([]*response.PlanHome, error)
-	// AllPlan() ([]*response.PlanHome, error)
+	PlanTop() ([]*response.PlanHome, error)
+	PlanAll() ([]*response.PlanHome, error)
 }
 
 type usecase struct {
@@ -26,6 +26,7 @@ type usecase struct {
 	mentorRepo                repository.MentorRepository
 	moduleRepo                repository.ModuleRepository
 	uniqueRepo                repository.UniqueRepository
+	planRepo                  repository.PlanRepository
 }
 
 func NewUsecase(
@@ -41,5 +42,6 @@ func NewUsecase(
 		mentorRepo:                service.NewMentorService(db, nil),
 		moduleRepo:                service.NewModuleService(db, nil),
 		uniqueRepo:                service.NewUniqueService(db, nil),
+		planRepo:                  service.NewPlanService(db, nil),
 	}
 }
