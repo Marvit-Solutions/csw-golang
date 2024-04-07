@@ -10,7 +10,7 @@ import (
 
 func (u *usecase) MentorAll() ([]*response.MentorHome, error) {
 	role, err := u.roleRepo.FindOneBy(map[string]interface{}{
-		"slug": "mentor",
+		"slug": "staff-bimbel",
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to finding role: %v", err)
@@ -57,13 +57,30 @@ func (u *usecase) MentorAll() ([]*response.MentorHome, error) {
 		mentorMap[mentor.ID] = mentor
 	}
 
+	moduleIDs := make([]int, 0)
+	for _, mentor := range mentors {
+		moduleIDs = append(moduleIDs, mentor.ModuleID)
+	}
+
+	modules, err := u.moduleRepo.FindBy(map[string]interface{}{
+		"id": moduleIDs,
+	}, 0, 0)
+	if err != nil {
+		return nil, fmt.Errorf("failed to finding modules: %v", err)
+	}
+
+	moduleMap := make(map[int]*model.Module)
+	for _, module := range modules {
+		moduleMap[module.ID] = module
+	}
+
 	results := make([]*response.MentorHome, 0)
 	for _, mentor := range mentors {
 		result := &response.MentorHome{
 			UUID:           mentor.UUID,
-			Type:           mentor.Type,
 			Description:    mentor.Description,
 			Motto:          mentor.Motto,
+			TeachingField:  moduleMap[mentor.ModuleID].Name,
 			Name:           userDetailNameMap[mentor.UserID],
 			ProfilePicture: userDetailProfilePhotoMap[mentor.UserID],
 		}

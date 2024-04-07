@@ -3,28 +3,28 @@ package helper
 import "github.com/gin-gonic/gin"
 
 type responseError struct {
-	Message interface{} `json:"Message"`
-	Code    int         `json:"Code"`
-	Status  string      `json:"Status"`
+	Message interface{} `json:"message"`
+	Code    int         `json:"code"`
+	Status  string      `json:"status"`
 }
 
 type responsePaged struct {
-	Code   int         `json:"Code"`
-	Status string      `json:"Status"`
-	Data   interface{} `json:"Data"`
-	Meta   Meta        `json:"Meta"`
+	Code   int         `json:"code"`
+	Status string      `json:"status"`
+	Data   interface{} `json:"data"`
+	Meta   Meta        `json:"meta"`
 }
 
 type responseNonPaged struct {
-	Code   int         `json:"Code"`
-	Status string      `json:"Status"`
-	Data   interface{} `json:"Data"`
+	Code   int         `json:"code"`
+	Status string      `json:"status"`
+	Data   interface{} `json:"data"`
 }
 
 type Meta struct {
-	Page  int `json:"Page"`
-	Size  int `json:"Size"`
-	Total int `json:"Total"`
+	Page  int `json:"page"`
+	Size  int `json:"size"`
+	Total int `json:"total"`
 }
 
 func NewErrorResponse(c *gin.Context, code int, status string, err interface{}) {

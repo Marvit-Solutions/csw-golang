@@ -54,18 +54,14 @@ func (u *usecase) MentorTop() ([]*response.MentorHome, error) {
 
 	results := make([]*response.MentorHome, 0)
 	for _, mentor := range mentors {
-		switch mentor.Type {
-		case "TIU", "TKP", "Matematika":
-			result := &response.MentorHome{
-				UUID:           mentor.UUID,
-				Type:           mentor.Type,
-				Description:    mentor.Description,
-				Motto:          mentor.Motto,
-				Name:           userDetailMap[mentor.UserID].Name,
-				ProfilePicture: userDetailMap[mentor.UserID].ProfilePicture,
-			}
-			results = append(results, result)
+		result := &response.MentorHome{
+			UUID:           mentor.UUID,
+			Description:    mentor.Description,
+			Motto:          mentor.Motto,
+			Name:           userDetailMap[mentor.UserID].Name,
+			ProfilePicture: userDetailMap[mentor.UserID].ProfilePicture,
 		}
+		results = append(results, result)
 	}
 
 	if len(results) == 0 {

@@ -16,7 +16,7 @@ func (h *handler) MentorAll(ctx *gin.Context) {
 	}
 
 	if err != nil {
-		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err)
+		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err.Error())
 		return
 	}
 

@@ -9,9 +9,12 @@ import (
 )
 
 func (h *handler) MentorDetail(ctx *gin.Context) {
-	var req request.MentorDetailHome
+	var req request.ParamMentorDetailHome
 
-	req.UUID = ctx.Param("uuid")
+	if err := helper.ValidateURLParams(ctx, &req); err != nil {
+		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
+		return
+	}
 
 	mentors, err := h.u.MentorDetail(req)
 	if err != nil && err == helper.ErrDataNotFound {

@@ -12,7 +12,7 @@ import (
 type Usecase interface {
 	MentorTop() ([]*response.MentorHome, error)
 	MentorAll() ([]*response.MentorHome, error)
-	MentorDetail(request.MentorDetailHome) (*response.MentorDetailHome, error)
+	MentorDetail(request.ParamMentorDetailHome) (*response.MentorDetailHome, error)
 	// TopPlan() ([]*response.PlanHome, error)
 	// AllPlan() ([]*response.PlanHome, error)
 }
@@ -23,6 +23,7 @@ type usecase struct {
 	userDetailRepo repository.UserDetailRepository
 	roleRepo       repository.RoleRepository
 	mentorRepo     repository.MentorRepository
+	moduleRepo     repository.ModuleRepository
 }
 
 func NewUsecase(
@@ -35,5 +36,6 @@ func NewUsecase(
 		userDetailRepo: service.NewUserDetailService(db, nil),
 		roleRepo:       service.NewRoleService(db, nil),
 		mentorRepo:     service.NewMentorService(db, nil),
+		moduleRepo:     service.NewModuleService(db, nil),
 	}
 }

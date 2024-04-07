@@ -22,6 +22,8 @@ func ValidateRequestBody(c *gin.Context, request interface{}) error {
 	return nil
 }
 
+// ValidateURLParams validates the parameters in the URL.
+// This function returns an error if the validation fails.
 func ValidateURLParams(c *gin.Context, params interface{}) error {
 	if err := c.ShouldBindUri(params); err != nil {
 		return fmt.Errorf("failed binding URI parameters: %v", err)
