@@ -1,18 +1,23 @@
 package home
 
-// import (
-// 	"net/http"
+import (
+	"net/http"
 
-// 	"github.com/Marvit-Solutions/csw-golang/library/helper"
-// 	"github.com/gin-gonic/gin"
-// )
+	"github.com/Marvit-Solutions/csw-golang/library/helper"
+	"github.com/gin-gonic/gin"
+)
 
-// func (h *handler) TopPlan(ctx *gin.Context) {
-// 	plans, err := h.u.TopPlan()
-// 	if err != nil {
-// 		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err)
-// 		return
-// 	}
+func (h *handler) PlanTop(ctx *gin.Context) {
+	plans, err := h.u.PlanTop()
+	if err != nil && err == helper.ErrDataNotFound {
+		helper.NewErrorResponse(ctx, http.StatusNotFound, http.StatusText(http.StatusNotFound), err.Error())
+		return
+	}
 
-// 	helper.NewSuccessResponse(ctx, plans)
-// }
+	if err != nil {
+		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err.Error())
+		return
+	}
+
+	helper.NewSuccessResponseNonPaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), plans)
+}

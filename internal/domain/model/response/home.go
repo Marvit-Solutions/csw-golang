@@ -23,6 +23,7 @@ type PlanHome struct {
 	UUID       string  `json:"uuid"`
 	ModuleName string  `json:"module_name"`
 	Name       string  `json:"name"`
+	Picture    string  `json:"picture"`
 	Price      float64 `json:"price"`
 	Group      bool    `json:"group"`
 	Exercise   int     `json:"exercise"`
@@ -30,6 +31,15 @@ type PlanHome struct {
 	Module     bool    `json:"module"`
 	TryOut     int     `json:"try_out"`
 	Zoom       bool    `json:"zoom"`
+}
+
+type TestimonialHome struct {
+	UUID           string  `json:"uuid"`
+	Name           string  `json:"name"`
+	Class          string  `json:"class"`
+	ProfilePicture string  `json:"profile_picture"`
+	Comment        string  `json:"comment"`
+	Rating         float64 `json:"rating"`
 }
 
 type MentorStats struct {

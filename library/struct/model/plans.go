@@ -14,6 +14,7 @@ type Plan struct {
 	UUID      string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
 	ModuleID  int          `gorm:"column:module_id;not null" json:"module_id"`
 	Name      string         `gorm:"column:name;not null" json:"name"`
+	Picture   string         `gorm:"column:picture;not null" json:"picture"`
 	Slug      string         `gorm:"column:slug;not null" json:"slug"`
 	Price     float64        `gorm:"column:price;not null" json:"price"`
 	Group     bool           `gorm:"column:group;not null" json:"group"`
