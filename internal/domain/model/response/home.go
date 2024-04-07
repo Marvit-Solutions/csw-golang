@@ -31,3 +31,8 @@ type PlanHome struct {
 	TryOut     int     `json:"try_out"`
 	Zoom       bool    `json:"zoom"`
 }
+
+type MentorStats struct {
+	Rating      float64
+	Testimonial int
+}

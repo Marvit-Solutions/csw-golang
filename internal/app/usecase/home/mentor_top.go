@@ -10,11 +10,6 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
-type MentorStats struct {
-	Rating      float64
-	Testimonial int
-}
-
 func (u *usecase) MentorTop() ([]*response.MentorHome, error) {
 	role, err := u.roleRepo.FindOneBy(map[string]interface{}{
 		"slug": "staff-bimbel",
@@ -78,7 +73,7 @@ func (u *usecase) MentorTop() ([]*response.MentorHome, error) {
 		return nil, fmt.Errorf("failed to find user mentor testimonials: %v", err)
 	}
 
-	mentorStats := make(map[int]MentorStats)
+	mentorStats := make(map[int]response.MentorStats)
 	for _, umt := range userMentorTestimonials {
 		stats := mentorStats[umt.MentorID]
 		stats.Rating = (stats.Rating*float64(stats.Testimonial) + float64(umt.Rating)) / float64(stats.Testimonial+1)
