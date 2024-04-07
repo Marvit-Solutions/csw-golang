@@ -1,12 +1,13 @@
 package response
 
 type MentorHome struct {
-	UUID           string `json:"uuid"`
-	Name           string `json:"name"`
-	TeachingField  string `json:"teaching_field"`
-	Description    string `json:"description"`
-	Motto          string `json:"motto"`
-	ProfilePicture string `json:"profile_picture"`
+	UUID           string  `json:"uuid"`
+	Name           string  `json:"name"`
+	TeachingField  string  `json:"teaching_field"`
+	Description    string  `json:"description"`
+	Motto          string  `json:"motto"`
+	ProfilePicture string  `json:"profile_picture"`
+	Rating         float64 `json:"rating"`
 }
 
 type MentorDetailHome struct {
