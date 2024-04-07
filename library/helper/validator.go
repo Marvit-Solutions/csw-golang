@@ -36,3 +36,18 @@ func ValidateURLParams(c *gin.Context, params interface{}) error {
 
 	return nil
 }
+
+// ValidateQueryParams validates the query parameters in the URL.
+// This function returns an error if the validation fails.
+func ValidateQueryParams(c *gin.Context, params interface{}) error {
+	if err := c.ShouldBindQuery(params); err != nil {
+		return fmt.Errorf("failed binding Query parameters: %v", err)
+	}
+
+	validate := validator.New()
+	if err := validate.Struct(params); err != nil {
+		return fmt.Errorf("parameter validation error: %v", err)
+	}
+
+	return nil
+}

@@ -14,7 +14,7 @@ type Usecase interface {
 	MentorAll() ([]*response.MentorHome, error)
 	MentorDetail(request.ParamMentorDetailHome) (*response.MentorDetailHome, error)
 	PlanTop() ([]*response.PlanHome, error)
-	PlanAll() ([]*response.PlanHome, error)
+	PlanAll(req request.PlanHome) ([]*response.PlanHome, error)
 }
 
 type usecase struct {
