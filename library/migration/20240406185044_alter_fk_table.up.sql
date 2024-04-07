@@ -161,11 +161,6 @@ ADD
 ALTER TABLE
         IF EXISTS public.user_testimonials
 ADD
-        CONSTRAINT testimonial_user_testimonial_fk FOREIGN KEY (testimonial_id) REFERENCES public.testimonials (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
-
-ALTER TABLE
-        IF EXISTS public.user_testimonials
-ADD
         CONSTRAINT user_user_testimonial_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE

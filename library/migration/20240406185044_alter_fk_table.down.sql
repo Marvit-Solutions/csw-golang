@@ -12,8 +12,7 @@ ALTER TABLE
 
 ALTER TABLE
         IF EXISTS public.user_testimonials 
-        DROP CONSTRAINT IF EXISTS user_user_testimonial_fk,
-        DROP CONSTRAINT IF EXISTS testimonial_user_testimonial_fk;
+        DROP CONSTRAINT IF EXISTS user_user_testimonial_fk;
 
 ALTER TABLE
         IF EXISTS public.user_details 

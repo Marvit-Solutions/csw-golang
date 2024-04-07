@@ -284,16 +284,6 @@ CREATE TABLE IF NOT EXISTS public.test_types (
         CONSTRAINT test_type_uq UNIQUE (name)
 );
 
-CREATE TABLE IF NOT EXISTS public.testimonials (
-        id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
-        comment text NOT NULL,
-        rating numeric NOT NULL,
-        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone
-);
-
 CREATE TABLE IF NOT EXISTS public.uniques (
         id SERIAL PRIMARY KEY,
         uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
@@ -337,7 +327,8 @@ CREATE TABLE IF NOT EXISTS public.user_testimonials (
         id SERIAL PRIMARY KEY,
         uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         user_id integer NOT NULL,
-        testimonial_id integer NOT NULL,
+        comment text NOT NULL,
+        rating numeric NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone
