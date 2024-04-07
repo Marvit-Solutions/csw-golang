@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS public.plans (
         uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         module_id integer NOT NULL,
         name character varying(100) NOT NULL,
+        picture text NOT NULL,
         slug character varying(50) NOT NULL,
         price numeric NOT NULL,
         "group" boolean NOT NULL,
