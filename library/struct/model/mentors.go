@@ -11,10 +11,10 @@ const TableNameMentor = "mentors"
 // Mentor mapped from table <mentors>
 type Mentor struct {
 	ID          int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	UUID        string         `gorm:"column:uuid;not null" json:"uuid"`
+	UUID        string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
 	UserID      int          `gorm:"column:user_id;not null" json:"user_id"`
+	ModuleID    int          `gorm:"column:module_id;not null" json:"module_id"`
 	ShortName   string         `gorm:"column:short_name;not null" json:"short_name"`
-	Type        string         `gorm:"column:type;not null" json:"type"`
 	Description string         `gorm:"column:description;not null" json:"description"`
 	Motto       string         `gorm:"column:motto;not null" json:"motto"`
 	CreatedAt   time.Time      `gorm:"column:created_at;not null;default:CURRENT_TIMESTAMP" json:"created_at"`

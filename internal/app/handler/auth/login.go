@@ -11,14 +11,14 @@ import (
 func (h *handler) Login(ctx *gin.Context) {
 	var req request.LoginRequest
 
-	if err := helper.BindingValidation(ctx, &req); err != nil {
-		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
+	if err := helper.ValidateRequestBody(ctx, &req); err != nil {
+		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
 
 	user, err := h.u.Login(req)
 	if err != nil {
-		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err)
+		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err.Error())
 		return
 	}
 

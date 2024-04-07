@@ -34,8 +34,9 @@ func (u *usecase) Login(req request.LoginRequest) (*response.AuthResponse, error
 		return nil, fmt.Errorf("failed generating token: %v", err)
 	}
 
-	resp := &response.AuthResponse{
+	result := &response.AuthResponse{
 		AccessToken: token.AccessToken,
 	}
-	return resp, nil
+
+	return result, nil
 }

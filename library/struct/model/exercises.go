@@ -11,7 +11,7 @@ const TableNameExercise = "exercises"
 // Exercise mapped from table <exercises>
 type Exercise struct {
 	ID          int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	UUID        string         `gorm:"column:uuid;not null" json:"uuid"`
+	UUID        string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
 	TestTypeID  int          `gorm:"column:test_type_id;not null" json:"test_type_id"`
 	Title       string         `gorm:"column:title;not null" json:"title"`
 	Description string         `gorm:"column:description;not null" json:"description"`

@@ -1,21 +1,10 @@
-CREATE TABLE IF NOT EXISTS public.addresses (
-        id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
-        user_detail_id integer NOT NULL,
-        province text NOT NULL,
-        regency_city text NOT NULL,
-        sub_district text NOT NULL,
-        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone
-);
-
 CREATE TABLE IF NOT EXISTS public.class_user_plans (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         user_id integer NOT NULL,
         plan_id integer NOT NULL,
-        name character varying(50) NOT NULL,
+        name character varying(100) NOT NULL,
+        slug character varying(50) NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone,
@@ -24,8 +13,9 @@ CREATE TABLE IF NOT EXISTS public.class_user_plans (
 
 CREATE TABLE IF NOT EXISTS public.class_users (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         name character varying(100) NOT NULL,
+        slug character varying(50) NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone
@@ -33,7 +23,7 @@ CREATE TABLE IF NOT EXISTS public.class_users (
 
 CREATE TABLE IF NOT EXISTS public.exercise_answers (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         submission_id integer NOT NULL,
         choice_id integer,
         is_marked boolean NOT NULL,
@@ -44,7 +34,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_answers (
 
 CREATE TABLE IF NOT EXISTS public.exercise_choices (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         question_id integer NOT NULL,
         content text NOT NULL,
         point text NOT NULL,
@@ -56,7 +46,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_choices (
 
 CREATE TABLE IF NOT EXISTS public.exercise_questions (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         exercise_id integer NOT NULL,
         content text NOT NULL,
         image text,
@@ -68,7 +58,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_questions (
 
 CREATE TABLE IF NOT EXISTS public.exercise_scores (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         submission_id integer NOT NULL,
         score integer NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -78,7 +68,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_scores (
 
 CREATE TABLE IF NOT EXISTS public.exercise_submissions (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         user_id integer NOT NULL,
         exercise_id integer NOT NULL,
         started_at timestamp with time zone NOT NULL,
@@ -91,7 +81,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_submissions (
 
 CREATE TABLE IF NOT EXISTS public.exercises (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         test_type_id integer NOT NULL,
         title character varying(50) NOT NULL,
         description text NOT NULL,
@@ -103,10 +93,10 @@ CREATE TABLE IF NOT EXISTS public.exercises (
 
 CREATE TABLE IF NOT EXISTS public.mentors (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         user_id integer NOT NULL,
-        short_name character varying(10) NOT NULL,
-        type character varying(50) NOT NULL,
+        module_id integer NOT NULL,
+        short_name character varying(100) NOT NULL,
         description text NOT NULL,
         motto character varying(255) NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -116,8 +106,9 @@ CREATE TABLE IF NOT EXISTS public.mentors (
 
 CREATE TABLE IF NOT EXISTS public.modules (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
-        name text NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
+        name character varying(100) NOT NULL,
+        slug character varying(50) NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone,
@@ -126,11 +117,12 @@ CREATE TABLE IF NOT EXISTS public.modules (
 
 CREATE TABLE IF NOT EXISTS public.plans (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         module_id integer NOT NULL,
-        name text NOT NULL,
+        name character varying(100) NOT NULL,
+        slug character varying(50) NOT NULL,
         price numeric NOT NULL,
-        grup_pejuang boolean NOT NULL,
+        "group" boolean NOT NULL,
         exercise bigint NOT NULL,
         access bigint NOT NULL,
         module boolean NOT NULL,
@@ -143,7 +135,7 @@ CREATE TABLE IF NOT EXISTS public.plans (
 
 CREATE TABLE IF NOT EXISTS public.quiz_answers (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         submission_id integer NOT NULL,
         choice_id integer,
         is_marked boolean NOT NULL,
@@ -154,7 +146,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_answers (
 
 CREATE TABLE IF NOT EXISTS public.quiz_choices (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         question_id integer NOT NULL,
         content text NOT NULL,
         point integer NOT NULL,
@@ -166,7 +158,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_choices (
 
 CREATE TABLE IF NOT EXISTS public.quiz_questions (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         quiz_id integer NOT NULL,
         content text NOT NULL,
         image text,
@@ -178,7 +170,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_questions (
 
 CREATE TABLE IF NOT EXISTS public.quiz_scores (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         submission_id integer NOT NULL,
         score integer NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -188,7 +180,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_scores (
 
 CREATE TABLE IF NOT EXISTS public.quiz_submissions (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         user_id integer NOT NULL,
         quiz_id integer NOT NULL,
         started_at timestamp with time zone NOT NULL,
@@ -201,7 +193,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_submissions (
 
 CREATE TABLE IF NOT EXISTS public.quizzes (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         sub_subject_id integer NOT NULL,
         test_type_id integer NOT NULL,
         open timestamp with time zone NOT NULL,
@@ -218,8 +210,9 @@ CREATE TABLE IF NOT EXISTS public.quizzes (
 
 CREATE TABLE IF NOT EXISTS public.roles (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
-        name character varying(20) NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
+        name character varying(100) NOT NULL,
+        slug character varying(50) NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone,
@@ -228,7 +221,7 @@ CREATE TABLE IF NOT EXISTS public.roles (
 
 CREATE TABLE IF NOT EXISTS public.schedules (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         sub_subject_id integer NOT NULL,
         class_user_plan_id integer NOT NULL,
         meeting_date timestamp with time zone NOT NULL,
@@ -244,9 +237,10 @@ CREATE TABLE IF NOT EXISTS public.schema_migrations (
 
 CREATE TABLE IF NOT EXISTS public.sub_modules (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         module_id integer NOT NULL,
-        name text NOT NULL,
+        name character varying(100) NOT NULL,
+        slug character varying(50) NOT NULL,
         description text NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -256,9 +250,10 @@ CREATE TABLE IF NOT EXISTS public.sub_modules (
 
 CREATE TABLE IF NOT EXISTS public.sub_subjects (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         subject_id integer NOT NULL,
-        name text NOT NULL,
+        name character varying(100) NOT NULL,
+        slug character varying(50) NOT NULL,
         content text NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -268,9 +263,10 @@ CREATE TABLE IF NOT EXISTS public.sub_subjects (
 
 CREATE TABLE IF NOT EXISTS public.subjects (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         sub_module_id integer NOT NULL,
-        name text NOT NULL,
+        name character varying(100) NOT NULL,
+        slug character varying(50) NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone,
@@ -279,29 +275,20 @@ CREATE TABLE IF NOT EXISTS public.subjects (
 
 CREATE TABLE IF NOT EXISTS public.test_types (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
-        name text NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
+        name character varying(100) NOT NULL,
+        slug character varying(50) NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone,
         CONSTRAINT test_type_uq UNIQUE (name)
 );
 
-CREATE TABLE IF NOT EXISTS public.testimonials (
-        id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
-        comment text NOT NULL,
-        rating numeric NOT NULL,
-        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone
-);
-
 CREATE TABLE IF NOT EXISTS public.uniques (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         mentor_id integer NOT NULL,
-        name character varying(100) NOT NULL,
+        uniqueness text NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone
@@ -309,10 +296,10 @@ CREATE TABLE IF NOT EXISTS public.uniques (
 
 CREATE TABLE IF NOT EXISTS public.user_details (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         class_user_id integer NOT NULL,
         user_id integer NOT NULL,
-        name character varying(100) NOT NULL,
+        name character varying(1000) NOT NULL,
         province character varying(100) NOT NULL,
         regency character varying(255) NOT NULL,
         district character varying(255) NOT NULL,
@@ -326,7 +313,7 @@ CREATE TABLE IF NOT EXISTS public.user_details (
 
 CREATE TABLE IF NOT EXISTS public.user_mentor_testimonials (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         user_id integer NOT NULL,
         mentor_id integer NOT NULL,
         comment text NOT NULL,
@@ -338,9 +325,10 @@ CREATE TABLE IF NOT EXISTS public.user_mentor_testimonials (
 
 CREATE TABLE IF NOT EXISTS public.user_testimonials (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         user_id integer NOT NULL,
-        testimonial_id integer NOT NULL,
+        comment text NOT NULL,
+        rating numeric NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone
@@ -348,7 +336,7 @@ CREATE TABLE IF NOT EXISTS public.user_testimonials (
 
 CREATE TABLE IF NOT EXISTS public.users (
         id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL,
+        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         role_id integer NOT NULL,
         google_id integer,
         facebook_id integer,

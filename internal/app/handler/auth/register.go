@@ -11,14 +11,14 @@ import (
 func (h *handler) Register(ctx *gin.Context) {
 	var req request.RegisterRequest
 
-	if err := helper.BindingValidation(ctx, &req); err != nil {
-		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err)
+	if err := helper.ValidateRequestBody(ctx, &req); err != nil {
+		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
 
 	user, err := h.u.Register(req)
 	if err != nil {
-		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err)
+		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err.Error())
 		return
 	}
 

@@ -1,0 +1,1 @@
+TRUNCATE TABLE public.test_types CASCADE;

@@ -11,9 +11,10 @@ const TableNameSubModule = "sub_modules"
 // SubModule mapped from table <sub_modules>
 type SubModule struct {
 	ID          int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	UUID        string         `gorm:"column:uuid;not null" json:"uuid"`
+	UUID        string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
 	ModuleID    int          `gorm:"column:module_id;not null" json:"module_id"`
 	Name        string         `gorm:"column:name;not null" json:"name"`
+	Slug        string         `gorm:"column:slug;not null" json:"slug"`
 	Description string         `gorm:"column:description;not null" json:"description"`
 	CreatedAt   time.Time      `gorm:"column:created_at;not null;default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt   time.Time      `gorm:"column:updated_at;not null;default:CURRENT_TIMESTAMP" json:"updated_at"`

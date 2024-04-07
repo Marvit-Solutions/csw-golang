@@ -8,7 +8,6 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/library/config"
 	"github.com/Marvit-Solutions/csw-golang/library/middleware/auth"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
-	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -21,14 +20,14 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 	}
 
 	role, err := u.roleRepo.FindOneBy(map[string]interface{}{
-		"name": "user",
+		"slug": "umum",
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to finding role: %v", err)
 	}
 
 	class, err := u.classUserRepo.FindOneBy(map[string]interface{}{
-		"name": req.Class,
+		"slug": req.Class,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to finding class: %v", err)
@@ -44,7 +43,6 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 	}
 
 	user = &model.User{
-		UUID:     uuid.NewString(),
 		RoleID:   role.ID,
 		Email:    req.Email,
 		Password: string(userPassword),
@@ -56,7 +54,6 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 	}
 
 	userDetail := &model.UserDetail{
-		UUID:           uuid.NewString(),
 		ClassUserID:    class.ID,
 		UserID:         user.ID,
 		Name:           req.Name,
@@ -64,7 +61,7 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 		Regency:        req.Regency,
 		District:       req.District,
 		PhoneNumber:    req.Phone,
-		ProfilePicture: "./assets/img/users/profiles/account.png",
+		ProfilePicture: "account.png",
 	}
 
 	_, err = u.userDetailRepo.Create(userDetail, tx)
@@ -86,9 +83,9 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 
 	tx.Commit()
 
-	resp := &response.AuthResponse{
+	result := &response.AuthResponse{
 		AccessToken: token.AccessToken,
 	}
 
-	return resp, nil
+	return result, nil
 }

@@ -2,48 +2,41 @@ package helper
 
 import "github.com/gin-gonic/gin"
 
-type ResponseError struct {
-	Message string `json:"Message"`
-	Code    int    `json:"Code"`
-	Status  string `json:"Status"`
+type responseError struct {
+	Message interface{} `json:"message"`
+	Code    int         `json:"code"`
+	Status  string      `json:"status"`
 }
 
-type ResponsePaged[Data interface{}] struct {
-	Code   int    `json:"Code"`
-	Status string `json:"Status"`
-	Data   Data   `json:"Data"`
-	Meta   Meta   `json:"Meta"`
-	// "Meta": {
-	// 	"Page": "4"
-	// 	"PerPage": "10",
-	// 	"LastPage": "25",
-	// 	"TotalPage": "50",
-	//}
+type responsePaged struct {
+	Code   int         `json:"code"`
+	Status string      `json:"status"`
+	Data   interface{} `json:"data"`
+	Meta   Meta        `json:"meta"`
 }
 
-type ResponseNonPaged[Data interface{}] struct {
-	Code   int    `json:"Code"`
-	Status string `json:"Status"`
-	Data   Data   `json:"Data"`
+type responseNonPaged struct {
+	Code   int         `json:"code"`
+	Status string      `json:"status"`
+	Data   interface{} `json:"data"`
 }
 
 type Meta struct {
-	Page      int64 `json:"Page"`
-	PerPage   int64 `json:"PerPage"`
-	LastPage  int64 `json:"LastPage"`
-	TotalPage int64 `json:"TotalPage"`
+	Page  int `json:"page"`
+	Size  int `json:"size"`
+	Total int `json:"total"`
 }
 
-func NewErrorResponse(c *gin.Context, code int, status string, err error) {
-	response := new(ResponseError)
-	response.Message = err.Error()
+func NewErrorResponse(c *gin.Context, code int, status string, err interface{}) {
+	response := new(responseError)
+	response.Message = err
 	response.Code = code
 	response.Status = status
 	c.JSON(code, &response)
 }
 
 func NewSuccessResponsePaged(c *gin.Context, code int, status string, data interface{}, meta Meta) {
-	response := new(ResponsePaged[interface{}])
+	response := new(responsePaged)
 	response.Code = code
 	response.Status = status
 	response.Data = data
@@ -51,7 +44,7 @@ func NewSuccessResponsePaged(c *gin.Context, code int, status string, data inter
 	c.JSON(code, &response)
 }
 func NewSuccessResponseNonPaged(c *gin.Context, code int, status string, data interface{}) {
-	response := new(ResponseNonPaged[interface{}])
+	response := new(responseNonPaged)
 	response.Code = code
 	response.Status = status
 	response.Data = data

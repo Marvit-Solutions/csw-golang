@@ -11,7 +11,7 @@ const TableNameUserDetail = "user_details"
 // UserDetail mapped from table <user_details>
 type UserDetail struct {
 	ID             int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	UUID           string         `gorm:"column:uuid;not null" json:"uuid"`
+	UUID           string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
 	ClassUserID    int          `gorm:"column:class_user_id;not null" json:"class_user_id"`
 	UserID         int          `gorm:"column:user_id;not null" json:"user_id"`
 	Name           string         `gorm:"column:name;not null" json:"name"`
