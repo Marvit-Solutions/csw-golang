@@ -10,7 +10,7 @@ import (
 type Usecase interface {
 	Province(req request.LocationRequest) ([]*response.LocationResponse, error)
 	Regency(req request.LocationRequest) ([]*response.LocationResponse, error)
-	// District(req request.LocationRequest) (*response.LocationResponse, error)
+	District(req request.LocationRequest) ([]*response.LocationResponse, error)
 }
 
 type usecase struct {

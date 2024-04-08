@@ -5,11 +5,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"strconv"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
-	"github.com/Marvit-Solutions/csw-golang/library/helper"
 )
 
 func (u *usecase) Province(req request.LocationRequest) ([]*response.LocationResponse, error) {
@@ -37,15 +35,8 @@ func (u *usecase) Province(req request.LocationRequest) ([]*response.LocationRes
 
 	results := []*response.LocationResponse{}
 	for _, item := range provinces.Value {
-		cleanedID := helper.CleanNumericString(item.ID)
-
-		provinceID, err := strconv.Atoi(cleanedID)
-		if err != nil {
-			return nil, fmt.Errorf("error converting string to int: %w", err)
-		}
-
 		results = append(results, &response.LocationResponse{
-			ID:   provinceID,
+			ID:   item.ID,
 			Name: item.Name,
 		})
 	}

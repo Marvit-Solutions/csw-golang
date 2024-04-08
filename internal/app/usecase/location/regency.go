@@ -5,11 +5,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"strconv"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
-	"github.com/Marvit-Solutions/csw-golang/library/helper"
 )
 
 func (u *usecase) Regency(req request.LocationRequest) ([]*response.LocationResponse, error) {
@@ -37,15 +35,8 @@ func (u *usecase) Regency(req request.LocationRequest) ([]*response.LocationResp
 
 	results := []*response.LocationResponse{}
 	for _, item := range regencies.Value {
-		cleanedID := helper.CleanNumericString(item.ID)
-
-		regencyID, err := strconv.Atoi(cleanedID)
-		if err != nil {
-			return nil, fmt.Errorf("error converting string to int: %w", err)
-		}
-
 		results = append(results, &response.LocationResponse{
-			ID:   regencyID,
+			ID:   item.ID,
 			Name: item.Name,
 		})
 	}
