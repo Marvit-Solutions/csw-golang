@@ -46,4 +46,11 @@ func NewRouteInit(req request.RouteInit) {
 		testimonialGroup := homeGroup.Group("/testimonial")
 		testimonialGroup.GET("all", module.Home.Testimonial)
 	}
+
+	{
+		locationGroup := route.Group("/location")
+		locationGroup.GET("/province", module.Location.Province)
+		// locationGroup.POST("/regency/:province", module.Auth.)
+		// locationGroup.POST("/district/:regency", module.Auth.)
+	}
 }
