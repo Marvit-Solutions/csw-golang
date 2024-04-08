@@ -15,7 +15,7 @@ type handler struct {
 
 type Handler interface {
 	Province(c *gin.Context)
-	// Regency(c *gin.Context)
+	Regency(c *gin.Context)
 	// District(c *gin.Context)
 }
 

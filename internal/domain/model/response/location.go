@@ -13,3 +13,13 @@ type ProvinceResponse struct {
 		Name string `json:"name"`
 	}
 }
+
+type RegencyResponse struct {
+	Code     string `json:"code"`
+	Messages string `json:"messages"`
+	Value    []struct {
+		ID         string `json:"id"`
+		ProvinceID string `json:"id_provinsi"`
+		Name       string `json:"name"`
+	}
+}

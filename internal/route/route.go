@@ -50,7 +50,7 @@ func NewRouteInit(req request.RouteInit) {
 	{
 		locationGroup := route.Group("/location")
 		locationGroup.GET("/province", module.Location.Province)
-		// locationGroup.POST("/regency/:province", module.Auth.)
+		locationGroup.GET("/regency/:province", module.Location.Regency)
 		// locationGroup.POST("/district/:regency", module.Auth.)
 	}
 }

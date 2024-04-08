@@ -6,10 +6,10 @@ import (
 	"io"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
+	"github.com/Marvit-Solutions/csw-golang/library/helper"
 )
 
 func (u *usecase) Province(req request.LocationRequest) ([]*response.LocationResponse, error) {
@@ -37,7 +37,7 @@ func (u *usecase) Province(req request.LocationRequest) ([]*response.LocationRes
 
 	results := []*response.LocationResponse{}
 	for _, item := range provinces.Value {
-		cleanedID := strings.Trim(item.ID, `"`)
+		cleanedID := helper.CleanNumericString(item.ID)
 
 		provinceID, err := strconv.Atoi(cleanedID)
 		if err != nil {
