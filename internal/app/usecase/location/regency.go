@@ -29,23 +29,23 @@ func (u *usecase) Regency(req request.LocationRequest) ([]*response.LocationResp
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
 
-	var provinces *response.RegencyResponse
-	err = json.Unmarshal(body, &provinces)
+	var regencies *response.RegencyResponse
+	err = json.Unmarshal(body, &regencies)
 	if err != nil {
 		return nil, fmt.Errorf("error unmarshalling response: %w", err)
 	}
 
 	results := []*response.LocationResponse{}
-	for _, item := range provinces.Value {
+	for _, item := range regencies.Value {
 		cleanedID := helper.CleanNumericString(item.ID)
 
-		provinceID, err := strconv.Atoi(cleanedID)
+		regencyID, err := strconv.Atoi(cleanedID)
 		if err != nil {
 			return nil, fmt.Errorf("error converting string to int: %w", err)
 		}
 
 		results = append(results, &response.LocationResponse{
-			ID:   provinceID,
+			ID:   regencyID,
 			Name: item.Name,
 		})
 	}
