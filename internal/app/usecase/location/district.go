@@ -8,6 +8,7 @@ import (
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
+	"github.com/Marvit-Solutions/csw-golang/library/helper"
 )
 
 func (u *usecase) District(req request.LocationRequest) ([]*response.LocationResponse, error) {
@@ -39,6 +40,10 @@ func (u *usecase) District(req request.LocationRequest) ([]*response.LocationRes
 			ID:   item.ID,
 			Name: item.Name,
 		})
+	}
+
+	if len(results) == 0 {
+		return nil, helper.ErrDataNotFound
 	}
 
 	return results, nil
