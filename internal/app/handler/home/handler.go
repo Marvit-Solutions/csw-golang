@@ -2,7 +2,6 @@ package home
 
 import (
 	"github.com/Marvit-Solutions/csw-golang/internal/app/usecase/home"
-	"github.com/Marvit-Solutions/csw-golang/library/config"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -22,9 +21,8 @@ type Handler interface {
 
 func NewHandler(
 	db *gorm.DB,
-	conf config.Config,
 ) Handler {
 	return &handler{
-		u: home.NewUsecase(db, conf),
+		u: home.NewUsecase(db),
 	}
 }

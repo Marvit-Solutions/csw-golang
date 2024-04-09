@@ -3,7 +3,6 @@ package home
 import (
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
-	"github.com/Marvit-Solutions/csw-golang/library/config"
 	"github.com/Marvit-Solutions/csw-golang/library/repository"
 	"github.com/Marvit-Solutions/csw-golang/library/service"
 	"gorm.io/gorm"
@@ -34,7 +33,6 @@ type usecase struct {
 
 func NewUsecase(
 	db *gorm.DB,
-	conf config.Config,
 ) Usecase {
 	return &usecase{
 		db:                        db,
