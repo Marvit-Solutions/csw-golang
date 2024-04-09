@@ -10,10 +10,8 @@ import (
 
 func (h *handler) Province(ctx *gin.Context) {
 	var req request.LocationRequest
-	apiKey := h.conf.GetString("api-key.binderbyte")
-	apiUrl := h.conf.GetString("api-url.binderbyte")
-	url := apiUrl + "provinsi?api_key=" + apiKey
-	req.Url = url
+	apiUrl := h.conf.GetString("api-url.binderbyte-province")
+	req.Url = apiUrl
 
 	provinces, err := h.u.Province(req)
 	if err != nil && err == helper.ErrDataNotFound {

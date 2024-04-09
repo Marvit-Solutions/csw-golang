@@ -10,15 +10,14 @@ import (
 
 func (h *handler) District(ctx *gin.Context) {
 	var req request.LocationRequest
-	apiKey := h.conf.GetString("api-key.binderbyte")
-	apiUrl := h.conf.GetString("api-url.binderbyte")
+	apiUrl := h.conf.GetString("api-url.binderbyte-district")
 
 	if err := helper.ValidateURLParams(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
 
-	url := apiUrl + "kecamatan?api_key=" + apiKey + "&id_kabupaten=" + req.RegencyID
+	url := apiUrl + req.RegencyID
 	req.Url = url
 
 	provinces, err := h.u.District(req)

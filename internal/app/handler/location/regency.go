@@ -10,15 +10,14 @@ import (
 
 func (h *handler) Regency(ctx *gin.Context) {
 	var req request.LocationRequest
-	apiKey := h.conf.GetString("api-key.binderbyte")
-	apiUrl := h.conf.GetString("api-url.binderbyte")
+	apiUrl := h.conf.GetString("api-url.binderbyte-regency")
 
 	if err := helper.ValidateURLParams(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
 
-	url := apiUrl + "kabupaten?api_key=" + apiKey + "&id_provinsi=" + req.ProvinceID
+	url := apiUrl + req.ProvinceID
 	req.Url = url
 
 	provinces, err := h.u.Regency(req)
