@@ -53,4 +53,9 @@ func NewRouteInit(req request.RouteInit) {
 		locationGroup.GET("/regency/:province_id", module.Location.Regency)
 		locationGroup.GET("/district/:regency_id", module.Location.District)
 	}
+
+	{
+		modulGroup := route.Group("/modul")
+		modulGroup.GET("/all", module.Modul.ModulAll)
+	}
 }
