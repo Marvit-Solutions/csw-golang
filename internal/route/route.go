@@ -57,5 +57,6 @@ func NewRouteInit(req request.RouteInit) {
 	{
 		modulGroup := route.Group("/modul")
 		modulGroup.GET("/all", module.Modul.ModulAll)
+		modulGroup.GET(":uuid", module.Modul.ModulDetail)
 	}
 }

@@ -12,6 +12,7 @@ type handler struct {
 
 type Handler interface {
 	ModulAll(c *gin.Context)
+	ModulDetail(c *gin.Context)
 }
 
 func NewHandler(
