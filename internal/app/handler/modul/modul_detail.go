@@ -17,11 +17,6 @@ func (h *handler) ModulDetail(ctx *gin.Context) {
 	}
 
 	moduls, err := h.u.ModulDetail(req)
-	if err != nil && err == helper.ErrDataNotFound {
-		helper.NewErrorResponse(ctx, http.StatusNotFound, http.StatusText(http.StatusNotFound), err.Error())
-		return
-	}
-
 	if err != nil {
 		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err.Error())
 		return

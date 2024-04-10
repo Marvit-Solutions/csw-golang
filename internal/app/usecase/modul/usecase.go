@@ -18,6 +18,8 @@ type usecase struct {
 	subModuleRepo repository.SubModuleRepository
 	moduleRepo    repository.ModuleRepository
 	subjectRepo   repository.SubjectRepository
+	quizRepo      repository.QuizRepository
+	testTypeRepo  repository.TestTypeRepository
 }
 
 func NewUsecase(
@@ -28,5 +30,7 @@ func NewUsecase(
 		moduleRepo:    service.NewModuleService(db, nil),
 		subModuleRepo: service.NewSubModuleService(db, nil),
 		subjectRepo:   service.NewSubjectService(db, nil),
+		quizRepo:      service.NewQuizService(db, nil),
+		testTypeRepo:  service.NewTestTypeService(db, nil),
 	}
 }

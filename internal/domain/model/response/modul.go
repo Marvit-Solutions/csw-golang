@@ -28,7 +28,7 @@ type SubjectResponse struct {
 }
 
 type QuizResponse struct {
-	ID   int    `json:"-"`
-	UUID string `json:"uuid"`
-	Name string `json:"name"`
+	ID    int    `json:"-"`
+	UUID  string `json:"uuid"`
+	Title string `json:"title"`
 }
