@@ -35,18 +35,16 @@ func (u *usecase) ModulDetail(req request.ParamModulDetail) (*response.ModulDeta
 		SubModuleName: subModule.Name,
 		Description:   subModule.Description,
 		ModuleName:    module.Name,
+		Subjects:      make([]*response.SubjectResponse, len(subjects)),
 	}
 
-	resp := make([]*response.SubjectResponse, 0)
-	for _, subject := range subjects {
-		resp = append(resp, &response.SubjectResponse{
+	for i, subject := range subjects {
+		result.Subjects[i] = &response.SubjectResponse{
 			ID:   subject.ID,
 			UUID: subject.UUID,
 			Name: subject.Name,
-		})
+		}
 	}
-
-	result.Subjects = resp
 
 	sort.Slice(result.Subjects, func(i, j int) bool {
 		return result.Subjects[i].ID < result.Subjects[j].ID
