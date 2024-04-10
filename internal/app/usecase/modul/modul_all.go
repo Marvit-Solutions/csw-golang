@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
+	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
@@ -38,6 +39,10 @@ func (u *usecase) ModulAll() ([]*response.ModulResponse, error) {
 			ModuleName:    ModuleMap[subModule.ModuleID].Name,
 			Description:   subModule.Description,
 		})
+	}
+
+	if len(results) == 0 {
+		return nil, helper.ErrDataNotFound
 	}
 
 	return results, nil
