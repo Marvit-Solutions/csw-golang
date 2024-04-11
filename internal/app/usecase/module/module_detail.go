@@ -1,4 +1,4 @@
-package modul
+package module
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
 )
 
-func (u *usecase) ModulDetail(req request.ParamModulDetail) (*response.ModulDetailResponse, error) {
+func (u *usecase) ModuleDetail(req request.ParamModuleDetail) (*response.ModuleDetailResponse, error) {
 	subModule, err := u.subModuleRepo.FindOneBy(map[string]interface{}{
 		"uuid": req.UUID,
 	})
@@ -50,7 +50,7 @@ func (u *usecase) ModulDetail(req request.ParamModulDetail) (*response.ModulDeta
 		return nil, fmt.Errorf("failed to find quizes: %v", err)
 	}
 
-	result := &response.ModulDetailResponse{
+	result := &response.ModuleDetailResponse{
 		UUID:          subModule.UUID,
 		SubModuleName: subModule.Name,
 		Description:   subModule.Description,

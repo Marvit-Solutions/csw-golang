@@ -1,4 +1,4 @@
-package modul
+package module
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
-func (u *usecase) ModulAll() ([]*response.ModulResponse, error) {
+func (u *usecase) ModuleAll() ([]*response.ModulResponse, error) {
 	subModules, err := u.subModuleRepo.FindBy(map[string]interface{}{}, 0, 0)
 	if err != nil {
 		return nil, fmt.Errorf("failed to find sub modules: %v", err)

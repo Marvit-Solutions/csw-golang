@@ -1,4 +1,4 @@
-package modul
+package module
 
 import (
 	"net/http"
@@ -8,15 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *handler) ModulDetail(ctx *gin.Context) {
-	var req request.ParamModulDetail
+func (h *handler) ModuleDetail(ctx *gin.Context) {
+	var req request.ParamModuleDetail
 
 	if err := helper.ValidateURLParams(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
 
-	moduls, err := h.u.ModulDetail(req)
+	moduls, err := h.u.ModuleDetail(req)
 	if err != nil {
 		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err.Error())
 		return

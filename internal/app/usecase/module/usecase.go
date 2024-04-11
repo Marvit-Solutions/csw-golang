@@ -1,4 +1,4 @@
-package modul
+package module
 
 import (
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
@@ -9,8 +9,8 @@ import (
 )
 
 type Usecase interface {
-	ModulAll() ([]*response.ModulResponse, error)
-	ModulDetail(request.ParamModulDetail) (*response.ModulDetailResponse, error)
+	ModuleAll() ([]*response.ModulResponse, error)
+	ModuleDetail(request.ParamModuleDetail) (*response.ModuleDetailResponse, error)
 }
 
 type usecase struct {

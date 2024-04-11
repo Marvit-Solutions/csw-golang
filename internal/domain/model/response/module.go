@@ -7,7 +7,7 @@ type ModulResponse struct {
 	Description   string `json:"description"`
 }
 
-type ModulDetailResponse struct {
+type ModuleDetailResponse struct {
 	UUID          string             `json:"uuid"`
 	SubModuleName string             `json:"sub_module_name"`
 	ModuleName    string             `json:"module_name"`
