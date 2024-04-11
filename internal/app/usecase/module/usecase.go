@@ -10,27 +10,30 @@ import (
 
 type Usecase interface {
 	ModuleAll() ([]*response.ModulResponse, error)
-	ModuleDetail(request.ParamModuleDetail) (*response.ModuleDetailResponse, error)
+	ModuleDetail(req request.ParamModuleDetail) (*response.ModuleDetailResponse, error)
+	MaterialAll(req request.ParamMaterial) (*response.MaterialResponse, error)
 }
 
 type usecase struct {
-	db            *gorm.DB
-	subModuleRepo repository.SubModuleRepository
-	moduleRepo    repository.ModuleRepository
-	subjectRepo   repository.SubjectRepository
-	quizRepo      repository.QuizRepository
-	testTypeRepo  repository.TestTypeRepository
+	db             *gorm.DB
+	subModuleRepo  repository.SubModuleRepository
+	moduleRepo     repository.ModuleRepository
+	subjectRepo    repository.SubjectRepository
+	subSubjectRepo repository.SubSubjectRepository
+	quizRepo       repository.QuizRepository
+	testTypeRepo   repository.TestTypeRepository
 }
 
 func NewUsecase(
 	db *gorm.DB,
 ) Usecase {
 	return &usecase{
-		db:            db,
-		moduleRepo:    service.NewModuleService(db, nil),
-		subModuleRepo: service.NewSubModuleService(db, nil),
-		subjectRepo:   service.NewSubjectService(db, nil),
-		quizRepo:      service.NewQuizService(db, nil),
-		testTypeRepo:  service.NewTestTypeService(db, nil),
+		db:             db,
+		moduleRepo:     service.NewModuleService(db, nil),
+		subModuleRepo:  service.NewSubModuleService(db, nil),
+		subjectRepo:    service.NewSubjectService(db, nil),
+		subSubjectRepo: service.NewSubSubjectService(db, nil),
+		quizRepo:       service.NewQuizService(db, nil),
+		testTypeRepo:   service.NewTestTypeService(db, nil),
 	}
 }

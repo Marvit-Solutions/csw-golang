@@ -16,11 +16,6 @@ type ModuleDetailResponse struct {
 	Quizzes       []*QuizResponse    `json:"quizzes"`
 }
 
-// type MaterialResponse struct {
-// 	Subjects []*SubjectResponse `json:"subjects"`
-// 	Quizzes  []*QuizResponse    `json:"quizzes"`
-// }
-
 type SubjectResponse struct {
 	ID   int    `json:"-"`
 	UUID string `json:"uuid"`
@@ -31,4 +26,18 @@ type QuizResponse struct {
 	ID    int    `json:"-"`
 	UUID  string `json:"uuid"`
 	Title string `json:"title"`
+}
+
+type MaterialResponse struct {
+	UUID       string                `json:"uuid"`
+	Module     string                `json:"module"`
+	SubModule  string                `json:"sub_module"`
+	Subject    string                `json:"subject"`
+	SubSubject []*SubSubjectResponse `json:"sub_subject"`
+}
+
+type SubSubjectResponse struct {
+	UUID    string `json:"uuid"`
+	Name    string `json:"name"`
+	Content string `json:"content"`
 }
