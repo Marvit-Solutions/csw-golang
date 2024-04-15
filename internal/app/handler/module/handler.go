@@ -14,6 +14,7 @@ type Handler interface {
 	ModuleAll(c *gin.Context)
 	ModuleDetail(c *gin.Context)
 	MaterialAll(c *gin.Context)
+	MaterialFind(c *gin.Context)
 }
 
 func NewHandler(

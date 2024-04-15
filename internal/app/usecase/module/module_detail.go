@@ -8,9 +8,9 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
 )
 
-func (u *usecase) ModuleDetail(req request.ParamModuleDetail) (*response.ModuleDetailResponse, error) {
+func (u *usecase) ModuleDetail(req request.ParamModule) (*response.ModuleDetailResponse, error) {
 	subModule, err := u.subModuleRepo.FindOneBy(map[string]interface{}{
-		"uuid": req.UUID,
+		"uuid": req.SubModuleUUID,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to find sub module: %v", err)

@@ -10,8 +10,9 @@ import (
 
 type Usecase interface {
 	ModuleAll() ([]*response.ModulResponse, error)
-	ModuleDetail(req request.ParamModuleDetail) (*response.ModuleDetailResponse, error)
-	MaterialAll(req request.ParamMaterial) (*response.MaterialResponse, error)
+	ModuleDetail(req request.ParamModule) (*response.ModuleDetailResponse, error)
+	MaterialAll(req request.ParamModule) (*response.MaterialResponse, error)
+	MaterialFind(req request.Material) (*response.MaterialFindResponse, error)
 }
 
 type usecase struct {

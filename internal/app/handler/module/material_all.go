@@ -9,7 +9,7 @@ import (
 )
 
 func (h *handler) MaterialAll(ctx *gin.Context) {
-	var req request.ParamMaterial
+	var req request.ParamModule
 
 	if err := helper.ValidateURLParams(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())

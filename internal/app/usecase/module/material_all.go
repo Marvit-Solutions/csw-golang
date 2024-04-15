@@ -7,7 +7,7 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
 )
 
-func (u *usecase) MaterialAll(req request.ParamMaterial) (*response.MaterialResponse, error) {
+func (u *usecase) MaterialAll(req request.ParamModule) (*response.MaterialResponse, error) {
 	subject, err := u.subjectRepo.FindOneBy(map[string]interface{}{
 		"uuid": req.SubjectUUID,
 	})

@@ -8,15 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *handler) ModuleDetail(ctx *gin.Context) {
-	var req request.ParamModule
+func (h *handler) MaterialFind(ctx *gin.Context) {
+	var req request.Material
 
-	if err := helper.ValidateURLParams(ctx, &req); err != nil {
+	if err := helper.ValidateQueryParams(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
 
-	moduls, err := h.u.ModuleDetail(req)
+	moduls, err := h.u.MaterialFind(req)
 	if err != nil {
 		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err.Error())
 		return

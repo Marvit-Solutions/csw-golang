@@ -57,9 +57,10 @@ func NewRouteInit(req request.RouteInit) {
 	{
 		modulGroup := route.Group("/modul")
 		modulGroup.GET("/all", module.Modul.ModuleAll)
-		modulGroup.GET(":uuid", module.Modul.ModuleDetail)
+		modulGroup.GET(":sub_module_uuid", module.Modul.ModuleDetail)
 
 		materiGroup := modulGroup.Group("/materi")
 		materiGroup.GET(":subject_uuid", module.Modul.MaterialAll)
+		materiGroup.GET("", module.Modul.MaterialFind)
 	}
 }
