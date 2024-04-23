@@ -63,5 +63,6 @@ type SubSubjectFindResponse struct {
 	Name        string  `json:"name"`
 	Module      string  `json:"module"`
 	SubModule   string  `json:"sub_module"`
+	Subject     string  `json:"subject"`
 	LastUpdated *string `json:"last_updated"`
 }
