@@ -6,6 +6,6 @@ type ParamModule struct {
 }
 
 type Material struct {
-	Subject    bool `form:"subject" validate:"required"`
-	SubSubject bool `form:"sub_subject" validate:"required"`
+	Subject    *bool `form:"subject" validate:"required"`
+	SubSubject *bool `form:"sub_subject" validate:"required"`
 }
