@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
-	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
 	"github.com/Marvit-Solutions/csw-golang/library/repository"
 	"github.com/Marvit-Solutions/csw-golang/library/service"
 
