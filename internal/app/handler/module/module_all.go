@@ -1,19 +1,14 @@
-package location
+package module
 
 import (
 	"net/http"
 
-	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/gin-gonic/gin"
 )
 
-func (h *handler) Province(ctx *gin.Context) {
-	var req request.LocationRequest
-	apiUrl := h.conf.GetString("api-url.binderbyte-province")
-	req.Url = apiUrl
-
-	provinces, err := h.u.Province(req)
+func (h *handler) ModuleAll(ctx *gin.Context) {
+	moduls, err := h.u.ModuleAll()
 	if err != nil && err == helper.ErrDataNotFound {
 		helper.NewErrorResponse(ctx, http.StatusNotFound, http.StatusText(http.StatusNotFound), err.Error())
 		return
@@ -24,5 +19,5 @@ func (h *handler) Province(ctx *gin.Context) {
 		return
 	}
 
-	helper.NewSuccessResponseNonPaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), provinces)
+	helper.NewSuccessResponseNonPaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), moduls)
 }

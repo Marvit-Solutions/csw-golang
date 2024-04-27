@@ -2,7 +2,10 @@ INSERT INTO
         public.test_types (name, slug)
 VALUES
         -- for Latihan soal per module, pretest, posttest
-        ('Quiz', 'quiz'),
+        ('Latihan Soal', 'latihan-soal'),
+        ('Pretest', 'pretest'),
+        ('Posttest', 'posttest'),
 
         -- for Try Out, Paket Soal
-        ('Exercise', 'exercise')
+        ('Paket Soal', 'paket-soal'),
+        ('Try Out', 'try-out');

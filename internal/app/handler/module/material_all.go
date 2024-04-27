@@ -1,4 +1,4 @@
-package home
+package module
 
 import (
 	"net/http"
@@ -8,24 +8,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *handler) MentorDetail(ctx *gin.Context) {
-	var req request.ParamMentorDetailHome
+func (h *handler) MaterialAll(ctx *gin.Context) {
+	var req request.ParamModule
 
 	if err := helper.ValidateURLParams(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
 
-	mentors, err := h.u.MentorDetail(req)
-	if err != nil && err == helper.ErrDataNotFound {
-		helper.NewErrorResponse(ctx, http.StatusNotFound, http.StatusText(http.StatusNotFound), err.Error())
-		return
-	}
-
+	materials, err := h.u.MaterialAll(req)
 	if err != nil {
 		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err.Error())
 		return
 	}
 
-	helper.NewSuccessResponseNonPaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), mentors)
+	helper.NewSuccessResponseNonPaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), materials)
 }

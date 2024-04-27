@@ -3,7 +3,7 @@ package home
 import (
 	"net/http"
 
-	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/gin-gonic/gin"
 )

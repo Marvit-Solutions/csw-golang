@@ -1,8 +1,8 @@
 package location
 
 import (
-	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/request"
-	"github.com/Marvit-Solutions/csw-golang/internal/domain/model/response"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
 
 	"gorm.io/gorm"
 )

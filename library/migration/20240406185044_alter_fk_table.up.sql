@@ -101,7 +101,7 @@ ADD
 ALTER TABLE
         IF EXISTS public.quizzes
 ADD
-        CONSTRAINT sub_subject_quiz_fk FOREIGN KEY (sub_subject_id) REFERENCES public.sub_subjects (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT subject_quiz_fk FOREIGN KEY (subject_id) REFERENCES public.subjects (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.quizzes
