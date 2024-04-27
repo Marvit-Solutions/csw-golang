@@ -2,6 +2,7 @@ package localservice
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localrepository"
@@ -125,6 +126,11 @@ func (svc *Module) MapSubjectInfo(subjects []*model.Subject, subModules []*model
 			LastUpdated:   helper.FormatTimeToStringPtr(subject.UpdatedAt),
 		}
 	}
+
+	sort.Slice(result, func(i, j int) bool {
+		return result[i].ID < result[j].ID
+	})
+
 	return result, nil
 }
 
@@ -216,6 +222,10 @@ func (svc *Module) MapSubSubjectInfo(subjects []*model.Subject, subSubjects []*m
 			LastUpdated: helper.FormatTimeToStringPtr(subSubject.UpdatedAt),
 		}
 	}
+
+	sort.Slice(result, func(i, j int) bool {
+		return result[i].ID < result[j].ID
+	})
 
 	return result, nil
 }

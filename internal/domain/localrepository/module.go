@@ -10,6 +10,4 @@ type Module interface {
 	MapSubjectInfo(subjects []*model.Subject, subModules []*model.SubModule, modules []*model.Module, countBySubjectID map[int]int) ([]*response.SubjectFindResponse, error)
 	FindSubSubjectInfo(result *response.MaterialFindResponse) ([]*model.Subject, []*model.SubSubject, []*model.SubModule, []*model.Module, error)
 	MapSubSubjectInfo(subjects []*model.Subject, subSubjects []*model.SubSubject, subModules []*model.SubModule, modules []*model.Module) ([]*response.SubSubjectFindResponse, error)
-	// SortSubjectInfo(result *response.MaterialFindResponse)
-	// SortSubSubjectInfo(result *response.MaterialFindResponse)
 }

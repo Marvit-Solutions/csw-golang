@@ -11,22 +11,22 @@ func (u *usecase) MaterialFind(req request.Material) (*response.MaterialFindResp
 	result := &response.MaterialFindResponse{}
 
 	var err error
-	if *req.Subject {
-		result.Subjects, err = u.findAndMapSubjectInfo(result)
-		if err != nil {
-			return nil, fmt.Errorf("failed to find and map Subject Info: %v", err)
-		}
-	} else if *req.SubSubject {
-		result.SubSubjects, err = u.findAndMapSubSubjectInfo(result)
-		if err != nil {
-			return nil, fmt.Errorf("failed to find and map Sub Subject Info: %v", err)
-		}
-	} else {
+	if *req.Subject && *req.SubSubject || !*req.Subject && !*req.SubSubject {
 		result.Subjects, err = u.findAndMapSubjectInfo(result)
 		if err != nil {
 			return nil, fmt.Errorf("failed to find and map Subject Info: %v", err)
 		}
 
+		result.SubSubjects, err = u.findAndMapSubSubjectInfo(result)
+		if err != nil {
+			return nil, fmt.Errorf("failed to find and map Sub Subject Info: %v", err)
+		}
+	} else if *req.Subject {
+		result.Subjects, err = u.findAndMapSubjectInfo(result)
+		if err != nil {
+			return nil, fmt.Errorf("failed to find and map Subject Info: %v", err)
+		}
+	} else if *req.SubSubject {
 		result.SubSubjects, err = u.findAndMapSubSubjectInfo(result)
 		if err != nil {
 			return nil, fmt.Errorf("failed to find and map Sub Subject Info: %v", err)
