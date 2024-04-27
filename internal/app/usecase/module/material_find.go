@@ -13,7 +13,7 @@ import (
 func (u *usecase) MaterialFind(req request.Material) (*response.MaterialFindResponse, error) {
 	result := &response.MaterialFindResponse{}
 
-	if req.Subject && req.SubSubject {
+	if req.Subject && req.SubSubject || !req.Subject && !req.SubSubject {
 		subjects, err := u.subjectRepo.FindBy(map[string]interface{}{}, 0, 0)
 		if err != nil {
 			return nil, fmt.Errorf("failed to find subjects: %v", err)
