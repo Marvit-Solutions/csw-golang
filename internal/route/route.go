@@ -2,6 +2,7 @@ package route
 
 import (
 	"github.com/Marvit-Solutions/csw-golang/internal"
+	"github.com/Marvit-Solutions/csw-golang/library/middleware/cors"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/request"
 	"github.com/gin-gonic/gin"
 	"go.elastic.co/apm/module/apmgin"
@@ -18,11 +19,17 @@ func NewRouteInit(req request.RouteInit) {
 	// Add Elastic APM middleware to the route.
 	route.Use(apmgin.Middleware(req.Engine))
 
+	// Use CORS middleware.
+	route.Use(cors.CORSMiddleware())
+
 	// Use Gin's built-in logging middleware.
 	route.Use(gin.Logger())
 
 	// Use Gin's recovery middleware.
 	route.Use(gin.Recovery())
+
+	// Define route cors options.
+	route.OPTIONS("/*path", cors.CORSMiddleware())
 
 	// Define routes for different endpoints.
 	{
