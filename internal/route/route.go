@@ -3,6 +3,8 @@ package route
 import (
 	"github.com/Marvit-Solutions/csw-golang/internal"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/request"
+
+	"github.com/Marvit-Solutions/csw-golang/library/middleware/cors"
 	"github.com/gin-gonic/gin"
 	"go.elastic.co/apm/module/apmgin"
 )
@@ -15,6 +17,9 @@ func NewRouteInit(req request.RouteInit) {
 	// Create a new Gin route group.
 	route := req.Engine.Group("api/v1")
 
+	route.Use(cors.CORSMiddleware())
+
+	// route.Use(cors.Default())
 	// Add Elastic APM middleware to the route.
 	route.Use(apmgin.Middleware(req.Engine))
 
@@ -23,6 +28,8 @@ func NewRouteInit(req request.RouteInit) {
 
 	// Use Gin's recovery middleware.
 	route.Use(gin.Recovery())
+
+	route.OPTIONS("/*path", cors.CORSMiddleware())
 
 	// Define routes for different endpoints.
 	{
@@ -55,12 +62,24 @@ func NewRouteInit(req request.RouteInit) {
 	}
 
 	{
-		modulGroup := route.Group("/modul")
-		modulGroup.GET("/all", module.Modul.ModuleAll)
-		modulGroup.GET(":sub_module_uuid", module.Modul.ModuleDetail)
 
-		materiGroup := modulGroup.Group("/materi")
-		materiGroup.GET(":subject_uuid", module.Modul.MaterialAll)
-		materiGroup.GET("", module.Modul.MaterialFind)
+		studentGroup := route.Group("/student")
+
+		{
+			modulGroup := studentGroup.Group("/modul")
+			modulGroup.GET("/all", module.Modul.ModuleAll)
+			modulGroup.GET(":sub_module_uuid", module.Modul.ModuleDetail)
+
+			materiGroup := modulGroup.Group("/materi")
+			materiGroup.GET(":subject_uuid", module.Modul.MaterialAll)
+			materiGroup.GET("", module.Modul.MaterialFind)
+		}
+		{
+			quizGroup := studentGroup.Group("/quiz")
+			quizGroup.GET(":quiz_uuid", module.Quiz.QuizContent)
+			quizGroup.POST("/quiz_submission", module.Quiz.QuizSubmission)
+		}
+
 	}
+
 }

@@ -5,6 +5,8 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/internal/app/handler/home"
 	"github.com/Marvit-Solutions/csw-golang/internal/app/handler/location"
 	"github.com/Marvit-Solutions/csw-golang/internal/app/handler/module"
+	"github.com/Marvit-Solutions/csw-golang/internal/app/handler/quiz"
+
 	"github.com/Marvit-Solutions/csw-golang/library/config"
 
 	"gorm.io/gorm"
@@ -16,6 +18,7 @@ type InitialInjection struct {
 	Home     home.Handler
 	Location location.Handler
 	Modul    module.Handler
+	Quiz     quiz.Handler
 }
 
 // NewInitialInjection initializes the dependencies for the handlers.
@@ -25,5 +28,6 @@ func NewInitialInjection(sQLMaster *gorm.DB, conf config.Config) InitialInjectio
 		Home:     home.NewHandler(sQLMaster),
 		Location: location.NewHandler(sQLMaster, conf),
 		Modul:    module.NewHandler(sQLMaster),
+		Quiz:     quiz.NewHandler(sQLMaster),
 	}
 }

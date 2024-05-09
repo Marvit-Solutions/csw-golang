@@ -2,10 +2,12 @@ package service
 
 import (
 	"context"
+	"fmt"
+	"strconv"
+
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/Marvit-Solutions/csw-golang/library/repository"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
-	"strconv"
 
 	"github.com/olivere/elastic/v7"
 	"gorm.io/gorm"
@@ -55,14 +57,18 @@ func (srv *quizSubmissionService) Count(criteria map[string]interface{}) int {
 	return int(result)
 }
 
-
 // Creates a new record.
 func (srv *quizSubmissionService) Create(model *model.QuizSubmission, tx *gorm.DB) (*model.QuizSubmission, error) {
-		db := tx.Create(&model)
+	fmt.Println("tes service 0")
+
+	db := tx.Create(&model)
+	fmt.Println("tes service 1")
 	if err := db.Error; err != nil {
+		fmt.Println("tes service 3")
 		return nil, err
 	}
 
+	fmt.Println("tes service 2")
 	return model, nil
 }
 
