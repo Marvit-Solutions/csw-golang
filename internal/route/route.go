@@ -32,12 +32,14 @@ func NewRouteInit(req request.RouteInit) {
 	route.OPTIONS("/*path", cors.CORSMiddleware())
 
 	// Define routes for different endpoints.
+	// Auth routes
 	{
 		authGroup := route.Group("/auth")
 		authGroup.POST("/register", module.Auth.Register)
 		authGroup.POST("/login", module.Auth.Login)
 	}
 
+	// Home routes
 	{
 		homeGroup := route.Group("/home")
 
@@ -54,6 +56,7 @@ func NewRouteInit(req request.RouteInit) {
 		testimonialGroup.GET("all", module.Home.Testimonial)
 	}
 
+	// Routes for get location
 	{
 		locationGroup := route.Group("/location")
 		locationGroup.GET("/province", module.Location.Province)
@@ -61,13 +64,22 @@ func NewRouteInit(req request.RouteInit) {
 		locationGroup.GET("/district/:regency_id", module.Location.District)
 	}
 
+	// Routes for dashboard
 	{
-		modulGroup := route.Group("/modul")
-		modulGroup.GET("/all", module.Modul.ModuleAll)
-		modulGroup.GET(":sub_module_uuid", module.Modul.ModuleDetail)
+		dashboardGroup := route.Group("/dashboard")
+		// Routes for student dashboard
+		{
+			dashboardStudentGroup := dashboardGroup.Group("/student")
+			// Routes for module and material
+			{
+				modulGroup := dashboardStudentGroup.Group("/module")
+				modulGroup.GET("/all", module.Modul.ModuleAll)
+				modulGroup.GET(":sub_module_uuid", module.Modul.ModuleDetail)
 
-		materiGroup := modulGroup.Group("/materi")
-		materiGroup.GET(":subject_uuid", module.Modul.MaterialAll)
-		materiGroup.GET("", module.Modul.MaterialFind)
+				materiGroup := modulGroup.Group("/material")
+				materiGroup.GET(":subject_uuid", module.Modul.MaterialAll)
+				materiGroup.GET("", module.Modul.MaterialFind)
+			}
+		}
 	}
 }
