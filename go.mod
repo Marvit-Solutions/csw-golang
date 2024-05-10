@@ -7,7 +7,6 @@ require (
 	github.com/form3tech-oss/jwt-go v3.2.5+incompatible
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-playground/validator v9.31.0+incompatible
-	github.com/google/uuid v1.6.0
 	github.com/olivere/elastic/v7 v7.0.32
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.18.2

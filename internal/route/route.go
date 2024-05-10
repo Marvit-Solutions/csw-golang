@@ -2,6 +2,7 @@ package route
 
 import (
 	"github.com/Marvit-Solutions/csw-golang/internal"
+	"github.com/Marvit-Solutions/csw-golang/library/middleware/cors"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/request"
 
 	"github.com/Marvit-Solutions/csw-golang/library/middleware/cors"
@@ -23,21 +24,30 @@ func NewRouteInit(req request.RouteInit) {
 	// Add Elastic APM middleware to the route.
 	route.Use(apmgin.Middleware(req.Engine))
 
+	// Use CORS middleware.
+	route.Use(cors.CORSMiddleware())
+
 	// Use Gin's built-in logging middleware.
 	route.Use(gin.Logger())
 
 	// Use Gin's recovery middleware.
 	route.Use(gin.Recovery())
 
+<<<<<<< HEAD
+=======
+	// Define route cors options.
+>>>>>>> 859a68c0ca2a47aeba37f1fa477bac347ec0992a
 	route.OPTIONS("/*path", cors.CORSMiddleware())
 
 	// Define routes for different endpoints.
+	// Auth routes
 	{
 		authGroup := route.Group("/auth")
 		authGroup.POST("/register", module.Auth.Register)
 		authGroup.POST("/login", module.Auth.Login)
 	}
 
+	// Home routes
 	{
 		homeGroup := route.Group("/home")
 
@@ -54,6 +64,7 @@ func NewRouteInit(req request.RouteInit) {
 		testimonialGroup.GET("all", module.Home.Testimonial)
 	}
 
+	// Routes for get location
 	{
 		locationGroup := route.Group("/location")
 		locationGroup.GET("/province", module.Location.Province)
@@ -61,25 +72,26 @@ func NewRouteInit(req request.RouteInit) {
 		locationGroup.GET("/district/:regency_id", module.Location.District)
 	}
 
-	{
-
-		studentGroup := route.Group("/student")
-
+		dashboardGroup := route.Group("/dashboard")
+		// Routes for student dashboard
 		{
-			modulGroup := studentGroup.Group("/modul")
-			modulGroup.GET("/all", module.Modul.ModuleAll)
-			modulGroup.GET(":sub_module_uuid", module.Modul.ModuleDetail)
+			dashboardStudentGroup := dashboardGroup.Group("/student")
+			// Routes for module and material
+			{
+				modulGroup := dashboardStudentGroup.Group("/module")
+				modulGroup.GET("/all", module.Modul.ModuleAll)
+				modulGroup.GET(":sub_module_uuid", module.Modul.ModuleDetail)
 
-			materiGroup := modulGroup.Group("/materi")
-			materiGroup.GET(":subject_uuid", module.Modul.MaterialAll)
-			materiGroup.GET("", module.Modul.MaterialFind)
-		}
-		{
-			quizGroup := studentGroup.Group("/quiz")
+				materiGroup := modulGroup.Group("/material")
+				materiGroup.GET(":subject_uuid", module.Modul.MaterialAll)
+				materiGroup.GET("", module.Modul.MaterialFind)
+
+				
+			quizGroup := dashboardStudentGroup.Group("/quiz")
 			quizGroup.GET(":quiz_uuid", module.Quiz.QuizContent)
 			quizGroup.POST("/quiz_submission", module.Quiz.QuizSubmission)
+			}
 		}
-
-	}
+	
 
 }

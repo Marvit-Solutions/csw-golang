@@ -14,7 +14,7 @@ type Usecase interface {
 	ModuleAll() ([]*response.ModulResponse, error)
 	ModuleDetail(req request.ParamModule) (*response.ModuleDetailResponse, error)
 	MaterialAll(req request.ParamModule) (*response.MaterialResponse, error)
-	MaterialFind(req request.Material) (*response.MaterialFindResponse, error)
+	MaterialFind() (*response.MaterialFindResponse, error)
 }
 
 type usecase struct {
