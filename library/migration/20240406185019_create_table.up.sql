@@ -169,15 +169,15 @@ CREATE TABLE IF NOT EXISTS public.quiz_questions (
         deleted_at timestamp with time zone
 );
 
-CREATE TABLE IF NOT EXISTS public.quiz_scores (
-        id SERIAL PRIMARY KEY,
-        uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
-        submission_id integer NOT NULL,
-        score integer NOT NULL,
-        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone
-);
+-- CREATE TABLE IF NOT EXISTS public.quiz_scores (
+--         id SERIAL PRIMARY KEY,
+--         uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
+--         submission_id integer NOT NULL,
+--         score integer NOT NULL,
+--         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--         deleted_at timestamp with time zone
+-- );
 
 CREATE TABLE IF NOT EXISTS public.quiz_submissions (
         id SERIAL PRIMARY KEY,
@@ -187,6 +187,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_submissions (
         started_at timestamp with time zone NOT NULL,
         finished_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         time_required time without time zone NOT NULL,
+        score integer,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone
