@@ -57,7 +57,8 @@ ALTER TABLE
 ALTER TABLE
         IF EXISTS public.quiz_answers 
         DROP CONSTRAINT IF EXISTS submission_quiz_answer_fk,
-        DROP CONSTRAINT IF EXISTS choice_quiz_answer_fk;
+        DROP CONSTRAINT IF EXISTS choice_quiz_answer_fk,
+        DROP CONSTRAINT IF EXISTS question_quiz_answer_fk;
 
 ALTER TABLE
         IF EXISTS public.plans 
