@@ -74,6 +74,11 @@ ADD
         CONSTRAINT submission_quiz_answer_fk FOREIGN KEY (submission_id) REFERENCES public.quiz_submissions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
+        public.quiz_answers
+ADD
+        CONSTRAINT question_quiz_answer_fk FOREIGN KEY (question_id) REFERENCES public.quiz_questions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
         IF EXISTS public.quiz_choices
 ADD
         CONSTRAINT question_quiz_choice_fk FOREIGN KEY (question_id) REFERENCES public.quiz_questions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
