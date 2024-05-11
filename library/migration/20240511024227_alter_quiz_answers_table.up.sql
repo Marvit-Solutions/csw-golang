@@ -1,9 +1,9 @@
 ALTER TABLE
     public.quiz_answers
 ADD
-    COLUMN `question_id` integer NOT NULL
+    COLUMN question_id integer NOT NULL
 AFTER
-    `submission_id`;
+    submission_id;
 
 ALTER TABLE
     public.quiz_answers

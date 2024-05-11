@@ -4,6 +4,6 @@ ALTER TABLE
 ALTER TABLE
     public.quiz_questions
 ADD
-    COLUMN `explanation` text NOT NULL
+    COLUMN explanation text NOT NULL
 AFTER
-    `score`;
+    score;
