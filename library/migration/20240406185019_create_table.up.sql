@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_answers (
         id SERIAL PRIMARY KEY,
         uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
         submission_id integer NOT NULL,
-        question_id integer NOT NULL
+        question_id integer NOT NULL,
         choice_id integer,
         is_marked boolean NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -7,7 +7,7 @@ INSERT INTO
                 title,
                 description,
                 time,
-                point,
+                max_score,
                 attempt
         )
 VALUES
