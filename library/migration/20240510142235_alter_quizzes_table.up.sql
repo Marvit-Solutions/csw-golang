@@ -1,2 +1,2 @@
-ALTER TABLE public.quizzes
-RENAME point TO max_score;
+ALTER TABLE
+    public.quizzes RENAME point TO max_score;

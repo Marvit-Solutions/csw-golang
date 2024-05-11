@@ -1,2 +1,2 @@
-ALTER TABLE public.quizzes
-RENAME COLUMN max_score TO point;
+ALTER TABLE
+    public.quizzes RENAME COLUMN max_score TO point;
