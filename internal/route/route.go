@@ -73,20 +73,21 @@ func NewRouteInit(req request.RouteInit) {
 		dashboardStudentGroup := dashboardGroup.Group("/student")
 		// Routes for module and material
 		{
-			modulGroup := dashboardStudentGroup.Group("/module")
-			modulGroup.GET("/all", module.Modul.ModuleAll)
-			modulGroup.GET(":sub_module_uuid", module.Modul.ModuleDetail)
+			// Routes for module and material
+			{
+				modulGroup := dashboardStudentGroup.Group("/module")
+				modulGroup.GET("/all", module.Module.ModuleAll)
+				modulGroup.GET(":sub_module_uuid", module.Module.ModuleDetail)
 
-			materiGroup := modulGroup.Group("/material")
-			materiGroup.GET(":subject_uuid", module.Modul.MaterialAll)
-			materiGroup.GET("", module.Modul.MaterialFind)
-
+				materiGroup := modulGroup.Group("/material")
+				materiGroup.GET(":subject_uuid", module.Module.MaterialAll)
+				materiGroup.GET("", module.Module.MaterialFind)
+			}
 			quizGroup := dashboardStudentGroup.Group("/quiz")
 			quizGroup.GET("/quiz_content/:quiz_uuid", module.Quiz.QuizContent)
 			quizGroup.POST("/quiz_submission", module.Quiz.QuizSubmission)
 			quizGroup.GET("/quiz_detail/:quiz_uuid/:test_type_id", module.Quiz.QuizDetail)
 		}
-
 	}
 
 }

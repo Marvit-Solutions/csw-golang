@@ -1,1 +1,0 @@
-TRUNCATE TABLE public.quiz_choices CASCADE;
