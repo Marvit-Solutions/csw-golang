@@ -1,1 +1,0 @@
-TRUNCATE TABLE public.sub_modules CASCADE;

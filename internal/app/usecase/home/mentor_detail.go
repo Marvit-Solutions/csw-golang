@@ -50,11 +50,11 @@ func (u *usecase) MentorDetail(req request.ParamMentorDetailHome) (*response.Men
 	}
 
 	result := &response.MentorDetailHome{
-		UUID:           mentor.UUID,
-		Name:           userDetail.Name,
-		TeachingField:  module.Name,
-		Description:    mentor.Description,
-		ProfilePicture: userDetail.ProfilePicture,
+		UUID:          mentor.UUID,
+		Name:          userDetail.Name,
+		TeachingField: module.Name,
+		Description:   mentor.Description,
+		// ProfilePicture: userDetail.ProfilePicture,
 	}
 
 	for _, unique := range uniqueMap {

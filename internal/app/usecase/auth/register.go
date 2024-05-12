@@ -54,14 +54,14 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 	}
 
 	userDetail := &model.UserDetail{
-		ClassUserID:    class.ID,
-		UserID:         user.ID,
-		Name:           req.Name,
-		Province:       req.Province,
-		Regency:        req.Regency,
-		District:       req.District,
-		PhoneNumber:    req.Phone,
-		ProfilePicture: "account.png",
+		ClassUserID: class.ID,
+		UserID:      user.ID,
+		Name:        req.Name,
+		Province:    req.Province,
+		Regency:     req.Regency,
+		District:    req.District,
+		PhoneNumber: req.Phone,
+		// ProfilePicture: "account.png",
 	}
 
 	_, err = u.userDetailRepo.Create(userDetail, tx)

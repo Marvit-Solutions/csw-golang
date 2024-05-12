@@ -14,11 +14,6 @@ ADD
         CONSTRAINT choice_exercise_answer_fk FOREIGN KEY (choice_id) REFERENCES public.exercise_choices (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
-        IF EXISTS public.exercise_answers
-ADD
-        CONSTRAINT submission_exercise_answer_fk FOREIGN KEY (submission_id) REFERENCES public.exercise_submissions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
-
-ALTER TABLE
         IF EXISTS public.exercise_choices
 ADD
         CONSTRAINT question_exercise_choice_fk FOREIGN KEY (question_id) REFERENCES public.exercise_questions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
@@ -29,19 +24,14 @@ ADD
         CONSTRAINT exercise_exercise_question_fk FOREIGN KEY (exercise_id) REFERENCES public.exercises (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
-        IF EXISTS public.exercise_scores
+        IF EXISTS public.exercise_submissions
 ADD
-        CONSTRAINT submission_exercise_score_fk FOREIGN KEY (submission_id) REFERENCES public.exercise_submissions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT user_exercise_submission FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.exercise_submissions
 ADD
-        CONSTRAINT exercise_exercise_submission_fk FOREIGN KEY (exercise_id) REFERENCES public.exercises (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
-
-ALTER TABLE
-        IF EXISTS public.exercise_submissions
-ADD
-        CONSTRAINT user_exercise_submission_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT exercise_exercise_submissiion FOREIGN KEY (exercise_id) REFERENCES public.exercises (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.exercises
@@ -51,12 +41,12 @@ ADD
 ALTER TABLE
         IF EXISTS public.mentors
 ADD
-        CONSTRAINT user_mentor_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT module_mentor_fk FOREIGN KEY (module_id) REFERENCES public.modules (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.mentors
 ADD
-        CONSTRAINT module_mentor_fk FOREIGN KEY (module_id) REFERENCES public.modules (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT user_mentor_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.plans
@@ -74,11 +64,6 @@ ADD
         CONSTRAINT submission_quiz_answer_fk FOREIGN KEY (submission_id) REFERENCES public.quiz_submissions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
-        public.quiz_answers
-ADD
-        CONSTRAINT question_quiz_answer_fk FOREIGN KEY (question_id) REFERENCES public.quiz_questions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
-
-ALTER TABLE
         IF EXISTS public.quiz_choices
 ADD
         CONSTRAINT question_quiz_choice_fk FOREIGN KEY (question_id) REFERENCES public.quiz_questions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
@@ -87,11 +72,6 @@ ALTER TABLE
         IF EXISTS public.quiz_questions
 ADD
         CONSTRAINT quiz_quiz_question_fk FOREIGN KEY (quiz_id) REFERENCES public.quizzes (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
-
-ALTER TABLE
-        IF EXISTS public.quiz_scores
-ADD
-        CONSTRAINT submission_quiz_score_fk FOREIGN KEY (submission_id) REFERENCES public.quiz_submissions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.quiz_submissions
@@ -106,7 +86,7 @@ ADD
 ALTER TABLE
         IF EXISTS public.quizzes
 ADD
-        CONSTRAINT subject_quiz_fk FOREIGN KEY (subject_id) REFERENCES public.subjects (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT sub_subject_quiz_fk FOREIGN KEY (sub_subject_id) REFERENCES public.sub_subjects (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.quizzes
@@ -154,6 +134,11 @@ ADD
         CONSTRAINT user_user_detail_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
+        IF EXISTS public.user_details
+ADD
+        CONSTRAINT media_user_fk FOREIGN KEY (media_id) REFERENCES public.medias (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
         IF EXISTS public.user_mentor_testimonials
 ADD
         CONSTRAINT mentor_user_mentor_testimonial_fk FOREIGN KEY (mentor_id) REFERENCES public.mentors (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
@@ -172,3 +157,33 @@ ALTER TABLE
         IF EXISTS public.users
 ADD
         CONSTRAINT role_user_fk FOREIGN KEY (role_id) REFERENCES public.roles (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.quiz_question_media
+ADD
+        CONSTRAINT quiz_question_quiz_question_media FOREIGN KEY (quiz_question_id) REFERENCES public.quiz_questions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.quiz_question_media
+ADD
+        CONSTRAINT media_quiz_question_media FOREIGN KEY (media_id) REFERENCES public.medias (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_question_media
+ADD
+        CONSTRAINT exercise_question_exercise_question_media FOREIGN KEY (exercise_question_id) REFERENCES public.exercise_questions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_question_media
+ADD
+        CONSTRAINT media_exercise_question_media FOREIGN KEY (media_id) REFERENCES public.medias (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.sub_subject_media
+ADD
+        CONSTRAINT sub_subject_sub_subject_media FOREIGN KEY (sub_subject_id) REFERENCES public.sub_subjects (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.sub_subject_media
+ADD
+        CONSTRAINT media_sub_subject_media FOREIGN KEY (media_id) REFERENCES public.medias (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
