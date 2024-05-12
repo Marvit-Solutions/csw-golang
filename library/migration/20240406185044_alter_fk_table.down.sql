@@ -47,7 +47,7 @@ ALTER TABLE
         IF EXISTS public.quizzes DROP CONSTRAINT IF EXISTS test_type_quiz_fk;
 
 ALTER TABLE
-        IF EXISTS public.quizzes DROP CONSTRAINT IF EXISTS sub_subject_quiz_fk;
+        IF EXISTS public.quizzes DROP CONSTRAINT IF EXISTS subject_quiz_fk;
 
 ALTER TABLE
         IF EXISTS public.quiz_submissions DROP CONSTRAINT IF EXISTS user_quiz_submission_fk;
