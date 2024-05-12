@@ -14,7 +14,7 @@ type UserDetail struct {
 	UUID        string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
 	ClassUserID int          `gorm:"column:class_user_id;not null" json:"class_user_id"`
 	UserID      int          `gorm:"column:user_id;not null" json:"user_id"`
-	MediaID     int          `gorm:"column:media_id;not null" json:"media_id"`
+	MediaID     *int         `gorm:"column:media_id" json:"media_id"`
 	Name        string         `gorm:"column:name;not null" json:"name"`
 	Province    string         `gorm:"column:province;not null" json:"province"`
 	Regency     string         `gorm:"column:regency;not null" json:"regency"`

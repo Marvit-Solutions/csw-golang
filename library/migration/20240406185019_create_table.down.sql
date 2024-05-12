@@ -1,59 +1,59 @@
-DROP TABLE IF EXISTS public.sub_subject_media;
+DROP TABLE IF EXISTS public.sub_subject_media CASCADE;
 
-DROP TABLE IF EXISTS public.exercise_question_media;
+DROP TABLE IF EXISTS public.exercise_question_media CASCADE;
 
-DROP TABLE IF EXISTS public.quiz_question_media;
+DROP TABLE IF EXISTS public.quiz_question_media CASCADE;
 
-DROP TABLE IF EXISTS public.medias;
+DROP TABLE IF EXISTS public.medias CASCADE;
 
-DROP TABLE IF EXISTS public.users;
+DROP TABLE IF EXISTS public.users CASCADE;
 
-DROP TABLE IF EXISTS public.user_testimonials;
+DROP TABLE IF EXISTS public.user_testimonials CASCADE;
 
-DROP TABLE IF EXISTS public.user_mentor_testimonials;
+DROP TABLE IF EXISTS public.user_mentor_testimonials CASCADE;
 
-DROP TABLE IF EXISTS public.user_details;
+DROP TABLE IF EXISTS public.user_details CASCADE;
 
-DROP TABLE IF EXISTS public.uniques;
+DROP TABLE IF EXISTS public.uniques CASCADE;
 
-DROP TABLE IF EXISTS public.test_types;
+DROP TABLE IF EXISTS public.test_types CASCADE;
 
-DROP TABLE IF EXISTS public.subjects;
+DROP TABLE IF EXISTS public.subjects CASCADE;
 
-DROP TABLE IF EXISTS public.sub_subjects;
+DROP TABLE IF EXISTS public.sub_subjects CASCADE;
 
-DROP TABLE IF EXISTS public.sub_modules;
+DROP TABLE IF EXISTS public.sub_modules CASCADE;
 
-DROP TABLE IF EXISTS public.schedules;
+DROP TABLE IF EXISTS public.schedules CASCADE;
 
-DROP TABLE IF EXISTS public.roles;
+DROP TABLE IF EXISTS public.roles CASCADE;
 
-DROP TABLE IF EXISTS public.quizzes;
+DROP TABLE IF EXISTS public.quizzes CASCADE;
 
-DROP TABLE IF EXISTS public.quiz_submissions;
+DROP TABLE IF EXISTS public.quiz_submissions CASCADE;
 
-DROP TABLE IF EXISTS public.quiz_questions;
+DROP TABLE IF EXISTS public.quiz_questions CASCADE;
 
-DROP TABLE IF EXISTS public.quiz_choices;
+DROP TABLE IF EXISTS public.quiz_choices CASCADE;
 
-DROP TABLE IF EXISTS public.quiz_answers;
+DROP TABLE IF EXISTS public.quiz_answers CASCADE;
 
-DROP TABLE IF EXISTS public.plans;
+DROP TABLE IF EXISTS public.plans CASCADE;
 
-DROP TABLE IF EXISTS public.modules;
+DROP TABLE IF EXISTS public.modules CASCADE;
 
-DROP TABLE IF EXISTS public.mentors;
+DROP TABLE IF EXISTS public.mentors CASCADE;
 
-DROP TABLE IF EXISTS public.exercises;
+DROP TABLE IF EXISTS public.exercises CASCADE;
 
-DROP TABLE IF EXISTS public.exercise_submissions;
+DROP TABLE IF EXISTS public.exercise_submissions CASCADE;
 
-DROP TABLE IF EXISTS public.exercise_questions;
+DROP TABLE IF EXISTS public.exercise_questions CASCADE;
 
-DROP TABLE IF EXISTS public.exercise_choices;
+DROP TABLE IF EXISTS public.exercise_choices CASCADE;
 
-DROP TABLE IF EXISTS public.exercise_answers;
+DROP TABLE IF EXISTS public.exercise_answers CASCADE;
 
-DROP TABLE IF EXISTS public.class_users;
+DROP TABLE IF EXISTS public.class_users CASCADE;
 
-DROP TABLE IF EXISTS public.class_user_plans;
+DROP TABLE IF EXISTS public.class_user_plans CASCADE;
