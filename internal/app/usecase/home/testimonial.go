@@ -68,12 +68,12 @@ func (u *usecase) Testimonial() ([]*response.TestimonialHome, error) {
 		}
 
 		results[i] = &response.TestimonialHome{
-			UUID:           user.UUID,
-			Name:           user.Name,
-			Class:          classMap[user.ClassUserID].Name,
-			ProfilePicture: user.ProfilePicture,
-			Comment:        userTestimonial.Comment,
-			Rating:         userTestimonial.Rating,
+			UUID:  user.UUID,
+			Name:  user.Name,
+			Class: classMap[user.ClassUserID].Name,
+			// ProfilePicture: user.ProfilePicture,
+			Comment: userTestimonial.Comment,
+			Rating:  userTestimonial.Rating,
 		}
 	}
 

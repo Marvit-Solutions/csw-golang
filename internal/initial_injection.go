@@ -15,7 +15,7 @@ type InitialInjection struct {
 	Auth     auth.Handler
 	Home     home.Handler
 	Location location.Handler
-	Modul    module.Handler
+	Module   module.Handler
 }
 
 // NewInitialInjection initializes the dependencies for the handlers.
@@ -24,6 +24,6 @@ func NewInitialInjection(sQLMaster *gorm.DB, conf config.Config) InitialInjectio
 		Auth:     auth.NewHandler(sQLMaster),
 		Home:     home.NewHandler(sQLMaster),
 		Location: location.NewHandler(sQLMaster, conf),
-		Modul:    module.NewHandler(sQLMaster),
+		Module:   module.NewHandler(sQLMaster),
 	}
 }

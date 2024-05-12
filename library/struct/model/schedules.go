@@ -15,6 +15,8 @@ type Schedule struct {
 	SubSubjectID    int          `gorm:"column:sub_subject_id;not null" json:"sub_subject_id"`
 	ClassUserPlanID int          `gorm:"column:class_user_plan_id;not null" json:"class_user_plan_id"`
 	MeetingDate     time.Time      `gorm:"column:meeting_date;not null" json:"meeting_date"`
+	CreatedBy       int          `gorm:"column:created_by;not null" json:"created_by"`
+	UpdatedBy       int          `gorm:"column:updated_by;not null" json:"updated_by"`
 	CreatedAt       time.Time      `gorm:"column:created_at;not null;default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt       time.Time      `gorm:"column:updated_at;not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 	DeletedAt       gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
