@@ -212,7 +212,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_submissions (
 CREATE TABLE IF NOT EXISTS public.quizzes (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
-        sub_subject_id integer NOT NULL,
+        subject_id integer NOT NULL,
         test_type_id integer NOT NULL,
         open timestamp with time zone NOT NULL,
         title character varying(50) NOT NULL,
