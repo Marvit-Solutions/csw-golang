@@ -73,12 +73,12 @@ func NewRouteInit(req request.RouteInit) {
 			// Routes for module and material
 			{
 				modulGroup := dashboardStudentGroup.Group("/module")
-				modulGroup.GET("/all", module.Modul.ModuleAll)
-				modulGroup.GET(":sub_module_uuid", module.Modul.ModuleDetail)
+				modulGroup.GET("/all", module.Module.ModuleAll)
+				modulGroup.GET(":sub_module_uuid", module.Module.ModuleDetail)
 
 				materiGroup := modulGroup.Group("/material")
-				materiGroup.GET(":subject_uuid", module.Modul.MaterialAll)
-				materiGroup.GET("", module.Modul.MaterialFind)
+				materiGroup.GET(":subject_uuid", module.Module.MaterialAll)
+				materiGroup.GET("", module.Module.MaterialFind)
 			}
 		}
 	}
