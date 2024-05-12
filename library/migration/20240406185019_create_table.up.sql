@@ -330,7 +330,7 @@ CREATE TABLE IF NOT EXISTS public.user_details (
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         class_user_id integer NOT NULL,
         user_id integer NOT NULL,
-        media_id integer NOT NULL,
+        media_id integer,
         name character varying(1000) NOT NULL,
         province character varying(100) NOT NULL,
         regency character varying(255) NOT NULL,
