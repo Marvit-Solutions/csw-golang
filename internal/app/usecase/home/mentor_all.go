@@ -85,17 +85,17 @@ func (u *usecase) MentorAll() ([]*response.MentorHome, error) {
 	for i, mentor := range mentors {
 		moduleName := moduleMap[mentor.ModuleID].Name
 		userName := userDetailMap[mentor.UserID].Name
-		profilePicture := userDetailMap[mentor.UserID].ProfilePicture
+		// profilePicture := userDetailMap[mentor.UserID].ProfilePicture
 		rating := math.Round(float64(mentorStats[mentor.ID].Rating)*10) / 10
 
 		results[i] = &response.MentorHome{
-			UUID:           mentor.UUID,
-			Description:    mentor.Description,
-			Motto:          mentor.Motto,
-			TeachingField:  moduleName,
-			Name:           userName,
-			ProfilePicture: profilePicture,
-			Rating:         rating,
+			UUID:          mentor.UUID,
+			Description:   mentor.Description,
+			Motto:         mentor.Motto,
+			TeachingField: moduleName,
+			Name:          userName,
+			// ProfilePicture: profilePicture,
+			Rating: rating,
 		}
 	}
 

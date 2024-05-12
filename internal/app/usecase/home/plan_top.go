@@ -38,14 +38,14 @@ func (u *usecase) PlanTop() ([]*response.PlanHome, error) {
 			UUID:       plan.UUID,
 			ModuleName: moduleMap[plan.ModuleID].Name,
 			Name:       plan.Name,
-			Picture:    plan.Picture,
-			Price:      plan.Price,
-			Group:      plan.Group,
-			Exercise:   int(plan.Exercise),
-			Access:     int(plan.Access),
-			Module:     plan.Module,
-			TryOut:     int(plan.TryOut),
-			Zoom:       plan.Zoom,
+			// Picture:    plan.Picture,
+			Price:    plan.Price,
+			Group:    plan.Group,
+			Exercise: int(plan.Exercise),
+			Access:   int(plan.Access),
+			Module:   plan.Module,
+			TryOut:   int(plan.TryOut),
+			Zoom:     plan.Zoom,
 		}
 	}
 
