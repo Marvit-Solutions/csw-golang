@@ -1,7 +1,6 @@
 package cors
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/Marvit-Solutions/csw-golang/library/config"
@@ -11,8 +10,6 @@ import (
 func CORSMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		conf := config.NewConfig()
-		fmt.Println("tes tes")
-		fmt.Println(conf.GetString("cors.allowed_headers"))
 		ctx.Writer.Header().Set("Access-Control-Allow-Origin", conf.GetString("cors.allowed_origins"))
 		ctx.Writer.Header().Set("Access-Control-Allow-Headers", conf.GetString("cors.allowed_headers"))
 		ctx.Writer.Header().Set("Access-Control-Allow-Methods", conf.GetString("cors.allowed_methods"))

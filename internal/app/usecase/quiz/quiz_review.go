@@ -2,14 +2,14 @@ package quiz
 
 import (
 	"fmt"
-	"sort"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
-func (u *usecase) QuizContent(req request.ParamQuizContent) (*response.QuizContentResponse, error) {
+func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewResponse, error) {
+
 	quiz, err := u.quizRepo.FindOneBy(map[string]interface{}{
 		"uuid": req.QuizUUID,
 	})
@@ -17,9 +17,16 @@ func (u *usecase) QuizContent(req request.ParamQuizContent) (*response.QuizConte
 		return nil, fmt.Errorf("failed to find subject: %v", err)
 	}
 
-	subject, err := u.subjectRepo.FindOneBy(map[string]interface{}{
-		"id": quiz.SubjectID,
-	})
+	quizSubmission, err := u.quizSubmissionRepo.FindBy(map[string]interface{}{
+		"quiz_id": quiz.ID,
+		"user_id": 40,
+	}, 0, 0)
+
+	fmt.Println(quizSubmission)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to find subject: %v", err)
+	}
 
 	quizQuestions, err := u.quizQuestionRepo.FindBy(map[string]interface{}{
 		"quiz_id": quiz.ID,
@@ -65,34 +72,30 @@ func (u *usecase) QuizContent(req request.ParamQuizContent) (*response.QuizConte
 		}
 	}
 
-	questionResponse := []response.QuestionItem{}
-	k := len(quizQuestions)
-	for _, quizQuestion := range quizQuestions {
-		questionResponse = append(questionResponse, response.QuestionItem{
+	questionReviewItems := []response.QuestionReviewItem{}
+	for i, quizQuestion := range quizQuestions {
+		questionReviewItems = append(questionReviewItems, response.QuestionReviewItem{
 			ID:       quizQuestion.ID,
 			UUID:     quizQuestion.UUID,
 			Question: quizQuestion.Content,
-			NoSoal:   k,
+			NoSoal:   i + 1,
 			Status:   "belum-dijawab",
 			Mark:     quizQuestion.Score,
 			Options:  mapChoices[quizQuestion.ID],
 		})
-		k--
+		i++
 	}
 
-	result := &response.QuizContentResponse{
+	questionReviews := []response.QuestionsReview{}
+
+	result := &response.QuizReviewResponse{
 		ID:             quiz.ID,
 		Topic:          quiz.Title,
-		Modul:          subject.Name,
-		Description:    quiz.Description,
+		Modul:          quiz.Title,
 		TotalQuestions: len(quizQuestionsMap),
 		TotalTime:      quiz.Time,
-		Questions:      questionResponse,
+		Questions:      questionReviews,
 	}
-
-	sort.Slice(result.Questions, func(i, j int) bool {
-		return result.Questions[i].ID < result.Questions[j].ID
-	})
 
 	return result, nil
 }

@@ -9,9 +9,10 @@ import (
 )
 
 type Usecase interface {
-	QuizContent(req request.ParamQuiz) (*response.QuizContentResponse, error)
+	QuizContent(req request.ParamQuizContent) (*response.QuizContentResponse, error)
+	QuizReview(req request.ParamQuizReview) (*response.QuizReviewResponse, error)
 	QuizSubmission(req request.QuizSubmissionRequest) error
-	DetailQuiz(req request.ParamDetailQuiz) (*response.DetailQuizResponse, error)
+	QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailResponse, error)
 }
 
 type usecase struct {

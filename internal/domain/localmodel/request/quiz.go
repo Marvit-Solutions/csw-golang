@@ -1,12 +1,18 @@
 package request
 
-type ParamQuiz struct {
+type QuizContentType string
+
+type ParamQuizContent struct {
 	QuizUUID string `uri:"quiz_uuid"`
 }
 
-type ParamDetailQuiz struct {
+type ParamQuizReview struct {
 	QuizUUID string `uri:"quiz_uuid"`
-	TypeQuiz string `uri:"type_quiz"`
+}
+
+type ParamQuizDetail struct {
+	QuizUUID   string `uri:"quiz_uuid"`
+	TestTypeId int    `uri:"test_type_id"`
 }
 
 type QuizSubmissionRequest struct {

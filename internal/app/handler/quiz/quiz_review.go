@@ -8,15 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *handler) QuizContent(ctx *gin.Context) {
-	var req request.ParamQuizContent
+func (h *handler) QuizReview(ctx *gin.Context) {
+	var req request.ParamQuizReview
 
 	if err := helper.ValidateURLParams(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
 
-	quizzes, err := h.u.QuizContent(req)
+	quizzes, err := h.u.QuizReview(req)
 	if err != nil {
 		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err.Error())
 		return

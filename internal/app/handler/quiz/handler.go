@@ -13,7 +13,8 @@ type handler struct {
 type Handler interface {
 	QuizContent(c *gin.Context)
 	QuizSubmission(c *gin.Context)
-	DetailQuiz(c *gin.Context)
+	QuizDetail(c *gin.Context)
+	QuizReview(c *gin.Context)
 }
 
 func NewHandler(

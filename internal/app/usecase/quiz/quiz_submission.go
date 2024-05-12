@@ -27,12 +27,13 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 		return fmt.Errorf("failed to create quizSubmission: %v", err)
 	}
 
-	// insert  user quiz answer and calculate the score
+	// insert user quiz answer and start calculate the score
 	for _, ques := range req.Questions {
 		// Periksa apakah UserAnswer tidak nil dan tidak sama dengan undefined
 		if ques.UserAnswer != 0 {
 			quizAnswer := &model.QuizAnswer{
 				SubmissionID: quizSubmission.ID,
+				QuestionID:   ques.ID,
 				ChoiceID:     &ques.UserAnswer, // Menggunakan nilai yang tidak diubah
 				IsMarked:     false,
 			}
@@ -44,8 +45,6 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 			fmt.Println(quizAnswer)
 		}
 	}
-
-	// calculate the score
 
 	quizQuestions, err := u.quizQuestionRepo.FindBy(map[string]interface{}{
 		"quiz_id": req.QuizID,
@@ -105,6 +104,8 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 	}
 
 	fmt.Println(score)
+
+	//end off calculate score
 
 	tx.Commit()
 
