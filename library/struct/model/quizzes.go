@@ -15,6 +15,7 @@ type Quiz struct {
 	SubjectID   int          `gorm:"column:subject_id;not null" json:"subject_id"`
 	TestTypeID  int          `gorm:"column:test_type_id;not null" json:"test_type_id"`
 	Open        time.Time      `gorm:"column:open;not null" json:"open"`
+	Close       time.Time      `gorm:"column:close;not null" json:"close"`
 	Title       string         `gorm:"column:title;not null" json:"title"`
 	Description string         `gorm:"column:description;not null" json:"description"`
 	Time        int          `gorm:"column:time;not null" json:"time"`
