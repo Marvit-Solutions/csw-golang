@@ -1,0 +1,11 @@
+package helper
+
+import "encoding/json"
+
+func Debug(req interface{}) string {
+	jsonData, err := json.MarshalIndent(req, "", "  ")
+	if err != nil {
+		return err.Error()
+	}
+	return string(jsonData)
+}
