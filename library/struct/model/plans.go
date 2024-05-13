@@ -12,6 +12,7 @@ const TableNamePlan = "plans"
 type Plan struct {
 	ID        int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
 	UUID      string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
+	MediaID   int          `gorm:"column:media_id;not null" json:"media_id"`
 	ModuleID  int          `gorm:"column:module_id;not null" json:"module_id"`
 	Name      string         `gorm:"column:name;not null" json:"name"`
 	Slug      string         `gorm:"column:slug;not null" json:"slug"`
