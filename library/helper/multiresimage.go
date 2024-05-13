@@ -21,7 +21,7 @@ func MultiResImages(media *model.Media) *model.MultiResImage {
 	}
 	imgURL.Path = path.Join(imgURL.Path, conf.GetString("image.bucket"), media.Filename)
 
-	multiResImage.MediaID = media.ID
+	multiResImage.MediaUUID = media.UUID
 	multiResImage.Original = imgURL.String()
 
 	q := imgURL.Query()

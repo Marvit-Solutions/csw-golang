@@ -29,7 +29,7 @@ func (*Media) TableName() string {
 }
 
 type MultiResImage struct {
-	MediaID   int    `json:"media_id"`
+	MediaUUID string `json:"media_uuid"`
 	Original  string `json:"original"`
 	Thumbnail string `json:"thumbnail"`
 	Desktop   string `json:"desktop"`

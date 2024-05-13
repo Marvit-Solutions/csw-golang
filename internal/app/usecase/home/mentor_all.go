@@ -33,7 +33,8 @@ func (u *usecase) MentorAll() ([]*response.MentorHome, error) {
 			TeachingField: mentor.TeachingField,
 			Description:   mentor.Description,
 			Motto:         mentor.Motto,
-			Media:         helper.MultiResImages(mediaMapMentor[mentor.ID]),
+			Media:         helper.MultiResImages(mediaMapMentor[mentor.MediaID]),
+			Rating:        mentor.Rating,
 		})
 	}
 
