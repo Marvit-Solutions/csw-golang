@@ -3,6 +3,7 @@ package localservice
 import (
 	"fmt"
 
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localrepository"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
@@ -47,6 +48,23 @@ func (svc *HomeService) FindMentorInfo() ([]*response.MentorHomeList, []int, err
 	}
 
 	return mentors, mentorMediaIDs, nil
+}
+
+func (svc *HomeService) FindMentorDetailInfo(req request.ParamMentorDetailHome) (*response.MentorDetailHomeList, error) {
+	voucher := &response.MentorDetailHomeList{}
+
+	res := svc.DB.Select(`m.id ,m.uuid, ud.media_id, m.short_name AS name, mdl.name AS teaching_field, m.description`).
+		Table(`mentors m`).
+		Joins(`LEFT JOIN user_details ud ON ud.user_id = m.user_id`).
+		Joins(`LEFT JOIN modules mdl ON mdl.id = m.module_id`).
+		Where(`m.uuid = ?`, req.UUID)
+
+	err := res.Scan(voucher).Error
+	if err != nil {
+		return nil, fmt.Errorf("failed to find mentor: %v", err)
+	}
+
+	return voucher, nil
 }
 
 func (svc *HomeService) FindMediaInfo(mediaIDs ...[]int) (map[string]map[int]*model.Media, error) {

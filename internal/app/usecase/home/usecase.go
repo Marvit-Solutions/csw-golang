@@ -32,6 +32,7 @@ type usecase struct {
 	moduleRepo                repository.ModuleRepository
 	uniqueRepo                repository.UniqueRepository
 	planRepo                  repository.PlanRepository
+	mediaRepo                 repository.MediaRepository
 }
 
 func NewUsecase(
@@ -50,5 +51,6 @@ func NewUsecase(
 		moduleRepo:                service.NewModuleService(db, nil),
 		uniqueRepo:                service.NewUniqueService(db, nil),
 		planRepo:                  service.NewPlanService(db, nil),
+		mediaRepo:                 service.NewMediaService(db, nil),
 	}
 }

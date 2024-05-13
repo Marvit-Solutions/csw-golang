@@ -13,6 +13,15 @@ type MentorHomeList struct {
 	Rating        float64 `json:"rating"`
 }
 
+type MentorDetailHomeList struct {
+	ID            int    `json:"id"`
+	UUID          string `json:"uuid"`
+	MediaID       int    `json:"media_id"`
+	Name          string `json:"name"`
+	TeachingField string `json:"teaching_field"`
+	Description   string `json:"description"`
+}
+
 type MentorHome struct {
 	UUID          string               `json:"uuid"`
 	Name          string               `json:"name"`
@@ -24,12 +33,12 @@ type MentorHome struct {
 }
 
 type MentorDetailHome struct {
-	UUID           string   `json:"uuid"`
-	Name           string   `json:"name"`
-	TeachingField  string   `json:"teaching_field"`
-	Description    string   `json:"description"`
-	ProfilePicture string   `json:"profile_picture"`
-	Uniques        []string `json:"uniques"`
+	UUID          string               `json:"uuid"`
+	Name          string               `json:"name"`
+	TeachingField string               `json:"teaching_field"`
+	Description   string               `json:"description"`
+	Media         *model.MultiResImage `json:"media"`
+	Uniques       []string             `json:"uniques"`
 }
 
 type PlanHome struct {
