@@ -131,6 +131,7 @@ CREATE TABLE IF NOT EXISTS public.modules (
 CREATE TABLE IF NOT EXISTS public.plans (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+        media_id integer NOT NULL,
         module_id integer NOT NULL,
         name character varying(100) NOT NULL,
         slug character varying(50) NOT NULL,
@@ -385,7 +386,7 @@ CREATE TABLE IF NOT EXISTS public.users (
 
 CREATE TABLE IF NOT EXISTS public.medias (
         id serial NOT NULL,
-        uuid uuid NOT NULL,
+        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         filename character varying(255) NOT NULL,
         mime character varying(50) NOT NULL,
         original_filename character varying(255) NOT NULL,
@@ -400,7 +401,7 @@ CREATE TABLE IF NOT EXISTS public.medias (
 
 CREATE TABLE IF NOT EXISTS public.quiz_question_media (
         id serial NOT NULL,
-        uuid uuid NOT NULL,
+        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         quiz_question_id integer NOT NULL,
         media_id integer NOT NULL,
         index integer NOT NULL,
@@ -412,7 +413,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_question_media (
 
 CREATE TABLE IF NOT EXISTS public.exercise_question_media (
         id serial NOT NULL,
-        uuid uuid NOT NULL,
+        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         exercise_question_id integer NOT NULL,
         media_id integer NOT NULL,
         index integer NOT NULL,
@@ -424,7 +425,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_question_media (
 
 CREATE TABLE IF NOT EXISTS public.sub_subject_media (
         id serial NOT NULL,
-        uuid uuid NOT NULL,
+        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         sub_subject_id integer NOT NULL,
         media_id integer NOT NULL,
         index integer NOT NULL,

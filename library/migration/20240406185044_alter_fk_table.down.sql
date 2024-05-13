@@ -68,7 +68,10 @@ ALTER TABLE
         IF EXISTS public.quiz_answers DROP CONSTRAINT IF EXISTS choice_quiz_answer_fk;
 
 ALTER TABLE
-        IF EXISTS public.plans DROP CONSTRAINT IF EXISTS module_sub_plan_fk;
+        IF EXISTS public.plans DROP CONSTRAINT IF EXISTS module_plan_fk;
+
+        ALTER TABLE
+        IF EXISTS public.plans DROP CONSTRAINT IF EXISTS media_plan_fk;
 
 ALTER TABLE
         IF EXISTS public.mentors DROP CONSTRAINT IF EXISTS user_mentor_fk;
