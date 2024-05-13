@@ -2,7 +2,6 @@ package home
 
 import (
 	"fmt"
-	"sort"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
@@ -10,7 +9,7 @@ import (
 
 func (u *usecase) MentorAll() ([]*response.MentorHome, error) {
 
-	mentors, mentorMediaIDs, err := u.localHomeRepo.FindMentorInfo()
+	mentors, mentorMediaIDs, err := u.localHomeRepo.FindMentorInfo(false)
 	if err != nil {
 		return nil, err
 	}
@@ -37,14 +36,6 @@ func (u *usecase) MentorAll() ([]*response.MentorHome, error) {
 			Rating:        mentor.Rating,
 		})
 	}
-
-	if len(results) == 0 {
-		return nil, helper.ErrDataNotFound
-	}
-
-	sort.Slice(results, func(i, j int) bool {
-		return results[i].Rating > results[j].Rating
-	})
 
 	return results, nil
 }

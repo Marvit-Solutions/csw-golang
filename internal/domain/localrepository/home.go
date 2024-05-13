@@ -7,7 +7,7 @@ import (
 )
 
 type Home interface {
-	FindMentorInfo() ([]*response.MentorHomeList, []int, error)
+	FindMentorInfo(orderByRating bool) ([]*response.MentorHomeList, []int, error)
 	FindMentorDetailInfo(req request.ParamMentorDetailHome) (*response.MentorDetailHomeList, error)
 	FindMediaInfo(mediaIDs ...[]int) (map[string]map[int]*model.Media, error)
 }

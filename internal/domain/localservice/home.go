@@ -22,11 +22,15 @@ func NewHomeService(
 	}
 }
 
-func (svc *HomeService) FindMentorInfo() ([]*response.MentorHomeList, []int, error) {
+func (svc *HomeService) FindMentorInfo(orderByRating bool) ([]*response.MentorHomeList, []int, error) {
 	mentors := make([]*response.MentorHomeList, 0)
 
-	res := svc.DB.
-		Raw(`SELECT m.uuid, ud.media_id, m.short_name AS name, mdl.name AS teaching_field, m.description, m.motto, COALESCE(ROUND(avg_rating.avg_rating, 2), 0) AS rating
+	var orderByClause string
+	if orderByRating {
+		orderByClause = "ORDER BY rating DESC"
+	}
+
+	query := fmt.Sprintf(`SELECT m.uuid, ud.media_id, m.short_name AS name, mdl.name AS teaching_field, m.description, m.motto, COALESCE(ROUND(avg_rating.avg_rating, 2), 0) AS rating
 			FROM mentors m
 			LEFT JOIN user_details ud ON ud.user_id = m.user_id
 			LEFT JOIN modules mdl ON mdl.id = m.module_id
@@ -35,7 +39,9 @@ func (svc *HomeService) FindMentorInfo() ([]*response.MentorHomeList, []int, err
 				FROM user_mentor_testimonials 
 				GROUP BY 
 				mentor_id
-				) AS avg_rating ON avg_rating.mentor_id = m.id`)
+				) AS avg_rating ON avg_rating.mentor_id = m.id %s`, orderByClause)
+
+	res := svc.DB.Raw(query)
 
 	err := res.Scan(&mentors).Error
 	if err != nil {
