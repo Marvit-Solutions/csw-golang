@@ -9,6 +9,6 @@ import (
 type Home interface {
 	FindMentorInfo(orderByRating bool) ([]*response.MentorHomeList, []int, error)
 	FindMentorDetailInfo(req request.ParamMentorDetailHome) (*response.MentorDetailHomeList, error)
-	FindPlanInfo(req request.PlanHome) ([]*response.PlanHomeList, []int, error)
+	FindPlanInfo(req request.PlanHome, orderByPrice bool) ([]*response.PlanHomeList, []int, error)
 	FindMediaInfo(mediaIDs ...[]int) (map[string]map[int]*model.Media, error)
 }

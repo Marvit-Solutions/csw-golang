@@ -2,6 +2,7 @@ package localservice
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
@@ -73,19 +74,24 @@ func (svc *HomeService) FindMentorDetailInfo(req request.ParamMentorDetailHome) 
 	return voucher, nil
 }
 
-func (svc *HomeService) FindPlanInfo(req request.PlanHome) ([]*response.PlanHomeList, []int, error) {
+func (svc *HomeService) FindPlanInfo(req request.PlanHome, orderByPrice bool) ([]*response.PlanHomeList, []int, error) {
 	plans := make([]*response.PlanHomeList, 0)
 
 	res := svc.DB.Select(`p.uuid, p.media_id, m.name AS module_name, p.name, p.price, p.group, p.exercise, p.access, p.module, p.try_out, p.zoom`).
 		Table(`plans p`).
 		Joins(`LEFT JOIN modules m ON m.id = p.module_id`)
 
-	if req.Module != "" {
-		res = res.Where(`m.slug LIKE '%?%'`, req.Module)
-	}
-
-	if req.Name != "" {
-		res = res.Where(`(p.slug LIKE '%?%' OR p.name LIKE '%?%')'`, req.Name, req.Name)
+	if orderByPrice {
+		res = res.Order(`p.price ASC LIMIT 3`)
+	} else {
+		if req.Module != "" {
+			module := strings.Split(strings.ToLower(req.Module), ",")
+			res = res.Where("m.slug LIKE ?", "%"+module[0]+"%")
+		}
+		if req.Name != "" {
+			planName := strings.Split(strings.ToLower(req.Name), ",")
+			res = res.Where("(p.slug LIKE ? OR p.name LIKE ?)", "%"+planName[0]+"%", "%"+planName[0]+"%")
+		}
 	}
 
 	err := res.Scan(&plans).Error

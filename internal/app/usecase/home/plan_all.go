@@ -10,7 +10,7 @@ import (
 
 func (u *usecase) PlanAll(req request.PlanHome) ([]*response.PlanHome, error) {
 
-	plans, planMediaIDs, err := u.localHomeRepo.FindPlanInfo(req)
+	plans, planMediaIDs, err := u.localHomeRepo.FindPlanInfo(req, false)
 	if err != nil {
 		return nil, err
 	}
