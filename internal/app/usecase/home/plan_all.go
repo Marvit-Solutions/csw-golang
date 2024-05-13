@@ -2,84 +2,49 @@ package home
 
 import (
 	"fmt"
-	"sort"
-	"strings"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
-	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
 func (u *usecase) PlanAll(req request.PlanHome) ([]*response.PlanHome, error) {
-	moduleFilter := req.Module
-	if moduleFilter == "" {
-		moduleFilter = "skd,matematika"
-	}
 
-	modules, err := u.moduleRepo.FindBy(map[string]interface{}{
-		"slug": strings.Split(strings.ToLower(moduleFilter), ","),
-	}, 0, 0)
+	plans, planMediaIDs, err := u.localHomeRepo.FindPlanInfo(req)
 	if err != nil {
-		return nil, fmt.Errorf("failed to find module: %v", err)
+		return nil, err
 	}
 
-	moduleIDs := make([]int, len(modules))
-	for i, mod := range modules {
-		moduleIDs[i] = mod.ID
-	}
-
-	plans, err := u.planRepo.FindBy(map[string]interface{}{
-		"module_id": moduleIDs,
-	}, 0, 0)
+	mediaMaps, err := u.localHomeRepo.FindMediaInfo(planMediaIDs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to find plan: %v", err)
+		return nil, err
 	}
 
-	if req.Name != "" {
-		filteredPlans := make([]*model.Plan, 0)
-		for _, plan := range plans {
-			if strings.Contains(strings.ToLower(plan.Name), strings.ToLower(req.Name)) {
-				filteredPlans = append(filteredPlans, plan)
-			}
-		}
-		plans = filteredPlans
+	mediaMapPlan, mediaMentorFound := mediaMaps["media1"]
+	if !mediaMentorFound {
+		return nil, fmt.Errorf("failed to find  media mentor")
 	}
 
-	moduleMap := make(map[int]*model.Module)
-	for _, mod := range modules {
-		moduleMap[mod.ID] = mod
-	}
-
-	results := make([]*response.PlanHome, len(plans))
-	for i, plan := range plans {
-		moduleName := ""
-		if mod, ok := moduleMap[plan.ModuleID]; ok {
-			moduleName = mod.Name
-		}
-
-		results[i] = &response.PlanHome{
+	results := make([]*response.PlanHome, 0)
+	for _, plan := range plans {
+		results = append(results, &response.PlanHome{
 			UUID:       plan.UUID,
-			ModuleName: moduleName,
+			ModuleName: plan.ModuleName,
 			Name:       plan.Name,
-			// Picture:    plan.Picture,
-			Price:    plan.Price,
-			Group:    plan.Group,
-			Exercise: int(plan.Exercise),
-			Access:   int(plan.Access),
-			Module:   plan.Module,
-			TryOut:   int(plan.TryOut),
-			Zoom:     plan.Zoom,
-		}
+			Media:      helper.MultiResImages(mediaMapPlan[plan.MediaID]),
+			Price:      plan.Price,
+			Group:      plan.Group,
+			Exercise:   plan.Exercise,
+			Access:     plan.Access,
+			Module:     plan.Module,
+			TryOut:     plan.TryOut,
+			Zoom:       plan.Zoom,
+		})
 	}
 
 	if len(results) == 0 {
 		return nil, helper.ErrDataNotFound
 	}
-
-	sort.Slice(results, func(i, j int) bool {
-		return results[i].Price < results[j].Price
-	})
 
 	return results, nil
 }

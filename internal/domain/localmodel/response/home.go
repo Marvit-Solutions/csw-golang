@@ -22,6 +22,20 @@ type MentorDetailHomeList struct {
 	Description   string `json:"description"`
 }
 
+type PlanHomeList struct {
+	UUID       string  `json:"uuid"`
+	MediaID    int     `json:"media_id"`
+	ModuleName string  `json:"module_name"`
+	Name       string  `json:"name"`
+	Price      float64 `json:"price"`
+	Group      bool    `json:"group"`
+	Exercise   int     `json:"exercise"`
+	Access     int     `json:"access"`
+	Module     bool    `json:"module"`
+	TryOut     int     `json:"try_out"`
+	Zoom       bool    `json:"zoom"`
+}
+
 type MentorHome struct {
 	UUID          string               `json:"uuid"`
 	Name          string               `json:"name"`
@@ -42,17 +56,17 @@ type MentorDetailHome struct {
 }
 
 type PlanHome struct {
-	UUID       string  `json:"uuid"`
-	ModuleName string  `json:"module_name"`
-	Name       string  `json:"name"`
-	Picture    string  `json:"picture"`
-	Price      float64 `json:"price"`
-	Group      bool    `json:"group"`
-	Exercise   int     `json:"exercise"`
-	Access     int     `json:"access"`
-	Module     bool    `json:"module"`
-	TryOut     int     `json:"try_out"`
-	Zoom       bool    `json:"zoom"`
+	UUID       string               `json:"uuid"`
+	ModuleName string               `json:"module_name"`
+	Name       string               `json:"name"`
+	Media      *model.MultiResImage `json:"media"`
+	Price      float64              `json:"price"`
+	Group      bool                 `json:"group"`
+	Exercise   int                  `json:"exercise"`
+	Access     int                  `json:"access"`
+	Module     bool                 `json:"module"`
+	TryOut     int                  `json:"try_out"`
+	Zoom       bool                 `json:"zoom"`
 }
 
 type TestimonialHome struct {

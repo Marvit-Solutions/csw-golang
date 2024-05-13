@@ -49,5 +49,9 @@ func (u *usecase) MentorDetail(req request.ParamMentorDetailHome) (*response.Men
 		result.Uniques = append(result.Uniques, uniqueMap[unique.ID].Uniqueness)
 	}
 
+	if result.UUID == "" {
+		return nil, helper.ErrDataNotFound
+	}
+
 	return result, nil
 }

@@ -73,6 +73,34 @@ func (svc *HomeService) FindMentorDetailInfo(req request.ParamMentorDetailHome) 
 	return voucher, nil
 }
 
+func (svc *HomeService) FindPlanInfo(req request.PlanHome) ([]*response.PlanHomeList, []int, error) {
+	plans := make([]*response.PlanHomeList, 0)
+
+	res := svc.DB.Select(`p.uuid, p.media_id, m.name AS module_name, p.name, p.price, p.group, p.exercise, p.access, p.module, p.try_out, p.zoom`).
+		Table(`plans p`).
+		Joins(`LEFT JOIN modules m ON m.id = p.module_id`)
+
+	if req.Module != "" {
+		res = res.Where(`m.slug LIKE '%?%'`, req.Module)
+	}
+
+	if req.Name != "" {
+		res = res.Where(`(p.slug LIKE '%?%' OR p.name LIKE '%?%')'`, req.Name, req.Name)
+	}
+
+	err := res.Scan(&plans).Error
+	if err != nil {
+		return nil, nil, fmt.Errorf("failed to find plan: %v", err)
+	}
+
+	var planMediaIDs []int
+	for _, plan := range plans {
+		planMediaIDs = append(planMediaIDs, plan.MediaID)
+	}
+
+	return plans, planMediaIDs, nil
+}
+
 func (svc *HomeService) FindMediaInfo(mediaIDs ...[]int) (map[string]map[int]*model.Media, error) {
 	allMediaIDs := make([]int, 0)
 	for _, ids := range mediaIDs {

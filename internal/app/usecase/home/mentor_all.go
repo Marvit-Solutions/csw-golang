@@ -37,5 +37,9 @@ func (u *usecase) MentorAll() ([]*response.MentorHome, error) {
 		})
 	}
 
+	if len(results) == 0 {
+		return nil, helper.ErrDataNotFound
+	}
+
 	return results, nil
 }
