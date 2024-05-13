@@ -36,6 +36,15 @@ type PlanHomeList struct {
 	Zoom       bool    `json:"zoom"`
 }
 
+type TestimonialHomeList struct {
+	UUID    string  `json:"uuid"`
+	MediaID int     `json:"media_id"`
+	Name    string  `json:"name"`
+	Class   string  `json:"class"`
+	Comment string  `json:"comment"`
+	Rating  float64 `json:"rating"`
+}
+
 type MentorHome struct {
 	UUID          string               `json:"uuid"`
 	Name          string               `json:"name"`
@@ -70,15 +79,10 @@ type PlanHome struct {
 }
 
 type TestimonialHome struct {
-	UUID           string  `json:"uuid"`
-	Name           string  `json:"name"`
-	Class          string  `json:"class"`
-	ProfilePicture string  `json:"profile_picture"`
-	Comment        string  `json:"comment"`
-	Rating         float64 `json:"rating"`
-}
-
-type MentorStats struct {
-	Rating      float64
-	Testimonial int
+	UUID    string               `json:"uuid"`
+	Name    string               `json:"name"`
+	Class   string               `json:"class"`
+	Media   *model.MultiResImage `json:"media"`
+	Comment string               `json:"comment"`
+	Rating  float64              `json:"rating"`
 }

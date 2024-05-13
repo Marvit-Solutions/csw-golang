@@ -107,6 +107,27 @@ func (svc *HomeService) FindPlanInfo(req request.PlanHome, orderByPrice bool) ([
 	return plans, planMediaIDs, nil
 }
 
+func (svc *HomeService) FindTestimonialInfo() ([]*response.TestimonialHomeList, []int, error) {
+	testimonial := make([]*response.TestimonialHomeList, 0)
+
+	res := svc.DB.Select(`ut.uuid, ud.media_id, ud.name, cu.name AS "class", ut.comment, ut.rating`).
+		Table(`user_testimonials ut`).
+		Joins(`LEFT JOIN user_details ud ON ud.user_id = ut.user_id`).
+		Joins(`LEFT JOIN class_users cu ON cu.id = ud.class_user_id`)
+
+	err := res.Scan(&testimonial).Error
+	if err != nil {
+		return nil, nil, fmt.Errorf("failed to find testimonial: %v", err)
+	}
+
+	var testimonialMediaIDs []int
+	for _, testimonial := range testimonial {
+		testimonialMediaIDs = append(testimonialMediaIDs, testimonial.MediaID)
+	}
+
+	return testimonial, testimonialMediaIDs, nil
+}
+
 func (svc *HomeService) FindMediaInfo(mediaIDs ...[]int) (map[string]map[int]*model.Media, error) {
 	allMediaIDs := make([]int, 0)
 	for _, ids := range mediaIDs {
