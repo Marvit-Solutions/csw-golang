@@ -39,6 +39,11 @@ ADD
         CONSTRAINT test_type_exercise_fk FOREIGN KEY (test_type_id) REFERENCES public.test_types (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
+        IF EXISTS public.exercises
+ADD
+        CONSTRAINT module_exercise_fk FOREIGN KEY (module_id) REFERENCES public.modules (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
         IF EXISTS public.mentors
 ADD
         CONSTRAINT module_mentor_fk FOREIGN KEY (module_id) REFERENCES public.modules (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;

@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS public.exercises (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         test_type_id integer NOT NULL,
+        module_id integer NOT NULL,
         title character varying(50) NOT NULL,
         description text NOT NULL,
         "time" integer NOT NULL,
