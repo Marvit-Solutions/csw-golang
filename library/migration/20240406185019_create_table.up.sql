@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS public.exercises (
         test_type_id integer NOT NULL,
         module_id integer NOT NULL,
         title character varying(50) NOT NULL,
+        total_question integer NOT NULL,
         description text NOT NULL,
         "time" integer NOT NULL,
         created_by integer NOT NULL,
