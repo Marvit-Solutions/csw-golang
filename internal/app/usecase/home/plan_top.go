@@ -2,65 +2,48 @@ package home
 
 import (
 	"fmt"
-	"sort"
 
+	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
-	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
 func (u *usecase) PlanTop() ([]*response.PlanHome, error) {
-	plans, err := u.planRepo.FindBy(map[string]interface{}{}, 0, 0)
+	plans, planMediaIDs, err := u.localHomeRepo.FindPlanInfo(request.PlanHome{}, true)
 	if err != nil {
-		return nil, fmt.Errorf("failed to find plan: %v", err)
+		return nil, err
 	}
 
-	planIDs := make([]int, len(plans))
-	for i, plan := range plans {
-		planIDs[i] = plan.ModuleID
-	}
-
-	modules, err := u.moduleRepo.FindBy(map[string]interface{}{
-		"id": planIDs,
-	}, 0, 0)
+	mediaMaps, err := u.localHomeRepo.FindMediaInfo(planMediaIDs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to find module: %v", err)
+		return nil, err
 	}
 
-	moduleMap := make(map[int]*model.Module)
-	for _, module := range modules {
-		moduleMap[module.ID] = module
+	mediaMapPlan, mediaMentorFound := mediaMaps["media1"]
+	if !mediaMentorFound {
+		return nil, fmt.Errorf("failed to find  media mentor")
 	}
 
-	results := make([]*response.PlanHome, len(plans))
-	for i, plan := range plans {
-		results[i] = &response.PlanHome{
+	results := make([]*response.PlanHome, 0)
+	for _, plan := range plans {
+		results = append(results, &response.PlanHome{
 			UUID:       plan.UUID,
-			ModuleName: moduleMap[plan.ModuleID].Name,
+			ModuleName: plan.ModuleName,
 			Name:       plan.Name,
-			Picture:    plan.Picture,
+			Media:      helper.MultiResImages(mediaMapPlan[plan.MediaID]),
 			Price:      plan.Price,
 			Group:      plan.Group,
-			Exercise:   int(plan.Exercise),
-			Access:     int(plan.Access),
+			Exercise:   plan.Exercise,
+			Access:     plan.Access,
 			Module:     plan.Module,
-			TryOut:     int(plan.TryOut),
+			TryOut:     plan.TryOut,
 			Zoom:       plan.Zoom,
-		}
+		})
 	}
 
 	if len(results) == 0 {
 		return nil, helper.ErrDataNotFound
 	}
 
-	sort.Slice(results, func(i, j int) bool {
-		return results[i].Price < results[j].Price
-	})
-
-	topPlans := results
-	if len(topPlans) > 3 {
-		topPlans = topPlans[:3]
-	}
-
-	return topPlans, nil
+	return results, nil
 }

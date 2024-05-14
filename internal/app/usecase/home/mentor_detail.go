@@ -5,36 +5,14 @@ import (
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
+	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
 func (u *usecase) MentorDetail(req request.ParamMentorDetailHome) (*response.MentorDetailHome, error) {
-	mentor, err := u.mentorRepo.FindOneBy(map[string]interface{}{
-		"uuid": req.UUID,
-	})
+	mentor, err := u.localHomeRepo.FindMentorDetailInfo(req)
 	if err != nil {
-		return nil, fmt.Errorf("failed to find mentor: %v", err)
-	}
-
-	user, err := u.userRepo.FindOneBy(map[string]interface{}{
-		"id": mentor.UserID,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("failed to find user: %v", err)
-	}
-
-	userDetail, err := u.userDetailRepo.FindOneBy(map[string]interface{}{
-		"user_id": user.ID,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("failed to find user detail: %v", err)
-	}
-
-	module, err := u.moduleRepo.FindOneBy(map[string]interface{}{
-		"id": mentor.ModuleID,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("failed to find module: %v", err)
+		return nil, err
 	}
 
 	uniques, err := u.uniqueRepo.FindBy(map[string]interface{}{
@@ -49,16 +27,30 @@ func (u *usecase) MentorDetail(req request.ParamMentorDetailHome) (*response.Men
 		uniqueMap[unique.ID] = unique
 	}
 
+	var media *model.Media
+	if mentor.MediaID != 0 {
+		media, err = u.mediaRepo.FindOneBy(map[string]interface{}{
+			"id": mentor.MediaID,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("failed to find media: %v", err)
+		}
+	}
+
 	result := &response.MentorDetailHome{
-		UUID:           mentor.UUID,
-		Name:           userDetail.Name,
-		TeachingField:  module.Name,
-		Description:    mentor.Description,
-		ProfilePicture: userDetail.ProfilePicture,
+		UUID:          mentor.UUID,
+		Name:          mentor.Name,
+		TeachingField: mentor.TeachingField,
+		Description:   mentor.Description,
+		Media:         helper.MultiResImages(media),
 	}
 
 	for _, unique := range uniqueMap {
 		result.Uniques = append(result.Uniques, uniqueMap[unique.ID].Uniqueness)
+	}
+
+	if result.UUID == "" {
+		return nil, helper.ErrDataNotFound
 	}
 
 	return result, nil

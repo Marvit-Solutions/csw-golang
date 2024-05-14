@@ -33,9 +33,6 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 		return nil, fmt.Errorf("failed to finding class: %v", err)
 	}
 
-	tx := u.db.Begin()
-	defer tx.Rollback()
-
 	bytePassword := []byte(req.Password)
 	userPassword, err := bcrypt.GenerateFromPassword(bytePassword, bcrypt.DefaultCost)
 	if err != nil {
@@ -48,20 +45,22 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 		Password: string(userPassword),
 	}
 
+	tx := u.db.Begin()
+	defer tx.Rollback()
+
 	user, err = u.userRepo.Create(user, tx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create user: %v", err)
 	}
 
 	userDetail := &model.UserDetail{
-		ClassUserID:    class.ID,
-		UserID:         user.ID,
-		Name:           req.Name,
-		Province:       req.Province,
-		Regency:        req.Regency,
-		District:       req.District,
-		PhoneNumber:    req.Phone,
-		ProfilePicture: "account.png",
+		ClassUserID: class.ID,
+		UserID:      user.ID,
+		Name:        req.Name,
+		Province:    req.Province,
+		Regency:     req.Regency,
+		District:    req.District,
+		PhoneNumber: req.Phone,
 	}
 
 	_, err = u.userDetailRepo.Create(userDetail, tx)
