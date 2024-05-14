@@ -80,6 +80,12 @@ func NewRouteInit(req request.RouteInit) {
 				materiGroup.GET(":subject_uuid", module.Module.MaterialAll)
 				materiGroup.GET("", module.Module.MaterialFind)
 			}
+
+			// Routes for Exercise
+			{
+				exerciseGroup := dashboardStudentGroup.Group("/exercise")
+				exerciseGroup.GET("all", module.Exercise.FindAll)
+			}
 		}
 	}
 }
