@@ -92,6 +92,7 @@ CREATE TABLE IF NOT EXISTS public.exercises (
         total_question integer NOT NULL,
         description text NOT NULL,
         "time" integer NOT NULL,
+        attempt integer NOT NULL,
         created_by integer NOT NULL,
         updated_by integer NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
