@@ -33,6 +33,12 @@ func startApp() {
 		fmt.Println(err)
 	}
 
+	// Initialize MongoDB database.
+	mongoConn, err := database.InitDBMongo(env)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	// Initialize Gin engine.
 	engine := gin.New()
 
@@ -43,7 +49,7 @@ func startApp() {
 	healthCheck(engine)
 
 	// Call route initialization.
-	req := request.RouteInit{Engine: engine, SQLMaster: SQLMasterConn, Env: env}
+	req := request.RouteInit{Engine: engine, SQLMaster: SQLMasterConn, Mongo: mongoConn, Env: env}
 	route.NewRouteInit(req)
 
 	// Run server.
