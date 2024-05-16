@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_questions (
         exercise_id integer NOT NULL,
         content text NOT NULL,
         score integer NOT NULL,
+        explanation text NOT NULL,
         created_by integer NOT NULL,
         updated_by integer NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,

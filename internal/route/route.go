@@ -85,6 +85,7 @@ func NewRouteInit(req request.RouteInit) {
 			{
 				exerciseGroup := dashboardStudentGroup.Group("/exercise")
 				exerciseGroup.GET("all", module.Exercise.FindAll)
+				exerciseGroup.GET(":exercise_uuid", module.Exercise.FindDetail)
 			}
 		}
 	}

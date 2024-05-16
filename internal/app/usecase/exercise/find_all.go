@@ -79,6 +79,7 @@ func (u *usecase) FindAll(req request.ParamExercise) ([]*response.ExerciseRespon
 			ModuleName:    module.Name,
 			Title:         exercise.Title,
 			TotalQuestion: exercise.TotalQuestion,
+			Attempt:       exercise.Attempt,
 			Time:          exercise.Time,
 			Description:   exercise.Description,
 		})
