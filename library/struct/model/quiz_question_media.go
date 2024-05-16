@@ -11,7 +11,7 @@ const TableNameQuizQuestionMedia = "quiz_question_media"
 // QuizQuestionMedia mapped from table <quiz_question_media>
 type QuizQuestionMedia struct {
 	ID             int            `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	UUID           string         `gorm:"column:uuid;not null" json:"uuid"`
+	UUID           string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
 	QuizQuestionID int            `gorm:"column:quiz_question_id;not null" json:"quiz_question_id"`
 	MediaID        int            `gorm:"column:media_id;not null" json:"media_id"`
 	Index          int            `gorm:"column:index;not null" json:"index"`
