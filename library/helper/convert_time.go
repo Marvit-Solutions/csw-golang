@@ -5,6 +5,40 @@ import (
 	"time"
 )
 
+// Pemetaan hari dalam bahasa Inggris ke bahasa Indonesia
+var daysOfWeek = map[string]string{
+	"Sunday":    "Minggu",
+	"Monday":    "Senin",
+	"Tuesday":   "Selasa",
+	"Wednesday": "Rabu",
+	"Thursday":  "Kamis",
+	"Friday":    "Jumat",
+	"Saturday":  "Sabtu",
+}
+
+// Pemetaan bulan dalam bahasa Inggris ke bahasa Indonesia
+var months = map[string]string{
+	"January":   "Januari",
+	"February":  "Februari",
+	"March":     "Maret",
+	"April":     "April",
+	"May":       "Mei",
+	"June":      "Juni",
+	"July":      "Juli",
+	"August":    "Agustus",
+	"September": "September",
+	"October":   "Oktober",
+	"November":  "November",
+	"December":  "Desember",
+}
+
+// output example : "Minggu, 12 Mei 2024, 00:43"
+func FormatIndonesianDate(t time.Time) string {
+	day := daysOfWeek[t.Weekday().String()]
+	month := months[t.Month().String()]
+	return fmt.Sprintf("%s, %02d %s %d, %02d:%02d", day, t.Day(), month, t.Year(), t.Hour(), t.Minute())
+}
+
 // ConvertTimeFormat converts time to Indonesian date format.
 func ConvertDateFormat(t time.Time) string {
 	// Using Indonesian date format

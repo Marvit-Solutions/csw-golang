@@ -80,6 +80,11 @@ func NewRouteInit(req request.RouteInit) {
 				materiGroup.GET(":subject_uuid", module.Module.MaterialAll)
 				materiGroup.GET("", module.Module.MaterialFind)
 			}
+			quizGroup := dashboardStudentGroup.Group("/quiz")
+			quizGroup.GET("/quiz_content/:quiz_uuid", module.Quiz.QuizContent)
+			quizGroup.POST("/quiz_submission", module.Quiz.QuizSubmission)
+			quizGroup.GET("/quiz_detail/:quiz_uuid/:test_type_id", module.Quiz.QuizDetail)
+			quizGroup.GET("/quiz_review/:quiz_submission_uuid/:quiz_uuid/:test_type_id", module.Quiz.QuizReview)
 		}
 	}
 }
