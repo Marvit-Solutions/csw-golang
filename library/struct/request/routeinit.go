@@ -12,6 +12,7 @@ import (
 type RouteInit struct {
 	Engine    *gin.Engine
 	SQLMaster *gorm.DB
+	SQLSlave  *gorm.DB
 	Redis     *redis.Pool
 	Mongo     *mongo.Database
 	Env       config.Config

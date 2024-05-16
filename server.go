@@ -33,6 +33,15 @@ func startApp() {
 		fmt.Println(err)
 	}
 
+	// Initialize PostgreSQL Slave database.
+	SQLSlaveConn := SQLMasterConn
+	if len(env.GetString(`mysql_slave.user`)) > 0 {
+		SQLSlaveConn, err = database.InitDBSQL(env, "mysql_slave")
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
 	// Initialize Redis database.
 	redisConn, err := database.InitDBRedis(env)
 	if err != nil {
@@ -55,7 +64,7 @@ func startApp() {
 	healthCheck(engine)
 
 	// Call route initialization.
-	req := request.RouteInit{Engine: engine, SQLMaster: SQLMasterConn, Redis: redisConn, Mongo: mongoConn, Env: env}
+	req := request.RouteInit{Engine: engine, SQLMaster: SQLMasterConn, SQLSlave: SQLSlaveConn, Redis: redisConn, Mongo: mongoConn, Env: env}
 	route.NewRouteInit(req)
 
 	// Run server.
