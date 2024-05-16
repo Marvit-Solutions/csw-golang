@@ -11,7 +11,7 @@ const TableNameMedia = "medias"
 // Media mapped from table <medias>
 type Media struct {
 	ID               int            `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	UUID             string         `gorm:"column:uuid;not null" json:"uuid"`
+	UUID             string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
 	Filename         string         `gorm:"column:filename;not null" json:"filename"`
 	Mime             string         `gorm:"column:mime;not null" json:"mime"`
 	OriginalFilename string         `gorm:"column:original_filename;not null" json:"original_filename"`
