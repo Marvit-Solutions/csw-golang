@@ -85,6 +85,8 @@ func NewRouteInit(req request.RouteInit) {
 			quizGroup.POST("/quiz_submission", module.Quiz.QuizSubmission)
 			quizGroup.GET("/quiz_detail/:quiz_uuid/:test_type_id", module.Quiz.QuizDetail)
 			quizGroup.GET("/quiz_review/:quiz_submission_uuid/:quiz_uuid/:test_type_id", module.Quiz.QuizReview)
+			quizGroup.GET("/quiz_score_all/:sub_modul_uuid", module.Quiz.QuizScoreAll)
+
 		}
 	}
 }

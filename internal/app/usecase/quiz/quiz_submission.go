@@ -74,13 +74,13 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 	fmt.Println(score)
 
 	quizSubmissionData := &model.QuizSubmission{
-		UserID:           req.UserID,
-		QuizID:           req.QuizID,
-		StartedAt:        time.Now().Add(-time.Hour),
-		FinishedAt:       time.Now(),
-		TimeRequired:     req.TimeRequired,
-		Score:            score,
-		TotalRightAnswer: totalRightAnswer,
+		UserID:       req.UserID,
+		QuizID:       req.QuizID,
+		StartedAt:    time.Now().Add(-time.Hour),
+		FinishedAt:   time.Now(),
+		TimeRequired: req.TimeRequired,
+		Score:        score,
+		RightAnswer:  totalRightAnswer,
 	}
 
 	quizSubmission, err := u.quizSubmissionRepo.Create(quizSubmissionData, tx)
@@ -97,6 +97,8 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 				SubmissionID: quizSubmission.ID,
 				ChoiceID:     &ques.UserAnswer, // Menggunakan nilai yang tidak diubah
 				IsMarked:     false,
+				CreatedBy:    40,
+				UpdatedBy:    40,
 			}
 
 			quizAnswer, err = u.quizAnswerRepo.Create(quizAnswer, tx)

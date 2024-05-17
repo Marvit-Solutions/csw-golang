@@ -20,8 +20,6 @@ func (u *usecase) QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailR
 	quizQuestionTotal := u.quizQuestionRepo.Count(map[string]interface{}{
 		"quiz_id": quiz.ID,
 	})
-	fmt.Println("ini quizQuestionTotal")
-	fmt.Println(quizQuestionTotal)
 
 	// find subject name
 	// tmpQuizSubjectID := "ce75821b-8641-4705-896c-5175c0fa9ce0"
@@ -49,16 +47,16 @@ func (u *usecase) QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailR
 	// })
 	quizSubmissionCount := len(quizSubmissions)
 	quizSubmissionUUID := ""
-	fmt.Println("ini quizSubmissionCount")
-	fmt.Println(quizSubmissionCount)
+	max_score := 0
+
 	if quizSubmissionCount > 0 {
 		status = response.SudahDikerjakan
 		// cek jika sudah dikerjakan sekali atau lebih
 		if quizSubmissionCount == 1 {
+			max_score = quizSubmissions[quizSubmissionCount-1].Score
 			quizSubmissionUUID = quizSubmissions[quizSubmissionCount-1].UUID
 		} else {
 			// cari quizSubmissionUUID dengan nilai yang paling tinggi
-			max_score := 0
 			for _, quizSubmission := range quizSubmissions {
 				if quizSubmission.Score > max_score {
 					max_score = quizSubmission.Score
@@ -70,10 +68,6 @@ func (u *usecase) QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailR
 	} else {
 		status = response.BelumDikerjakan
 	}
-	fmt.Println("*quiz.Attempt")
-
-	fmt.Println(quiz.Attempt)
-	fmt.Println(quiz.UUID)
 
 	result := &response.QuizDetailResponse{
 		ID:                 quiz.ID,
@@ -86,13 +80,10 @@ func (u *usecase) QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailR
 		Status:             status,
 		AttemptAllowed:     quiz.Attempt,
 		QuizSubmissionUUID: quizSubmissionUUID,
-		Score:              5,
-		ScoreMax:           quiz.MaxScore,
+		Score:              max_score,
+		MaxScore:           quiz.MaxScore,
 		Attempt:            quizSubmissionCount,
 	}
-	fmt.Println("ini result")
-
-	fmt.Println(result)
 
 	return result, nil
 

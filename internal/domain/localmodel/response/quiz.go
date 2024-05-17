@@ -103,7 +103,7 @@ type QuizDetailResponse struct {
 	AttemptAllowed     int        `json:"attempt_allowed,omitempty"`
 	QuizSubmissionUUID string     `json:"quiz_submission_uuid,omitempty"`
 	Score              int        `json:"score,omitempty"`
-	ScoreMax           int        `json:"score_max,omitempty"`
+	MaxScore           int        `json:"max_score,omitempty"`
 	Attempt            int        `json:"attempt"`
 }
 
@@ -112,4 +112,38 @@ type UserAnswer struct {
 	QuestionContent string `json:"question_content"`
 	ChoiceId        int    `json:"choice_id"`
 	ChoiceContent   string `json:"choice_content"`
+}
+
+type QuizScoreAllResponse struct {
+	ID               int                              `json:"id"` // id submodul
+	SubModul         string                           `json:"sub_modul"`
+	QuizScoreAllItem []QuizScoreAllItemGroupBySubject `json:"quiz_score_all_item"`
+}
+
+type QuizScoreAllItemTmp struct {
+	SubjectID          int    `json:"subject_id"`
+	Subject            string `json:"subject"`
+	QuizUUID           string `json:"quiz_uuid"`
+	Quiz               string `json:"quiz"`
+	QuizSubmissionUUID string `json:"quiz_submission_uuid,omitempty"`
+	Score              int    `json:"score,omitempty"`
+	MaxScore           int    `json:"max_score,omitempty"`
+	TotalRightAnswers  int    `json:"total_right_answers"`
+	TotalQuestions     int    `json:"total_questions"`
+}
+
+type QuizScoreAllItemGroupBySubject struct {
+	SubjectID        int                       `json:"subject_id"`
+	Subject          string                    `json:"subject"`
+	QuizScoresDetail []QuizScoreAllSubjectItem `json:"quiz_scores_detail"`
+}
+
+type QuizScoreAllSubjectItem struct {
+	QuizSubmissionUUID string `json:"quiz_submission_uuid"`
+	QuizUUID           string `json:"quiz_uuid"`
+	Quiz               string `json:"quiz"`
+	Score              int    `json:"score"`
+	MaxScore           int    `json:"max_score"`
+	TotalRightAnswers  int    `json:"total_right_answers"`
+	TotalQuestions     int    `json:"total_questions"`
 }

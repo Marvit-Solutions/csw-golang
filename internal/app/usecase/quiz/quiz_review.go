@@ -200,7 +200,7 @@ func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewR
 		TotalQuestions:    len(quizQuestionsMap),
 		StartedAt:         helper.FormatIndonesianDate(quizSubmission.StartedAt),
 		TotalTime:         quizSubmission.TimeRequired,
-		TotalRightAnswers: quizSubmission.TotalRightAnswer,
+		TotalRightAnswers: quizSubmission.RightAnswer,
 		Score:             quizSubmission.Score,
 		MaxScore:          quiz.MaxScore,
 		Attempt:           quizSubmissionCount,

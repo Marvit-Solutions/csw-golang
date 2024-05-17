@@ -8,19 +8,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *handler) QuizDetail(ctx *gin.Context) {
-	var req request.ParamQuizDetail
+func (h *handler) QuizScoreAll(ctx *gin.Context) {
+	var req request.ParamQuizScoreAll
+
 	if err := helper.ValidateURLParams(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
 
-	quizDetail, err := h.u.QuizDetail(req)
-
+	quizScores, err := h.u.QuizScoreAll(req)
 	if err != nil {
 		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err.Error())
 		return
 	}
 
-	helper.NewSuccessResponseNonPaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), quizDetail)
+	helper.NewSuccessResponseNonPaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), quizScores)
 }

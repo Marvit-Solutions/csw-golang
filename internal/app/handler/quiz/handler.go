@@ -15,6 +15,7 @@ type Handler interface {
 	QuizSubmission(c *gin.Context)
 	QuizDetail(c *gin.Context)
 	QuizReview(c *gin.Context)
+	QuizScoreAll(c *gin.Context)
 }
 
 func NewHandler(
