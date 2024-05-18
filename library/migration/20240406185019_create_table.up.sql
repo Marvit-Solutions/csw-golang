@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_submissions (
         started_at timestamp with time zone NOT NULL,
         finished_at timestamp with time zone NOT NULL,
         time_required time without time zone NOT NULL,
+        right_answer integer NOT NULL,
         score integer NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
