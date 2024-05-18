@@ -87,6 +87,12 @@ func NewRouteInit(req request.RouteInit) {
 			quizGroup.GET("/quiz_review/:quiz_submission_uuid/:quiz_uuid/:test_type_id", module.Quiz.QuizReview)
 			quizGroup.GET("/quiz_score_all/:sub_modul_uuid", module.Quiz.QuizScoreAll)
 
+			// Routes for Exercise
+			{
+				exerciseGroup := dashboardStudentGroup.Group("/exercise")
+				exerciseGroup.GET("all", module.Exercise.FindAll)
+				exerciseGroup.GET(":exercise_uuid", module.Exercise.FindDetail)
+			}
 		}
 	}
 }

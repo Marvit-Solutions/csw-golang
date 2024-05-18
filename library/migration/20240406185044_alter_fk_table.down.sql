@@ -83,6 +83,9 @@ ALTER TABLE
         IF EXISTS public.exercises DROP CONSTRAINT IF EXISTS test_type_exercise_fk;
 
 ALTER TABLE
+        IF EXISTS public.exercises DROP CONSTRAINT IF EXISTS module_exercise_fk;
+
+ALTER TABLE
         IF EXISTS public.exercise_submissions DROP CONSTRAINT IF EXISTS exercise_exercise_submissiion;
 
 ALTER TABLE
