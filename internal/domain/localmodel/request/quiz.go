@@ -21,6 +21,11 @@ type ParamQuizDetail struct {
 	TestTypeId int    `uri:"test_type_id"`
 }
 
+type ParamQuizSubModuleAll struct {
+	ModuleID   int `uri:"module_id"`
+	TestTypeId int `uri:"test_type_id"`
+}
+
 type QuizSubmissionRequest struct {
 	UserID         int                      `json:"user_id"`
 	QuizID         int                      `json:"quiz_id"`

@@ -38,16 +38,10 @@ func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewR
 		return nil, fmt.Errorf("failed to find quiz submission: %v", err)
 	}
 
-	quizSubmissions, err := u.quizSubmissionRepo.FindBy(map[string]interface{}{
+	quizSubmissionCount := u.quizSubmissionRepo.Count(map[string]interface{}{
 		"quiz_id": quiz.ID,
 		"user_id": 40,
-	}, 0, 0)
-
-	if err != nil {
-		return nil, fmt.Errorf("failed to find subject: %v", err)
-	}
-
-	quizSubmissionCount := len(quizSubmissions)
+	})
 
 	quizQuestions, err := u.quizQuestionRepo.FindBy(map[string]interface{}{
 		"quiz_id": quiz.ID,
@@ -100,7 +94,7 @@ func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewR
 	// }, 0, 0)
 
 	//
-	userAnswers, err := u.quizLocalRepo.FindUserAnswerReview()
+	userAnswers, err := u.quizLocalRepo.FindUserAnswerReview(quizSubmission.ID)
 	userAnswersMap := make(map[int]*response.UserAnswer)
 	for _, userAnswer := range userAnswers {
 		userAnswersMap[userAnswer.QuestionId] = userAnswer

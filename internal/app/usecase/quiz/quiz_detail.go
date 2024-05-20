@@ -69,6 +69,9 @@ func (u *usecase) QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailR
 		status = response.BelumDikerjakan
 	}
 
+	fmt.Println("ini quizSubmissionUUID")
+	fmt.Println(quizSubmissionUUID)
+
 	result := &response.QuizDetailResponse{
 		ID:                 quiz.ID,
 		UUID:               quiz.UUID,

@@ -147,3 +147,16 @@ type QuizScoreAllSubjectItem struct {
 	TotalRightAnswers  int    `json:"total_right_answers"`
 	TotalQuestions     int    `json:"total_questions"`
 }
+
+type QuizSubModuleAllResponse struct {
+	UUID                      string                       `json:"uuid"`
+	ModuleName                string                       `json:"module_name"`
+	QuizzesGroupedBySubModule []*QuizzesGroupedBySubModule `json:"quizzes_grouped_by_sub_module"`
+}
+
+type QuizzesGroupedBySubModule struct {
+	SubModuleID     int    `json:"sub_module_id"`
+	SubModuleName   string `json:"sub_module_name"`
+	QuizCount       int    `json:"quiz_count"`
+	SubmissionCount int    `json:"submission_count"`
+}

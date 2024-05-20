@@ -16,6 +16,7 @@ type Usecase interface {
 	QuizSubmission(req request.QuizSubmissionRequest) error
 	QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailResponse, error)
 	QuizScoreAll(req request.ParamQuizScoreAll) (*response.QuizScoreAllResponse, error)
+	QuizSubModuleAll(req request.ParamQuizSubModuleAll) (*response.QuizSubModuleAllResponse, error)
 }
 
 type usecase struct {
@@ -29,6 +30,7 @@ type usecase struct {
 	quizSubmissionRepo repository.QuizSubmissionRepository
 	quizLocalRepo      localrepository.Quiz
 	subModulRepo       repository.SubModuleRepository
+	modulRepo          repository.ModuleRepository
 }
 
 func NewUsecase(
@@ -45,5 +47,6 @@ func NewUsecase(
 		quizSubmissionRepo: service.NewQuizSubmissionService(db, nil),
 		quizLocalRepo:      localservice.NewQuizService(db),
 		subModulRepo:       service.NewSubModuleService(db, nil),
+		modulRepo:          service.NewModuleService(db, nil),
 	}
 }

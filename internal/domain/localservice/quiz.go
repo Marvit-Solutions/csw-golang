@@ -20,51 +20,90 @@ func NewQuizService(
 	}
 }
 
-// func (svc *QuizService) FindMentorInfo() ([]*response.MentorQuizList, []int, error) {
-// 	mentors := make([]*response.MentorQuizList, 0)
+func (svc *QuizService) FindUserAnswerReview(quizSubmissionID int) ([]*response.UserAnswer, error) {
+	userAnswers := make([]*response.UserAnswer, 0)
 
-// 	res := svc.DB.
-// 		Raw(`SELECT m.uuid, ud.media_id, m.short_name AS name, mdl.name AS teaching_field, m.description, m.motto, COALESCE(ROUND(avg_rating.avg_rating, 2), 0) AS rating
-// 			FROM mentors m
-// 			LEFT JOIN user_details ud ON ud.user_id = m.user_id
-// 			LEFT JOIN modules mdl ON mdl.id = m.module_id
-// 			LEFT JOIN (
-// 				SELECT mentor_id, AVG(rating) AS avg_rating
-// 				FROM user_mentor_testimonials
-// 				GROUP BY
-// 				mentor_id
-// 				) AS avg_rating ON avg_rating.mentor_id = m.id`)
+	// Gunakan parameter binding untuk menghindari SQL injection
+	query := `
+		SELECT 
+			qq.id AS question_id,
+			qq.content AS question_content,
+			qc.id AS choice_id,
+			qc.content AS choices_content
+		FROM 
+			quiz_questions AS qq 
+		INNER JOIN 
+			quiz_choices AS qc 
+		ON 
+			qc.question_id = qq.id 
+		WHERE 
+			qc.id IN (
+				SELECT DISTINCT(choice_id) 
+				FROM quiz_answers 
+				WHERE submission_id = ?
+			)
+	`
 
-// 	err := res.Scan(&mentors).Error
-// 	if err != nil {
-// 		return nil, nil, fmt.Errorf("failed to find mentors: %v", err)
-// 	}
-
-// 	var mentorMediaIDs []int
-// 	for _, mentor := range mentors {
-// 		mentorMediaIDs = append(mentorMediaIDs, mentor.MediaID)
-// 	}
-
-// 	return mentors, mentorMediaIDs, nil
-// }
-
-func (svc *QuizService) FindUserAnswerReview() ([]*response.UserAnswer, error) {
-	mentors := make([]*response.UserAnswer, 0)
-
-	res := svc.DB.
-		Raw(`select qq.id as question_id,qq.content as question_content,qc.id as choice_id,qc.content as choices_content from quiz_questions as qq inner join quiz_choices as qc on qc.question_id = qq.id where qc.id in(
-			select distinct(choice_id) from quiz_answers where submission_id = 2)
-		`)
-
-	err := res.Scan(&mentors).Error
-	if err != nil {
-		return nil, fmt.Errorf("failed to find mentors: %v", err)
+	// Lakukan query menggunakan parameter binding
+	res := svc.DB.Raw(query, quizSubmissionID).Scan(&userAnswers)
+	if res.Error != nil {
+		return nil, fmt.Errorf("failed to find user answers: %v", res.Error)
 	}
 
-	fmt.Println("user answer in locat service")
-	for _, mentor := range mentors {
-		fmt.Printf("Question ID: %d, Question Content: %s\n", mentor.QuestionId, mentor.QuestionContent)
-		fmt.Printf("Choice ID: %d, Choice Content: %s\n", mentor.ChoiceId, mentor.ChoiceContent)
+	fmt.Println("User answers in local service")
+	for _, answer := range userAnswers {
+		fmt.Printf("Question ID: %d, Question Content: %s\n", answer.QuestionId, answer.QuestionContent)
+		fmt.Printf("Choice ID: %d, Choice Content: %s\n", answer.ChoiceId, answer.ChoiceContent)
 	}
-	return mentors, nil
+	return userAnswers, nil
+}
+
+func (svc *QuizService) CountQuizzesGroupedBySubModule(moduleID int, testTypeID int) ([]*response.QuizzesGroupedBySubModule, error) {
+	quizzesGroupedBySubModule := make([]*response.QuizzesGroupedBySubModule, 0)
+
+	// Gunakan parameter binding untuk menghindari SQL injection
+	query := `
+	SELECT 
+    sm.id AS sub_module_id,
+    sm.name AS sub_module_name,
+    COUNT(DISTINCT q.id) AS quiz_count,
+    (
+        SELECT COUNT(*)
+        FROM (
+            SELECT DISTINCT qs.user_id, qs.quiz_id
+            FROM quiz_submissions qs
+            JOIN quizzes q2 ON qs.quiz_id = q2.id
+            JOIN subjects s2 ON q2.subject_id = s2.id
+            WHERE s2.sub_module_id = sm.id AND q2.test_type_id = ?
+        ) AS unique_submissions
+    ) AS submission_count
+FROM 
+    modules m
+JOIN 
+    sub_modules sm ON sm.module_id = m.id
+JOIN 
+    subjects s ON s.sub_module_id = sm.id
+JOIN 
+    quizzes q ON q.subject_id = s.id
+WHERE 
+    m.id = ? AND 
+    q.test_type_id = ?
+GROUP BY 
+    m.id, m.name, sm.id, sm.name
+ORDER BY 
+    m.id, sm.id;
+`
+
+	// Lakukan query menggunakan parameter binding
+	res := svc.DB.Raw(query, testTypeID, moduleID, testTypeID).Scan(&quizzesGroupedBySubModule)
+	if res.Error != nil {
+		return nil, fmt.Errorf("failed to find quizzesGroupedBySubModule: %v", res.Error)
+	}
+
+	fmt.Println("quizzesGroupedBySubModule in local service")
+	for _, quizGroupedBySubModule := range quizzesGroupedBySubModule {
+		// fmt.Printf("module ID: %d, module name: %s\n", quizGroupedBySubModule.ModuleID, quizGroupedBySubModule.ModuleName)
+		fmt.Printf("sub module id: %d, sub module name: %s, quiz count: %d, submission count : %d\n", quizGroupedBySubModule.SubModuleID, quizGroupedBySubModule.SubModuleName, quizGroupedBySubModule.QuizCount, quizGroupedBySubModule.SubmissionCount)
+	}
+	return quizzesGroupedBySubModule, nil
 }
