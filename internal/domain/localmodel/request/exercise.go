@@ -8,3 +8,6 @@ type ParamExercise struct {
 type ExerciseDetailRequest struct {
 	ExerciseUUID string `uri:"exercise_uuid"`
 }
+
+type ExerciseCreateRequest struct {
+}

@@ -11,6 +11,7 @@ import (
 type Usecase interface {
 	FindAll(req request.ParamExercise) ([]*response.ExerciseResponse, error)
 	FindDetail(req request.ExerciseDetailRequest) (*response.ExerciseDetailResponse, error)
+	Create(req request.ExerciseCreateRequest) error
 }
 
 type usecase struct {
