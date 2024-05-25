@@ -36,7 +36,7 @@ func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 	}
 
 	exerciseQuestionMap := make(map[int]int)
-	exerciseQuestionIDs := make([]int, len(exerciseQuestions))
+	exerciseQuestionIDs := make([]int, 0, len(exerciseQuestions))
 	for _, question := range exerciseQuestions {
 		exerciseQuestionMap[question.ID] = question.Score
 		exerciseQuestionIDs = append(exerciseQuestionIDs, question.ID)
@@ -115,7 +115,7 @@ func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 		})
 	}
 
-	if err := tx.Create(newExerciseAnswers).Error; err != nil {
+	if err := tx.CreateInBatches(newExerciseAnswers, 100).Error; err != nil {
 		return fmt.Errorf("failed to create exercise answers: %v", err)
 	}
 
