@@ -10,8 +10,6 @@ import (
 )
 
 func (u *usecase) Create(req request.ExerciseCreateRequest) error {
-	req.AuthenticatedUser = "b34cdc1d-a813-4924-a3e1-1a3360f0b097"
-
 	user, err := u.userRepo.FindOneBy(map[string]interface{}{
 		"uuid":    req.AuthenticatedUser,
 		"role_id": helper.PembeliPaketBimbel,
