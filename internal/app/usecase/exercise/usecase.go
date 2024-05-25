@@ -23,6 +23,7 @@ type usecase struct {
 	exerciseQuestionRepo      repository.ExerciseQuestionRepository
 	exerciseChoiceRepo        repository.ExerciseChoiceRepository
 	exerciseQuestionMediaRepo repository.ExerciseQuestionMediaRepository
+	userRepo                  repository.UserRepository
 }
 
 func NewUsecase(
@@ -37,5 +38,6 @@ func NewUsecase(
 		exerciseQuestionRepo:      service.NewExerciseQuestionService(db, nil),
 		exerciseChoiceRepo:        service.NewExerciseChoiceService(db, nil),
 		exerciseQuestionMediaRepo: service.NewExerciseQuestionMediaService(db, nil),
+		userRepo:                  service.NewUserService(db, nil),
 	}
 }
