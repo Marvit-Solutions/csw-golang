@@ -20,5 +20,4 @@ type ExerciseCreateRequest struct {
 
 type Answer struct {
 	ChoiceUUID string `json:"choice_uuid"`
-	IsMarked   bool   `json:"is_marked"`
 }

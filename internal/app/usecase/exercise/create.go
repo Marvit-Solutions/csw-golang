@@ -51,10 +51,8 @@ func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 	}
 
 	userAnswerMap := make(map[int]string)
-	userMarkedMap := make(map[int]bool)
 	for i, choice := range req.Answers {
 		userAnswerMap[i+1] = choice.ChoiceUUID
-		userMarkedMap[i+1] = choice.IsMarked
 	}
 
 	userAnswerUUIDs := make([]string, 0, len(userAnswerMap))
@@ -107,11 +105,10 @@ func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 	}
 
 	var newExerciseAnswers []*model.ExerciseAnswer
-	for i, answerUUID := range userAnswerMap {
+	for _, answerUUID := range userAnswerMap {
 		newExerciseAnswers = append(newExerciseAnswers, &model.ExerciseAnswer{
 			SubmissionID: newSubmission.ID,
 			ChoiceID:     exerciseAnswerMap[answerUUID],
-			IsMarked:     userMarkedMap[i],
 		})
 	}
 
