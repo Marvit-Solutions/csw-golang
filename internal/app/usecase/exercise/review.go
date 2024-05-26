@@ -9,8 +9,7 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
-func (u *usecase) Review(req request.ExerciseReview) ([]*response.ExerciseReview, error) {
-
+func (u *usecase) Review(req request.ExerciseReview) (*response.ExerciseReview, error) {
 	user, err := u.userRepo.FindOneBy(map[string]interface{}{
 		"id":      req.AuthenticatedUser,
 		"role_id": helper.PembeliPaketBimbel,
@@ -50,6 +49,20 @@ func (u *usecase) Review(req request.ExerciseReview) ([]*response.ExerciseReview
 		perfectScore += question.Score
 	}
 
+	exerciseAnswers, err := u.exerciseAnswerRepo.FindBy(map[string]interface{}{
+		"submission_id": exerciseSubmission.ID,
+	}, 0, 0)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find exercise answers: %v", err)
+	}
+
+	userAnswerIDs := make(map[int]struct{})
+	for _, answer := range exerciseAnswers {
+		if answer.ChoiceID != nil {
+			userAnswerIDs[*answer.ChoiceID] = struct{}{}
+		}
+	}
+
 	choices, err := u.exerciseChoiceRepo.FindBy(map[string]interface{}{
 		"question_id": questionIDs,
 	}, 0, 0)
@@ -57,12 +70,24 @@ func (u *usecase) Review(req request.ExerciseReview) ([]*response.ExerciseReview
 		return nil, fmt.Errorf("failed to find choices: %v", err)
 	}
 
+	filteredChoices := make(map[int]*model.ExerciseChoice)
+	for _, choice := range choices {
+		if _, ok := userAnswerIDs[choice.ID]; ok {
+			filteredChoices[choice.ID] = choice
+		}
+	}
+
 	choiceResMap := make(map[int][]*response.Choice)
 	for _, choice := range choices {
+		isChosen := false
+		if _, ok := filteredChoices[choice.ID]; ok {
+			isChosen = true
+		}
 		choiceResMap[choice.QuestionID] = append(choiceResMap[choice.QuestionID], &response.Choice{
 			UUID:       choice.UUID,
 			Content:    choice.Content,
 			QuestionID: choice.QuestionID,
+			IsChoose:   isChosen,
 		})
 	}
 
@@ -128,7 +153,5 @@ func (u *usecase) Review(req request.ExerciseReview) ([]*response.ExerciseReview
 		Questions:     questionsRes,
 	}
 
-	fmt.Println(helper.Debug(res))
-
-	return nil, nil
+	return res, nil
 }

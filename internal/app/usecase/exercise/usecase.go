@@ -13,7 +13,7 @@ type Usecase interface {
 	FindDetail(req request.ExerciseDetailRequest) (*response.ExerciseDetail, error)
 	FindHistory(req request.ExerciseHistory) ([]*response.ExerciseHistory, error)
 	Create(req request.ExerciseCreateRequest) error
-	Review(req request.ExerciseReview) ([]*response.ExerciseReview, error)
+	Review(req request.ExerciseReview) (*response.ExerciseReview, error)
 }
 
 type usecase struct {
@@ -22,6 +22,7 @@ type usecase struct {
 	moduleRepo                repository.ModuleRepository
 	mediaRepo                 repository.MediaRepository
 	exerciseRepo              repository.ExerciseRepository
+	exerciseAnswerRepo        repository.ExerciseAnswerRepository
 	exerciseSubmissionRepo    repository.ExerciseSubmissionRepository
 	exerciseQuestionRepo      repository.ExerciseQuestionRepository
 	exerciseChoiceRepo        repository.ExerciseChoiceRepository
@@ -38,6 +39,7 @@ func NewUsecase(
 		moduleRepo:                service.NewModuleService(db, nil),
 		mediaRepo:                 service.NewMediaService(db, nil),
 		exerciseRepo:              service.NewExerciseService(db, nil),
+		exerciseAnswerRepo:        service.NewExerciseAnswerService(db, nil),
 		exerciseSubmissionRepo:    service.NewExerciseSubmissionService(db, nil),
 		exerciseQuestionRepo:      service.NewExerciseQuestionService(db, nil),
 		exerciseChoiceRepo:        service.NewExerciseChoiceService(db, nil),
