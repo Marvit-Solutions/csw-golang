@@ -17,6 +17,7 @@ type Usecase interface {
 	QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailResponse, error)
 	QuizScoreAll(req request.ParamQuizScoreAll) (*response.QuizScoreAllResponse, error)
 	QuizSubModuleAll(req request.ParamQuizSubModuleAll) (*response.QuizSubModuleAllResponse, error)
+	QuizAll(req request.ParamQuizAll) (*response.QuizAllResponse, int, int, error)
 }
 
 type usecase struct {

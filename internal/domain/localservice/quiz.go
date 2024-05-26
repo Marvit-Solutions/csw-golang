@@ -65,6 +65,7 @@ func (svc *QuizService) CountQuizzesGroupedBySubModule(moduleID int, testTypeID 
 	query := `
 	SELECT 
     sm.id AS sub_module_id,
+	sm.uuid AS sub_module_uuid,
     sm.name AS sub_module_name,
     COUNT(DISTINCT q.id) AS quiz_count,
     (
@@ -77,21 +78,21 @@ func (svc *QuizService) CountQuizzesGroupedBySubModule(moduleID int, testTypeID 
             WHERE s2.sub_module_id = sm.id AND q2.test_type_id = ?
         ) AS unique_submissions
     ) AS submission_count
-FROM 
-    modules m
-JOIN 
-    sub_modules sm ON sm.module_id = m.id
-JOIN 
-    subjects s ON s.sub_module_id = sm.id
-JOIN 
-    quizzes q ON q.subject_id = s.id
-WHERE 
-    m.id = ? AND 
-    q.test_type_id = ?
-GROUP BY 
-    m.id, m.name, sm.id, sm.name
-ORDER BY 
-    m.id, sm.id;
+	FROM 
+		modules m
+	JOIN 
+		sub_modules sm ON sm.module_id = m.id
+	JOIN 
+		subjects s ON s.sub_module_id = sm.id
+	JOIN 
+		quizzes q ON q.subject_id = s.id
+	WHERE 
+		m.id = ? AND 
+		q.test_type_id = ?
+	GROUP BY 
+		m.id, m.name, sm.id, sm.name
+	ORDER BY 
+		m.id, sm.id;
 `
 
 	// Lakukan query menggunakan parameter binding
@@ -106,4 +107,138 @@ ORDER BY
 		fmt.Printf("sub module id: %d, sub module name: %s, quiz count: %d, submission count : %d\n", quizGroupedBySubModule.SubModuleID, quizGroupedBySubModule.SubModuleName, quizGroupedBySubModule.QuizCount, quizGroupedBySubModule.SubmissionCount)
 	}
 	return quizzesGroupedBySubModule, nil
+}
+
+// if req.TestStatus == "belum-dijawab" {
+// 	query = `
+// 	SELECT
+// 	q.*
+// 	FROM
+// 		quizzes q
+// 	JOIN
+// 		subjects s ON q.subject_id = s.id
+// 	JOIN
+// 		sub_modules sm ON s.sub_module_id = sm.id
+// 	LEFT JOIN
+// 		quiz_submissions qs ON q.id = qs.quiz_id AND qs.user_id = 40
+// 	WHERE
+// 		q.test_type_id = ?
+// 		AND sm.id = ?
+// 		AND qs.id IS NULL
+// 		AND q.deleted_at IS NULL
+// 	ORDER BY
+// 		q.created_at DESC;`
+// }else if req.TestStatus == "sudah-dijawab"{
+// 	query= `
+// 	SELECT
+// 		q.*
+// 	FROM
+// 		quizzes q
+// 	JOIN
+// 		subjects s ON q.subject_id = s.id
+// 	JOIN
+// 		sub_modules sm ON s.sub_module_id = sm.id
+// 	INNER JOIN
+// 		quiz_submissions qs ON q.id = qs.quiz_id AND qs.user_id = 40
+// 	WHERE
+// 		q.test_type_id = ?
+// 		AND sm.id = ?
+// 		AND q.deleted_at IS NULL
+// 	ORDER BY
+// 		q.created_at DESC;
+// 	`
+// }else if req.TestStatus == "all"{
+// 	query=`SELECT
+// 	q.*,
+// 	CASE
+// 		WHEN EXISTS (
+// 			SELECT 1
+// 			FROM quiz_submissions qs
+// 			WHERE qs.quiz_id = q.id AND qs.user_id = 40
+// 		) THEN 'sudah-dikerjakan'
+// 		ELSE 'belum-dikerjakan'
+// 	END AS status_pengerjaan
+// 	FROM
+// 		quizzes q
+// 	JOIN
+// 		subjects s ON q.subject_id = s.id
+// 	JOIN
+// 		sub_modules sm ON s.sub_module_id = sm.id
+// 	WHERE
+// 		q.test_type_id = 2
+// 		AND sm.id = 1
+// 		AND q.deleted_at IS NULL
+// 	ORDER BY
+// 		q.created_at DESC;
+// 	`
+// }
+
+func (svc *QuizService) GetQuizAll(testTypeID int, subModulID int, limit int, offset int) ([]*response.QuizItemAll, error) {
+	quizAll := make([]*response.QuizItemAll, 0)
+	// for future enhancement, use string concatenation
+	query := ""
+
+	query = `SELECT 
+    q.*,
+    qs.uuid AS quiz_submission_uuid,
+    CASE 
+        WHEN qs.id IS NOT NULL THEN 'sudah-dikerjakan'
+        ELSE 'belum-dikerjakan'
+    END AS status_pengerjaan
+	FROM 
+		quizzes q
+	JOIN 
+		subjects s ON q.subject_id = s.id
+	JOIN 
+		sub_modules sm ON s.sub_module_id = sm.id
+	LEFT JOIN 
+		quiz_submissions qs ON q.id = qs.quiz_id AND qs.user_id = 40
+	WHERE 
+		q.test_type_id = ?
+		AND sm.id = ?
+		AND q.deleted_at IS NULL
+	ORDER BY 
+		q.created_at DESC
+	LIMIT ?
+	OFFSET ?;`
+
+	res := svc.DB.Raw(query, testTypeID, subModulID, limit, offset).Scan(&quizAll)
+	if res.Error != nil {
+		return nil, fmt.Errorf("failed to find quizAll: %v", res.Error)
+	}
+
+	fmt.Println("quizAll in local service")
+	for _, quiz := range quizAll {
+		// fmt.Printf("module ID: %d, module name: %s\n", quiz.ModuleID, quiz.ModuleName)
+		fmt.Printf("quiz title: %s, quiz description: %s, quiz status pengerjaan: %s\n", quiz.Title, quiz.Description, quiz.StatusPengerjaan)
+
+	}
+	return quizAll, nil
+}
+
+func (svc *QuizService) CountQuizALL(testTypeID int, subModulID int) (int, error) {
+
+	var count int
+	query := ""
+	query = `SELECT 
+    COUNT(*)
+	FROM 
+		quizzes q
+	JOIN 
+		subjects s ON q.subject_id = s.id
+	JOIN 
+		sub_modules sm ON s.sub_module_id = sm.id
+	LEFT JOIN 
+		quiz_submissions qs ON q.id = qs.quiz_id AND qs.user_id = 40
+	WHERE 
+		q.test_type_id = ?
+		AND sm.id = ?
+		AND q.deleted_at IS NULL`
+
+	res := svc.DB.Raw(query, testTypeID, subModulID).Scan(&count)
+	if res.Error != nil {
+		return 0, fmt.Errorf("failed to count quizzes: %v", res.Error)
+	}
+
+	return count, nil
 }

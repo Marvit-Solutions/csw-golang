@@ -17,6 +17,7 @@ type Handler interface {
 	QuizReview(c *gin.Context)
 	QuizScoreAll(c *gin.Context)
 	QuizSubModuleAll(c *gin.Context)
+	QuizAll(c *gin.Context)
 }
 
 func NewHandler(

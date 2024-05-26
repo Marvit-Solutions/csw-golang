@@ -8,7 +8,6 @@ type ParamQuizContent struct {
 
 type ParamQuizReview struct {
 	QuizSubmissionUUID string `uri:"quiz_submission_uuid"`
-	QuizUUID           string `uri:"quiz_uuid"`
 	TestTypeId         int    `uri:"test_type_id"`
 }
 
@@ -24,6 +23,22 @@ type ParamQuizDetail struct {
 type ParamQuizSubModuleAll struct {
 	ModuleID   int `uri:"module_id"`
 	TestTypeId int `uri:"test_type_id"`
+}
+
+type TestStatus string
+
+const (
+	BelumDiJawab TestStatus = "belum-dijawab"
+	SudahDiJawab TestStatus = "sudah-dijawab"
+	All          TestStatus = "all"
+)
+
+type ParamQuizAll struct {
+	SubModuleUUID string     `uri:"sub_module_uuid"`
+	TestTypeId    int        `uri:"test_type_id"`
+	TestStatus    TestStatus `uri:"test_status"`
+	Page          int        `form:"page"`
+	Limit         int        `form:"limit"`
 }
 
 type QuizSubmissionRequest struct {
