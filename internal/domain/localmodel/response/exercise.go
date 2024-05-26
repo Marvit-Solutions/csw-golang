@@ -26,8 +26,8 @@ type ExerciseDetail struct {
 }
 
 type ExerciseHistory struct {
-	ExerciseUUID string `json:"exercise_uuid"`
-	Score        int    `json:"score"`
+	SubmissionUUID string `json:"submission_uuid"`
+	Score          int    `json:"score"`
 }
 
 type Question struct {

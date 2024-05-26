@@ -20,7 +20,7 @@ type ExerciseCreateRequest struct {
 
 type ExerciseHistory struct {
 	AuthenticatedUser int    `json:"authenticated_user"`
-	SubmissionUUID    string `json:"submission_uuid"`
+	ExerciseUUID      string `uri:"exercise_uuid"`
 }
 
 type Answer struct {
