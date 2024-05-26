@@ -10,7 +10,7 @@ type ExerciseDetailRequest struct {
 }
 
 type ExerciseCreateRequest struct {
-	AuthenticatedUser string   `json:"authenticated_user"`
+	AuthenticatedUser int      `json:"authenticated_user"`
 	ExerciseUUID      string   `json:"exercise_uuid"`
 	TimeRequired      string   `json:"time_required"`
 	Answers           []Answer `json:"answers"`

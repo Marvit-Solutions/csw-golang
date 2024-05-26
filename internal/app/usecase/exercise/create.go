@@ -11,7 +11,7 @@ import (
 
 func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 	user, err := u.userRepo.FindOneBy(map[string]interface{}{
-		"uuid":    req.AuthenticatedUser,
+		"id":      req.AuthenticatedUser,
 		"role_id": helper.PembeliPaketBimbel,
 	})
 	if user == nil {
