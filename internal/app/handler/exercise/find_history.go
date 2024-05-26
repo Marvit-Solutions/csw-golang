@@ -9,10 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *handler) FindAll(c *gin.Context) {
-	var req request.ParamExercise
+func (h *handler) FindHistory(c *gin.Context) {
+	var req request.ExerciseHistory
 
-	if err := helper.ValidateQueryParams(c, &req); err != nil {
+	if err := helper.ValidateURLParams(c, &req); err != nil {
 		helper.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
@@ -25,7 +25,7 @@ func (h *handler) FindAll(c *gin.Context) {
 
 	req.AuthenticatedUser = authenticatedUser
 
-	exercises, err := h.u.FindAll(req)
+	history, err := h.u.FindHistory(req)
 	if err != nil && err == helper.ErrAccessDenied {
 		helper.NewErrorResponse(c, http.StatusForbidden, http.StatusText(http.StatusForbidden), err.Error())
 		return
@@ -35,5 +35,5 @@ func (h *handler) FindAll(c *gin.Context) {
 		return
 	}
 
-	helper.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), exercises)
+	helper.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), history)
 }

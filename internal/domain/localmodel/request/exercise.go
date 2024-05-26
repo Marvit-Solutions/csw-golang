@@ -18,6 +18,11 @@ type ExerciseCreateRequest struct {
 	Answers           []Answer `json:"answers"`
 }
 
+type ExerciseHistory struct {
+	AuthenticatedUser int    `json:"authenticated_user"`
+	SubmissionUUID    string `json:"submission_uuid"`
+}
+
 type Answer struct {
 	ChoiceUUID string `json:"choice_uuid"`
 }

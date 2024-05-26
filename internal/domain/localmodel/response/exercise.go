@@ -2,7 +2,7 @@ package response
 
 import "github.com/Marvit-Solutions/csw-golang/library/struct/model"
 
-type ExerciseResponse struct {
+type Exercise struct {
 	UUID          string `json:"uuid"`
 	TestType      string `json:"test_type"`
 	ModuleName    string `json:"module_name"`
@@ -13,7 +13,7 @@ type ExerciseResponse struct {
 	Description   string `json:"description"`
 }
 
-type ExerciseDetailResponse struct {
+type ExerciseDetail struct {
 	UUID        string      `json:"uuid"`
 	TestType    string      `json:"test_type"`
 	ModuleName  string      `json:"module_name"`
@@ -23,6 +23,11 @@ type ExerciseDetailResponse struct {
 	Time        int         `json:"time"`
 	Description string      `json:"description"`
 	Questions   []*Question `json:"questions"`
+}
+
+type ExerciseHistory struct {
+	ExerciseUUID string `json:"exercise_uuid"`
+	Score        int    `json:"score"`
 }
 
 type Question struct {

@@ -9,7 +9,7 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
-func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.ExerciseDetailResponse, error) {
+func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.ExerciseDetail, error) {
 	user, err := u.userRepo.FindOneBy(map[string]interface{}{
 		"id":      req.AuthenticatedUser,
 		"role_id": helper.PembeliPaketBimbel,
@@ -118,7 +118,7 @@ func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.Exerc
 		}
 	}
 
-	result := &response.ExerciseDetailResponse{
+	result := &response.ExerciseDetail{
 		UUID:        exercise.UUID,
 		TestType:    testType.Name,
 		ModuleName:  module.Name,

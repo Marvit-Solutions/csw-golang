@@ -9,8 +9,9 @@ import (
 )
 
 type Usecase interface {
-	FindAll(req request.ParamExercise) ([]*response.ExerciseResponse, error)
-	FindDetail(req request.ExerciseDetailRequest) (*response.ExerciseDetailResponse, error)
+	FindAll(req request.ParamExercise) ([]*response.Exercise, error)
+	FindDetail(req request.ExerciseDetailRequest) (*response.ExerciseDetail, error)
+	FindHistory(req request.ExerciseHistory) ([]*response.ExerciseHistory, error)
 	Create(req request.ExerciseCreateRequest) error
 }
 
