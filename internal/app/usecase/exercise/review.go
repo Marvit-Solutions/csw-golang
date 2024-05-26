@@ -77,17 +77,18 @@ func (u *usecase) Review(req request.ExerciseReview) (*response.ExerciseReview, 
 		}
 	}
 
-	choiceResMap := make(map[int][]*response.Choice)
+	choiceResMap := make(map[int][]*response.ChoiceReview)
 	for _, choice := range choices {
 		isChosen := false
 		if _, ok := filteredChoices[choice.ID]; ok {
 			isChosen = true
 		}
-		choiceResMap[choice.QuestionID] = append(choiceResMap[choice.QuestionID], &response.Choice{
+		choiceResMap[choice.QuestionID] = append(choiceResMap[choice.QuestionID], &response.ChoiceReview{
 			UUID:       choice.UUID,
 			Content:    choice.Content,
 			QuestionID: choice.QuestionID,
 			IsChoose:   isChosen,
+			IsCorrect:  choice.IsCorrect,
 		})
 	}
 
@@ -130,9 +131,9 @@ func (u *usecase) Review(req request.ExerciseReview) (*response.ExerciseReview, 
 		return nil, fmt.Errorf("failed to find questions: %v", err)
 	}
 
-	questionsRes := make([]*response.Question, len(questions))
+	questionsRes := make([]*response.QuestionReview, len(questions))
 	for i, question := range questions {
-		questionsRes[i] = &response.Question{
+		questionsRes[i] = &response.QuestionReview{
 			UUID:          question.UUID,
 			Content:       question.Content,
 			Score:         question.Score,
