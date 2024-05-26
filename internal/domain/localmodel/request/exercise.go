@@ -26,3 +26,8 @@ type ExerciseHistory struct {
 type Answer struct {
 	ChoiceUUID string `json:"choice_uuid"`
 }
+
+type ExerciseReview struct {
+	AuthenticatedUser int    `json:"authenticated_user"`
+	SubmissionUUID    string `uri:"submission_uuid"`
+}

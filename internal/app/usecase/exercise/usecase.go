@@ -13,6 +13,7 @@ type Usecase interface {
 	FindDetail(req request.ExerciseDetailRequest) (*response.ExerciseDetail, error)
 	FindHistory(req request.ExerciseHistory) ([]*response.ExerciseHistory, error)
 	Create(req request.ExerciseCreateRequest) error
+	Review(req request.ExerciseReview) ([]*response.ExerciseReview, error)
 }
 
 type usecase struct {

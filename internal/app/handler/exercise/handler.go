@@ -14,6 +14,7 @@ type Handler interface {
 	FindAll(c *gin.Context)
 	FindDetail(c *gin.Context)
 	FindHistory(c *gin.Context)
+	Review(c *gin.Context)
 	Create(c *gin.Context)
 }
 
