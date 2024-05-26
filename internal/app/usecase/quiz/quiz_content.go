@@ -29,7 +29,7 @@ func (u *usecase) QuizContent(req request.ParamQuizContent) (*response.QuizConte
 		"quiz_id": quiz.ID,
 	}, 0, 0)
 	if err != nil {
-		return nil, fmt.Errorf("failed to find quizQuestions: %v", err)
+		return nil, fmt.Errorf("failed to find quiz questions: %v", err)
 	}
 
 	quizQuestionsMap := make(map[int]*model.QuizQuestion)

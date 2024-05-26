@@ -1,7 +1,6 @@
 package quiz
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
@@ -34,8 +33,6 @@ func (h *handler) QuizAll(ctx *gin.Context) {
 		TotalRows:  totalRows,
 		TotalPages: totalPages,
 	}
-
-	fmt.Println(req.Limit)
 
 	helper.NewSuccessResponsePaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), quizAll, meta)
 }

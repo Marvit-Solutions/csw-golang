@@ -22,8 +22,6 @@ func NewQuizService(
 
 func (svc *QuizService) FindUserAnswerReview(quizSubmissionID int) ([]*response.UserAnswer, error) {
 	userAnswers := make([]*response.UserAnswer, 0)
-
-	// Gunakan parameter binding untuk menghindari SQL injection
 	query := `
 		SELECT 
 			qq.id AS question_id,
@@ -44,24 +42,20 @@ func (svc *QuizService) FindUserAnswerReview(quizSubmissionID int) ([]*response.
 			)
 	`
 
-	// Lakukan query menggunakan parameter binding
 	res := svc.DB.Raw(query, quizSubmissionID).Scan(&userAnswers)
 	if res.Error != nil {
 		return nil, fmt.Errorf("failed to find user answers: %v", res.Error)
 	}
 
-	fmt.Println("User answers in local service")
-	for _, answer := range userAnswers {
-		fmt.Printf("Question ID: %d, Question Content: %s\n", answer.QuestionId, answer.QuestionContent)
-		fmt.Printf("Choice ID: %d, Choice Content: %s\n", answer.ChoiceId, answer.ChoiceContent)
-	}
+	// for _, answer := range userAnswers {
+	// 	fmt.Printf("Question ID: %d, Question Content: %s\n", answer.QuestionId, answer.QuestionContent)
+	// 	fmt.Printf("Choice ID: %d, Choice Content: %s\n", answer.ChoiceId, answer.ChoiceContent)
+	// }
 	return userAnswers, nil
 }
 
 func (svc *QuizService) CountQuizzesGroupedBySubModule(moduleID int, testTypeID int) ([]*response.QuizzesGroupedBySubModule, error) {
 	quizzesGroupedBySubModule := make([]*response.QuizzesGroupedBySubModule, 0)
-
-	// Gunakan parameter binding untuk menghindari SQL injection
 	query := `
 	SELECT 
     sm.id AS sub_module_id,
@@ -95,83 +89,16 @@ func (svc *QuizService) CountQuizzesGroupedBySubModule(moduleID int, testTypeID 
 		m.id, sm.id;
 `
 
-	// Lakukan query menggunakan parameter binding
 	res := svc.DB.Raw(query, testTypeID, moduleID, testTypeID).Scan(&quizzesGroupedBySubModule)
 	if res.Error != nil {
 		return nil, fmt.Errorf("failed to find quizzesGroupedBySubModule: %v", res.Error)
 	}
 
-	fmt.Println("quizzesGroupedBySubModule in local service")
-	for _, quizGroupedBySubModule := range quizzesGroupedBySubModule {
-		// fmt.Printf("module ID: %d, module name: %s\n", quizGroupedBySubModule.ModuleID, quizGroupedBySubModule.ModuleName)
-		fmt.Printf("sub module id: %d, sub module name: %s, quiz count: %d, submission count : %d\n", quizGroupedBySubModule.SubModuleID, quizGroupedBySubModule.SubModuleName, quizGroupedBySubModule.QuizCount, quizGroupedBySubModule.SubmissionCount)
-	}
+	// for _, quizGroupedBySubModule := range quizzesGroupedBySubModule {
+	// 	fmt.Printf("sub module id: %d, sub module name: %s, quiz count: %d, submission count : %d\n", quizGroupedBySubModule.SubModuleID, quizGroupedBySubModule.SubModuleName, quizGroupedBySubModule.QuizCount, quizGroupedBySubModule.SubmissionCount)
+	// }
 	return quizzesGroupedBySubModule, nil
 }
-
-// if req.TestStatus == "belum-dijawab" {
-// 	query = `
-// 	SELECT
-// 	q.*
-// 	FROM
-// 		quizzes q
-// 	JOIN
-// 		subjects s ON q.subject_id = s.id
-// 	JOIN
-// 		sub_modules sm ON s.sub_module_id = sm.id
-// 	LEFT JOIN
-// 		quiz_submissions qs ON q.id = qs.quiz_id AND qs.user_id = 40
-// 	WHERE
-// 		q.test_type_id = ?
-// 		AND sm.id = ?
-// 		AND qs.id IS NULL
-// 		AND q.deleted_at IS NULL
-// 	ORDER BY
-// 		q.created_at DESC;`
-// }else if req.TestStatus == "sudah-dijawab"{
-// 	query= `
-// 	SELECT
-// 		q.*
-// 	FROM
-// 		quizzes q
-// 	JOIN
-// 		subjects s ON q.subject_id = s.id
-// 	JOIN
-// 		sub_modules sm ON s.sub_module_id = sm.id
-// 	INNER JOIN
-// 		quiz_submissions qs ON q.id = qs.quiz_id AND qs.user_id = 40
-// 	WHERE
-// 		q.test_type_id = ?
-// 		AND sm.id = ?
-// 		AND q.deleted_at IS NULL
-// 	ORDER BY
-// 		q.created_at DESC;
-// 	`
-// }else if req.TestStatus == "all"{
-// 	query=`SELECT
-// 	q.*,
-// 	CASE
-// 		WHEN EXISTS (
-// 			SELECT 1
-// 			FROM quiz_submissions qs
-// 			WHERE qs.quiz_id = q.id AND qs.user_id = 40
-// 		) THEN 'sudah-dikerjakan'
-// 		ELSE 'belum-dikerjakan'
-// 	END AS status_pengerjaan
-// 	FROM
-// 		quizzes q
-// 	JOIN
-// 		subjects s ON q.subject_id = s.id
-// 	JOIN
-// 		sub_modules sm ON s.sub_module_id = sm.id
-// 	WHERE
-// 		q.test_type_id = 2
-// 		AND sm.id = 1
-// 		AND q.deleted_at IS NULL
-// 	ORDER BY
-// 		q.created_at DESC;
-// 	`
-// }
 
 func (svc *QuizService) GetQuizAll(testTypeID int, subModulID int, limit int, offset int) ([]*response.QuizItemAll, error) {
 	quizAll := make([]*response.QuizItemAll, 0)
@@ -207,20 +134,15 @@ func (svc *QuizService) GetQuizAll(testTypeID int, subModulID int, limit int, of
 		return nil, fmt.Errorf("failed to find quizAll: %v", res.Error)
 	}
 
-	fmt.Println("quizAll in local service")
-	for _, quiz := range quizAll {
-		// fmt.Printf("module ID: %d, module name: %s\n", quiz.ModuleID, quiz.ModuleName)
-		fmt.Printf("quiz title: %s, quiz description: %s, quiz status pengerjaan: %s\n", quiz.Title, quiz.Description, quiz.StatusPengerjaan)
-
-	}
+	// for _, quiz := range quizAll {
+	// 	fmt.Printf("quiz title: %s, quiz description: %s, quiz status pengerjaan: %s\n", quiz.Title, quiz.Description, quiz.StatusPengerjaan)
+	// }
 	return quizAll, nil
 }
 
 func (svc *QuizService) CountQuizALL(testTypeID int, subModulID int) (int, error) {
-
 	var count int
-	query := ""
-	query = `SELECT 
+	query := `SELECT 
     COUNT(*)
 	FROM 
 		quizzes q

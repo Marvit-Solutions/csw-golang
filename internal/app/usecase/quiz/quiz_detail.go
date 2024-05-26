@@ -8,21 +8,17 @@ import (
 )
 
 func (u *usecase) QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailResponse, error) {
-	// get user id
-
 	quiz, err := u.quizRepo.FindOneBy(map[string]interface{}{
 		"uuid": req.QuizUUID,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("failed to find subject: %v", err)
+		return nil, fmt.Errorf("failed to find quiz: %v", err)
 	}
 
 	quizQuestionTotal := u.quizQuestionRepo.Count(map[string]interface{}{
 		"quiz_id": quiz.ID,
 	})
 
-	// find subject name
-	// tmpQuizSubjectID := "ce75821b-8641-4705-896c-5175c0fa9ce0"
 	subject, err := u.subjectRepo.FindOneBy(map[string]interface{}{
 		"id": quiz.SubjectID,
 	})
@@ -36,27 +32,23 @@ func (u *usecase) QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailR
 	}, 0, 0)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to find subject: %v", err)
+		return nil, fmt.Errorf("failed to find quizSubmissions: %v", err)
 	}
 
-	// cek sudah dikerjakan atau belum
+	// Check if the quiz has been completed or not.
 	var status response.QuizStatus
-	// quizSubmissionCount := u.quizSubmissionRepo.Count(map[string]interface{}{
-	// 	"quiz_id": quiz.ID,
-	// 	"user_id": req.UserID,
-	// })
 	quizSubmissionCount := len(quizSubmissions)
 	quizSubmissionUUID := ""
 	max_score := 0
 
 	if quizSubmissionCount > 0 {
 		status = response.SudahDikerjakan
-		// cek jika sudah dikerjakan sekali atau lebih
+		// Check if it has been completed once or more
 		if quizSubmissionCount == 1 {
 			max_score = quizSubmissions[quizSubmissionCount-1].Score
 			quizSubmissionUUID = quizSubmissions[quizSubmissionCount-1].UUID
 		} else {
-			// cari quizSubmissionUUID dengan nilai yang paling tinggi
+			// Find the quizSubmissionUUID with the highest value
 			for _, quizSubmission := range quizSubmissions {
 				if quizSubmission.Score > max_score {
 					max_score = quizSubmission.Score
@@ -66,17 +58,15 @@ func (u *usecase) QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailR
 		}
 
 	} else {
+		max_score = -1
 		status = response.BelumDikerjakan
 	}
-
-	fmt.Println("ini quizSubmissionUUID")
-	fmt.Println(quizSubmissionUUID)
 
 	result := &response.QuizDetailResponse{
 		ID:                 quiz.ID,
 		UUID:               quiz.UUID,
 		Subject:            subject.Name,
-		Modul:              quiz.Title,
+		Title:              quiz.Title,
 		Description:        quiz.Description,
 		TotalQuestions:     quizQuestionTotal,
 		TotalTime:          quiz.Time,

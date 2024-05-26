@@ -24,7 +24,7 @@ func (u *usecase) QuizScoreAll(req request.ParamQuizScoreAll) (*response.QuizSco
 	}, 0, 0)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to find subject: %v", err)
+		return nil, fmt.Errorf("failed to find subjects: %v", err)
 	}
 
 	// create array of id subjects
@@ -74,7 +74,6 @@ func (u *usecase) QuizScoreAll(req request.ParamQuizScoreAll) (*response.QuizSco
 		return nil, fmt.Errorf("failed to find quiz: %v", err)
 	}
 
-	//sorting quiz submission
 	sort.Slice(quizSubmissions, func(i, j int) bool {
 		return quizSubmissions[i].ID < quizSubmissions[j].ID
 	})
@@ -94,7 +93,7 @@ func (u *usecase) QuizScoreAll(req request.ParamQuizScoreAll) (*response.QuizSco
 		})
 	}
 
-	// groupBy data by subject id , and transform it to response.QuizScoreAllItemGroupBySubject
+	// groupBy data by subject id, and transform it to response.QuizScoreAllItemGroupBySubject
 	groupedItems := make(map[int]response.QuizScoreAllItemGroupBySubject)
 
 	for _, item := range quizScoreAllItem {

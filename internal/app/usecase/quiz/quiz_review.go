@@ -12,8 +12,15 @@ import (
 
 func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewResponse, error) {
 
+	quizSubmission, err := u.quizSubmissionRepo.FindOneBy(map[string]interface{}{
+		"uuid": req.QuizSubmissionUUID,
+	})
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to find quiz submission: %v", err)
+	}
 	quiz, err := u.quizRepo.FindOneBy(map[string]interface{}{
-		"uuid": req.QuizUUID,
+		"id": quizSubmission.QuizID,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to find quiz: %v", err)
@@ -27,17 +34,6 @@ func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewR
 		return nil, fmt.Errorf("failed to find subject: %v", err)
 	}
 
-	quizSubmission, err := u.quizSubmissionRepo.FindOneBy(map[string]interface{}{
-		"uuid": req.QuizSubmissionUUID,
-	})
-	fmt.Println("ini :quizSubmission")
-
-	fmt.Println(quizSubmission)
-
-	if err != nil {
-		return nil, fmt.Errorf("failed to find quiz submission: %v", err)
-	}
-
 	quizSubmissionCount := u.quizSubmissionRepo.Count(map[string]interface{}{
 		"quiz_id": quiz.ID,
 		"user_id": 40,
@@ -47,7 +43,7 @@ func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewR
 		"quiz_id": quiz.ID,
 	}, 0, 0)
 	if err != nil {
-		return nil, fmt.Errorf("failed to find sub quiz question: %v", err)
+		return nil, fmt.Errorf("failed to find sub quiz questions: %v", err)
 	}
 
 	quizQuestionsMap := make(map[int]*model.QuizQuestion)
@@ -60,12 +56,11 @@ func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewR
 		quizQuestionIDs[i] = quizQuestion.ID
 	}
 
-	// get all choices
 	quizChoices, err := u.quizChoiceRepo.FindBy(map[string]interface{}{
 		"question_id": quizQuestionIDs,
 	}, 0, 0)
 	if err != nil {
-		return nil, fmt.Errorf("failed to find quizChoices: %v", err)
+		return nil, fmt.Errorf("failed to find quiz choices: %v", err)
 	}
 
 	mapChoices := make(map[int][]response.OptionItemReview)
@@ -88,59 +83,17 @@ func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewR
 		}
 	}
 
-	// get quizz submission and user answer
-	// quizAnswers, err = u.quizAnswerRepo.FindBy(map[string]interface{}{
-	// 	"submission_id": quizSubmission.ID,
-	// }, 0, 0)
-
-	//
 	userAnswers, err := u.quizLocalRepo.FindUserAnswerReview(quizSubmission.ID)
 	userAnswersMap := make(map[int]*response.UserAnswer)
 	for _, userAnswer := range userAnswers {
 		userAnswersMap[userAnswer.QuestionId] = userAnswer
 	}
-	fmt.Println("ini userAnswer")
-	fmt.Println(userAnswers)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to find userAnswer: %v", err)
+		return nil, fmt.Errorf("failed to find user answer: %v", err)
 	}
 
-	// questionReviewItems := []response.QuestionReviewItem{}
-	// for i, quizQuestion := range quizQuestions {
-	// 	questionReviewItems = append(questionReviewItems, response.QuestionReviewItem{
-	// 		ID:       quizQuestion.ID,
-	// 		UUID:     quizQuestion.UUID,
-	// 		Question: quizQuestion.Content,
-	// 		NoSoal:   i + 1,
-	// 		Status:   "belum-dijawab",
-	// 		Mark:     quizQuestion.Score,
-	// 		Options:  mapChoices[quizQuestion.ID],
-	// 	})
-	// 	i++
-	// }
-
-	// questionReviews := []response.QuestionsReview{}
-
-	// questionReviewItems := []response.QuestionReviewItem{}
-
-	// questionReviews := []response.QuestionsReview{}
-	// for i, quizQuestion := range quizQuestions {
-	// 	questionReviewItems = append(questionReviewItems, response.QuestionsReview{
-	// 		UserAnswer:  1,
-	// 		RightAnswer: 1,
-	// 		QuestionReviewItem: &response.QuestionReviewItem{ // Gunakan pointer ke QuestionReviewItem
-	// 			ID:       quizQuestion.ID,
-	// 			UUID:     quizQuestion.UUID,
-	// 			Question: quizQuestion.Content,
-	// 			NoSoal:   i + 1,
-	// 			Status:   "belum-dijawab",
-	// 			Mark:     quizQuestion.Score,
-	// 			Options:  mapChoices[quizQuestion.ID],
-	// 		}})
-	// }
-
-	questionReviews := make([]response.QuestionsReview, len(quizQuestions)) // Inisialisasi slice dengan panjang yang sudah diketahui
+	questionReviews := make([]response.QuestionsReview, len(quizQuestions))
 
 	k := len(quizQuestions)
 	for i, quizQuestion := range quizQuestions {
@@ -172,7 +125,7 @@ func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewR
 			UserAnswer:      userAnswer,
 			RightAnswer:     correctOptionIdx,
 			RightAnswerText: correctOptionText,
-			QuestionReviewItem: response.QuestionReviewItem{ // Tidak menggunakan pointer
+			QuestionReviewItem: response.QuestionReviewItem{
 				ID:          quizQuestion.ID,
 				UUID:        quizQuestion.UUID,
 				Question:    quizQuestion.Content,

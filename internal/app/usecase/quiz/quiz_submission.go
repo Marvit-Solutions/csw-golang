@@ -18,7 +18,7 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 		"quiz_id": req.QuizID,
 	}, 0, 0)
 	if err != nil {
-		return fmt.Errorf("failed to find sub subjects: %v", err)
+		return fmt.Errorf("failed to find quiz questions: %v", err)
 	}
 
 	quizQuestionsMap := make(map[int]*model.QuizQuestion)
@@ -31,12 +31,11 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 		quizQuestionIDs[i] = quizQuestion.ID
 	}
 
-	// get all choices
 	quizChoices, err := u.quizChoiceRepo.FindBy(map[string]interface{}{
 		"question_id": quizQuestionIDs,
 	}, 0, 0)
 	if err != nil {
-		return fmt.Errorf("failed to find sub subjects: %v", err)
+		return fmt.Errorf("failed to find quiz choices: %v", err)
 	}
 
 	mapChoices := make(map[int][]response.OptionItemSubmission)
@@ -54,10 +53,6 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 	totalRightAnswer := 0
 	score := 0
 
-	// for _, quizQuestionMap := range quizQuestionsMap {
-	// 	if req.Questions[]
-	// }
-
 	for _, question := range req.Questions {
 		var rightAnswer int
 		for _, option := range mapChoices[question.ID] {
@@ -70,8 +65,6 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 			score = score + question.Mark
 		}
 	}
-
-	fmt.Println(score)
 
 	quizSubmissionData := &model.QuizSubmission{
 		UserID:       req.UserID,
@@ -86,30 +79,25 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 	quizSubmission, err := u.quizSubmissionRepo.Create(quizSubmissionData, tx)
 
 	if err != nil {
-		return fmt.Errorf("failed to create quizSubmission: %v", err)
+		return fmt.Errorf("failed to create quiz submission: %v", err)
 	}
 
 	// insert user quiz answer and start calculate the score
 	for _, ques := range req.Questions {
-		// Periksa apakah UserAnswer tidak nil dan tidak sama dengan undefined
 		if ques.UserAnswer != 0 {
 			quizAnswer := &model.QuizAnswer{
 				SubmissionID: quizSubmission.ID,
-				ChoiceID:     &ques.UserAnswer, // Menggunakan nilai yang tidak diubah
+				ChoiceID:     &ques.UserAnswer,
 				IsMarked:     false,
 				CreatedBy:    40,
 				UpdatedBy:    40,
 			}
-
-			quizAnswer, err = u.quizAnswerRepo.Create(quizAnswer, tx)
+			_, err = u.quizAnswerRepo.Create(quizAnswer, tx)
 			if err != nil {
-				return fmt.Errorf("failed to create quizAnswer: %v", err)
+				return fmt.Errorf("failed to create quiz answer: %v", err)
 			}
-			fmt.Println(quizAnswer)
 		}
 	}
-
-	//end off calculate score
 
 	tx.Commit()
 
