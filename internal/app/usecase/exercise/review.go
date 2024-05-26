@@ -6,6 +6,7 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
+	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
 func (u *usecase) Review(req request.ExerciseReview) ([]*response.ExerciseReview, error) {
@@ -39,9 +40,80 @@ func (u *usecase) Review(req request.ExerciseReview) ([]*response.ExerciseReview
 		return nil, fmt.Errorf("failed to find exercise questions: %v", err)
 	}
 
+	questionIDs := make([]int, 0, len(exerciseQuestions))
+	for _, question := range exerciseQuestions {
+		questionIDs = append(questionIDs, question.ID)
+	}
+
 	var perfectScore int
 	for _, question := range exerciseQuestions {
 		perfectScore += question.Score
+	}
+
+	choices, err := u.exerciseChoiceRepo.FindBy(map[string]interface{}{
+		"question_id": questionIDs,
+	}, 0, 0)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find choices: %v", err)
+	}
+
+	choiceResMap := make(map[int][]*response.Choice)
+	for _, choice := range choices {
+		choiceResMap[choice.QuestionID] = append(choiceResMap[choice.QuestionID], &response.Choice{
+			UUID:       choice.UUID,
+			Content:    choice.Content,
+			QuestionID: choice.QuestionID,
+		})
+	}
+
+	questionMedias, err := u.exerciseQuestionMediaRepo.FindBy(map[string]interface{}{
+		"exercise_question_id": questionIDs,
+	}, 0, 0)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find question medias: %v", err)
+	}
+
+	mediaIDs := make([]int, len(questionMedias))
+	for i, questionMedia := range questionMedias {
+		mediaIDs[i] = questionMedia.MediaID
+	}
+
+	medias, err := u.mediaRepo.FindBy(map[string]interface{}{
+		"id": mediaIDs,
+	}, 0, 0)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find medias: %v", err)
+	}
+
+	mediaMaps := make(map[int]*model.Media)
+	for _, media := range medias {
+		mediaMaps[media.ID] = media
+	}
+
+	questionMediaMap := make(map[int][]*response.QuestionMedia)
+	for _, questionMedia := range questionMedias {
+		questionMediaMap[questionMedia.ExerciseQuestionID] = append(questionMediaMap[questionMedia.ExerciseQuestionID], &response.QuestionMedia{
+			Index: questionMedia.Index,
+			Media: helper.MultiResImages(mediaMaps[questionMedia.MediaID]),
+		})
+	}
+
+	questions, err := u.exerciseQuestionRepo.FindBy(map[string]interface{}{
+		"exercise_id": exerciseSubmission.ExerciseID,
+	}, 0, 0)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find questions: %v", err)
+	}
+
+	questionsRes := make([]*response.Question, len(questions))
+	for i, question := range questions {
+		questionsRes[i] = &response.Question{
+			UUID:          question.UUID,
+			Content:       question.Content,
+			Score:         question.Score,
+			QuestionMedia: questionMediaMap[question.ID],
+			Choices:       choiceResMap[question.ID],
+		}
 	}
 
 	res := &response.ExerciseReview{
@@ -53,6 +125,7 @@ func (u *usecase) Review(req request.ExerciseReview) ([]*response.ExerciseReview
 		TotalQuestion: totalQuestion,
 		Score:         exerciseSubmission.Score,
 		PerfectScore:  perfectScore,
+		Questions:     questionsRes,
 	}
 
 	fmt.Println(helper.Debug(res))
