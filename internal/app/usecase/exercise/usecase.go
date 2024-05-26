@@ -20,6 +20,7 @@ type usecase struct {
 	moduleRepo                repository.ModuleRepository
 	mediaRepo                 repository.MediaRepository
 	exerciseRepo              repository.ExerciseRepository
+	exerciseSubmissionRepo    repository.ExerciseSubmissionRepository
 	exerciseQuestionRepo      repository.ExerciseQuestionRepository
 	exerciseChoiceRepo        repository.ExerciseChoiceRepository
 	exerciseQuestionMediaRepo repository.ExerciseQuestionMediaRepository
@@ -35,6 +36,7 @@ func NewUsecase(
 		moduleRepo:                service.NewModuleService(db, nil),
 		mediaRepo:                 service.NewMediaService(db, nil),
 		exerciseRepo:              service.NewExerciseService(db, nil),
+		exerciseSubmissionRepo:    service.NewExerciseSubmissionService(db, nil),
 		exerciseQuestionRepo:      service.NewExerciseQuestionService(db, nil),
 		exerciseChoiceRepo:        service.NewExerciseChoiceService(db, nil),
 		exerciseQuestionMediaRepo: service.NewExerciseQuestionMediaService(db, nil),

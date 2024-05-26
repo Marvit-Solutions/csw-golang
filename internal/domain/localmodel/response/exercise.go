@@ -19,6 +19,7 @@ type ExerciseDetailResponse struct {
 	ModuleName  string      `json:"module_name"`
 	Title       string      `json:"title"`
 	Attempt     int         `json:"attempt"`
+	UserAttempt int         `json:"user_attempt"`
 	Time        int         `json:"time"`
 	Description string      `json:"description"`
 	Questions   []*Question `json:"questions"`

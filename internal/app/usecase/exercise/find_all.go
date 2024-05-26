@@ -10,6 +10,16 @@ import (
 )
 
 func (u *usecase) FindAll(req request.ParamExercise) ([]*response.ExerciseResponse, error) {
+	user, err := u.userRepo.FindOneBy(map[string]interface{}{
+		"id":      req.AuthenticatedUser,
+		"role_id": helper.PembeliPaketBimbel,
+	})
+	if user == nil {
+		return nil, helper.ErrAccessDenied
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to find user: %v", err)
+	}
 
 	moduleMap := map[string]int{
 		"skd":        helper.SKDModuleID,
