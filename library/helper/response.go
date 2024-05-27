@@ -9,10 +9,10 @@ type responseError struct {
 }
 
 type responsePaged struct {
-	Code   int         `json:"code"`
-	Status string      `json:"status"`
-	Data   interface{} `json:"data"`
-	Meta   Meta        `json:"meta"`
+	Code       int         `json:"code"`
+	Status     string      `json:"status"`
+	Data       interface{} `json:"data"`
+	Pagination Pagination  `json:"pagination"`
 }
 
 type responseNonPaged struct {
@@ -21,10 +21,11 @@ type responseNonPaged struct {
 	Data   interface{} `json:"data"`
 }
 
-type Meta struct {
-	Page  int `json:"page"`
-	Size  int `json:"size"`
-	Total int `json:"total"`
+type Pagination struct {
+	Page       int `json:"page"`
+	Limit      int `json:"limit"`
+	TotalRows  int `json:"total_rows"`
+	TotalPages int `json:"total_pages"`
 }
 
 func NewErrorResponse(c *gin.Context, code int, status string, err interface{}) {
@@ -35,12 +36,12 @@ func NewErrorResponse(c *gin.Context, code int, status string, err interface{}) 
 	c.JSON(code, &response)
 }
 
-func NewSuccessResponsePaged(c *gin.Context, code int, status string, data interface{}, meta Meta) {
+func NewSuccessResponsePaged(c *gin.Context, code int, status string, data interface{}, pagination Pagination) {
 	response := new(responsePaged)
 	response.Code = code
 	response.Status = status
 	response.Data = data
-	response.Meta = meta
+	response.Pagination = pagination
 	c.JSON(code, &response)
 }
 func NewSuccessResponseNonPaged(c *gin.Context, code int, status string, data interface{}) {

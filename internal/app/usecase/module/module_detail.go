@@ -52,6 +52,7 @@ func (u *usecase) ModuleDetail(req request.ParamModule) (*response.ModuleDetailR
 
 	result := &response.ModuleDetailResponse{
 		UUID:          subModule.UUID,
+		TestTypeID:    testType.ID,
 		SubModuleName: subModule.Name,
 		Description:   subModule.Description,
 		ModuleName:    module.Name,

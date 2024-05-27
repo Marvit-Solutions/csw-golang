@@ -7,6 +7,8 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/internal/app/handler/home"
 	"github.com/Marvit-Solutions/csw-golang/internal/app/handler/location"
 	"github.com/Marvit-Solutions/csw-golang/internal/app/handler/module"
+	"github.com/Marvit-Solutions/csw-golang/internal/app/handler/quiz"
+
 	"github.com/Marvit-Solutions/csw-golang/internal/app/handler/user"
 	"github.com/Marvit-Solutions/csw-golang/library/config"
 
@@ -19,6 +21,7 @@ type InitialInjection struct {
 	Home      home.Handler
 	Location  location.Handler
 	Module    module.Handler
+	Quiz      quiz.Handler
 	Exercise  exercise.Handler
 	Dashboard dashboard.Handler
 	User      user.Handler
@@ -31,6 +34,7 @@ func NewInitialInjection(sQLMaster *gorm.DB, conf config.Config) InitialInjectio
 		Home:      home.NewHandler(sQLMaster),
 		Location:  location.NewHandler(sQLMaster, conf),
 		Module:    module.NewHandler(sQLMaster),
+		Quiz:      quiz.NewHandler(sQLMaster),
 		Dashboard: dashboard.NewHandler(sQLMaster),
 		Exercise:  exercise.NewHandler(sQLMaster),
 		User:      user.NewHandler(sQLMaster),

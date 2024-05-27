@@ -9,6 +9,7 @@ type ModulResponse struct {
 
 type ModuleDetailResponse struct {
 	UUID          string             `json:"uuid"`
+	TestTypeID    int                `json:"test_type_id"`
 	SubModuleName string             `json:"sub_module_name"`
 	ModuleName    string             `json:"module_name"`
 	Description   string             `json:"description"`

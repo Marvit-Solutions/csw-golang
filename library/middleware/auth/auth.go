@@ -116,6 +116,5 @@ func GetAuthenticatedUser(r *http.Request) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-
 	return int(userID.(float64)), nil
 }
