@@ -1,4 +1,4 @@
-package exercise
+package dashboard
 
 import (
 	"net/http"
@@ -9,13 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *handler) FindAll(c *gin.Context) {
-	var req request.ParamExercise
-
-	if err := helper.ValidateQueryParams(c, &req); err != nil {
-		helper.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
-		return
-	}
+func (h *handler) FindMaterial(c *gin.Context) {
+	var req request.Dashboard
 
 	authenticatedUser, err := auth.GetAuthenticatedUser(c.Request)
 	if err != nil {
@@ -25,7 +20,7 @@ func (h *handler) FindAll(c *gin.Context) {
 
 	req.AuthenticatedUser = authenticatedUser
 
-	exercises, err := h.u.FindAll(req)
+	materials, err := h.u.FindMaterial(req)
 	if err != nil && err == helper.ErrAccessDenied {
 		helper.NewErrorResponse(c, http.StatusForbidden, http.StatusText(http.StatusForbidden), err.Error())
 		return
@@ -35,5 +30,5 @@ func (h *handler) FindAll(c *gin.Context) {
 		return
 	}
 
-	helper.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), exercises)
+	helper.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), materials)
 }

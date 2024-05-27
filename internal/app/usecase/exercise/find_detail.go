@@ -9,13 +9,29 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
-func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.ExerciseDetailResponse, error) {
+func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.ExerciseDetail, error) {
+	user, err := u.userRepo.FindOneBy(map[string]interface{}{
+		"id":      req.AuthenticatedUser,
+		"role_id": helper.PembeliPaketBimbel,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to find user: %v", err)
+	}
+	if user == nil {
+		return nil, helper.ErrAccessDenied
+	}
+
 	exercise, err := u.exerciseRepo.FindOneBy(map[string]interface{}{
 		"uuid": req.ExerciseUUID,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to find exercise: %v", err)
 	}
+
+	userAttempt := u.exerciseSubmissionRepo.Count(map[string]interface{}{
+		"exercise_id": exercise.ID,
+		"user_id":     req.AuthenticatedUser,
+	})
 
 	testType, err := u.testTypeRepo.FindOneBy(map[string]interface{}{
 		"id": exercise.TestTypeID,
@@ -50,18 +66,13 @@ func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.Exerc
 		return nil, fmt.Errorf("failed to find choices: %v", err)
 	}
 
-	choicesRes := make([]*response.Choice, len(choices))
-	for i, choice := range choices {
-		choicesRes[i] = &response.Choice{
+	choiceResMap := make(map[int][]*response.Choice)
+	for _, choice := range choices {
+		choiceResMap[choice.QuestionID] = append(choiceResMap[choice.QuestionID], &response.Choice{
 			UUID:       choice.UUID,
 			Content:    choice.Content,
 			QuestionID: choice.QuestionID,
-		}
-	}
-
-	choiceResMap := make(map[int][]*response.Choice)
-	for _, choice := range choicesRes {
-		choiceResMap[choice.QuestionID] = append(choiceResMap[choice.QuestionID], choice)
+		})
 	}
 
 	questionMedias, err := u.exerciseQuestionMediaRepo.FindBy(map[string]interface{}{
@@ -107,12 +118,13 @@ func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.Exerc
 		}
 	}
 
-	result := &response.ExerciseDetailResponse{
+	result := &response.ExerciseDetail{
 		UUID:        exercise.UUID,
 		TestType:    testType.Name,
 		ModuleName:  module.Name,
 		Title:       exercise.Title,
 		Attempt:     exercise.Attempt,
+		UserAttempt: userAttempt,
 		Time:        exercise.Time,
 		Description: exercise.Description,
 		Questions:   questionsRes,

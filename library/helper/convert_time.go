@@ -2,42 +2,9 @@ package helper
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
-
-// Pemetaan hari dalam bahasa Inggris ke bahasa Indonesia
-var daysOfWeek = map[string]string{
-	"Sunday":    "Minggu",
-	"Monday":    "Senin",
-	"Tuesday":   "Selasa",
-	"Wednesday": "Rabu",
-	"Thursday":  "Kamis",
-	"Friday":    "Jumat",
-	"Saturday":  "Sabtu",
-}
-
-// Pemetaan bulan dalam bahasa Inggris ke bahasa Indonesia
-var months = map[string]string{
-	"January":   "Januari",
-	"February":  "Februari",
-	"March":     "Maret",
-	"April":     "April",
-	"May":       "Mei",
-	"June":      "Juni",
-	"July":      "Juli",
-	"August":    "Agustus",
-	"September": "September",
-	"October":   "Oktober",
-	"November":  "November",
-	"December":  "Desember",
-}
-
-// output example : "Minggu, 12 Mei 2024, 00:43"
-func FormatIndonesianDate(t time.Time) string {
-	day := daysOfWeek[t.Weekday().String()]
-	month := months[t.Month().String()]
-	return fmt.Sprintf("%s, %02d %s %d, %02d:%02d", day, t.Day(), month, t.Year(), t.Hour(), t.Minute())
-}
 
 // ConvertTimeFormat converts time to Indonesian date format.
 func ConvertDateFormat(t time.Time) string {
@@ -66,18 +33,63 @@ func FormatTimeToStringPtr(t time.Time) *string {
 	return &s
 }
 
-// ConvertStringToTime converts a string representing time into time.Time format.
-// inputString should be in the format "2024-04-04T06:0:000".
-func ConvertStringToTime(inputString *string) (*time.Time, error) {
-	loc, err := time.LoadLocation("Asia/Jakarta")
-	if err != nil {
-		return nil, err
+func ParseTimeString(timeStr string) time.Duration {
+	parsedTime, _ := time.Parse("15:04:05", timeStr)
+	hours := parsedTime.Hour()
+	minutes := parsedTime.Minute()
+	seconds := parsedTime.Second()
+
+	return time.Duration(hours)*time.Hour + time.Duration(minutes)*time.Minute + time.Duration(seconds)*time.Second
+}
+
+func ConvertToIndonesianFormat(t time.Time) string {
+	formattedTime := t.Format("Monday, 02 January 2006, 15:04")
+
+	dayMap := map[string]string{
+		"Monday":    "Senin",
+		"Tuesday":   "Selasa",
+		"Wednesday": "Rabu",
+		"Thursday":  "Kamis",
+		"Friday":    "Jumat",
+		"Saturday":  "Sabtu",
+		"Sunday":    "Minggu",
 	}
 
-	formattedTime, err := time.ParseInLocation(DateFormat, *inputString, loc)
-	if err != nil {
-		return nil, err
+	monthMap := map[string]string{
+		"January":   "Januari",
+		"February":  "Februari",
+		"March":     "Maret",
+		"April":     "April",
+		"May":       "Mei",
+		"June":      "Juni",
+		"July":      "Juli",
+		"August":    "Agustus",
+		"September": "September",
+		"October":   "Oktober",
+		"November":  "November",
+		"December":  "Desember",
 	}
 
-	return &formattedTime, nil
+	for en, id := range dayMap {
+		formattedTime = strings.ReplaceAll(formattedTime, en, id)
+	}
+
+	for en, id := range monthMap {
+		formattedTime = strings.ReplaceAll(formattedTime, en, id)
+	}
+
+	return formattedTime
+}
+
+func ConvertDurationToIndonesian(timeStr string) string {
+	parsedTime, err := time.Parse("15:04:05", timeStr)
+	if err != nil {
+		return "Error parsing time"
+	}
+
+	hours := fmt.Sprintf("%02d", parsedTime.Hour())
+	minutes := fmt.Sprintf("%02d", parsedTime.Minute())
+	seconds := fmt.Sprintf("%02d", parsedTime.Second())
+
+	return fmt.Sprintf("%s jam %s Menit %s Detik", hours, minutes, seconds)
 }

@@ -70,15 +70,24 @@ func NewRouteInit(req request.RouteInit) {
 		// Routes for student dashboard
 		{
 			dashboardStudentGroup := dashboardGroup.Group("/student")
+
+			// Root routes for dashboard student
+			dashboardStudentGroup.GET("", module.Dashboard.FindMaterial)
+
+			// Routes for user
+			{
+				dashboardStudentGroup.GET("user/me", module.User.Find)
+			}
+
 			// Routes for module and material
 			{
-				modulGroup := dashboardStudentGroup.Group("/module")
-				modulGroup.GET("/all", module.Module.ModuleAll)
-				modulGroup.GET(":sub_module_uuid", module.Module.ModuleDetail)
+				moduleGroup := dashboardStudentGroup.Group("/module")
+				moduleGroup.GET("/all", module.Module.ModuleAll)
+				moduleGroup.GET(":sub_module_uuid", module.Module.ModuleDetail)
 
-				materiGroup := modulGroup.Group("/material")
-				materiGroup.GET(":subject_uuid", module.Module.MaterialAll)
-				materiGroup.GET("", module.Module.MaterialFind)
+				materialGroup := moduleGroup.Group("/material")
+				materialGroup.GET(":subject_uuid", module.Module.MaterialAll)
+				materialGroup.GET("", module.Module.MaterialFind)
 			}
 			quizGroup := dashboardStudentGroup.Group("/quiz")
 			quizGroup.GET("/quiz_content/:quiz_uuid", module.Quiz.QuizContent)
@@ -94,6 +103,9 @@ func NewRouteInit(req request.RouteInit) {
 				exerciseGroup := dashboardStudentGroup.Group("/exercise")
 				exerciseGroup.GET("all", module.Exercise.FindAll)
 				exerciseGroup.GET(":exercise_uuid", module.Exercise.FindDetail)
+				exerciseGroup.GET("/history/:exercise_uuid", module.Exercise.FindHistory)
+				exerciseGroup.GET("/review/:submission_uuid", module.Exercise.Review)
+				exerciseGroup.POST("", module.Exercise.Create)
 			}
 		}
 	}

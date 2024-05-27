@@ -9,7 +9,17 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
 )
 
-func (u *usecase) FindAll(req request.ParamExercise) ([]*response.ExerciseResponse, error) {
+func (u *usecase) FindAll(req request.ParamExercise) ([]*response.Exercise, error) {
+	user, err := u.userRepo.FindOneBy(map[string]interface{}{
+		"id":      req.AuthenticatedUser,
+		"role_id": helper.PembeliPaketBimbel,
+	})
+	if user == nil {
+		return nil, helper.ErrAccessDenied
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to find user: %v", err)
+	}
 
 	moduleMap := map[string]int{
 		"skd":        helper.SKDModuleID,
@@ -71,9 +81,9 @@ func (u *usecase) FindAll(req request.ParamExercise) ([]*response.ExerciseRespon
 		return nil, fmt.Errorf("failed to find test type: %v", err)
 	}
 
-	results := make([]*response.ExerciseResponse, 0)
+	results := make([]*response.Exercise, 0)
 	for _, exercise := range exercises {
-		results = append(results, &response.ExerciseResponse{
+		results = append(results, &response.Exercise{
 			UUID:          exercise.UUID,
 			TestType:      testType.Name,
 			ModuleName:    module.Name,
