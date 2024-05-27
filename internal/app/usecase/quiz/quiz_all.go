@@ -33,14 +33,14 @@ func (u *usecase) QuizAll(req request.ParamQuizAll) (*response.QuizAllResponse, 
 		return nil, 0, 0, fmt.Errorf("failed to find module: %v", err)
 	}
 
-	countQuizAll, err := u.quizLocalRepo.CountQuizALL(req.TestTypeId, subModule.ID)
+	countQuizAll, err := u.quizLocalRepo.CountQuizALL(req.AuthenticatedUser, req.TestTypeId, subModule.ID)
 	totalRows := countQuizAll
 	totalPages := int(math.Ceil(float64(countQuizAll) / float64(req.Limit)))
 	if err != nil {
 		return nil, 0, 0, fmt.Errorf("failed to countQuizAll: %v", err)
 	}
 
-	quizAll, err := u.quizLocalRepo.GetQuizAll(req.TestTypeId, subModule.ID, limit, offset)
+	quizAll, err := u.quizLocalRepo.GetQuizAll(req.AuthenticatedUser, req.TestTypeId, subModule.ID, limit, offset)
 	if err != nil {
 		return nil, 0, 0, fmt.Errorf("failed to find quizAll: %v", err)
 	}

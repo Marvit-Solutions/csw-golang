@@ -28,7 +28,7 @@ func (u *usecase) QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailR
 
 	quizSubmissions, err := u.quizSubmissionRepo.FindBy(map[string]interface{}{
 		"quiz_id": quiz.ID,
-		"user_id": 40,
+		"user_id": req.AuthenticatedUser,
 	}, 0, 0)
 
 	if err != nil {

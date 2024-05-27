@@ -100,7 +100,7 @@ func (svc *QuizService) CountQuizzesGroupedBySubModule(moduleID int, testTypeID 
 	return quizzesGroupedBySubModule, nil
 }
 
-func (svc *QuizService) GetQuizAll(testTypeID int, subModulID int, limit int, offset int) ([]*response.QuizItemAll, error) {
+func (svc *QuizService) GetQuizAll(authenticatedUserID int, testTypeID int, subModulID int, limit int, offset int) ([]*response.QuizItemAll, error) {
 	quizAll := make([]*response.QuizItemAll, 0)
 	// for future enhancement, use string concatenation
 	query := ""
@@ -119,7 +119,7 @@ func (svc *QuizService) GetQuizAll(testTypeID int, subModulID int, limit int, of
 	JOIN 
 		sub_modules sm ON s.sub_module_id = sm.id
 	LEFT JOIN 
-		quiz_submissions qs ON q.id = qs.quiz_id AND qs.user_id = 40
+		quiz_submissions qs ON q.id = qs.quiz_id AND qs.user_id = ?
 	WHERE 
 		q.test_type_id = ?
 		AND sm.id = ?
@@ -129,7 +129,7 @@ func (svc *QuizService) GetQuizAll(testTypeID int, subModulID int, limit int, of
 	LIMIT ?
 	OFFSET ?;`
 
-	res := svc.DB.Raw(query, testTypeID, subModulID, limit, offset).Scan(&quizAll)
+	res := svc.DB.Raw(query, authenticatedUserID, testTypeID, subModulID, limit, offset).Scan(&quizAll)
 	if res.Error != nil {
 		return nil, fmt.Errorf("failed to find quizAll: %v", res.Error)
 	}
@@ -140,7 +140,7 @@ func (svc *QuizService) GetQuizAll(testTypeID int, subModulID int, limit int, of
 	return quizAll, nil
 }
 
-func (svc *QuizService) CountQuizALL(testTypeID int, subModulID int) (int, error) {
+func (svc *QuizService) CountQuizALL(authenticatedUserID int, testTypeID int, subModulID int) (int, error) {
 	var count int
 	query := `SELECT 
     COUNT(*)
@@ -151,13 +151,13 @@ func (svc *QuizService) CountQuizALL(testTypeID int, subModulID int) (int, error
 	JOIN 
 		sub_modules sm ON s.sub_module_id = sm.id
 	LEFT JOIN 
-		quiz_submissions qs ON q.id = qs.quiz_id AND qs.user_id = 40
+		quiz_submissions qs ON q.id = qs.quiz_id AND qs.user_id = ?
 	WHERE 
 		q.test_type_id = ?
 		AND sm.id = ?
 		AND q.deleted_at IS NULL`
 
-	res := svc.DB.Raw(query, testTypeID, subModulID).Scan(&count)
+	res := svc.DB.Raw(query, authenticatedUserID, testTypeID, subModulID).Scan(&count)
 	if res.Error != nil {
 		return 0, fmt.Errorf("failed to count quizzes: %v", res.Error)
 	}

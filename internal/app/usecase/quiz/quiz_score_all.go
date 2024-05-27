@@ -68,7 +68,7 @@ func (u *usecase) QuizScoreAll(req request.ParamQuizScoreAll) (*response.QuizSco
 
 	quizSubmissions, err := u.quizSubmissionRepo.FindBy(map[string]interface{}{
 		"quiz_id": quizzesId,
-		"user_id": 40,
+		"user_id": req.AuthenticatedUser,
 	}, 0, 0)
 	if err != nil {
 		return nil, fmt.Errorf("failed to find quiz: %v", err)

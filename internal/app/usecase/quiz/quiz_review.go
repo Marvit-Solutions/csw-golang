@@ -36,7 +36,7 @@ func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewR
 
 	quizSubmissionCount := u.quizSubmissionRepo.Count(map[string]interface{}{
 		"quiz_id": quiz.ID,
-		"user_id": 40,
+		"user_id": req.AuthenticatedUser,
 	})
 
 	quizQuestions, err := u.quizQuestionRepo.FindBy(map[string]interface{}{
@@ -145,7 +145,7 @@ func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewR
 		Topic:             quiz.Title,
 		Modul:             subject.Name,
 		TotalQuestions:    len(quizQuestionsMap),
-		StartedAt:         helper.FormatIndonesianDate(quizSubmission.StartedAt),
+		StartedAt:         helper.ConvertToIndonesianFormat(quizSubmission.StartedAt),
 		TotalTime:         quizSubmission.TimeRequired,
 		TotalRightAnswers: quizSubmission.RightAnswer,
 		Score:             quizSubmission.Score,

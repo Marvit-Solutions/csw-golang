@@ -7,17 +7,20 @@ type ParamQuizContent struct {
 }
 
 type ParamQuizReview struct {
+	AuthenticatedUser  int    `json:"authenticated_user"`
 	QuizSubmissionUUID string `uri:"quiz_submission_uuid"`
 	TestTypeId         int    `uri:"test_type_id"`
 }
 
 type ParamQuizScoreAll struct {
-	SubModulUUID string `uri:"sub_modul_uuid"`
+	AuthenticatedUser int    `json:"authenticated_user"`
+	SubModulUUID      string `uri:"sub_modul_uuid"`
 }
 
 type ParamQuizDetail struct {
-	QuizUUID   string `uri:"quiz_uuid"`
-	TestTypeId int    `uri:"test_type_id"`
+	AuthenticatedUser int    `json:"authenticated_user"`
+	QuizUUID          string `uri:"quiz_uuid"`
+	TestTypeId        int    `uri:"test_type_id"`
 }
 
 type ParamQuizSubModuleAll struct {
@@ -34,19 +37,20 @@ const (
 )
 
 type ParamQuizAll struct {
-	SubModuleUUID string     `uri:"sub_module_uuid"`
-	TestTypeId    int        `uri:"test_type_id"`
-	TestStatus    TestStatus `uri:"test_status"`
-	Page          int        `form:"page"`
-	Limit         int        `form:"limit"`
+	AuthenticatedUser int        `json:"authenticated_user"`
+	SubModuleUUID     string     `uri:"sub_module_uuid"`
+	TestTypeId        int        `uri:"test_type_id"`
+	TestStatus        TestStatus `uri:"test_status"`
+	Page              int        `form:"page"`
+	Limit             int        `form:"limit"`
 }
 
 type QuizSubmissionRequest struct {
-	UserID         int                      `json:"user_id"`
-	QuizID         int                      `json:"quiz_id"`
-	TotalQuestions int                      `json:"total_questions"`
-	TimeRequired   string                   `json:"time_required"`
-	Questions      []QuestionSubmissionItem `json:"questions"`
+	AuthenticatedUser int                      `json:"authenticated_user"`
+	QuizID            int                      `json:"quiz_id"`
+	TotalQuestions    int                      `json:"total_questions"`
+	TimeRequired      string                   `json:"time_required"`
+	Questions         []QuestionSubmissionItem `json:"questions"`
 }
 
 type QuestionSubmissionItem struct {

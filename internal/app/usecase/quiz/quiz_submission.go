@@ -67,7 +67,7 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 	}
 
 	quizSubmissionData := &model.QuizSubmission{
-		UserID:       req.UserID,
+		UserID:       req.AuthenticatedUser,
 		QuizID:       req.QuizID,
 		StartedAt:    time.Now().Add(-time.Hour),
 		FinishedAt:   time.Now(),
@@ -88,9 +88,8 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 			quizAnswer := &model.QuizAnswer{
 				SubmissionID: quizSubmission.ID,
 				ChoiceID:     &ques.UserAnswer,
-				IsMarked:     false,
-				CreatedBy:    40,
-				UpdatedBy:    40,
+				CreatedBy:    req.AuthenticatedUser,
+				UpdatedBy:    req.AuthenticatedUser,
 			}
 			_, err = u.quizAnswerRepo.Create(quizAnswer, tx)
 			if err != nil {

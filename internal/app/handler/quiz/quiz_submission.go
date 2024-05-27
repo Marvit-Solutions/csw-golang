@@ -5,6 +5,7 @@ import (
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
+	"github.com/Marvit-Solutions/csw-golang/library/middleware/auth"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +17,16 @@ func (h *handler) QuizSubmission(ctx *gin.Context) {
 		return
 	}
 
-	err := h.u.QuizSubmission(req)
+	authenticatedUser, err := auth.GetAuthenticatedUser(ctx.Request)
+	if err != nil {
+		helper.NewErrorResponse(ctx, http.StatusUnauthorized, http.StatusText(http.StatusUnauthorized), err.Error())
+		return
+	}
+
+	req.AuthenticatedUser = authenticatedUser
+
+	err = h.u.QuizSubmission(req)
+
 	if err != nil {
 		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err.Error())
 		return
