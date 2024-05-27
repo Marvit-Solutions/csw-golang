@@ -111,10 +111,11 @@ func ExtractToken(r *http.Request, key string) (interface{}, error) {
 	}
 }
 
-func GetAuthenticatedUser(r *http.Request) (string, error) {
+func GetAuthenticatedUser(r *http.Request) (int, error) {
 	userID, err := ExtractToken(r, "user_id")
 	if err != nil {
-		return "", err
+		return 0, err
 	}
-	return userID.(string), nil
+
+	return int(userID.(float64)), nil
 }
