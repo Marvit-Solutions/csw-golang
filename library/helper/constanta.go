@@ -28,6 +28,15 @@ var (
 	MatematikaModuleID = 2
 )
 
+// Sub Module ID
+const (
+	_ = iota
+	TWK
+	TIU
+	TKP
+	Matematika
+)
+
 // Role User
 const (
 	_ = iota
@@ -46,3 +55,4 @@ const (
 	Umum
 	PembeliPaketBimbel
 )
+
