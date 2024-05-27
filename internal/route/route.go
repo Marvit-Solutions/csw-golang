@@ -70,6 +70,12 @@ func NewRouteInit(req request.RouteInit) {
 		// Routes for student dashboard
 		{
 			dashboardStudentGroup := dashboardGroup.Group("/student")
+
+			// Routes for user
+			{
+				dashboardStudentGroup.GET("/me", module.User.Find)
+			}
+
 			// Routes for module and material
 			{
 				modulGroup := dashboardStudentGroup.Group("/module")
