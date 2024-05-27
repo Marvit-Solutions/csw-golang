@@ -32,5 +32,5 @@ func (h *handler) QuizSubmission(ctx *gin.Context) {
 		return
 	}
 
-	helper.NewSuccessResponseNonPaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), "uhuyy")
+	helper.NewSuccessResponseNonPaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), nil)
 }

@@ -11,6 +11,16 @@ import (
 )
 
 func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewResponse, error) {
+	user, err := u.userRepo.FindOneBy(map[string]interface{}{
+		"id":      req.AuthenticatedUser,
+		"role_id": helper.PembeliPaketBimbel,
+	})
+	if user == nil {
+		return nil, helper.ErrAccessDenied
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to find user: %v", err)
+	}
 
 	quizSubmission, err := u.quizSubmissionRepo.FindOneBy(map[string]interface{}{
 		"uuid": req.QuizSubmissionUUID,
@@ -36,7 +46,7 @@ func (u *usecase) QuizReview(req request.ParamQuizReview) (*response.QuizReviewR
 
 	quizSubmissionCount := u.quizSubmissionRepo.Count(map[string]interface{}{
 		"quiz_id": quiz.ID,
-		"user_id": req.AuthenticatedUser,
+		"user_id": user.ID,
 	})
 
 	quizQuestions, err := u.quizQuestionRepo.FindBy(map[string]interface{}{

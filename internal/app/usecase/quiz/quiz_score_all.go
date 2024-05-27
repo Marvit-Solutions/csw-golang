@@ -6,10 +6,21 @@ import (
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
+	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
 func (u *usecase) QuizScoreAll(req request.ParamQuizScoreAll) (*response.QuizScoreAllResponse, error) {
+	user, err := u.userRepo.FindOneBy(map[string]interface{}{
+		"id":      req.AuthenticatedUser,
+		"role_id": helper.PembeliPaketBimbel,
+	})
+	if user == nil {
+		return nil, helper.ErrAccessDenied
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to find user: %v", err)
+	}
 
 	subModul, err := u.subModulRepo.FindOneBy(map[string]interface{}{
 		"uuid": req.SubModulUUID,
@@ -68,7 +79,7 @@ func (u *usecase) QuizScoreAll(req request.ParamQuizScoreAll) (*response.QuizSco
 
 	quizSubmissions, err := u.quizSubmissionRepo.FindBy(map[string]interface{}{
 		"quiz_id": quizzesId,
-		"user_id": req.AuthenticatedUser,
+		"user_id": user.ID,
 	}, 0, 0)
 	if err != nil {
 		return nil, fmt.Errorf("failed to find quiz: %v", err)

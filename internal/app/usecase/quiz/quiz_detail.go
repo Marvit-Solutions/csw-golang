@@ -5,9 +5,21 @@ import (
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
+	"github.com/Marvit-Solutions/csw-golang/library/helper"
 )
 
 func (u *usecase) QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailResponse, error) {
+	user, err := u.userRepo.FindOneBy(map[string]interface{}{
+		"id":      req.AuthenticatedUser,
+		"role_id": helper.PembeliPaketBimbel,
+	})
+	if user == nil {
+		return nil, helper.ErrAccessDenied
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to find user: %v", err)
+	}
+
 	quiz, err := u.quizRepo.FindOneBy(map[string]interface{}{
 		"uuid": req.QuizUUID,
 	})
@@ -28,7 +40,7 @@ func (u *usecase) QuizDetail(req request.ParamQuizDetail) (*response.QuizDetailR
 
 	quizSubmissions, err := u.quizSubmissionRepo.FindBy(map[string]interface{}{
 		"quiz_id": quiz.ID,
-		"user_id": req.AuthenticatedUser,
+		"user_id": user.ID,
 	}, 0, 0)
 
 	if err != nil {

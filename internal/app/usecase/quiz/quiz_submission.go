@@ -6,10 +6,21 @@ import (
 
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/internal/domain/localmodel/response"
+	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
 func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
+	user, err := u.userRepo.FindOneBy(map[string]interface{}{
+		"id":      req.AuthenticatedUser,
+		"role_id": helper.PembeliPaketBimbel,
+	})
+	if user == nil {
+		return helper.ErrAccessDenied
+	}
+	if err != nil {
+		return fmt.Errorf("failed to find user: %v", err)
+	}
 
 	tx := u.db.Begin()
 	defer tx.Rollback()
@@ -67,9 +78,9 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 	}
 
 	quizSubmissionData := &model.QuizSubmission{
-		UserID:       req.AuthenticatedUser,
+		UserID:       user.ID,
 		QuizID:       req.QuizID,
-		StartedAt:    time.Now().Add(-time.Hour),
+		StartedAt:    time.Now().Add(-helper.ParseTimeString(req.TimeRequired)),
 		FinishedAt:   time.Now(),
 		TimeRequired: req.TimeRequired,
 		Score:        score,
