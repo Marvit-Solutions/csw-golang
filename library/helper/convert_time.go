@@ -6,28 +6,6 @@ import (
 	"time"
 )
 
-// ConvertTimeFormat converts time to Indonesian date format.
-func ConvertDateFormat(t time.Time) string {
-	// Using Indonesian date format
-	months := [...]string{"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"}
-	month := months[t.Month()-1]
-
-	// Format: "28 Desember 1998"
-	formattedDate := fmt.Sprintf("%d %s %d", t.Day(), month, t.Year())
-
-	return formattedDate
-}
-
-func ConvertTimeFormat(inputTime time.Time) string {
-	formattedTime := inputTime.Format(TimeFormat)
-	return formattedTime
-}
-
-func ConvertStrtoClock(inputString string) (time.Time, error) {
-	formattedTime, err := time.Parse(TimeFormat, inputString)
-	return formattedTime, err
-}
-
 func FormatTimeToStringPtr(t time.Time) *string {
 	s := t.Format(DateFormat)
 	return &s
