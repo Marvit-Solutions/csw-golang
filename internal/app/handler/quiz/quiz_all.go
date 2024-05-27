@@ -27,12 +27,12 @@ func (h *handler) QuizAll(ctx *gin.Context) {
 		return
 	}
 
-	meta := helper.Pagination{
+	pagination := helper.Pagination{
 		Page:       req.Page,
 		Limit:      req.Limit,
 		TotalRows:  totalRows,
 		TotalPages: totalPages,
 	}
 
-	helper.NewSuccessResponsePaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), quizAll, meta)
+	helper.NewSuccessResponsePaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), quizAll, pagination)
 }

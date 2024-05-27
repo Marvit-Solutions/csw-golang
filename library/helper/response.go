@@ -36,12 +36,12 @@ func NewErrorResponse(c *gin.Context, code int, status string, err interface{}) 
 	c.JSON(code, &response)
 }
 
-func NewSuccessResponsePaged(c *gin.Context, code int, status string, data interface{}, meta Pagination) {
+func NewSuccessResponsePaged(c *gin.Context, code int, status string, data interface{}, pagination Pagination) {
 	response := new(responsePaged)
 	response.Code = code
 	response.Status = status
 	response.Data = data
-	response.Pagination = meta
+	response.Pagination = pagination
 	c.JSON(code, &response)
 }
 func NewSuccessResponseNonPaged(c *gin.Context, code int, status string, data interface{}) {
