@@ -1,14 +1,3 @@
-CREATE TABLE IF NOT EXISTS public.user_plans (
-        id serial NOT NULL,
-        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
-        user_id integer NOT NULL,
-        plan_id integer NOT NULL,
-        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone,
-        CONSTRAINT user_plans_pkey PRIMARY KEY (id)
-);
-
 CREATE TABLE IF NOT EXISTS public.class_users (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -44,6 +33,18 @@ CREATE TABLE IF NOT EXISTS public.exercise_choices (
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone,
         CONSTRAINT exercise_choices_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.exercise_question_medias (
+        id serial NOT NULL,
+        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+        exercise_question_id integer NOT NULL,
+        media_id integer NOT NULL,
+        index integer NOT NULL,
+        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
+        CONSTRAINT exercise_question_media_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.exercise_questions (
@@ -93,6 +94,21 @@ CREATE TABLE IF NOT EXISTS public.exercises (
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone,
         CONSTRAINT exercises_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.medias (
+        id serial NOT NULL,
+        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+        filename character varying(255) NOT NULL,
+        mime character varying(50) NOT NULL,
+        original_filename character varying(255) NOT NULL,
+        description text NOT NULL,
+        created_by integer NOT NULL,
+        updated_by integer NOT NULL,
+        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
+        CONSTRAINT medias_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.mentors (
@@ -175,6 +191,18 @@ CREATE TABLE IF NOT EXISTS public.quiz_choices (
         CONSTRAINT quiz_choices_pkey PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS public.quiz_question_medias (
+        id serial NOT NULL,
+        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+        quiz_question_id integer NOT NULL,
+        media_id integer NOT NULL,
+        index integer NOT NULL,
+        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
+        CONSTRAINT quiz_question_media_pkey PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS public.quiz_questions (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -243,7 +271,7 @@ CREATE TABLE IF NOT EXISTS public.schedules (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         sub_subject_id integer NOT NULL,
-        user_plan_id integer NOT NULL,
+        class_plan_user_id integer NOT NULL,
         meeting_date timestamp with time zone NOT NULL,
         created_by integer NOT NULL,
         updated_by integer NOT NULL,
@@ -267,6 +295,18 @@ CREATE TABLE IF NOT EXISTS public.sub_modules (
         deleted_at timestamp with time zone,
         CONSTRAINT sub_modules_pkey PRIMARY KEY (id),
         CONSTRAINT sub_module_uq UNIQUE (name) INCLUDE(name)
+);
+
+CREATE TABLE IF NOT EXISTS public.sub_subject_medias (
+        id serial NOT NULL,
+        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+        sub_subject_id integer NOT NULL,
+        media_id integer NOT NULL,
+        index integer NOT NULL,
+        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
+        CONSTRAINT sub_subject_media_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.sub_subjects (
@@ -354,6 +394,17 @@ CREATE TABLE IF NOT EXISTS public.user_mentor_testimonials (
         CONSTRAINT user_mentor_testimonials_pkey PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS public.user_plans (
+        id serial NOT NULL,
+        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+        user_id integer NOT NULL,
+        plan_id integer NOT NULL,
+        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
+        CONSTRAINT user_plans_pkey PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS public.user_testimonials (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -381,53 +432,21 @@ CREATE TABLE IF NOT EXISTS public.users (
         CONSTRAINT users_email_key UNIQUE (email)
 );
 
-CREATE TABLE IF NOT EXISTS public.medias (
+CREATE TABLE IF NOT EXISTS public.class_plan_types (
         id serial NOT NULL,
-        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
-        filename character varying(255) NOT NULL,
-        mime character varying(50) NOT NULL,
-        original_filename character varying(255) NOT NULL,
-        description text NOT NULL,
-        created_by integer NOT NULL,
-        updated_by integer NOT NULL,
+        uuid uuid NOT NULL,
+        name character varying NOT NULL,
+        slug character varying NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone,
+        "deleted_At" timestamp with time zone,
         PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.quiz_question_media (
+CREATE TABLE IF NOT EXISTS public.class_plan_user (
         id serial NOT NULL,
-        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
-        quiz_question_id integer NOT NULL,
-        media_id integer NOT NULL,
-        index integer NOT NULL,
-        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone,
-        PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS public.exercise_question_media (
-        id serial NOT NULL,
-        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
-        exercise_question_id integer NOT NULL,
-        media_id integer NOT NULL,
-        index integer NOT NULL,
-        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone,
-        PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS public.sub_subject_media (
-        id serial NOT NULL,
-        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
-        sub_subject_id integer NOT NULL,
-        media_id integer NOT NULL,
-        index integer NOT NULL,
-        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone,
+        uuid uuid NOT NULL,
+        class_plan_type_id integer NOT NULL,
+        user_plan_id integer NOT NULL,
         PRIMARY KEY (id)
 );

@@ -6,9 +6,9 @@ import (
 	"gorm.io/gorm"
 )
 
-const TableNameExerciseQuestionMedia = "exercise_question_media"
+const TableNameExerciseQuestionMedia = "exercise_question_medias"
 
-// ExerciseQuestionMedia mapped from table <exercise_question_media>
+// ExerciseQuestionMedia mapped from table <exercise_question_medias>
 type ExerciseQuestionMedia struct {
 	ID                 int            `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
 	UUID               string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
