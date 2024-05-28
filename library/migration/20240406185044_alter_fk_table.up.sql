@@ -1,12 +1,12 @@
 ALTER TABLE
-        IF EXISTS public.class_user_plans
+        IF EXISTS public.user_plans
 ADD
-        CONSTRAINT plan_class_user_plan_fk FOREIGN KEY (plan_id) REFERENCES public.plans (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT plan_user_plan_fk FOREIGN KEY (plan_id) REFERENCES public.plans (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
-        IF EXISTS public.class_user_plans
+        IF EXISTS public.user_plans
 ADD
-        CONSTRAINT user_class_user_plan_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT user_user_plan_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.exercise_answers
@@ -106,7 +106,7 @@ ADD
 ALTER TABLE
         IF EXISTS public.schedules
 ADD
-        CONSTRAINT class_user_plan_schedule_fk FOREIGN KEY (class_user_plan_id) REFERENCES public.class_user_plans (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT user_plan_schedule_fk FOREIGN KEY (user_plan_id) REFERENCES public.user_plans (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.schedules

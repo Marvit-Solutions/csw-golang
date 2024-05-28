@@ -101,7 +101,7 @@ ALTER TABLE
         IF EXISTS public.exercise_answers DROP CONSTRAINT IF EXISTS choice_exercise_answer_fk;
 
 ALTER TABLE
-        IF EXISTS public.class_user_plans DROP CONSTRAINT IF EXISTS user_class_user_plan_fk;
+        IF EXISTS public.user_plans DROP CONSTRAINT IF EXISTS user_user_plan_fk;
 
 ALTER TABLE
-        IF EXISTS public.class_user_plans DROP CONSTRAINT IF EXISTS plan_class_user_plan_fk;
+        IF EXISTS public.user_plans DROP CONSTRAINT IF EXISTS plan_user_plan_fk;

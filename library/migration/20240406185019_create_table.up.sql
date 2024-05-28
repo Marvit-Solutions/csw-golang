@@ -1,17 +1,13 @@
-CREATE TABLE IF NOT EXISTS public.class_user_plans (
+CREATE TABLE IF NOT EXISTS public.user_plans (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         user_id integer NOT NULL,
         plan_id integer NOT NULL,
-        name character varying(100) NOT NULL,
-        slug character varying(50) NOT NULL,
-        created_by integer NOT NULL,
-        updated_by integer NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone,
-        CONSTRAINT class_user_plans_pkey PRIMARY KEY (id),
-        CONSTRAINT class_user_plan_uq UNIQUE (name)
+        CONSTRAINT user_plans_pkey PRIMARY KEY (id),
+        CONSTRAINT user_plan_uq UNIQUE (name)
 );
 
 CREATE TABLE IF NOT EXISTS public.class_users (
@@ -248,7 +244,7 @@ CREATE TABLE IF NOT EXISTS public.schedules (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         sub_subject_id integer NOT NULL,
-        class_user_plan_id integer NOT NULL,
+        user_plan_id integer NOT NULL,
         meeting_date timestamp with time zone NOT NULL,
         created_by integer NOT NULL,
         updated_by integer NOT NULL,

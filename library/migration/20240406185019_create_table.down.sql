@@ -56,4 +56,4 @@ DROP TABLE IF EXISTS public.exercise_answers CASCADE;
 
 DROP TABLE IF EXISTS public.class_users CASCADE;
 
-DROP TABLE IF EXISTS public.class_user_plans CASCADE;
+DROP TABLE IF EXISTS public.user_plans CASCADE;
