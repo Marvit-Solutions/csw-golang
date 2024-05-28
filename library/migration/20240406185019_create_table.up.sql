@@ -6,8 +6,7 @@ CREATE TABLE IF NOT EXISTS public.user_plans (
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone,
-        CONSTRAINT user_plans_pkey PRIMARY KEY (id),
-        CONSTRAINT user_plan_uq UNIQUE (name)
+        CONSTRAINT user_plans_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.class_users (
