@@ -11,20 +11,20 @@ import (
 	"gorm.io/gorm"
 )
 
-// The implementation of QuizQuestionMediaRepository interface.
-type quizQuestionMediaService struct {
+// The implementation of ClassPlanTypeRepository interface.
+type classPlanTypeService struct {
 	db     *gorm.DB
 	client *elastic.Client
 }
 
-// Creates a new instance of QuizQuestionMediaService.
-func NewQuizQuestionMediaService(db *gorm.DB, client *elastic.Client) repository.QuizQuestionMediaRepository {
-	return &quizQuestionMediaService{db, client}
+// Creates a new instance of ClassPlanTypeService.
+func NewClassPlanTypeService(db *gorm.DB, client *elastic.Client) repository.ClassPlanTypeRepository {
+	return &classPlanTypeService{db, client}
 }
 
 // Finds a single record by given criteria.
-func (srv *quizQuestionMediaService) FindOneBy(criteria map[string]interface{}) (*model.QuizQuestionMedia, error) {
-	m := new(model.QuizQuestionMedia)
+func (srv *classPlanTypeService) FindOneBy(criteria map[string]interface{}) (*model.ClassPlanType, error) {
+	m := new(model.ClassPlanType)
 	res := srv.db.Where(criteria).First(&m)
 	if err := res.Error; err != nil {
 		return nil, err
@@ -33,8 +33,8 @@ func (srv *quizQuestionMediaService) FindOneBy(criteria map[string]interface{}) 
 }
 
 // Finds records by given criteria, with pagination support.
-func (srv *quizQuestionMediaService) FindBy(criteria map[string]interface{}, page, size int) ([]*model.QuizQuestionMedia, error) {
-	var data []*model.QuizQuestionMedia
+func (srv *classPlanTypeService) FindBy(criteria map[string]interface{}, page, size int) ([]*model.ClassPlanType, error) {
+	var data []*model.ClassPlanType
 
 	limit, offset := helper.GetLimitOffset(page, size)
 	if res := srv.db.Where(criteria).Offset(offset).Order("id DESC").Limit(limit).Find(&data); res.Error != nil {
@@ -45,10 +45,10 @@ func (srv *quizQuestionMediaService) FindBy(criteria map[string]interface{}, pag
 }
 
 // Counts the number of records based on given criteria.
-func (srv *quizQuestionMediaService) Count(criteria map[string]interface{}) int {
+func (srv *classPlanTypeService) Count(criteria map[string]interface{}) int {
 	var result int64
 
-	if res := srv.db.Model(model.QuizQuestionMedia{}).Where(criteria).Count(&result); res.Error != nil {
+	if res := srv.db.Model(model.ClassPlanType{}).Where(criteria).Count(&result); res.Error != nil {
 		return 0
 	}
 
@@ -57,7 +57,7 @@ func (srv *quizQuestionMediaService) Count(criteria map[string]interface{}) int 
 
 
 // Creates a new record.
-func (srv *quizQuestionMediaService) Create(model *model.QuizQuestionMedia, tx *gorm.DB) (*model.QuizQuestionMedia, error) {
+func (srv *classPlanTypeService) Create(model *model.ClassPlanType, tx *gorm.DB) (*model.ClassPlanType, error) {
 		db := tx.Create(&model)
 	if err := db.Error; err != nil {
 		return nil, err
@@ -67,19 +67,19 @@ func (srv *quizQuestionMediaService) Create(model *model.QuizQuestionMedia, tx *
 }
 
 // Updates an existing record.
-func (srv *quizQuestionMediaService) Update(model *model.QuizQuestionMedia, tx *gorm.DB) error {
+func (srv *classPlanTypeService) Update(model *model.ClassPlanType, tx *gorm.DB) error {
 	err := tx.Save(&model).Error
 	return err
 }
 
 // Deletes an existing record.
-func (srv *quizQuestionMediaService) Delete(model *model.QuizQuestionMedia, tx *gorm.DB) error {
+func (srv *classPlanTypeService) Delete(model *model.ClassPlanType, tx *gorm.DB) error {
 	err := tx.Delete(&model).Error
 	return err
 }
 
 // Creates or updates an index for the model.
-func (srv *quizQuestionMediaService) CreateOrUpdateIndex(model *model.QuizQuestionMedia) error {
+func (srv *classPlanTypeService) CreateOrUpdateIndex(model *model.ClassPlanType) error {
 	ctx := context.Background()
 
 	exists, err := srv.client.IndexExists(model.TableName()).Do(ctx)

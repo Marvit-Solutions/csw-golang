@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// Defines the interface for model repository operations.
+//Defines the interface for model repository operations.
 type QuizQuestionMediaRepository interface {
 	Create(model *model.QuizQuestionMedia, tx *gorm.DB) (*model.QuizQuestionMedia, error)
 	Update(model *model.QuizQuestionMedia, tx *gorm.DB) error
