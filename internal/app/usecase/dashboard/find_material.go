@@ -38,32 +38,45 @@ func (u *usecase) FindMaterial(req request.Dashboard) ([]*response.MaterialDashb
 		return nil, fmt.Errorf("failed to find modules: %v", err)
 	}
 
+	subModules, err := u.subModuleRepo.FindBy(map[string]interface{}{
+		"id": subModuleIDs,
+	}, 0, 0)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find sub modules: %v", err)
+	}
+
+	subModuleMap := make(map[int]*model.SubModule)
+	for _, subModule := range subModules {
+		subModuleMap[subModule.ID] = subModule
+	}
+
 	moduleMap := make(map[int]*model.Module)
 	for _, module := range modules {
 		moduleMap[module.ID] = module
 	}
 
-	skdIDs := []int{helper.TWK, helper.TIU, helper.TKP}
-	isSKD := func(id int) bool {
-		for _, SKD := range skdIDs {
-			if id == SKD {
-				return true
-			}
-		}
-		return false
-	}
-
 	res := make([]*response.MaterialDashboard, 0)
 	for _, subject := range subjects {
-		var moduleName string
-		if isSKD(subject.SubModuleID) {
-			moduleName = moduleMap[helper.SKDModuleID].Name
-		} else {
-			moduleName = moduleMap[helper.MatematikaModuleID].Name
+		subModule := subModuleMap[subject.SubModuleID]
+		if subModule == nil {
+			return nil, fmt.Errorf("module not found for subModuleID: %d", subject.SubModuleID)
 		}
+
+		module := moduleMap[subModule.ModuleID]
+		if module == nil {
+			return nil, fmt.Errorf("module not found for moduleID: %d", subModule.ModuleID)
+		}
+
 		res = append(res, &response.MaterialDashboard{
-			UUID:    subject.UUID,
-			Module:  moduleName,
+			UUID: subject.UUID,
+			Module: response.Module{
+				UUID: module.UUID,
+				Name: module.Name,
+			},
+			SubModule: response.SubModule{
+				UUID: subModule.UUID,
+				Name: subModule.Name,
+			},
 			Subject: subject.Name,
 		})
 	}
