@@ -73,6 +73,7 @@ func NewRouteInit(req request.RouteInit) {
 
 			// Root routes for dashboard student
 			dashboardStudentGroup.GET("", module.Dashboard.FindMaterial)
+			dashboardStudentGroup.GET("/dashboard-quiz-all", module.Dashboard.QuizAll)
 
 			// Routes for user
 			{

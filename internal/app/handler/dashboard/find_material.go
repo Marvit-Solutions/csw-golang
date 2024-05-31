@@ -10,7 +10,7 @@ import (
 )
 
 func (h *handler) FindMaterial(c *gin.Context) {
-	var req request.Dashboard
+	var req request.ParamDashboard
 
 	authenticatedUser, err := auth.GetAuthenticatedUser(c.Request)
 	if err != nil {

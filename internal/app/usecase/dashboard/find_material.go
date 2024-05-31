@@ -9,7 +9,7 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 )
 
-func (u *usecase) FindMaterial(req request.Dashboard) ([]*response.MaterialDashboard, error) {
+func (u *usecase) FindMaterial(req request.ParamDashboard) ([]*response.MaterialDashboard, error) {
 	user, err := u.userRepo.FindOneBy(map[string]interface{}{
 		"id":      req.AuthenticatedUser,
 		"role_id": helper.PembeliPaketBimbel,
