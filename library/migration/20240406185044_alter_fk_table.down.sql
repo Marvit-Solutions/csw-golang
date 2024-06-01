@@ -77,6 +77,9 @@ ALTER TABLE
         IF EXISTS public.schedules DROP CONSTRAINT IF EXISTS mentor_schedule_fk;
 
 ALTER TABLE
+        IF EXISTS public.schedules DROP CONSTRAINT IF EXISTS media_schedule_fk;
+
+ALTER TABLE
         IF EXISTS public.sub_modules DROP CONSTRAINT IF EXISTS module_sub_module_fk;
 
 ALTER TABLE

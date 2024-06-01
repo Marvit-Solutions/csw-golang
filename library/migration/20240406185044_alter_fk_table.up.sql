@@ -129,6 +129,11 @@ ADD
         CONSTRAINT mentor_schedule_fk FOREIGN KEY (mentor_id) REFERENCES public.mentors (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
+        IF EXISTS public.schedules
+ADD
+        CONSTRAINT media_schedule_fk FOREIGN KEY (media_id) REFERENCES public.medias (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
         IF EXISTS public.sub_modules
 ADD
         CONSTRAINT module_sub_module_fk FOREIGN KEY (module_id) REFERENCES public.modules (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
