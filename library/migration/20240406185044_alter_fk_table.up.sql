@@ -121,7 +121,12 @@ ADD
 ALTER TABLE
         IF EXISTS public.schedules
 ADD
-        CONSTRAINT class_plan_user_schedule_fk FOREIGN KEY (class_plan_user_id) REFERENCES public.class_plan_user (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT class_plan_type_schedule_fk FOREIGN KEY (class_plan_type_id) REFERENCES public.class_plan_types (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.schedules
+ADD
+        CONSTRAINT mentor_schedule_fk FOREIGN KEY (mentor_id) REFERENCES public.mentors (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.sub_modules

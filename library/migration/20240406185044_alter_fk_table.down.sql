@@ -71,7 +71,10 @@ ALTER TABLE
         IF EXISTS public.schedules DROP CONSTRAINT IF EXISTS subject_schedule_fk;
 
 ALTER TABLE
-        IF EXISTS public.schedules DROP CONSTRAINT IF EXISTS class_plan_user_schedule_fk;
+        IF EXISTS public.schedules DROP CONSTRAINT IF EXISTS class_plan_type_schedule_fk;
+
+ALTER TABLE
+        IF EXISTS public.schedules DROP CONSTRAINT IF EXISTS mentor_schedule_fk;
 
 ALTER TABLE
         IF EXISTS public.sub_modules DROP CONSTRAINT IF EXISTS module_sub_module_fk;
