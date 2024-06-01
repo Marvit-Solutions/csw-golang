@@ -68,7 +68,7 @@ ALTER TABLE
         IF EXISTS public.quizzes DROP CONSTRAINT IF EXISTS test_type_quiz_fk;
 
 ALTER TABLE
-        IF EXISTS public.schedules DROP CONSTRAINT IF EXISTS sub_subject_schedule_fk;
+        IF EXISTS public.schedules DROP CONSTRAINT IF EXISTS subject_schedule_fk;
 
 ALTER TABLE
         IF EXISTS public.schedules DROP CONSTRAINT IF EXISTS class_plan_user_schedule_fk;
@@ -107,12 +107,6 @@ ALTER TABLE
         IF EXISTS public.user_mentor_testimonials DROP CONSTRAINT IF EXISTS user_user_mentor_testimonial_fk;
 
 ALTER TABLE
-        IF EXISTS public.user_plans DROP CONSTRAINT IF EXISTS plan_user_plan_fk;
-
-ALTER TABLE
-        IF EXISTS public.user_plans DROP CONSTRAINT IF EXISTS user_user_plan_fk;
-
-ALTER TABLE
         IF EXISTS public.user_testimonials DROP CONSTRAINT IF EXISTS user_user_testimonial_fk;
 
 ALTER TABLE
@@ -122,4 +116,7 @@ ALTER TABLE
         IF EXISTS public.class_plan_user DROP CONSTRAINT IF EXISTS class_plan_type_class_plan_user_fk;
 
 ALTER TABLE
-        IF EXISTS public.class_plan_user DROP CONSTRAINT IF EXISTS user_plan_class_plan_user;
+        IF EXISTS public.class_plan_user DROP CONSTRAINT IF EXISTS user_class_plan_user;
+
+ALTER TABLE
+        IF EXISTS public.class_plan_types CONSTRAINT IF EXISTS plan_class_plan_type;

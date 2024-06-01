@@ -270,7 +270,7 @@ CREATE TABLE IF NOT EXISTS public.roles (
 CREATE TABLE IF NOT EXISTS public.schedules (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
-        sub_subject_id integer NOT NULL,
+        subject_id integer NOT NULL,
         class_plan_user_id integer NOT NULL,
         meeting_date timestamp with time zone NOT NULL,
         created_by integer NOT NULL,
@@ -394,17 +394,6 @@ CREATE TABLE IF NOT EXISTS public.user_mentor_testimonials (
         CONSTRAINT user_mentor_testimonials_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.user_plans (
-        id serial NOT NULL,
-        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
-        user_id integer NOT NULL,
-        plan_id integer NOT NULL,
-        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        deleted_at timestamp with time zone,
-        CONSTRAINT user_plans_pkey PRIMARY KEY (id)
-);
-
 CREATE TABLE IF NOT EXISTS public.user_testimonials (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -434,7 +423,8 @@ CREATE TABLE IF NOT EXISTS public.users (
 
 CREATE TABLE IF NOT EXISTS public.class_plan_types (
         id serial NOT NULL,
-        uuid uuid NOT NULL,
+         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+        plan_id integer NOT NULL,
         name character varying NOT NULL,
         slug character varying NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -445,8 +435,8 @@ CREATE TABLE IF NOT EXISTS public.class_plan_types (
 
 CREATE TABLE IF NOT EXISTS public.class_plan_user (
         id serial NOT NULL,
-        uuid uuid NOT NULL,
+        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         class_plan_type_id integer NOT NULL,
-        user_plan_id integer NOT NULL,
+        user_id integer NOT NULL,
         PRIMARY KEY (id)
 );

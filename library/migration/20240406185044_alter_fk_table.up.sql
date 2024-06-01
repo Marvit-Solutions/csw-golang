@@ -116,7 +116,7 @@ ADD
 ALTER TABLE
         IF EXISTS public.schedules
 ADD
-        CONSTRAINT sub_subject_schedule_fk FOREIGN KEY (sub_subject_id) REFERENCES public.sub_subjects (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT subject_schedule_fk FOREIGN KEY (subject_id) REFERENCES public.subjects (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.schedules
@@ -179,16 +179,6 @@ ADD
         CONSTRAINT user_user_mentor_testimonial_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
-        IF EXISTS public.user_plans
-ADD
-        CONSTRAINT plan_user_plan_fk FOREIGN KEY (plan_id) REFERENCES public.plans (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
-
-ALTER TABLE
-        IF EXISTS public.user_plans
-ADD
-        CONSTRAINT user_user_plan_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
-
-ALTER TABLE
         IF EXISTS public.user_testimonials
 ADD
         CONSTRAINT user_user_testimonial_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
@@ -206,4 +196,9 @@ ADD
 ALTER TABLE
         IF EXISTS public.class_plan_user
 ADD
-        CONSTRAINT user_plan_class_plan_user FOREIGN KEY (user_plan_id) REFERENCES public.user_plans (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT user_class_plan_user FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.class_plan_types
+ADD
+        CONSTRAINT plan_class_plan_type FOREIGN KEY (plan_id) REFERENCES public.plans (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
