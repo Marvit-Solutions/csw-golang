@@ -13,15 +13,15 @@ type Usecase interface {
 }
 
 type usecase struct {
-	db          *gorm.DB
-	subjectRepo repository.SubjectRepository
+	db       *gorm.DB
+	userRepo repository.UserRepository
 }
 
 func NewUsecase(
 	db *gorm.DB,
 ) Usecase {
 	return &usecase{
-		db:          db,
-		subjectRepo: service.NewSubjectService(db, nil),
+		db:       db,
+		userRepo: service.NewUserService(db, nil),
 	}
 }

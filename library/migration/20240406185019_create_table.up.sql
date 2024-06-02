@@ -447,3 +447,14 @@ CREATE TABLE IF NOT EXISTS public.class_plan_user (
         "deleted_at" timestamp with time zone,
         PRIMARY KEY (id)
 );
+
+CREATE TABLE IF NOT EXISTS public.user_plans (
+        id serial NOT NULL,
+        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+        plan_id integer NOT NULL,
+        user_id integer NOT NULL,
+        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "deleted_at" timestamp with time zone,
+        PRIMARY KEY (id)
+);

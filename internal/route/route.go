@@ -111,6 +111,12 @@ func NewRouteInit(req request.RouteInit) {
 				exerciseGroup.GET("/review/:submission_uuid", module.Exercise.Review)
 				exerciseGroup.POST("", module.Exercise.Create)
 			}
+
+			// Routes for Class
+			{
+				classGroup := dashboardStudentGroup.Group("/class")
+				classGroup.GET("/all", module.Class.FindAll)
+			}
 		}
 	}
 }

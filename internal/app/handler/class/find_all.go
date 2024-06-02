@@ -21,6 +21,10 @@ func (h *handler) FindAll(c *gin.Context) {
 	req.AuthenticatedUser = authenticatedUser
 
 	classes, err := h.u.FindAll(req)
+	if err != nil && err == helper.ErrAccessDenied {
+		helper.NewErrorResponse(c, http.StatusForbidden, http.StatusText(http.StatusForbidden), err.Error())
+		return
+	}
 	if err != nil {
 		helper.NewErrorResponse(c, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err.Error())
 		return
