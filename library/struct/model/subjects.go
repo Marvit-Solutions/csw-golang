@@ -15,6 +15,7 @@ type Subject struct {
 	SubModuleID int          `gorm:"column:sub_module_id;not null" json:"sub_module_id"`
 	Name        string         `gorm:"column:name;not null" json:"name"`
 	Slug        string         `gorm:"column:slug;not null" json:"slug"`
+	Description string         `gorm:"column:description;not null" json:"description"`
 	CreatedBy   int          `gorm:"column:created_by;not null" json:"created_by"`
 	UpdatedBy   int          `gorm:"column:updated_by;not null" json:"updated_by"`
 	CreatedAt   time.Time      `gorm:"column:created_at;not null;default:CURRENT_TIMESTAMP" json:"created_at"`
