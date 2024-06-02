@@ -433,7 +433,7 @@ CREATE TABLE IF NOT EXISTS public.class_plan_types (
         slug character varying NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        "deleted_At" timestamp with time zone,
+        "deleted_at" timestamp with time zone,
         PRIMARY KEY (id)
 );
 
@@ -442,5 +442,8 @@ CREATE TABLE IF NOT EXISTS public.class_plan_user (
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         class_plan_type_id integer NOT NULL,
         user_id integer NOT NULL,
+        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "deleted_at" timestamp with time zone,
         PRIMARY KEY (id)
 );
