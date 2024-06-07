@@ -107,6 +107,7 @@ func (svc *QuizService) GetQuizAll(authenticatedUserID int, testTypeID int, subM
 
 	query = `SELECT 
     q.*,
+	s.name AS subject,
     qs.uuid AS quiz_submission_uuid,
     CASE 
         WHEN qs.id IS NOT NULL THEN 'sudah-dikerjakan'

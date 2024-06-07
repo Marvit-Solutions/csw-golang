@@ -176,7 +176,7 @@ type QuizAllResponse struct {
 type QuizItemAll struct {
 	ID                 int       `json:"id"`
 	UUID               string    `json:"uuid"`
-	Subject            string    `json:"sub_subject"`
+	Subject            string    `json:"subject"`
 	Title              string    `json:"title"`
 	Description        string    `json:"description"`
 	Time               int       `json:"time"`

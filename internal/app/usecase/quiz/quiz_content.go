@@ -86,6 +86,7 @@ func (u *usecase) QuizContent(req request.ParamQuizContent) (*response.QuizConte
 
 	result := &response.QuizContentResponse{
 		ID:             quiz.ID,
+		UUID:           req.QuizUUID,
 		Topic:          quiz.Title,
 		Modul:          subject.Name,
 		Description:    quiz.Description,
