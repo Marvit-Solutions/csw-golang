@@ -3,7 +3,6 @@ package database
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
 
 	"github.com/Marvit-Solutions/csw-golang/library/config"
 	"github.com/gomodule/redigo/redis"
@@ -33,12 +32,14 @@ func InitDBRedis(env config.Config) (*redis.Pool, error) {
 
 	addr := fmt.Sprintf("%s:%s", client.Address, client.Port)
 
-	idle, err := strconv.Atoi(client.MaxIdle)
+	// idle, err := strconv.Atoi(client.MaxIdle)
+	idle := 1
 	if err != nil {
 		return nil, err
 	}
 
-	active, err := strconv.Atoi(client.MaxActive)
+	// active, err := strconv.Atoi(client.MaxActive)
+	active := 1
 	if err != nil {
 		return nil, err
 	}

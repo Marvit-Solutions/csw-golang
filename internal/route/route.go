@@ -64,7 +64,7 @@ func NewRouteInit(req request.RouteInit) {
 		locationGroup.GET("/district/:regency_id", module.Location.District)
 	}
 
-	// Routes for dashboard
+	// Routes for dashboard student
 	{
 		dashboardGroup := route.Group("/dashboard")
 		// Routes for student dashboard
@@ -112,5 +112,50 @@ func NewRouteInit(req request.RouteInit) {
 				exerciseGroup.POST("", module.Exercise.Create)
 			}
 		}
+
+		// Routes for dashboard admin
+		{
+			dashboardAdminGroup := dashboardGroup.Group("/admin")
+
+			// // Root routes for dashboard student
+			// dashboardAdminGroup.GET("", module.Dashboard.FindMaterial)
+
+			// // Routes for user
+			// {
+			// 	dashboardAdminGroup.GET("user/me", module.User.Find)
+			// }
+
+			// // Routes for module and material
+			// {
+			// 	moduleGroup := dashboardAdminGroup.Group("/module")
+			// 	moduleGroup.GET("/all", module.Module.ModuleAll)
+			// 	moduleGroup.GET(":sub_module_uuid", module.Module.ModuleDetail)
+
+			// 	materialGroup := moduleGroup.Group("/material")
+			// 	materialGroup.GET(":subject_uuid", module.Module.MaterialAll)
+			// 	materialGroup.GET("", module.Module.MaterialFind)
+			// }
+
+			// Routes for Quiz
+			{
+				quizGroup := dashboardAdminGroup.Group("/quizzes")
+				quizGroup.GET("", module.QuizAdmin.QuizAdminAll)
+				quizGroup.GET("/update-details/:uuid", module.QuizAdmin.QuizUpdateDetail)
+				quizGroup.POST("", module.QuizAdmin.Create)
+				quizGroup.PUT("", module.QuizAdmin.Update)
+				quizGroup.DELETE(":uuid", module.QuizAdmin.Delete)
+			}
+
+			// Routes for Exercise
+			// {
+			// 	exerciseGroup := dashboardAdminGroup.Group("/exercise")
+			// 	exerciseGroup.GET("all", module.Exercise.FindAll)
+			// 	exerciseGroup.GET(":exercise_uuid", module.Exercise.FindDetail)
+			// 	exerciseGroup.GET("/history/:exercise_uuid", module.Exercise.FindHistory)
+			// 	exerciseGroup.GET("/review/:submission_uuid", module.Exercise.Review)
+			// 	exerciseGroup.POST("", module.Exercise.Create)
+			// }
+		}
 	}
+
 }
