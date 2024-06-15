@@ -5,11 +5,12 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Marvit-Solutions/csw-golang/internal/route"
+	adminRoute "github.com/Marvit-Solutions/csw-golang/admin_module/route"
 	"github.com/Marvit-Solutions/csw-golang/library/config"
 	"github.com/Marvit-Solutions/csw-golang/library/config/database"
 	"github.com/Marvit-Solutions/csw-golang/library/middleware/auth"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/request"
+	studentRoute "github.com/Marvit-Solutions/csw-golang/student_module/route"
 
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
@@ -65,7 +66,8 @@ func startApp() {
 
 	// Call route initialization.
 	req := request.RouteInit{Engine: engine, SQLMaster: SQLMasterConn, SQLSlave: SQLSlaveConn, Redis: redisConn, Mongo: mongoConn, Env: env}
-	route.NewRouteInit(req)
+	studentRoute.NewRouteInit(req)
+	adminRoute.NewRouteInit(req)
 
 	// Run server.
 	serverPort := env.GetString("server.address")
