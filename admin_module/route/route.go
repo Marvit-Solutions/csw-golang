@@ -33,6 +33,15 @@ func NewRouteInit(req request.RouteInit) {
 
 	// Define routes for different endpoints.
 	Use(module)
+
+	{
+		quizGroup := route.Group("/quizzes")
+		quizGroup.GET("", module.QuizAdmin.QuizAdminAll)
+		quizGroup.GET("/update-details/:uuid", module.QuizAdmin.QuizUpdateDetail)
+		quizGroup.POST("", module.QuizAdmin.Create)
+		quizGroup.PUT("", module.QuizAdmin.Update)
+		quizGroup.DELETE(":uuid", module.QuizAdmin.Delete)
+	}
 }
 
 // Delete this function after "module" used
