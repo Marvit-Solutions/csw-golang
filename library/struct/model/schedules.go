@@ -17,6 +17,7 @@ type Schedule struct {
 	MentorID        int          `gorm:"column:mentor_id;not null" json:"mentor_id"`
 	MediaID         int          `gorm:"column:media_id;not null" json:"media_id"`
 	MeetingDate     time.Time      `gorm:"column:meeting_date;not null" json:"meeting_date"`
+	MeetingLink     string         `gorm:"column:meeting_link;not null" json:"meeting_link"`
 	Duration        string         `gorm:"column:duration;not null" json:"duration"`
 	CreatedBy       int          `gorm:"column:created_by;not null" json:"created_by"`
 	UpdatedBy       int          `gorm:"column:updated_by;not null" json:"updated_by"`

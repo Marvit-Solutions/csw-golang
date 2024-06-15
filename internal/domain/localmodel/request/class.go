@@ -1,5 +1,6 @@
 package request
 
 type Class struct {
-	AuthenticatedUser int `json:"authenticated_user"`
+	AuthenticatedUser int    `json:"authenticated_user"`
+	Module            string `form:"module"`
 }

@@ -12,6 +12,11 @@ import (
 func (h *handler) FindAll(c *gin.Context) {
 	var req request.Class
 
+	if err := helper.ValidateQueryParams(c, &req); err != nil {
+		helper.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
+		return
+	}
+
 	authenticatedUser, err := auth.GetAuthenticatedUser(c.Request)
 	if err != nil {
 		helper.NewErrorResponse(c, http.StatusUnauthorized, http.StatusText(http.StatusUnauthorized), err.Error())

@@ -275,6 +275,7 @@ CREATE TABLE IF NOT EXISTS public.schedules (
         mentor_id integer NOT NULL,
         media_id integer NOT NULL,
         meeting_date timestamp with time zone NOT NULL,
+        meeting_link character varying(100) NOT NULL,
         duration time without time zone NOT NULL,
         created_by integer NOT NULL,
         updated_by integer NOT NULL,
