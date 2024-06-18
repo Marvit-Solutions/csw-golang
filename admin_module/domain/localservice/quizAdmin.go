@@ -62,7 +62,7 @@ func (svc *QuizAdminService) GetQuizAdminAll(searchKeywords string, testTypeID i
 	}
 
 	if searchKeywords != "" {
-		query += ` AND (q.title LIKE ? OR q.description LIKE ?)`
+		query += ` AND (LOWER(q.title) LIKE LOWER(?) OR LOWER(q.description) LIKE LOWER(?))`
 		searchPattern := "%" + searchKeywords + "%"
 		params = append(params, searchPattern, searchPattern)
 	}
@@ -99,7 +99,7 @@ func (svc *QuizAdminService) CountQuizAdminALL(searchKeywords string, testTypeID
 	}
 
 	if searchKeywords != "" {
-		query += ` AND (q.title LIKE ? OR q.description LIKE ?)`
+		query += ` AND (LOWER(q.title) LIKE LOWER(?) OR LOWER(q.description) LIKE LOWER(?))`
 		searchPattern := "%" + searchKeywords + "%"
 		params = append(params, searchPattern, searchPattern)
 	}

@@ -42,6 +42,25 @@ func NewRouteInit(req request.RouteInit) {
 		quizGroup.PUT("", module.QuizAdmin.Update)
 		quizGroup.DELETE(":uuid", module.QuizAdmin.Delete)
 	}
+
+	{
+		subjectGroup := route.Group("/subjects")
+		subjectGroup.GET("", module.SubjectAdmin.SubjectAdminAll)
+		subjectGroup.GET("/all", module.SubjectAdmin.Read)
+		subjectGroup.GET("/update-details/:uuid", module.SubjectAdmin.SubjectUpdateDetail)
+		subjectGroup.POST("", module.SubjectAdmin.Create)
+		subjectGroup.PUT("", module.SubjectAdmin.Update)
+		subjectGroup.DELETE(":uuid", module.SubjectAdmin.Delete)
+	}
+
+	{
+		materialGroup := route.Group("/materials")
+		materialGroup.GET("", module.MaterialAdmin.MaterialAdminAll)
+		materialGroup.GET("/update-details/:uuid", module.MaterialAdmin.MaterialUpdateDetail)
+		materialGroup.POST("", module.MaterialAdmin.Create)
+		materialGroup.PUT("", module.MaterialAdmin.Update)
+		materialGroup.DELETE(":uuid", module.MaterialAdmin.Delete)
+	}
 }
 
 // Delete this function after "module" used
