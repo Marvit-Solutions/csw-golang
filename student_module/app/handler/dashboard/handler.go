@@ -12,6 +12,7 @@ type handler struct {
 
 type Handler interface {
 	FindMaterial(c *gin.Context)
+	QuizAll(c *gin.Context)
 }
 
 func NewHandler(

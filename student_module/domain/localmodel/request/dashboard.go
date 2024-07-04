@@ -1,5 +1,5 @@
 package request
 
-type Dashboard struct {
+type ParamDashboard struct {
 	AuthenticatedUser int `json:"authenticated_user"`
 }
