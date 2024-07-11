@@ -33,6 +33,34 @@ func NewRouteInit(req request.RouteInit) {
 
 	// Define routes for different endpoints.
 	Use(module)
+
+	{
+		quizGroup := route.Group("/quizzes")
+		quizGroup.GET("", module.QuizAdmin.QuizAdminAll)
+		quizGroup.GET("/update-details/:uuid", module.QuizAdmin.QuizUpdateDetail)
+		quizGroup.POST("", module.QuizAdmin.Create)
+		quizGroup.PUT("", module.QuizAdmin.Update)
+		quizGroup.DELETE(":uuid", module.QuizAdmin.Delete)
+	}
+
+	{
+		subjectGroup := route.Group("/subjects")
+		subjectGroup.GET("", module.SubjectAdmin.SubjectAdminAll)
+		subjectGroup.GET("/all", module.SubjectAdmin.Read)
+		subjectGroup.GET("/update-details/:uuid", module.SubjectAdmin.SubjectUpdateDetail)
+		subjectGroup.POST("", module.SubjectAdmin.Create)
+		subjectGroup.PUT("", module.SubjectAdmin.Update)
+		subjectGroup.DELETE(":uuid", module.SubjectAdmin.Delete)
+	}
+
+	{
+		materialGroup := route.Group("/materials")
+		materialGroup.GET("", module.MaterialAdmin.MaterialAdminAll)
+		materialGroup.GET("/update-details/:uuid", module.MaterialAdmin.MaterialUpdateDetail)
+		materialGroup.POST("", module.MaterialAdmin.Create)
+		materialGroup.PUT("", module.MaterialAdmin.Update)
+		materialGroup.DELETE(":uuid", module.MaterialAdmin.Delete)
+	}
 }
 
 // Delete this function after "module" used
