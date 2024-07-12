@@ -2,6 +2,7 @@ package home
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/Marvit-Solutions/csw-golang/student_module/domain/localmodel/response"
@@ -26,6 +27,7 @@ func (u *usecase) MentorTop() ([]*response.MentorHome, error) {
 	results := make([]*response.MentorHome, 0)
 	for _, mentor := range mentors {
 		results = append(results, &response.MentorHome{
+			ID:            mentor.ID,
 			UUID:          mentor.UUID,
 			Name:          mentor.Name,
 			TeachingField: mentor.TeachingField,
@@ -39,6 +41,10 @@ func (u *usecase) MentorTop() ([]*response.MentorHome, error) {
 	if len(results) == 0 {
 		return nil, helper.ErrDataNotFound
 	}
+
+	sort.Slice(results, func(i, j int) bool {
+		return results[i].ID < results[j].ID
+	})
 
 	return results, nil
 }
