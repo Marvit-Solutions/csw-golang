@@ -2,11 +2,10 @@ package service
 
 import (
 	"context"
-	"strconv"
-
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/Marvit-Solutions/csw-golang/library/repository"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
+	"strconv"
 
 	"github.com/olivere/elastic/v7"
 	"gorm.io/gorm"
@@ -56,9 +55,10 @@ func (srv *exerciseQuestionMediaService) Count(criteria map[string]interface{}) 
 	return int(result)
 }
 
+
 // Creates a new record.
 func (srv *exerciseQuestionMediaService) Create(model *model.ExerciseQuestionMedia, tx *gorm.DB) (*model.ExerciseQuestionMedia, error) {
-	db := tx.Create(&model)
+		db := tx.Create(&model)
 	if err := db.Error; err != nil {
 		return nil, err
 	}

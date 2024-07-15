@@ -5,10 +5,10 @@ ALTER TABLE
         IF EXISTS public.sub_subject_media DROP CONSTRAINT IF EXISTS sub_subject_sub_subject_media;
 
 ALTER TABLE
-        IF EXISTS public.exercise_question_media DROP CONSTRAINT IF EXISTS media_exercise_question_media;
+        IF EXISTS public.exercise_question_medias DROP CONSTRAINT IF EXISTS media_exercise_question_media;
 
 ALTER TABLE
-        IF EXISTS public.exercise_question_media DROP CONSTRAINT IF EXISTS exercise_question_exercise_question_media;
+        IF EXISTS public.exercise_question_medias DROP CONSTRAINT IF EXISTS exercise_question_exercise_question_media;
 
 ALTER TABLE
         IF EXISTS public.quiz_question_media DROP CONSTRAINT IF EXISTS media_quiz_question_media;

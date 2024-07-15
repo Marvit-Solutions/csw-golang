@@ -6,10 +6,10 @@ import (
 	"gorm.io/gorm"
 )
 
-const TableNameExerciseSubmission = "exercise_submissions"
+const TableNameExerciseSubmissionsModule = "exercise_submissions_module"
 
-// ExerciseSubmission mapped from table <exercise_submissions>
-type ExerciseSubmission struct {
+// ExerciseSubmissionsModule mapped from table <exercise_submissions_module>
+type ExerciseSubmissionsModule struct {
 	ID           int          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
 	UUID         string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
 	UserID       int          `gorm:"column:user_id;not null" json:"user_id"`
@@ -24,7 +24,7 @@ type ExerciseSubmission struct {
 	DeletedAt    gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
 }
 
-// TableName ExerciseSubmission's table name
-func (*ExerciseSubmission) TableName() string {
-	return TableNameExerciseSubmission
+// TableName ExerciseSubmissionsModule's table name
+func (*ExerciseSubmissionsModule) TableName() string {
+	return TableNameExerciseSubmissionsModule
 }

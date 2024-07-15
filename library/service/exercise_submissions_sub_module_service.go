@@ -11,20 +11,20 @@ import (
 	"gorm.io/gorm"
 )
 
-// The implementation of ExerciseSubmissionRepository interface.
-type exerciseSubmissionService struct {
+// The implementation of ExerciseSubmissionsSubModuleRepository interface.
+type exerciseSubmissionsSubModuleService struct {
 	db     *gorm.DB
 	client *elastic.Client
 }
 
-// Creates a new instance of ExerciseSubmissionService.
-func NewExerciseSubmissionService(db *gorm.DB, client *elastic.Client) repository.ExerciseSubmissionRepository {
-	return &exerciseSubmissionService{db, client}
+// Creates a new instance of ExerciseSubmissionsSubModuleService.
+func NewExerciseSubmissionsSubModuleService(db *gorm.DB, client *elastic.Client) repository.ExerciseSubmissionsSubModuleRepository {
+	return &exerciseSubmissionsSubModuleService{db, client}
 }
 
 // Finds a single record by given criteria.
-func (srv *exerciseSubmissionService) FindOneBy(criteria map[string]interface{}) (*model.ExerciseSubmission, error) {
-	m := new(model.ExerciseSubmission)
+func (srv *exerciseSubmissionsSubModuleService) FindOneBy(criteria map[string]interface{}) (*model.ExerciseSubmissionsSubModule, error) {
+	m := new(model.ExerciseSubmissionsSubModule)
 	res := srv.db.Where(criteria).First(&m)
 	if err := res.Error; err != nil {
 		return nil, err
@@ -33,8 +33,8 @@ func (srv *exerciseSubmissionService) FindOneBy(criteria map[string]interface{})
 }
 
 // Finds records by given criteria, with pagination support.
-func (srv *exerciseSubmissionService) FindBy(criteria map[string]interface{}, page, size int) ([]*model.ExerciseSubmission, error) {
-	var data []*model.ExerciseSubmission
+func (srv *exerciseSubmissionsSubModuleService) FindBy(criteria map[string]interface{}, page, size int) ([]*model.ExerciseSubmissionsSubModule, error) {
+	var data []*model.ExerciseSubmissionsSubModule
 
 	limit, offset := helper.GetLimitOffset(page, size)
 	if res := srv.db.Where(criteria).Offset(offset).Order("id DESC").Limit(limit).Find(&data); res.Error != nil {
@@ -45,10 +45,10 @@ func (srv *exerciseSubmissionService) FindBy(criteria map[string]interface{}, pa
 }
 
 // Counts the number of records based on given criteria.
-func (srv *exerciseSubmissionService) Count(criteria map[string]interface{}) int {
+func (srv *exerciseSubmissionsSubModuleService) Count(criteria map[string]interface{}) int {
 	var result int64
 
-	if res := srv.db.Model(model.ExerciseSubmission{}).Where(criteria).Count(&result); res.Error != nil {
+	if res := srv.db.Model(model.ExerciseSubmissionsSubModule{}).Where(criteria).Count(&result); res.Error != nil {
 		return 0
 	}
 
@@ -57,7 +57,7 @@ func (srv *exerciseSubmissionService) Count(criteria map[string]interface{}) int
 
 
 // Creates a new record.
-func (srv *exerciseSubmissionService) Create(model *model.ExerciseSubmission, tx *gorm.DB) (*model.ExerciseSubmission, error) {
+func (srv *exerciseSubmissionsSubModuleService) Create(model *model.ExerciseSubmissionsSubModule, tx *gorm.DB) (*model.ExerciseSubmissionsSubModule, error) {
 		db := tx.Create(&model)
 	if err := db.Error; err != nil {
 		return nil, err
@@ -67,19 +67,19 @@ func (srv *exerciseSubmissionService) Create(model *model.ExerciseSubmission, tx
 }
 
 // Updates an existing record.
-func (srv *exerciseSubmissionService) Update(model *model.ExerciseSubmission, tx *gorm.DB) error {
+func (srv *exerciseSubmissionsSubModuleService) Update(model *model.ExerciseSubmissionsSubModule, tx *gorm.DB) error {
 	err := tx.Save(&model).Error
 	return err
 }
 
 // Deletes an existing record.
-func (srv *exerciseSubmissionService) Delete(model *model.ExerciseSubmission, tx *gorm.DB) error {
+func (srv *exerciseSubmissionsSubModuleService) Delete(model *model.ExerciseSubmissionsSubModule, tx *gorm.DB) error {
 	err := tx.Delete(&model).Error
 	return err
 }
 
 // Creates or updates an index for the model.
-func (srv *exerciseSubmissionService) CreateOrUpdateIndex(model *model.ExerciseSubmission) error {
+func (srv *exerciseSubmissionsSubModuleService) CreateOrUpdateIndex(model *model.ExerciseSubmissionsSubModule) error {
 	ctx := context.Background()
 
 	exists, err := srv.client.IndexExists(model.TableName()).Do(ctx)
