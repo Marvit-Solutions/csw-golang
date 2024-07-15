@@ -111,6 +111,7 @@ func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.Exerc
 	for i, question := range questions {
 		questionsRes[i] = &response.Question{
 			UUID:          question.UUID,
+			SubModuleID:   question.SubModuleID,
 			Content:       question.Content,
 			Score:         question.Score,
 			QuestionMedia: questionMediaMap[question.ID],

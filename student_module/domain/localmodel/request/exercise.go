@@ -24,7 +24,8 @@ type ExerciseHistory struct {
 }
 
 type Answer struct {
-	ChoiceUUID string `json:"choice_uuid"`
+	SubModuleID int    `json:"sub_module_id"`
+	ChoiceUUID  string `json:"choice_uuid"`
 }
 
 type ExerciseReview struct {
