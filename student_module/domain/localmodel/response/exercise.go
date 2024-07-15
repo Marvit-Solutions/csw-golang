@@ -25,7 +25,7 @@ type ExerciseDetail struct {
 	Questions   []*Question `json:"questions"`
 }
 
-type ExerciseHistoryDetail struct {
+type ExerciseHistoryDetailSubModule struct {
 	SubmissionUUID               string `json:"submission_uuid"`
 	SubModule                    string `json:"submodule"`
 	ScorePerSubModule            int    `json:"score_per_sub_module"`
@@ -34,15 +34,15 @@ type ExerciseHistoryDetail struct {
 	MaxTotalQuestionPerSubModule int    `json:"max_total_question_per_sub_module"`
 }
 
-type ExerciseHistoryDetails struct {
-	ScorePerModule        int                      `json:"score_per_module"`
-	MaxScorePerModule     int                      `json:"max_score_per_module"`
-	ExerciseHistoryDetail []*ExerciseHistoryDetail `json:"exercise_history_detail"`
+type ExerciseHistoryDetailModule struct {
+	ScorePerModule        int                               `json:"score_per_module"`
+	MaxScorePerModule     int                               `json:"max_score_per_module"`
+	ExerciseHistoryDetail []*ExerciseHistoryDetailSubModule `json:"exercise_history_detail"`
 }
 
 type ExerciseHistory struct {
-	MaxScore ExerciseHistoryDetail `json:"max_score"`
-	MinScore ExerciseHistoryDetail `json:"min_score"`
+	MaxScore ExerciseHistoryDetailModule `json:"max_score"`
+	MinScore ExerciseHistoryDetailModule `json:"min_score"`
 }
 
 type Question struct {
