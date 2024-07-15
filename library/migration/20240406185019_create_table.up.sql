@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_questions (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         exercise_id integer NOT NULL,
+        sub_module_id integer NOT NULL,
         content text NOT NULL,
         score integer NOT NULL,
         explanation text NOT NULL,
@@ -66,7 +67,22 @@ CREATE TABLE IF NOT EXISTS public.exercise_questions (
         CONSTRAINT exercise_questions_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.exercise_submissions (
+CREATE TABLE IF NOT EXISTS public.exercise_submissions_sub_module (
+        id serial NOT NULL,
+        uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+        user_id integer NOT NULL,
+        exercise_id integer NOT NULL,
+        sub_module_id integer NOT NULL,
+        exercise_submissions_module_id integer NOT NULL,
+        right_answer integer NOT NULL,
+        score integer NOT NULL,
+        created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        deleted_at timestamp with time zone,
+        CONSTRAINT exercise_submissions_sub_module_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.exercise_submissions_module (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         user_id integer NOT NULL,
@@ -79,7 +95,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_submissions (
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at timestamp with time zone,
-        CONSTRAINT exercise_submissions_pkey PRIMARY KEY (id)
+        CONSTRAINT exercise_submissions_module_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.exercises (

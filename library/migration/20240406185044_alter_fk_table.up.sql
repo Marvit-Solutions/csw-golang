@@ -24,14 +24,39 @@ ADD
         CONSTRAINT exercise_exercise_question_fk FOREIGN KEY (exercise_id) REFERENCES public.exercises (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
-        IF EXISTS public.exercise_submissions
+        IF EXISTS public.exercise_questions
 ADD
-        CONSTRAINT user_exercise_submission FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT sub_module_exercise_question_fk FOREIGN KEY (sub_module_id) REFERENCES public.sub_modules (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
-        IF EXISTS public.exercise_submissions
+        IF EXISTS public.exercise_submissions_sub_module
 ADD
-        CONSTRAINT exercise_exercise_submissiion FOREIGN KEY (exercise_id) REFERENCES public.exercises (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT user_exercise_submissions_sub_module_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_submissions_sub_module
+ADD
+        CONSTRAINT exercise_exercise_submissions_sub_module_fk FOREIGN KEY (exercise_id) REFERENCES public.exercises (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_submissions_sub_module
+ADD
+        CONSTRAINT sub_module_exercise_submissions_sub_module_fk FOREIGN KEY (sub_module_id) REFERENCES public.sub_modules (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_submissions_sub_module
+ADD
+        CONSTRAINT exercise_submissions_module_exercise_submissions_sub_module_fk FOREIGN KEY (exercise_submissions_module_id) REFERENCES public.exercise_submissions_module (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_submissions_module
+ADD
+        CONSTRAINT user_exercise_submissions_module_fk FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
+        IF EXISTS public.exercise_submissions_module
+ADD
+        CONSTRAINT exercise_exercise_submissions_module_fk FOREIGN KEY (exercise_id) REFERENCES public.exercises (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.exercises

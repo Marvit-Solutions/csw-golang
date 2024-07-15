@@ -46,7 +46,7 @@ DROP TABLE IF EXISTS public.mentors CASCADE;
 
 DROP TABLE IF EXISTS public.exercises CASCADE;
 
-DROP TABLE IF EXISTS public.exercise_submissions CASCADE;
+DROP TABLE IF EXISTS public.exercise_submissions_sub_module CASCADE;
 
 DROP TABLE IF EXISTS public.exercise_questions CASCADE;
 
