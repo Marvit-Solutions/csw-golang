@@ -429,7 +429,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_question_media (
         PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.exercise_question_media (
+CREATE TABLE IF NOT EXISTS public.exercise_question_medias (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         exercise_question_id integer NOT NULL,

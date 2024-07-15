@@ -204,12 +204,12 @@ ADD
         CONSTRAINT media_quiz_question_media FOREIGN KEY (media_id) REFERENCES public.medias (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
-        IF EXISTS public.exercise_question_media
+        IF EXISTS public.exercise_question_medias
 ADD
         CONSTRAINT exercise_question_exercise_question_media FOREIGN KEY (exercise_question_id) REFERENCES public.exercise_questions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
-        IF EXISTS public.exercise_question_media
+        IF EXISTS public.exercise_question_medias
 ADD
         CONSTRAINT media_exercise_question_media FOREIGN KEY (media_id) REFERENCES public.medias (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 

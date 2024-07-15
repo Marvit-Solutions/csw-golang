@@ -16,6 +16,7 @@ type ExerciseQuestion struct {
 	SubModuleID int            `gorm:"column:sub_module_id;not null" json:"sub_module_id"`
 	Content     string         `gorm:"column:content;not null" json:"content"`
 	Score       int            `gorm:"column:score;not null" json:"score"`
+	Explanation string         `gorm:"column:explanation;not null" json:"explanation"`
 	CreatedBy   int            `gorm:"column:created_by;not null" json:"created_by"`
 	UpdatedBy   int            `gorm:"column:updated_by;not null" json:"updated_by"`
 	CreatedAt   time.Time      `gorm:"column:created_at;not null;default:CURRENT_TIMESTAMP" json:"created_at"`
