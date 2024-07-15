@@ -28,94 +28,124 @@ func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 		return fmt.Errorf("failed to find exercise: %v", err)
 	}
 
-	exerciseQuestions, err := u.exerciseQuestionRepo.FindBy(map[string]interface{}{
-		"exercise_id": exercise.ID,
-	}, 0, 0)
+	subModuleIDs, err := u.exerciseLocalRepo.FindSubModulesID()
 	if err != nil {
-		return fmt.Errorf("failed to find exercise questions: %v", err)
+		return fmt.Errorf("failed to find exercise: %v", err)
 	}
 
-	exerciseQuestionMap := make(map[int]int)
-	exerciseQuestionIDs := make([]int, 0, len(exerciseQuestions))
-	for _, question := range exerciseQuestions {
-		exerciseQuestionMap[question.ID] = question.Score
-		exerciseQuestionIDs = append(exerciseQuestionIDs, question.ID)
-	}
+	for _, subModuleID := range subModuleIDs {
 
-	rightExerciseChoices, err := u.exerciseChoiceRepo.FindBy(map[string]interface{}{
-		"question_id": exerciseQuestionIDs,
-		"is_correct":  true,
-	}, 0, 0)
-	if err != nil {
-		return fmt.Errorf("failed to find exercise choices: %v", err)
-	}
-
-	userAnswerMap := make(map[int]string)
-	for i, choice := range req.Answers {
-		userAnswerMap[i+1] = choice.ChoiceUUID
-	}
-
-	userAnswerUUIDs := make([]string, 0, len(userAnswerMap))
-	for _, UUID := range userAnswerMap {
-		if UUID != "" {
-			userAnswerUUIDs = append(userAnswerUUIDs, UUID)
+		exerciseQuestions, err := u.exerciseQuestionRepo.FindBy(map[string]interface{}{
+			"exercise_id":   exercise.ID,
+			"sub_module_id": subModuleID,
+		}, 0, 0)
+		if err != nil {
+			return fmt.Errorf("failed to find exercise questions: %v", err)
 		}
-	}
 
-	exerciseAnswers, err := u.exerciseChoiceRepo.FindBy(map[string]interface{}{
-		"uuid": userAnswerUUIDs,
-	}, 0, 0)
-	if err != nil {
-		return fmt.Errorf("failed to find exercise answers: %v", err)
-	}
-
-	exerciseAnswerMap := make(map[string]*int)
-	for _, answer := range exerciseAnswers {
-		exerciseAnswerMap[answer.UUID] = &answer.ID
-	}
-
-	rightAnswerMap := make(map[int]string)
-	for _, answer := range rightExerciseChoices {
-		rightAnswerMap[answer.QuestionID] = answer.UUID
-	}
-
-	var score, rightAnswers int
-	for questionID, userUUID := range userAnswerMap {
-		if rightUUID, exists := rightAnswerMap[questionID]; exists && userUUID == rightUUID {
-			score += exerciseQuestionMap[questionID]
-			rightAnswers++
+		exerciseQuestionMap := make(map[int]int)
+		exerciseQuestionIDs := make([]int, 0, len(exerciseQuestions))
+		for _, question := range exerciseQuestions {
+			exerciseQuestionMap[question.ID] = question.Score
+			exerciseQuestionIDs = append(exerciseQuestionIDs, question.ID)
 		}
+
+		rightExerciseChoices, err := u.exerciseChoiceRepo.FindBy(map[string]interface{}{
+			"question_id": exerciseQuestionIDs,
+			"is_correct":  true,
+		}, 0, 0)
+		if err != nil {
+			return fmt.Errorf("failed to find exercise choices: %v", err)
+		}
+
+		userAnswerMap := make(map[int]string)
+		for i, choice := range req.Answers {
+			if choice.SubModuleID == subModuleID {
+				userAnswerMap[i+1] = choice.ChoiceUUID
+			}
+		}
+
+		userAnswerUUIDs := make([]string, 0, len(userAnswerMap))
+		for _, UUID := range userAnswerMap {
+			if UUID != "" {
+				userAnswerUUIDs = append(userAnswerUUIDs, UUID)
+			}
+		}
+
+		exerciseAnswers, err := u.exerciseChoiceRepo.FindBy(map[string]interface{}{
+			"uuid": userAnswerUUIDs,
+		}, 0, 0)
+		if err != nil {
+			return fmt.Errorf("failed to find exercise answers: %v", err)
+		}
+
+		exerciseAnswerMap := make(map[string]*int)
+		for _, answer := range exerciseAnswers {
+			exerciseAnswerMap[answer.UUID] = &answer.ID
+		}
+
+		rightAnswerMap := make(map[int]string)
+		for _, answer := range rightExerciseChoices {
+			rightAnswerMap[answer.QuestionID] = answer.UUID
+		}
+
+		var score, rightAnswers int
+		for questionID, userUUID := range userAnswerMap {
+			if rightUUID, exists := rightAnswerMap[questionID]; exists && userUUID == rightUUID {
+				score += exerciseQuestionMap[questionID]
+				rightAnswers++
+			}
+		}
+
+		newSubmission := &model.ExerciseSubmission{
+			UserID:       user.ID,
+			ExerciseID:   exercise.ID,
+			SubModuleID:  subModuleID,
+			StartedAt:    time.Now().Add(-helper.ParseTimeString(req.TimeRequired)),
+			FinishedAt:   time.Now(),
+			TimeRequired: req.TimeRequired,
+			RightAnswer:  rightAnswers,
+			Score:        score,
+		}
+
+		tx := u.db.Begin()
+		defer tx.Rollback()
+
+		if err := tx.Create(newSubmission).Error; err != nil {
+			return fmt.Errorf("failed to create submission: %v", err)
+		}
+
+		var newExerciseAnswers []*model.ExerciseAnswer
+		for _, answerUUID := range userAnswerMap {
+			newExerciseAnswers = append(newExerciseAnswers, &model.ExerciseAnswer{
+				SubmissionID: newSubmission.ID,
+				ChoiceID:     exerciseAnswerMap[answerUUID],
+			})
+		}
+		fmt.Printf("submoudule id %d\n", subModuleID)
+		for _, answer := range newExerciseAnswers {
+			fmt.Printf("ID: %d\n", answer.ID)
+			fmt.Printf("UUID: %s\n", answer.UUID)
+			fmt.Printf("SubmissionID: %d\n", answer.SubmissionID)
+			if answer.ChoiceID != nil {
+				fmt.Printf("ChoiceID: %d\n", *answer.ChoiceID)
+			} else {
+				fmt.Printf("ChoiceID: nil\n")
+			}
+			fmt.Printf("CreatedAt: %s\n", answer.CreatedAt)
+			fmt.Printf("UpdatedAt: %s\n", answer.UpdatedAt)
+			fmt.Printf("DeletedAt: %v\n", answer.DeletedAt)
+			fmt.Println("-----")
+		}
+
+		fmt.Printf("((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))")
+
+		if err := tx.Create(newExerciseAnswers).Error; err != nil {
+			return fmt.Errorf("failed to create exercise answers: %v", err)
+		}
+
+		tx.Commit()
 	}
 
-	newSubmission := &model.ExerciseSubmission{
-		UserID:       user.ID,
-		ExerciseID:   exercise.ID,
-		StartedAt:    time.Now().Add(-helper.ParseTimeString(req.TimeRequired)),
-		FinishedAt:   time.Now(),
-		TimeRequired: req.TimeRequired,
-		RightAnswer:  rightAnswers,
-		Score:        score,
-	}
-
-	tx := u.db.Begin()
-	defer tx.Rollback()
-
-	if err := tx.Create(newSubmission).Error; err != nil {
-		return fmt.Errorf("failed to create submission: %v", err)
-	}
-
-	var newExerciseAnswers []*model.ExerciseAnswer
-	for _, answerUUID := range userAnswerMap {
-		newExerciseAnswers = append(newExerciseAnswers, &model.ExerciseAnswer{
-			SubmissionID: newSubmission.ID,
-			ChoiceID:     exerciseAnswerMap[answerUUID],
-		})
-	}
-
-	if err := tx.CreateInBatches(newExerciseAnswers, 100).Error; err != nil {
-		return fmt.Errorf("failed to create exercise answers: %v", err)
-	}
-
-	tx.Commit()
 	return nil
 }

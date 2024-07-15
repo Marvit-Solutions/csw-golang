@@ -37,10 +37,11 @@ func (u *usecase) FindHistory(req request.ExerciseHistory) ([]*response.Exercise
 
 	res := make([]*response.ExerciseHistory, 0)
 	for _, exerciseSubmission := range exerciseSubmissions {
-		res = append(res, &response.ExerciseHistory{
-			SubmissionUUID: exerciseSubmission.UUID,
-			Score:          exerciseSubmission.Score,
-		})
+		// res = append(res, &response.ExerciseHistory{
+		// 	// SubmissionUUID: exerciseSubmission.UUID,
+		// 	// Score:          exerciseSubmission.Score,
+		// })
+		fmt.Println(exerciseSubmission)
 	}
 
 	return res, nil
