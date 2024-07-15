@@ -28,10 +28,10 @@ func (svc *HomeService) FindMentorInfo(orderByRating bool) ([]*response.MentorHo
 
 	var orderByClause string
 	if orderByRating {
-		orderByClause = "ORDER BY rating DESC LIMIT 3"
+		orderByClause = "ORDER BY rating DESC LIMIT 3 "
 	}
 
-	query := fmt.Sprintf(`SELECT m.uuid, ud.media_id, m.short_name AS name, mdl.name AS teaching_field, m.description, m.motto, COALESCE(ROUND(avg_rating.avg_rating, 2), 0) AS rating
+	query := fmt.Sprintf(`SELECT m.id, m.uuid, ud.media_id, m.short_name AS name, mdl.name AS teaching_field, m.description, m.motto, COALESCE(ROUND(avg_rating.avg_rating, 2), 0) AS rating
 			FROM mentors m
 			LEFT JOIN user_details ud ON ud.user_id = m.user_id
 			LEFT JOIN modules mdl ON mdl.id = m.module_id
