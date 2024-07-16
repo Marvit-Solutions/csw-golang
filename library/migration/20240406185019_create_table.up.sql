@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS public.class_users (
 CREATE TABLE IF NOT EXISTS public.exercise_answers (
         id serial NOT NULL,
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
-        submission_id integer NOT NULL,
+        submission_sub_module_id integer NOT NULL,
         choice_id integer,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS public.exercise_submissions_sub_module (
         user_id integer NOT NULL,
         exercise_id integer NOT NULL,
         sub_module_id integer NOT NULL,
-        exercise_submissions_module_id integer NOT NULL,
+        submissions_module_id integer NOT NULL,
         right_answer integer NOT NULL,
         score integer NOT NULL,
         created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,

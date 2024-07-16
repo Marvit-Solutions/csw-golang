@@ -14,6 +14,11 @@ ADD
         CONSTRAINT choice_exercise_answer_fk FOREIGN KEY (choice_id) REFERENCES public.exercise_choices (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
+        IF EXISTS public.exercise_answers
+ADD
+        CONSTRAINT exercise_submission_sub_module_exercise_answer_fk FOREIGN KEY (submission_sub_module_id) REFERENCES public.exercise_submissions_sub_module (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+
+ALTER TABLE
         IF EXISTS public.exercise_choices
 ADD
         CONSTRAINT question_exercise_choice_fk FOREIGN KEY (question_id) REFERENCES public.exercise_questions (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
@@ -46,7 +51,7 @@ ADD
 ALTER TABLE
         IF EXISTS public.exercise_submissions_sub_module
 ADD
-        CONSTRAINT exercise_submissions_module_exercise_submissions_sub_module_fk FOREIGN KEY (exercise_submissions_module_id) REFERENCES public.exercise_submissions_module (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
+        CONSTRAINT exercise_submissions_module_exercise_submissions_sub_module_fk FOREIGN KEY (submissions_module_id) REFERENCES public.exercise_submissions_module (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID;
 
 ALTER TABLE
         IF EXISTS public.exercise_submissions_module
