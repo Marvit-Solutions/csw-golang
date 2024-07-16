@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 	"github.com/Marvit-Solutions/csw-golang/student_module/domain/localrepository"
 	"gorm.io/gorm"
 )
@@ -46,4 +47,51 @@ func (svc *ExerciseService) FindSubModulesID() ([]int, error) {
 		fmt.Printf("subModuleID: %d\n", subModuleID)
 	}
 	return subModuleIDs, nil
+}
+
+func (svc *ExerciseService) FindHighestOrLowestScoreAndSubModules(exerciseID int, findMax bool) (*model.ExerciseSubmissionsModule, []model.ExerciseSubmissionsSubModule, error) {
+	var submission model.ExerciseSubmissionsModule
+	order := "score DESC"
+	if !findMax {
+		order = "score ASC"
+	}
+	res := svc.DB.Where("exercise_id = ?", exerciseID).Order(order).First(&submission)
+	if res.Error != nil {
+		scoreType := "highest"
+		if !findMax {
+			scoreType = "lowest"
+		}
+		return nil, nil, fmt.Errorf("failed to find %s score submission: %v", scoreType, res.Error)
+	}
+
+	var subModules []model.ExerciseSubmissionsSubModule
+	res = svc.DB.Where("submissions_module_id = ?", submission.ID).Find(&subModules)
+	if res.Error != nil {
+		return nil, nil, fmt.Errorf("failed to find sub modules: %v", res.Error)
+	}
+
+	return &submission, subModules, nil
+}
+
+func (svc *ExerciseService) GetMaxScoreAndTotalQuestionExercise(exerciseID, subModuleID int) (int, int, error) {
+	var totalScore int
+	var rowCount int64
+
+	// Menghitung total score
+	res := svc.DB.Model(&model.ExerciseQuestion{}).
+		Where("exercise_id = ? AND sub_module_id = ?", exerciseID, subModuleID).
+		Select("COALESCE(SUM(score), 0)").Scan(&totalScore)
+	if res.Error != nil {
+		return 0, 0, fmt.Errorf("failed to calculate total score: %v", res.Error)
+	}
+
+	// Menghitung total row
+	res = svc.DB.Model(&model.ExerciseQuestion{}).
+		Where("exercise_id = ? AND sub_module_id = ?", exerciseID, subModuleID).
+		Count(&rowCount)
+	if res.Error != nil {
+		return 0, 0, fmt.Errorf("failed to count rows: %v", res.Error)
+	}
+
+	return totalScore, int(rowCount), nil
 }

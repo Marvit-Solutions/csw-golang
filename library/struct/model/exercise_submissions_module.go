@@ -14,7 +14,6 @@ type ExerciseSubmissionsModule struct {
 	UUID         string         `gorm:"column:uuid;not null;default:uuid_generate_v4()" json:"uuid"`
 	UserID       int            `gorm:"column:user_id;not null" json:"user_id"`
 	ExerciseID   int            `gorm:"column:exercise_id;not null" json:"exercise_id"`
-	SubModuleID  int            `gorm:"column:sub_module_id;not null" json:"sub_module_id"`
 	StartedAt    time.Time      `gorm:"column:started_at;not null" json:"started_at"`
 	FinishedAt   time.Time      `gorm:"column:finished_at;not null" json:"finished_at"`
 	TimeRequired string         `gorm:"column:time_required;not null" json:"time_required"`

@@ -28,7 +28,7 @@ func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.Exerc
 		return nil, fmt.Errorf("failed to find exercise: %v", err)
 	}
 
-	userAttempt := u.exerciseSubmissionRepo.Count(map[string]interface{}{
+	userAttempt := u.exerciseSubmissionsModuleRepo.Count(map[string]interface{}{
 		"exercise_id": exercise.ID,
 		"user_id":     req.AuthenticatedUser,
 	})

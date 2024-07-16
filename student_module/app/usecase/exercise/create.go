@@ -33,6 +33,29 @@ func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 		return fmt.Errorf("failed to find exercise: %v", err)
 	}
 
+	totalScoreSubmisssionModule := 0
+	totalRightAnswerSubmisssionModule := 0
+
+	// temporary data
+	newSubmissionModuleBefore := &model.ExerciseSubmissionsModule{
+		UserID:       user.ID,
+		ExerciseID:   exercise.ID,
+		RightAnswer:  totalRightAnswerSubmisssionModule, //tmp
+		Score:        totalScoreSubmisssionModule,       //tmp
+		StartedAt:    time.Now().Add(-helper.ParseTimeString(req.TimeRequired)),
+		FinishedAt:   time.Now(),
+		TimeRequired: req.TimeRequired,
+	}
+
+	tx := u.db.Begin()
+	defer tx.Rollback()
+
+	submissionModule, err := u.exerciseSubmissionsModuleRepo.Create(newSubmissionModuleBefore, tx)
+
+	if err != nil {
+		return fmt.Errorf("failed to create quiz submission: %v", err)
+	}
+
 	for _, subModuleID := range subModuleIDs {
 
 		exerciseQuestions, err := u.exerciseQuestionRepo.FindBy(map[string]interface{}{
@@ -97,36 +120,39 @@ func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 			}
 		}
 
-		newSubmission := &model.ExerciseSubmission{
-			UserID:       user.ID,
-			ExerciseID:   exercise.ID,
-			SubModuleID:  subModuleID,
-			StartedAt:    time.Now().Add(-helper.ParseTimeString(req.TimeRequired)),
-			FinishedAt:   time.Now(),
-			TimeRequired: req.TimeRequired,
-			RightAnswer:  rightAnswers,
-			Score:        score,
+		newSubmissionSubModule := &model.ExerciseSubmissionsSubModule{
+			UserID:              user.ID,
+			ExerciseID:          exercise.ID,
+			SubModuleID:         subModuleID,
+			SubmissionsModuleID: submissionModule.ID,
+			RightAnswer:         rightAnswers,
+			Score:               score,
 		}
 
-		tx := u.db.Begin()
-		defer tx.Rollback()
-
-		if err := tx.Create(newSubmission).Error; err != nil {
-			return fmt.Errorf("failed to create submission: %v", err)
+		if err := tx.Create(newSubmissionSubModule).Error; err != nil {
+			return fmt.Errorf("failed to create newSubmissionSubModule: %v", err)
 		}
 
 		var newExerciseAnswers []*model.ExerciseAnswer
 		for _, answerUUID := range userAnswerMap {
 			newExerciseAnswers = append(newExerciseAnswers, &model.ExerciseAnswer{
-				SubmissionID: newSubmission.ID,
-				ChoiceID:     exerciseAnswerMap[answerUUID],
+				SubmissionSubModuleID: newSubmissionSubModule.ID,
+				ChoiceID:              exerciseAnswerMap[answerUUID],
 			})
 		}
+
+		if err := tx.Create(newExerciseAnswers).Error; err != nil {
+			return fmt.Errorf("failed to create exercise answers: %v", err)
+		}
+
+		totalScoreSubmisssionModule += score
+		totalRightAnswerSubmisssionModule += rightAnswers
+
 		fmt.Printf("submoudule id %d\n", subModuleID)
 		for _, answer := range newExerciseAnswers {
 			fmt.Printf("ID: %d\n", answer.ID)
 			fmt.Printf("UUID: %s\n", answer.UUID)
-			fmt.Printf("SubmissionID: %d\n", answer.SubmissionID)
+			fmt.Printf("SubmissionID: %d\n", answer.SubmissionSubModuleID)
 			if answer.ChoiceID != nil {
 				fmt.Printf("ChoiceID: %d\n", *answer.ChoiceID)
 			} else {
@@ -140,12 +166,29 @@ func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 
 		fmt.Printf("((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))")
 
-		if err := tx.Create(newExerciseAnswers).Error; err != nil {
-			return fmt.Errorf("failed to create exercise answers: %v", err)
-		}
-
-		tx.Commit()
 	}
+
+	fmt.Println("ini req.TimeRequired")
+	fmt.Println(req.TimeRequired)
+	newSubmissionModuleAfter := &model.ExerciseSubmissionsModule{
+		ID:           submissionModule.ID,
+		UUID:         submissionModule.UUID,
+		UserID:       user.ID,
+		ExerciseID:   exercise.ID,
+		RightAnswer:  totalRightAnswerSubmisssionModule, //tmp
+		Score:        totalScoreSubmisssionModule,       //tmp
+		StartedAt:    time.Now().Add(-helper.ParseTimeString(req.TimeRequired)),
+		FinishedAt:   time.Now(),
+		TimeRequired: req.TimeRequired,
+	}
+
+	err = u.exerciseSubmissionsModuleRepo.Update(newSubmissionModuleAfter, tx)
+
+	if err != nil {
+		return fmt.Errorf("failed to create quiz submission: %v", err)
+	}
+
+	tx.Commit()
 
 	return nil
 }

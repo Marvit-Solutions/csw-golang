@@ -21,7 +21,7 @@ func (u *usecase) Review(req request.ExerciseReview) (*response.ExerciseReview, 
 		return nil, helper.ErrAccessDenied
 	}
 
-	exerciseSubmission, err := u.exerciseSubmissionRepo.FindOneBy(map[string]interface{}{
+	exerciseSubmissionModule, err := u.exerciseSubmissionsModuleRepo.FindOneBy(map[string]interface{}{
 		"uuid": req.SubmissionUUID,
 	})
 	if err != nil {
@@ -29,11 +29,11 @@ func (u *usecase) Review(req request.ExerciseReview) (*response.ExerciseReview, 
 	}
 
 	totalQuestion := u.exerciseQuestionRepo.Count(map[string]interface{}{
-		"exercise_id": exerciseSubmission.ExerciseID,
+		"exercise_id": exerciseSubmissionModule.ExerciseID,
 	})
 
 	exerciseQuestions, err := u.exerciseQuestionRepo.FindBy(map[string]interface{}{
-		"exercise_id": exerciseSubmission.ExerciseID,
+		"exercise_id": exerciseSubmissionModule.ExerciseID,
 	}, 0, totalQuestion)
 	if err != nil {
 		return nil, fmt.Errorf("failed to find exercise questions: %v", err)
@@ -49,8 +49,20 @@ func (u *usecase) Review(req request.ExerciseReview) (*response.ExerciseReview, 
 		perfectScore += question.Score
 	}
 
+	exerciseSubmissionsSubModule, err := u.exerciseSubmissionsSubModuleRepo.FindBy(map[string]interface{}{
+		"submissions_module_id": exerciseSubmissionModule.ID,
+	}, 0, 0)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find exercise submission: %v", err)
+	}
+
+	exerciseSubmissionSubModuleIDs := make([]int, 0, len(exerciseSubmissionsSubModule))
+	for _, exerciseSubmissionSubModule := range exerciseSubmissionsSubModule {
+		exerciseSubmissionSubModuleIDs = append(exerciseSubmissionSubModuleIDs, exerciseSubmissionSubModule.ID)
+	}
+
 	exerciseAnswers, err := u.exerciseAnswerRepo.FindBy(map[string]interface{}{
-		"submission_id": exerciseSubmission.ID,
+		"submission_sub_module_id": exerciseSubmissionSubModuleIDs,
 	}, 0, 0)
 	if err != nil {
 		return nil, fmt.Errorf("failed to find exercise answers: %v", err)
@@ -125,7 +137,7 @@ func (u *usecase) Review(req request.ExerciseReview) (*response.ExerciseReview, 
 	}
 
 	questions, err := u.exerciseQuestionRepo.FindBy(map[string]interface{}{
-		"exercise_id": exerciseSubmission.ExerciseID,
+		"exercise_id": exerciseSubmissionModule.ExerciseID,
 	}, 0, 0)
 	if err != nil {
 		return nil, fmt.Errorf("failed to find questions: %v", err)
@@ -136,6 +148,7 @@ func (u *usecase) Review(req request.ExerciseReview) (*response.ExerciseReview, 
 		questionsRes[i] = &response.QuestionReview{
 			UUID:          question.UUID,
 			Content:       question.Content,
+			Explanation:   question.Explanation,
 			Score:         question.Score,
 			QuestionMedia: questionMediaMap[question.ID],
 			Choices:       choiceResMap[question.ID],
@@ -143,13 +156,13 @@ func (u *usecase) Review(req request.ExerciseReview) (*response.ExerciseReview, 
 	}
 
 	res := &response.ExerciseReview{
-		UUID:          exerciseSubmission.UUID,
-		StartedAt:     helper.ConvertToIndonesianFormat(exerciseSubmission.StartedAt),
-		FinishedAt:    helper.ConvertToIndonesianFormat(exerciseSubmission.FinishedAt),
-		TimeRequired:  helper.ConvertDurationToIndonesian(exerciseSubmission.TimeRequired),
-		RightAnswer:   exerciseSubmission.RightAnswer,
+		UUID:          exerciseSubmissionModule.UUID,
+		StartedAt:     helper.ConvertToIndonesianFormat(exerciseSubmissionModule.StartedAt),
+		FinishedAt:    helper.ConvertToIndonesianFormat(exerciseSubmissionModule.FinishedAt),
+		TimeRequired:  helper.ConvertDurationToIndonesian(exerciseSubmissionModule.TimeRequired),
+		RightAnswer:   exerciseSubmissionModule.RightAnswer,
 		TotalQuestion: totalQuestion,
-		Score:         exerciseSubmission.Score,
+		Score:         exerciseSubmissionModule.Score,
 		PerfectScore:  perfectScore,
 		Questions:     questionsRes,
 	}
