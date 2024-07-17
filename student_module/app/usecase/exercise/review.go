@@ -28,6 +28,20 @@ func (u *usecase) Review(req request.ExerciseReview) (*response.ExerciseReview, 
 		return nil, fmt.Errorf("failed to find exercise submission: %v", err)
 	}
 
+	exercise, err := u.exerciseRepo.FindOneBy(map[string]interface{}{
+		"id": exerciseSubmissionModule.ExerciseID,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to find exercise : %v", err)
+	}
+
+	module, err := u.moduleRepo.FindOneBy(map[string]interface{}{
+		"id": exercise.ModuleID,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to find module: %v", err)
+	}
+
 	totalQuestion := u.exerciseQuestionRepo.Count(map[string]interface{}{
 		"exercise_id": exerciseSubmissionModule.ExerciseID,
 	})
@@ -96,6 +110,7 @@ func (u *usecase) Review(req request.ExerciseReview) (*response.ExerciseReview, 
 			isChosen = true
 		}
 		choiceResMap[choice.QuestionID] = append(choiceResMap[choice.QuestionID], &response.ChoiceReview{
+			ID:         choice.ID,
 			UUID:       choice.UUID,
 			Content:    choice.Content,
 			QuestionID: choice.QuestionID,
@@ -145,21 +160,59 @@ func (u *usecase) Review(req request.ExerciseReview) (*response.ExerciseReview, 
 
 	questionsRes := make([]*response.QuestionReview, len(questions))
 	for i, question := range questions {
+		var userAnswer int
+		var rigthAnswer int
+		var rigthAnswerText string
+		var status response.QuestionReviewItemStatus
+
+		for _, choice := range choiceResMap[question.ID] {
+			if choice.IsChoose {
+				userAnswer = choice.ID
+			}
+			if choice.IsCorrect {
+				rigthAnswer = choice.ID
+				rigthAnswerText = choice.Content
+			}
+
+		}
+
+		if userAnswer == 0 {
+			status = response.BelumDiJawab
+		} else {
+			status = response.SudahDiJawab
+		}
 		questionsRes[i] = &response.QuestionReview{
-			UUID:          question.UUID,
-			Content:       question.Content,
-			Explanation:   question.Explanation,
-			Score:         question.Score,
-			QuestionMedia: questionMediaMap[question.ID],
-			Choices:       choiceResMap[question.ID],
+			ID:              question.ID,
+			UUID:            question.UUID,
+			Content:         question.Content,
+			Status:          string(status),
+			Explanation:     question.Explanation,
+			Score:           question.Score,
+			UserAnswer:      userAnswer,
+			RightAnswer:     rigthAnswer,
+			RightAnswerText: rigthAnswerText,
+			QuestionMedia:   questionMediaMap[question.ID],
+			Choices:         choiceResMap[question.ID],
 		}
 	}
 
+	attempt := u.exerciseSubmissionsModuleRepo.Count(map[string]interface{}{
+		"user_id":     user.ID,
+		"exercise_id": exerciseSubmissionModule.ExerciseID,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to find exercise submission: %v", err)
+	}
+
 	res := &response.ExerciseReview{
+		ID:            exerciseSubmissionModule.ID,
 		UUID:          exerciseSubmissionModule.UUID,
+		Topic:         exercise.Title,
+		Modul:         module.Name,
 		StartedAt:     helper.ConvertToIndonesianFormat(exerciseSubmissionModule.StartedAt),
 		FinishedAt:    helper.ConvertToIndonesianFormat(exerciseSubmissionModule.FinishedAt),
 		TimeRequired:  helper.ConvertDurationToIndonesian(exerciseSubmissionModule.TimeRequired),
+		Attempt:       attempt,
 		RightAnswer:   exerciseSubmissionModule.RightAnswer,
 		TotalQuestion: totalQuestion,
 		Score:         exerciseSubmissionModule.Score,

@@ -55,13 +55,20 @@ func (u *usecase) FindHistory(req request.ExerciseHistory) (*response.ExerciseHi
 	fmt.Printf("Sub modules: %+v\n", submissionSubModulesMax)
 
 	historyDetailMax := &response.ExerciseHistoryDetailModule{
-		ScorePerModule:    submissionModuleMax.Score,
-		MaxScorePerModule: submissionModuleMax.RightAnswer, // As an example, assuming RightAnswer represents the max score
+		UUID:                   submissionModuleMax.UUID,
+		ScorePerModule:         submissionModuleMax.Score,
+		MaxScorePerModule:      0,
+		RightAnswerPerModule:   submissionModuleMax.RightAnswer,
+		TotalQuestionPerModule: 0,
 	}
 
+	perfectScoreModuleMax := 0
+	totalQuestionMax := 0
 	for _, submissionSubModule := range submissionSubModulesMax {
-		// Mendapatkan total max score dan row count exercise_question per sub module
-		MaxScore, TotalQuestion, err := u.exerciseLocalRepo.GetMaxScoreAndTotalQuestionExercise(submissionSubModule.ExerciseID, submissionSubModule.SubModuleID)
+		// Mendapatkan total max score/perfecet score dan row count/total question exercise_question per sub module
+		maxScore, totalQuestion, err := u.exerciseLocalRepo.GetMaxScoreAndTotalQuestionExercise(submissionSubModule.ExerciseID, submissionSubModule.SubModuleID)
+		perfectScoreModuleMax += maxScore
+		totalQuestionMax += totalQuestion
 		if err != nil {
 			return nil, fmt.Errorf("failed inf GetMaxScoreAndTotalQuestionExercise: %v", err)
 		}
@@ -69,12 +76,15 @@ func (u *usecase) FindHistory(req request.ExerciseHistory) (*response.ExerciseHi
 			SubmissionUUID:               submissionModuleMax.UUID,
 			SubModule:                    subModuleMap[submissionSubModule.SubModuleID],
 			ScorePerSubModule:            submissionSubModule.Score,
-			MaxScorePerSubModule:         MaxScore,
+			MaxScorePerSubModule:         maxScore,
 			TotalRightAnswerPerSubModule: submissionSubModule.RightAnswer,
-			MaxTotalQuestionPerSubModule: TotalQuestion,
+			TotalQuestionPerSubModule:    totalQuestion,
 		}
 		historyDetailMax.ExerciseHistoryDetail = append(historyDetailMax.ExerciseHistoryDetail, subModuleDetail)
 	}
+
+	historyDetailMax.MaxScorePerModule = perfectScoreModuleMax
+	historyDetailMax.TotalQuestionPerModule = totalQuestionMax
 
 	//---------------------------------------- Mencari nilai terendah
 	submissionModuleMin, submissionSubModulesMin, err := u.exerciseLocalRepo.FindHighestOrLowestScoreAndSubModules(exercise.ID, false)
@@ -87,26 +97,38 @@ func (u *usecase) FindHistory(req request.ExerciseHistory) (*response.ExerciseHi
 	fmt.Printf("Sub modules: %+v\n", submissionSubModulesMin)
 
 	historyDetailMin := &response.ExerciseHistoryDetailModule{
-		ScorePerModule:    submissionModuleMin.Score,
-		MaxScorePerModule: submissionModuleMin.RightAnswer,
+		UUID:                   submissionModuleMin.UUID,
+		ScorePerModule:         submissionModuleMin.Score,
+		MaxScorePerModule:      0,
+		RightAnswerPerModule:   submissionModuleMin.RightAnswer,
+		TotalQuestionPerModule: 0,
 	}
+
+	perfectScoreModuleMin := 0
+	totalQuestionMin := 0
 
 	for _, submissionSubModule := range submissionSubModulesMin {
 		// Mendapatkan total max score dan row count exercise_question per sub module
-		MaxScore, TotalQuestion, err := u.exerciseLocalRepo.GetMaxScoreAndTotalQuestionExercise(submissionSubModule.ExerciseID, submissionSubModule.SubModuleID)
+		maxScore, totalQuestion, err := u.exerciseLocalRepo.GetMaxScoreAndTotalQuestionExercise(submissionSubModule.ExerciseID, submissionSubModule.SubModuleID)
 		if err != nil {
 			return nil, fmt.Errorf("failed inf GetMaxScoreAndTotalQuestionExercise: %v", err)
 		}
+		perfectScoreModuleMin += maxScore
+		totalQuestionMin += totalQuestion
+
 		subModuleDetail := &response.ExerciseHistoryDetailSubModule{
 			SubmissionUUID:               submissionModuleMax.UUID,
 			SubModule:                    subModuleMap[submissionSubModule.SubModuleID],
 			ScorePerSubModule:            submissionSubModule.Score,
-			MaxScorePerSubModule:         MaxScore,
+			MaxScorePerSubModule:         maxScore,
 			TotalRightAnswerPerSubModule: submissionSubModule.RightAnswer,
-			MaxTotalQuestionPerSubModule: TotalQuestion,
+			TotalQuestionPerSubModule:    totalQuestion,
 		}
 		historyDetailMin.ExerciseHistoryDetail = append(historyDetailMin.ExerciseHistoryDetail, subModuleDetail)
 	}
+
+	historyDetailMin.MaxScorePerModule = perfectScoreModuleMin
+	historyDetailMin.TotalQuestionPerModule = totalQuestionMin
 
 	//-------------------------------------------------------------------------------------
 	res := &response.ExerciseHistory{

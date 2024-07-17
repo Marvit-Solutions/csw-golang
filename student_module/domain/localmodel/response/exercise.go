@@ -31,13 +31,16 @@ type ExerciseHistoryDetailSubModule struct {
 	ScorePerSubModule            int    `json:"score_per_sub_module"`
 	MaxScorePerSubModule         int    `json:"max_score_per_sub_module"`
 	TotalRightAnswerPerSubModule int    `json:"total_right_answer_per_sub_module"`
-	MaxTotalQuestionPerSubModule int    `json:"max_total_question_per_sub_module"`
+	TotalQuestionPerSubModule    int    `json:"total_question_per_sub_module"`
 }
 
 type ExerciseHistoryDetailModule struct {
-	ScorePerModule        int                               `json:"score_per_module"`
-	MaxScorePerModule     int                               `json:"max_score_per_module"`
-	ExerciseHistoryDetail []*ExerciseHistoryDetailSubModule `json:"exercise_history_detail"`
+	UUID                   string                            `json:"uuid"`
+	ScorePerModule         int                               `json:"score_per_module"`
+	MaxScorePerModule      int                               `json:"max_score_per_module"`
+	RightAnswerPerModule   int                               `json:"right_answer_per_module"`
+	TotalQuestionPerModule int                               `json:"total_question_per_module"`
+	ExerciseHistoryDetail  []*ExerciseHistoryDetailSubModule `json:"exercise_history_detail"`
 }
 
 type ExerciseHistory struct {
@@ -46,6 +49,7 @@ type ExerciseHistory struct {
 }
 
 type Question struct {
+	ID            int              `json:"id"`
 	UUID          string           `json:"uuid"`
 	SubModuleID   int              `json:"sub_module_id"`
 	Content       string           `json:"content"`
@@ -60,36 +64,47 @@ type QuestionMedia struct {
 }
 
 type Choice struct {
+	ID         int    `json:"id"`
 	UUID       string `json:"uuid"`
 	QuestionID int    `json:"-"`
 	Content    string `json:"content"`
 }
 
 type ExerciseReview struct {
+	ID            int               `json:"id"`
 	UUID          string            `json:"uuid"`
+	Topic         string            `json:"topic"`
+	Modul         string            `json:"modul"`
 	StartedAt     string            `json:"started_at"`
 	FinishedAt    string            `json:"finished_at"`
-	TimeRequired  string            `json:"time_required"`
-	RightAnswer   int               `json:"right_answer"`
-	TotalQuestion int               `json:"total_question"`
+	TimeRequired  string            `json:"total_time"`
+	Attempt       int               `json:"attempt"`
+	RightAnswer   int               `json:"total_right_answers"`
+	TotalQuestion int               `json:"total_questions"`
 	Score         int               `json:"score"`
-	PerfectScore  int               `json:"perfect_score"`
+	PerfectScore  int               `json:"max_score"`
 	Questions     []*QuestionReview `json:"questions"`
 }
 
 type QuestionReview struct {
-	UUID          string           `json:"uuid"`
-	Content       string           `json:"content"`
-	Explanation   string           `json:"explanation"`
-	QuestionMedia []*QuestionMedia `json:"question_medias"`
-	Choices       []*ChoiceReview  `json:"choices"`
-	Score         int              `json:"score"`
+	ID              int              `json:"id"`
+	UUID            string           `json:"uuid"`
+	Content         string           `json:"question"`
+	Explanation     string           `json:"explanation"`
+	Score           int              `json:"mark"`
+	Status          string           `json:"status"`
+	UserAnswer      int              `json:"user_answer"`
+	RightAnswer     int              `json:"right_answer"`
+	RightAnswerText string           `json:"right_answer_text"`
+	QuestionMedia   []*QuestionMedia `json:"question_medias"`
+	Choices         []*ChoiceReview  `json:"options"`
 }
 
 type ChoiceReview struct {
+	ID         int    `json:"id"`
 	UUID       string `json:"uuid"`
 	QuestionID int    `json:"-"`
-	Content    string `json:"content"`
+	Content    string `json:"text"`
 	IsChoose   bool   `json:"is_choose"`
 	IsCorrect  bool   `json:"is_correct"`
 }

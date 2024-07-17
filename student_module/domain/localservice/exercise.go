@@ -1,6 +1,7 @@
 package localservice
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -49,6 +50,31 @@ func (svc *ExerciseService) FindSubModulesID() ([]int, error) {
 	return subModuleIDs, nil
 }
 
+// func (svc *ExerciseService) FindHighestOrLowestScoreAndSubModules(exerciseID int, findMax bool) (*model.ExerciseSubmissionsModule, []model.ExerciseSubmissionsSubModule, error) {
+// 	var submission model.ExerciseSubmissionsModule
+// 	order := "score DESC"
+// 	if !findMax {
+// 		order = "score ASC"
+// 	}
+// 	res := svc.DB.Where("exercise_id = ?", exerciseID).Order(order).First(&submission)
+// 	if res.Error != nil {
+// 		scoreType := "highest"
+// 		if !findMax {
+// 			scoreType = "lowest"
+// 		}
+// 		return nil, nil, fmt.Errorf("failed to find %s score submission: %v", scoreType, res.Error)
+// 	}
+
+// 	var subModules []model.ExerciseSubmissionsSubModule
+// 	res = svc.DB.Where("submissions_module_id = ?", submission.ID).Find(&subModules)
+// 	if res.Error != nil {
+
+// 		return nil, nil, fmt.Errorf("failed to find sub modules: %v", res.Error)
+// 	}
+
+// 	return &submission, subModules, nil
+// }
+
 func (svc *ExerciseService) FindHighestOrLowestScoreAndSubModules(exerciseID int, findMax bool) (*model.ExerciseSubmissionsModule, []model.ExerciseSubmissionsSubModule, error) {
 	var submission model.ExerciseSubmissionsModule
 	order := "score DESC"
@@ -57,6 +83,10 @@ func (svc *ExerciseService) FindHighestOrLowestScoreAndSubModules(exerciseID int
 	}
 	res := svc.DB.Where("exercise_id = ?", exerciseID).Order(order).First(&submission)
 	if res.Error != nil {
+		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
+			// If no record is found, return empty data instead of an error
+			return &model.ExerciseSubmissionsModule{}, []model.ExerciseSubmissionsSubModule{}, nil
+		}
 		scoreType := "highest"
 		if !findMax {
 			scoreType = "lowest"
@@ -67,6 +97,10 @@ func (svc *ExerciseService) FindHighestOrLowestScoreAndSubModules(exerciseID int
 	var subModules []model.ExerciseSubmissionsSubModule
 	res = svc.DB.Where("submissions_module_id = ?", submission.ID).Find(&subModules)
 	if res.Error != nil {
+		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
+			// If no submodules are found, return empty data instead of an error
+			return &submission, []model.ExerciseSubmissionsSubModule{}, nil
+		}
 		return nil, nil, fmt.Errorf("failed to find sub modules: %v", res.Error)
 	}
 

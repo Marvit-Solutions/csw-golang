@@ -110,6 +110,7 @@ func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.Exerc
 	questionsRes := make([]*response.Question, len(questions))
 	for i, question := range questions {
 		questionsRes[i] = &response.Question{
+			ID:            question.ID,
 			UUID:          question.UUID,
 			SubModuleID:   question.SubModuleID,
 			Content:       question.Content,

@@ -93,7 +93,7 @@ func (u *usecase) QuizSubmission(req request.QuizSubmissionRequest) error {
 		return fmt.Errorf("failed to create quiz submission: %v", err)
 	}
 
-	// insert user quiz answer and start calculate the score
+	// insert user quiz answer
 	for _, ques := range req.Questions {
 		if ques.UserAnswer != 0 {
 			quizAnswer := &model.QuizAnswer{

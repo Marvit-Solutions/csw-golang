@@ -7,6 +7,7 @@ import (
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
 	"github.com/Marvit-Solutions/csw-golang/library/struct/model"
 	"github.com/Marvit-Solutions/csw-golang/student_module/domain/localmodel/request"
+	"github.com/Marvit-Solutions/csw-golang/student_module/domain/localmodel/response"
 )
 
 func (u *usecase) Create(req request.ExerciseCreateRequest) error {
@@ -53,7 +54,7 @@ func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 	submissionModule, err := u.exerciseSubmissionsModuleRepo.Create(newSubmissionModuleBefore, tx)
 
 	if err != nil {
-		return fmt.Errorf("failed to create quiz submission: %v", err)
+		return fmt.Errorf("failed to create exercise submission: %v", err)
 	}
 
 	for _, subModuleID := range subModuleIDs {
@@ -73,50 +74,39 @@ func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 			exerciseQuestionIDs = append(exerciseQuestionIDs, question.ID)
 		}
 
-		rightExerciseChoices, err := u.exerciseChoiceRepo.FindBy(map[string]interface{}{
+		exerciseChoices, err := u.exerciseChoiceRepo.FindBy(map[string]interface{}{
 			"question_id": exerciseQuestionIDs,
-			"is_correct":  true,
 		}, 0, 0)
 		if err != nil {
 			return fmt.Errorf("failed to find exercise choices: %v", err)
 		}
 
-		userAnswerMap := make(map[int]string)
-		for i, choice := range req.Answers {
-			if choice.SubModuleID == subModuleID {
-				userAnswerMap[i+1] = choice.ChoiceUUID
+		mapChoices := make(map[int][]response.OptionItemSubmission)
+
+		for _, exerciseChoice := range exerciseChoices {
+			exerciseChoiceResponse := &response.OptionItemSubmission{
+				ID:        exerciseChoice.ID,
+				UUID:      exerciseChoice.UUID,
+				IsCorrect: exerciseChoice.IsCorrect,
 			}
+			mapChoices[exerciseChoice.QuestionID] = append(mapChoices[exerciseChoice.QuestionID], *exerciseChoiceResponse)
 		}
 
-		userAnswerUUIDs := make([]string, 0, len(userAnswerMap))
-		for _, UUID := range userAnswerMap {
-			if UUID != "" {
-				userAnswerUUIDs = append(userAnswerUUIDs, UUID)
-			}
-		}
+		totalRightAnswer := 0
+		score := 0
 
-		exerciseAnswers, err := u.exerciseChoiceRepo.FindBy(map[string]interface{}{
-			"uuid": userAnswerUUIDs,
-		}, 0, 0)
-		if err != nil {
-			return fmt.Errorf("failed to find exercise answers: %v", err)
-		}
-
-		exerciseAnswerMap := make(map[string]*int)
-		for _, answer := range exerciseAnswers {
-			exerciseAnswerMap[answer.UUID] = &answer.ID
-		}
-
-		rightAnswerMap := make(map[int]string)
-		for _, answer := range rightExerciseChoices {
-			rightAnswerMap[answer.QuestionID] = answer.UUID
-		}
-
-		var score, rightAnswers int
-		for questionID, userUUID := range userAnswerMap {
-			if rightUUID, exists := rightAnswerMap[questionID]; exists && userUUID == rightUUID {
-				score += exerciseQuestionMap[questionID]
-				rightAnswers++
+		for _, question := range req.Questions {
+			if question.SubModuleID == subModuleID {
+				var rightAnswer string
+				for _, option := range mapChoices[question.ID] {
+					if option.IsCorrect {
+						rightAnswer = option.UUID
+					}
+				}
+				if question.UserAnswer == rightAnswer {
+					totalRightAnswer++
+					score = score + question.Score
+				}
 			}
 		}
 
@@ -125,7 +115,7 @@ func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 			ExerciseID:          exercise.ID,
 			SubModuleID:         subModuleID,
 			SubmissionsModuleID: submissionModule.ID,
-			RightAnswer:         rightAnswers,
+			RightAnswer:         totalRightAnswer,
 			Score:               score,
 		}
 
@@ -133,43 +123,68 @@ func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 			return fmt.Errorf("failed to create newSubmissionSubModule: %v", err)
 		}
 
-		var newExerciseAnswers []*model.ExerciseAnswer
-		for _, answerUUID := range userAnswerMap {
-			newExerciseAnswers = append(newExerciseAnswers, &model.ExerciseAnswer{
-				SubmissionSubModuleID: newSubmissionSubModule.ID,
-				ChoiceID:              exerciseAnswerMap[answerUUID],
-			})
+		// insert user exercise answer and start calculate the score
+		for _, ques := range req.Questions {
+			if ques.SubModuleID == subModuleID {
+				if ques.UserAnswer != "" {
+					exerciseChoice, err := u.exerciseChoiceRepo.FindOneBy(map[string]interface{}{
+						"uuid": &ques.UserAnswer,
+					})
+					if err != nil {
+						return fmt.Errorf("failed to find exercise answers: %v", err)
+					}
+					exerciseAnswer := &model.ExerciseAnswer{
+						SubmissionSubModuleID: newSubmissionSubModule.ID,
+						ChoiceID:              &exerciseChoice.ID,
+					}
+					_, err = u.exerciseAnswerRepo.Create(exerciseAnswer, tx)
+					if err != nil {
+						return fmt.Errorf("failed to create exercise answer: %v", err)
+					}
+				}
+			}
+
 		}
 
-		if err := tx.Create(newExerciseAnswers).Error; err != nil {
-			return fmt.Errorf("failed to create exercise answers: %v", err)
-		}
+		// Mencetak newExerciseAnswers
+		// for i, answer := range newExerciseAnswers {
+		// 	fmt.Printf("Answer %d: %+v\n", i+1, *answer)
+		// 	if answer.ChoiceID != nil {
+		// 		fmt.Printf("ChoiceID: %d\n", *answer.ChoiceID)
+		// 	} else {
+		// 		fmt.Printf("ChoiceID: nil\n")
+		// 	}
+		// }
+
+		// if err := tx.Create(newExerciseAnswers).Error; err != nil {
+		// 	return fmt.Errorf("failed to create exercise answers: %v", err)
+		// }
 
 		totalScoreSubmisssionModule += score
-		totalRightAnswerSubmisssionModule += rightAnswers
+		totalRightAnswerSubmisssionModule += totalRightAnswer
 
-		fmt.Printf("submoudule id %d\n", subModuleID)
-		for _, answer := range newExerciseAnswers {
-			fmt.Printf("ID: %d\n", answer.ID)
-			fmt.Printf("UUID: %s\n", answer.UUID)
-			fmt.Printf("SubmissionID: %d\n", answer.SubmissionSubModuleID)
-			if answer.ChoiceID != nil {
-				fmt.Printf("ChoiceID: %d\n", *answer.ChoiceID)
-			} else {
-				fmt.Printf("ChoiceID: nil\n")
-			}
-			fmt.Printf("CreatedAt: %s\n", answer.CreatedAt)
-			fmt.Printf("UpdatedAt: %s\n", answer.UpdatedAt)
-			fmt.Printf("DeletedAt: %v\n", answer.DeletedAt)
-			fmt.Println("-----")
-		}
+		// fmt.Printf("submoudule id %d\n", subModuleID)
+		// for _, answer := range newExerciseAnswers {
+		// 	fmt.Printf("ID: %d\n", answer.ID)
+		// 	fmt.Printf("UUID: %s\n", answer.UUID)
+		// 	fmt.Printf("SubmissionID: %d\n", answer.SubmissionSubModuleID)
+		// 	if answer.ChoiceID != nil {
+		// 		fmt.Printf("ChoiceID: %d\n", *answer.ChoiceID)
+		// 	} else {
+		// 		fmt.Printf("ChoiceID: nil\n")
+		// 	}
+		// 	fmt.Printf("CreatedAt: %s\n", answer.CreatedAt)
+		// 	fmt.Printf("UpdatedAt: %s\n", answer.UpdatedAt)
+		// 	fmt.Printf("DeletedAt: %v\n", answer.DeletedAt)
+		// 	fmt.Println("-----")
+		// }
 
-		fmt.Printf("((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))")
+		// fmt.Printf("((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))")
 
 	}
 
-	fmt.Println("ini req.TimeRequired")
-	fmt.Println(req.TimeRequired)
+	// fmt.Println("ini req.TimeRequired")
+	// fmt.Println(req.TimeRequired)
 	newSubmissionModuleAfter := &model.ExerciseSubmissionsModule{
 		ID:           submissionModule.ID,
 		UUID:         submissionModule.UUID,
@@ -185,7 +200,7 @@ func (u *usecase) Create(req request.ExerciseCreateRequest) error {
 	err = u.exerciseSubmissionsModuleRepo.Update(newSubmissionModuleAfter, tx)
 
 	if err != nil {
-		return fmt.Errorf("failed to create quiz submission: %v", err)
+		return fmt.Errorf("failed to create exercise submission: %v", err)
 	}
 
 	tx.Commit()
