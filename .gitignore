@@ -1,4 +1,4 @@
-env.json
+# env.json
 dbconfig.yml
 tmp/
 *insert*
