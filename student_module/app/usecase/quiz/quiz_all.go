@@ -41,6 +41,7 @@ func (u *usecase) QuizAll(req request.ParamQuizAll) (*response.QuizAllResponse, 
 	}
 
 	quizAll, err := u.quizLocalRepo.GetQuizAll(req.AuthenticatedUser, req.TestTypeId, subModule.ID, limit, offset)
+	fmt.Println(req.AuthenticatedUser, req.TestTypeId, subModule.ID, limit, offset)
 	if err != nil {
 		return nil, 0, 0, fmt.Errorf("failed to find quizAll: %v", err)
 	}

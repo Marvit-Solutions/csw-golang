@@ -35,6 +35,11 @@ func NewRouteInit(req request.RouteInit) {
 	Use(module)
 
 	{
+		authGroup := route.Group("/auth")
+		authGroup.POST("/login", module.AuthAdmin.Login)
+	}
+
+	{
 		quizGroup := route.Group("/quizzes")
 		quizGroup.GET("", module.QuizAdmin.QuizAdminAll)
 		quizGroup.GET("/update-details/:uuid", module.QuizAdmin.QuizUpdateDetail)

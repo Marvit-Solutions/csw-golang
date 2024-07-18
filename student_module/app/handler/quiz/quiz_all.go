@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
+	"github.com/Marvit-Solutions/csw-golang/library/middleware/auth"
 	"github.com/Marvit-Solutions/csw-golang/student_module/domain/localmodel/request"
 	"github.com/gin-gonic/gin"
 )
@@ -14,6 +15,12 @@ func (h *handler) QuizAll(ctx *gin.Context) {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
+	authenticatedUser, err := auth.GetAuthenticatedUser(ctx.Request)
+	if err != nil {
+		helper.NewErrorResponse(ctx, http.StatusUnauthorized, http.StatusText(http.StatusUnauthorized), err.Error())
+		return
+	}
+	req.AuthenticatedUser = authenticatedUser
 
 	if err := helper.ValidateQueryParams(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())

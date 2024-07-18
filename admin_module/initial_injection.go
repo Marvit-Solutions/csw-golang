@@ -1,6 +1,7 @@
 package admin_module
 
 import (
+	authAdmin "github.com/Marvit-Solutions/csw-golang/admin_module/app/handler/auth"
 	materialAdmin "github.com/Marvit-Solutions/csw-golang/admin_module/app/handler/material"
 	quizAdmin "github.com/Marvit-Solutions/csw-golang/admin_module/app/handler/quiz"
 	subjectAdmin "github.com/Marvit-Solutions/csw-golang/admin_module/app/handler/subject"
@@ -9,6 +10,7 @@ import (
 )
 
 type InitialInjection struct {
+	AuthAdmin     authAdmin.Handler
 	QuizAdmin     quizAdmin.Handler
 	MaterialAdmin materialAdmin.Handler
 	SubjectAdmin  subjectAdmin.Handler
@@ -16,6 +18,7 @@ type InitialInjection struct {
 
 func NewInitialInjection(sQLMaster *gorm.DB, conf config.Config) InitialInjection {
 	return InitialInjection{
+		AuthAdmin:     authAdmin.NewHandler(sQLMaster),
 		QuizAdmin:     quizAdmin.NewHandler(sQLMaster),
 		MaterialAdmin: materialAdmin.NewHandler(sQLMaster),
 		SubjectAdmin:  subjectAdmin.NewHandler(sQLMaster),
