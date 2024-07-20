@@ -1,6 +1,7 @@
 package quiz
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
@@ -11,17 +12,19 @@ import (
 
 func (h *handler) QuizReview(ctx *gin.Context) {
 	var req request.ParamQuizReview
-
+	fmt.Println("test1")
 	if err := helper.ValidateURLParams(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
+	fmt.Println("test2")
 
 	authenticatedUser, err := auth.GetAuthenticatedUser(ctx.Request)
 	if err != nil {
 		helper.NewErrorResponse(ctx, http.StatusUnauthorized, http.StatusText(http.StatusUnauthorized), err.Error())
 		return
 	}
+	fmt.Println("test3")
 
 	req.AuthenticatedUser = authenticatedUser
 
@@ -30,6 +33,7 @@ func (h *handler) QuizReview(ctx *gin.Context) {
 		helper.NewErrorResponse(ctx, http.StatusUnprocessableEntity, http.StatusText(http.StatusUnprocessableEntity), err.Error())
 		return
 	}
+	fmt.Println("test4")
 
 	helper.NewSuccessResponseNonPaged(ctx, http.StatusOK, http.StatusText(http.StatusOK), quizzes)
 }

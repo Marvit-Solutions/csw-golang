@@ -32,7 +32,7 @@ func (u *usecase) Create(req request.QuizAdminPayload) error {
 	// openTime := req.Open
 	// closeTime := req.Close
 
-	fmt.Println("tes")
+	fmt.Println("tes11")
 	quizData := &model.Quiz{
 		SubjectID:   subject.ID,
 		TestTypeID:  testType.ID,
@@ -48,7 +48,7 @@ func (u *usecase) Create(req request.QuizAdminPayload) error {
 		return fmt.Errorf("failed to create quiz: %v", err)
 	}
 
-	fmt.Println("tes")
+	fmt.Println("tes22")
 
 	for _, ques := range req.Questions {
 		questionData := &model.QuizQuestion{
@@ -77,7 +77,7 @@ func (u *usecase) Create(req request.QuizAdminPayload) error {
 
 	}
 
-	fmt.Println("tes")
+	fmt.Println("tes33")
 	tx.Commit()
 
 	return nil

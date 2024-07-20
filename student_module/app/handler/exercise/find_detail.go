@@ -1,6 +1,7 @@
 package exercise
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/Marvit-Solutions/csw-golang/library/helper"
@@ -12,11 +13,13 @@ import (
 func (h *handler) FindDetail(c *gin.Context) {
 	var req request.ExerciseDetailRequest
 
+	fmt.Println("tes111")
 	if err := helper.ValidateURLParams(c, &req); err != nil {
 		helper.NewErrorResponse(c, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
 
+	fmt.Println("tes112")
 	authenticatedUser, err := auth.GetAuthenticatedUser(c.Request)
 	if err != nil {
 		helper.NewErrorResponse(c, http.StatusUnauthorized, http.StatusText(http.StatusUnauthorized), err.Error())
@@ -25,6 +28,7 @@ func (h *handler) FindDetail(c *gin.Context) {
 
 	req.AuthenticatedUser = authenticatedUser
 
+	fmt.Println("tes113")
 	exercise, err := h.u.FindDetail(req)
 	if err != nil && err == helper.ErrAccessDenied {
 		helper.NewErrorResponse(c, http.StatusForbidden, http.StatusText(http.StatusForbidden), err.Error())
@@ -35,5 +39,6 @@ func (h *handler) FindDetail(c *gin.Context) {
 		return
 	}
 
+	fmt.Println("tes114")
 	helper.NewSuccessResponseNonPaged(c, http.StatusOK, http.StatusText(http.StatusOK), exercise)
 }

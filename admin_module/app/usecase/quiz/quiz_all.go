@@ -3,7 +3,6 @@ package quizAdmin
 import (
 	"fmt"
 	"math"
-	"sort"
 
 	"github.com/Marvit-Solutions/csw-golang/admin_module/domain/localmodel/request"
 	"github.com/Marvit-Solutions/csw-golang/admin_module/domain/localmodel/response"
@@ -53,9 +52,9 @@ func (u *usecase) QuizAdminAll(req request.ParamQuizAdminAll) ([]*response.QuizA
 
 	result := quizAll
 
-	sort.Slice(result, func(i, j int) bool {
-		return result[i].ID > result[j].ID
-	})
+	// sort.Slice(result, func(i, j int) bool {
+	// 	return result[i].ID > result[j].ID
+	// })
 
 	return result, totalRows, totalPages, nil
 }

@@ -11,14 +11,14 @@ import (
 
 func (h *handler) Update(ctx *gin.Context) {
 	var req request.QuizAdminPayloadUpdate
-
-	fmt.Println("tes")
+	fmt.Println(req)
+	fmt.Println("tes1323232")
 	if err := helper.ValidateRequestBody(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
 	}
 
-	fmt.Println("tes")
+	fmt.Println("tes2")
 	if err := helper.ValidateURLParams(ctx, &req); err != nil {
 		helper.NewErrorResponse(ctx, http.StatusBadRequest, http.StatusText(http.StatusBadRequest), err.Error())
 		return
@@ -29,7 +29,7 @@ func (h *handler) Update(ctx *gin.Context) {
 		return
 	}
 
-	fmt.Println("tes")
+	fmt.Println("tes3")
 	err := h.u.Update(req)
 
 	if err != nil {

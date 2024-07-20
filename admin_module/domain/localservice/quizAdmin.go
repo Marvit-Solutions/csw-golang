@@ -67,7 +67,8 @@ func (svc *QuizAdminService) GetQuizAdminAll(searchKeywords string, testTypeID i
 		params = append(params, searchPattern, searchPattern)
 	}
 
-	query += ` ORDER BY q.id DESC LIMIT ? OFFSET ?`
+	query += ` ORDER BY q.updated_at DESC LIMIT ? OFFSET ?`
+
 	params = append(params, limit, offset)
 
 	res := svc.DB.Raw(query, params...).Scan(&quizAll)

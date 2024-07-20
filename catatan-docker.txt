@@ -1,0 +1,7 @@
+docker build -t csw-be:v1 .
+
+trus buat docker tag(ngeganti nama image nya)
+docker tag  csw-be:v1 alciquairev/csw:v1.0.0
+
+trus push ke registry
+docker push alciquairev/csw:v1.0.0

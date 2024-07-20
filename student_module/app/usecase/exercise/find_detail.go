@@ -21,6 +21,7 @@ func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.Exerc
 		return nil, helper.ErrAccessDenied
 	}
 
+	fmt.Println("tes1")
 	exercise, err := u.exerciseRepo.FindOneBy(map[string]interface{}{
 		"uuid": req.ExerciseUUID,
 	})
@@ -40,6 +41,7 @@ func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.Exerc
 		return nil, fmt.Errorf("failed to find test type: %v", err)
 	}
 
+	fmt.Println("tes2")
 	module, err := u.moduleRepo.FindOneBy(map[string]interface{}{
 		"id": exercise.ModuleID,
 	})
@@ -74,6 +76,7 @@ func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.Exerc
 			QuestionID: choice.QuestionID,
 		})
 	}
+	fmt.Println("tes3")
 
 	questionMedias, err := u.exerciseQuestionMediaRepo.FindBy(map[string]interface{}{
 		"exercise_question_id": questionIDs,
@@ -99,6 +102,8 @@ func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.Exerc
 		mediaMaps[media.ID] = media
 	}
 
+	fmt.Println("tes4")
+
 	questionMediaMap := make(map[int][]*response.QuestionMedia)
 	for _, questionMedia := range questionMedias {
 		questionMediaMap[questionMedia.ExerciseQuestionID] = append(questionMediaMap[questionMedia.ExerciseQuestionID], &response.QuestionMedia{
@@ -119,6 +124,7 @@ func (u *usecase) FindDetail(req request.ExerciseDetailRequest) (*response.Exerc
 			Choices:       choiceResMap[question.ID],
 		}
 	}
+	fmt.Println("tes5")
 
 	result := &response.ExerciseDetail{
 		UUID:        exercise.UUID,
