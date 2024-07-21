@@ -44,8 +44,17 @@ func (u *usecase) FindHistory(req request.ExerciseHistory) (*response.ExerciseHi
 	// 	return nil, fmt.Errorf("failed to find exercise submissions: %v", err)
 	// }
 
+	userAttempt := u.exerciseSubmissionsModuleRepo.Count(map[string]interface{}{
+		"exercise_id": exercise.ID,
+		"user_id":     req.AuthenticatedUser,
+	})
+
+	if userAttempt == 0 {
+		return nil, nil
+	}
+
 	//---------------------------------------- Mencari nilai tertinggi
-	submissionModuleMax, submissionSubModulesMax, err := u.exerciseLocalRepo.FindHighestOrLowestScoreAndSubModules(exercise.ID, true)
+	submissionModuleMax, submissionSubModulesMax, err := u.exerciseLocalRepo.FindHighestOrLowestScoreAndSubModules(exercise.ID, user.ID, true)
 	if err != nil {
 		fmt.Println("Error finding highest score submissionModule:", err)
 		return nil, fmt.Errorf("failed to find exercise submissionModules: %v", err)
@@ -87,7 +96,7 @@ func (u *usecase) FindHistory(req request.ExerciseHistory) (*response.ExerciseHi
 	historyDetailMax.TotalQuestionPerModule = totalQuestionMax
 
 	//---------------------------------------- Mencari nilai terendah
-	submissionModuleMin, submissionSubModulesMin, err := u.exerciseLocalRepo.FindHighestOrLowestScoreAndSubModules(exercise.ID, false)
+	submissionModuleMin, submissionSubModulesMin, err := u.exerciseLocalRepo.FindHighestOrLowestScoreAndSubModules(exercise.ID, user.ID, false)
 	if err != nil {
 		fmt.Println("Error finding lowest score submissionModule:", err)
 		return nil, fmt.Errorf("failed to find exercise submissionModules: %v", err)

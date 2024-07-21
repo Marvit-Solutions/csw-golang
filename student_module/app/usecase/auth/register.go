@@ -20,14 +20,14 @@ func (u *usecase) Register(req request.RegisterRequest) (*response.AuthResponse,
 	}
 
 	role, err := u.roleRepo.FindOneBy(map[string]interface{}{
-		"slug": "umum",
+		"slug": "pembeli-paket-bimbel",
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to finding role: %v", err)
 	}
 
 	class, err := u.classUserRepo.FindOneBy(map[string]interface{}{
-		"slug": req.Class,
+		"slug": "alumni",
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to finding class: %v", err)

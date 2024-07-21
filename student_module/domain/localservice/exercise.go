@@ -75,13 +75,13 @@ func (svc *ExerciseService) FindSubModulesID() ([]int, error) {
 // 	return &submission, subModules, nil
 // }
 
-func (svc *ExerciseService) FindHighestOrLowestScoreAndSubModules(exerciseID int, findMax bool) (*model.ExerciseSubmissionsModule, []model.ExerciseSubmissionsSubModule, error) {
+func (svc *ExerciseService) FindHighestOrLowestScoreAndSubModules(exerciseID int, userID int, findMax bool) (*model.ExerciseSubmissionsModule, []model.ExerciseSubmissionsSubModule, error) {
 	var submission model.ExerciseSubmissionsModule
 	order := "score DESC"
 	if !findMax {
 		order = "score ASC"
 	}
-	res := svc.DB.Where("exercise_id = ?", exerciseID).Order(order).First(&submission)
+	res := svc.DB.Where("exercise_id = ? AND user_id = ?", exerciseID, userID).Order(order).First(&submission)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			// If no record is found, return empty data instead of an error

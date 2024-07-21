@@ -1,10 +1,10 @@
 package request
 
 type RegisterRequest struct {
-	Name            string `json:"name" form:"name" validate:"required"`
-	GoogleID        string `json:"google_id" form:"google_id"`
-	FacebookID      string `json:"facebook_id" form:"facebook_id"`
-	Class           string `json:"class" form:"class" validate:"required"`
+	Name       string `json:"name" form:"name" validate:"required"`
+	GoogleID   string `json:"google_id" form:"google_id"`
+	FacebookID string `json:"facebook_id" form:"facebook_id"`
+	// Class           string `json:"class" form:"class" validate:"required"`
 	District        string `json:"district" form:"district" validate:"required"`
 	Regency         string `json:"regency" form:"regency" validate:"required"`
 	Province        string `json:"province" form:"province" validate:"required"`
